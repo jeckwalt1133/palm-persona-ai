@@ -177,6 +177,8 @@ export default function ReportPage() {
         }
       } else if (result && !result.checkedIn) {
         Taro.showToast({ title: '今天已签到过了', icon: 'none' });
+      } else {
+        Taro.showToast({ title: '签到失败，请稍后重试', icon: 'none' });
       }
     } catch {
       Taro.showToast({ title: '签到失败，请稍后重试', icon: 'none' });
@@ -391,6 +393,10 @@ export default function ReportPage() {
           <View className="suspense-bar">
             <Text className="suspense-icon">✦</Text>
             <Text className="suspense-text">{report.suspenseText}</Text>
+          </View>
+
+          <View className="dev-unlock" onClick={() => setUnlockLevel('adUnlocked')}>
+            <Text className="dev-unlock-text">[开发模式] 一键解锁完整报告</Text>
           </View>
         </View>
       )}

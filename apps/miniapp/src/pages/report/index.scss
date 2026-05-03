@@ -467,6 +467,18 @@
   font-style: italic;
 }
 
+/* Dev unlock */
+.dev-unlock {
+  margin-top: 16rpx;
+  padding: 16rpx;
+  text-align: center;
+}
+
+.dev-unlock-text {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.25);
+}
+
 /* Misunderstood */
 .misunderstood-card {
   background: linear-gradient(135deg, rgba(255, 209, 102, 0.06), rgba(255, 107, 138, 0.06));
