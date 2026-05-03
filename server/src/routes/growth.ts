@@ -59,4 +59,34 @@ export async function growthRoutes(app: FastifyInstance) {
     const unlockedLines = await growthRepository.getUnlockedLines(userId);
     return { success: true, data: { unlockedLines } };
   });
+
+  // 检查是否有待解锁资格
+  app.get('/checkin/pending-unlock', async (req, _reply) => {
+    const userId = req.userId ?? req.ip;
+    const pending = await growthRepository.hasPendingUnlock(userId);
+    return { success: true, data: { pendingUnlock: pending } };
+  });
+
+  // 自选解锁掌纹线（第7天）
+  app.post<{ Body: { lineKey?: string } }>('/checkin/claim-line', async (req, reply) => {
+    const userId = req.userId ?? req.ip;
+    const { lineKey } = req.body ?? {};
+
+    if (!lineKey) {
+      return reply.status(400).send({
+        success: false,
+        error: { code: 'MISSING_LINE_KEY', message: '请选择要解锁的掌纹线' },
+      });
+    }
+
+    const ok = await growthRepository.claimLine(userId, lineKey);
+    if (!ok) {
+      return reply.status(400).send({
+        success: false,
+        error: { code: 'CLAIM_FAILED', message: '无法解锁，请检查资格或是否已解锁' },
+      });
+    }
+
+    return { success: true, data: { unlocked: lineKey } };
+  });
 }

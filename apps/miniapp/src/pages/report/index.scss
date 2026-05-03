@@ -12,32 +12,29 @@
   margin-bottom: 8rpx;
 }
 
+/* ── 每日关键词 ── */
 .keyword-bar {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10rpx;
-  padding: 16rpx 20rpx;
-  background: rgba(100, 200, 255, 0.06);
-  border: 1px solid rgba(100, 200, 255, 0.12);
+  padding: 12rpx 20rpx;
   border-radius: 16rpx;
 }
 
-.keyword-icon {
-  font-size: 22rpx;
-  color: var(--color-accent-cyan);
-  flex-shrink: 0;
-}
-
-.keyword-text {
+.keyword-label {
   font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 209, 102, 0.65);
 }
 
 .keyword-em {
-  color: var(--color-accent-cyan);
-  font-weight: 600;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--color-accent-gold);
+  letter-spacing: 2rpx;
 }
 
+/* ── 签到 ── */
 .checkin-bar {
   display: flex;
   align-items: center;
@@ -45,29 +42,66 @@
 
 .checkin-btn {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8rpx;
-  padding: 12rpx 24rpx;
-  background: rgba(255, 209, 102, 0.1);
+  width: 100%;
+  padding: 20rpx 24rpx;
+  background: rgba(255, 209, 102, 0.08);
   border: 1px solid rgba(255, 209, 102, 0.2);
-  border-radius: 32rpx;
+  border-radius: 20rpx;
+  gap: 4rpx;
 }
 
 .checkin-btn-icon {
-  font-size: 26rpx;
+  font-size: 28rpx;
+  margin-bottom: 4rpx;
 }
 
-.checkin-btn-text {
-  font-size: 24rpx;
+.checkin-btn-title {
+  font-size: 26rpx;
+  font-weight: 600;
   color: var(--color-accent-gold);
-  font-weight: 500;
+}
+
+.checkin-btn-sub {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.checkin-done-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  width: 100%;
+  padding: 20rpx;
+  background: rgba(255, 209, 102, 0.06);
+  border: 1px solid rgba(255, 209, 102, 0.12);
+  border-radius: 20rpx;
+}
+
+.checkin-done-icon {
+  font-size: 28rpx;
+  flex-shrink: 0;
+  margin-top: 2rpx;
+}
+
+.checkin-done-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.checkin-done-title {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--color-accent-gold);
 }
 
 .checkin-done-text {
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.5;
-  padding: 4rpx 0;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
 }
 
 .state-box {
@@ -283,7 +317,7 @@
   padding: 24rpx;
   margin-top: 8rpx;
   background: rgba(255, 107, 138, 0.04);
-  border: 1px dashed rgba(255, 107, 138, 0.2);
+  border: 1px dashed rgba(255, 107, 138, 0.25);
   border-radius: 16rpx;
 }
 
@@ -473,16 +507,15 @@
 
 .paid-line-card {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   padding: 28rpx 24rpx;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 16rpx;
   margin-bottom: 16rpx;
+  gap: 8rpx;
 }
 
 .paid-line-info {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 6rpx;
@@ -499,18 +532,63 @@
   color: rgba(255, 255, 255, 0.45);
 }
 
+/* 预览片段 */
+.paid-line-preview-area {
+  position: relative;
+  margin-top: 12rpx;
+  overflow: hidden;
+}
+
+.paid-line-preview-text {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.7;
+  padding-right: 8rpx;
+}
+
+.paid-line-blur-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80rpx;
+  background: linear-gradient(transparent, rgba(15, 15, 25, 0.95));
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8rpx;
+  padding-bottom: 8rpx;
+}
+
+.paid-line-lock-icon {
+  font-size: 24rpx;
+}
+
+.paid-line-blur-hint {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.35);
+}
+
 .paid-line-price {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8rpx;
-  flex-shrink: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+  padding-top: 8rpx;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .paid-price-tag {
   font-size: 30rpx;
   font-weight: 700;
   color: var(--color-accent-gold);
+}
+
+.paid-share-hint {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .paid-status-tag {
@@ -524,7 +602,9 @@
   color: rgba(255, 255, 255, 0.35);
 }
 
+/* 全家桶 */
 .paid-bundle-card {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -533,6 +613,20 @@
   border: 1px solid rgba(255, 209, 102, 0.2);
   border-radius: 16rpx;
   margin-top: 8rpx;
+  overflow: hidden;
+}
+
+.bundle-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 6rpx 16rpx;
+  background: linear-gradient(135deg, #FF6B8A, #FF4757);
+  border-radius: 0 16rpx 0 16rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
 }
 
 .bundle-info {
@@ -556,13 +650,86 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8rpx;
+  gap: 6rpx;
 }
 
 .bundle-price {
   font-size: 36rpx;
   font-weight: 700;
   color: var(--color-accent-gold);
+}
+
+/* Modal — 自选解锁弹窗 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 32rpx;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 580rpx;
+  background: #1a1a2e;
+  border-radius: 32rpx;
+  padding: 40rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.modal-desc {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.modal-line-option {
+  padding: 24rpx 20rpx;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.modal-line-option:active {
+  background: rgba(255, 209, 102, 0.1);
+  border-color: rgba(255, 209, 102, 0.3);
+}
+
+.modal-line-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.modal-line-desc {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.modal-close {
+  text-align: center;
+  padding: 20rpx;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* Bottom */

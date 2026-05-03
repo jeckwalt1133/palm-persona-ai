@@ -4,7 +4,14 @@ import { useState } from 'react';
 import RadarCanvas from '../../components/RadarCanvas';
 import { apiUrl } from '../../utils/api';
 import { playRewardedVideo } from '../../utils/rewarded-video';
-import { dailyCheckIn, getCheckInRecord, getUnlockedLines, buildCheckInMessage } from '../../utils/checkin';
+import {
+  dailyCheckIn,
+  getCheckInRecord,
+  getUnlockedLines,
+  hasPendingUnlock,
+  claimLine,
+  buildCheckInParagraph,
+} from '../../utils/checkin';
 import './index.scss';
 
 interface ScoreItem {
@@ -38,6 +45,14 @@ const PAID_LINES = [
   { key: 'career', label: '事业线', desc: '行动节奏 · 领导力 · 适合行业' },
 ];
 
+// 付费线预览片段（前2句免费展示）
+const LINE_PREVIEWS: Record<string, string> = {
+  life: '你的精力节奏像潮汐一样有涨有落。恢复力是你的隐藏天赋——你以为自己在透支的时候，其实身体比意识更早知道底线在哪。',
+  wisdom: '你处理信息的方式不是线性堆积，而是网状连接。一个看似无关的小事，能在你脑子里串联出一幅大图——这是你最强的思维模式。',
+  emotion: '你在关系中的表达方式比你以为的更直接。那些没说出口的话，其实全写在你的微表情和身体语言里——只是你自己没察觉。',
+  career: '你的行动节奏不是冲动，是直觉驱动的快速判断。你在面对不确定性时的反应速度远超平均值——不是鲁莽，是天赋。',
+};
+
 export default function ReportPage() {
   const [report, setReport] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -50,10 +65,13 @@ export default function ReportPage() {
   // 签到
   const [checkInDays, setCheckInDays] = useState(0);
   const [checkedInToday, setCheckedInToday] = useState(false);
-  const [checkInMessage, setCheckInMessage] = useState<string | null>(null);
+  const [checkInParagraph, setCheckInParagraph] = useState<string | null>(null);
   const [checkInLoading, setCheckInLoading] = useState(false);
   // 已解锁掌纹线
   const [unlockedLines, setUnlockedLines] = useState<string[]>([]);
+  // 待解锁资格 + 选线弹窗
+  const [showLinePicker, setShowLinePicker] = useState(false);
+  const [claimLoading, setClaimLoading] = useState(false);
 
   // ── 数据初始化 ──
 
@@ -95,24 +113,30 @@ export default function ReportPage() {
       const body = res.data as { success: boolean; data: { keyword: string; description: string } };
       if (body.success) setDailyKeyword(body.data);
     } catch {
-      // 静默失败，不影响主内容
+      // 静默失败
     }
   };
 
   const fetchCheckInData = async () => {
     try {
-      const record = await getCheckInRecord();
+      const [record, lines] = await Promise.all([
+        getCheckInRecord(),
+        getUnlockedLines(),
+      ]);
       if (record) {
         setCheckInDays(record.consecutiveDays);
-        // 判断今天是否已签到
         const today = new Date().toISOString().split('T')[0];
         if (record.lastCheckInDate === today) {
           setCheckedInToday(true);
-          setCheckInMessage(buildCheckInMessage(record.consecutiveDays));
+          setCheckInParagraph(buildCheckInParagraph(record.consecutiveDays));
         }
       }
-      const lines = await getUnlockedLines();
       setUnlockedLines(lines);
+      // 如果已有待解锁资格（比如跨天的第7天），打开选线弹窗
+      const pending = await hasPendingUnlock();
+      if (pending) {
+        setShowLinePicker(true);
+      }
     } catch {
       // 静默失败
     }
@@ -143,12 +167,14 @@ export default function ReportPage() {
       if (result && result.checkedIn) {
         setCheckedInToday(true);
         setCheckInDays(result.consecutiveDays);
-        const msg = buildCheckInMessage(result.consecutiveDays, result.reward);
-        setCheckInMessage(msg);
-        Taro.showToast({ title: `连签 ${result.consecutiveDays} 天`, icon: 'success', duration: 2000 });
-        // 重新拉取解锁状态（有可能触发了解锁）
-        const lines = await getUnlockedLines();
-        setUnlockedLines(lines);
+        const msg = buildCheckInParagraph(result.consecutiveDays, result.reward);
+        setCheckInParagraph(msg);
+
+        // 检查是否有待解锁资格（第7天）
+        const pending = await hasPendingUnlock();
+        if (pending) {
+          setShowLinePicker(true);
+        }
       } else if (result && !result.checkedIn) {
         Taro.showToast({ title: '今天已签到过了', icon: 'none' });
       }
@@ -156,6 +182,27 @@ export default function ReportPage() {
       Taro.showToast({ title: '签到失败，请稍后重试', icon: 'none' });
     } finally {
       setCheckInLoading(false);
+    }
+  };
+
+  // ── 自选解锁掌纹线 ──
+  const handleClaimLine = async (lineKey: string) => {
+    if (claimLoading) return;
+    setClaimLoading(true);
+    try {
+      const ok = await claimLine(lineKey);
+      if (ok) {
+        setUnlockedLines((prev) => [...prev, lineKey]);
+        setShowLinePicker(false);
+        const label = PAID_LINES.find((l) => l.key === lineKey)?.label ?? lineKey;
+        Taro.showToast({ title: `「${label}」已解锁！`, icon: 'success', duration: 2000 });
+      } else {
+        Taro.showToast({ title: '解锁失败，请重试', icon: 'none' });
+      }
+    } catch {
+      Taro.showToast({ title: '解锁失败，请重试', icon: 'none' });
+    } finally {
+      setClaimLoading(false);
     }
   };
 
@@ -256,26 +303,31 @@ export default function ReportPage() {
       <View className="top-toolbar">
         {dailyKeyword && (
           <View className="keyword-bar">
-            <Text className="keyword-icon">✦</Text>
-            <Text className="keyword-text">
-              今日关键词：<Text className="keyword-em">{dailyKeyword.keyword}</Text>
-            </Text>
+            <Text className="keyword-label">今日情绪频率关键词</Text>
+            <Text className="keyword-em">{dailyKeyword.keyword}</Text>
           </View>
         )}
 
         <View className="checkin-bar">
           {checkedInToday ? (
-            <Text className="checkin-done-text">
-              📍 连签 {checkInDays} 天 · {checkInMessage}
-            </Text>
+            <View className="checkin-done-card">
+              <Text className="checkin-done-icon">📅</Text>
+              <View className="checkin-done-body">
+                <Text className="checkin-done-title">连签 {checkInDays} 天</Text>
+                <Text className="checkin-done-text">{checkInParagraph}</Text>
+              </View>
+            </View>
           ) : (
             <View
               className={`checkin-btn ${checkInLoading ? 'btn-disabled' : ''}`}
               onClick={handleCheckIn}
             >
               <Text className="checkin-btn-icon">📅</Text>
-              <Text className="checkin-btn-text">
+              <Text className="checkin-btn-title">
                 {checkInDays > 0 ? `签到第 ${checkInDays + 1} 天` : '今日签到'}
+              </Text>
+              <Text className="checkin-btn-sub">
+                {checkInDays > 0 ? `已连签 ${checkInDays} 天` : '每日AI洞察'}
               </Text>
             </View>
           )}
@@ -312,12 +364,12 @@ export default function ReportPage() {
           </View>
         ))}
 
-        {/* 免费层→广告层 钩子：还有2维隐藏 */}
+        {/* 免费层→广告层 钩子 */}
         <View className="hidden-dims-teaser">
           <Text className="hidden-dims-lock-icon">🔒</Text>
           <View className="hidden-dims-info">
             <Text className="hidden-dims-title">还有 2 个维度已隐藏</Text>
-            <Text className="hidden-dims-sub">看15秒广告解锁完整五维人格图谱</Text>
+            <Text className="hidden-dims-sub">看15秒广告解锁完整人格画像</Text>
           </View>
         </View>
       </View>
@@ -407,7 +459,7 @@ export default function ReportPage() {
             </View>
           </View>
 
-          {/* ══════ 第3层：付费入口（含付费钩子提示） ══════ */}
+          {/* ══════ 第3层：付费入口 ══════ */}
           <View className="section">
             <Text className="section-title">每条掌纹线的深度解读</Text>
             <Text className="paid-intro">
@@ -418,45 +470,56 @@ export default function ReportPage() {
             <View className="paid-tier-hint">
               <Text className="paid-hint-icon">🔓</Text>
               <Text className="paid-hint-text">
-                每条线的深度解读还没打开{unlockedLines.length > 0 ? '——签到已解锁部分线路' : '，签到7天免费解锁一条'}
+                你的生命线/智慧线/感情线/事业线还没解读——想看哪条？
               </Text>
             </View>
 
             {PAID_LINES.map((line) => {
               const isUnlocked = unlockedLines.includes(line.key);
+              const preview = LINE_PREVIEWS[line.key];
               return (
                 <View key={line.key} className={`paid-line-card ${isUnlocked ? 'paid-line-unlocked' : ''}`}>
                   <View className="paid-line-info">
                     <Text className="paid-line-name">{line.label}</Text>
                     <Text className="paid-line-desc">{line.desc}</Text>
+                    {preview && (
+                      <View className="paid-line-preview-area">
+                        <Text className="paid-line-preview-text">{preview}</Text>
+                        {!isUnlocked && (
+                          <View className="paid-line-blur-overlay">
+                            <Text className="paid-line-lock-icon">🔒</Text>
+                            <Text className="paid-line-blur-hint">解锁后查看完整解读</Text>
+                          </View>
+                        )}
+                      </View>
+                    )}
                   </View>
                   <View className="paid-line-price">
                     {isUnlocked ? (
                       <View className="paid-status-unlocked">
-                        <Text className="paid-unlocked-text">已解锁</Text>
+                        <Text className="paid-unlocked-text">已解锁 ✓</Text>
                       </View>
                     ) : (
                       <>
                         <Text className="paid-price-tag">¥1.99</Text>
-                        <View className="paid-status-tag">
-                          <Text className="paid-status-text">即将开放</Text>
-                        </View>
+                        <Text className="paid-share-hint">或分享给3个朋友免费解锁</Text>
                       </>
                     )}
                   </View>
                 </View>
               );
             })}
+
+            {/* 全家桶 + 角标 */}
             <View className="paid-bundle-card">
+              <View className="bundle-badge">省3块</View>
               <View className="bundle-info">
                 <Text className="bundle-name">四条线全家桶</Text>
                 <Text className="bundle-desc">原价¥7.96 · 省¥2.97</Text>
               </View>
               <View className="bundle-price-area">
                 <Text className="bundle-price">¥4.99</Text>
-                <View className="paid-status-tag">
-                  <Text className="paid-status-text">即将开放</Text>
-                </View>
+                <Text className="paid-share-hint">解锁全部四条线</Text>
               </View>
             </View>
           </View>
@@ -469,6 +532,29 @@ export default function ReportPage() {
           <Text>返回首页</Text>
         </View>
       </View>
+
+      {/* ══════ 自选解锁弹窗 ══════ */}
+      {showLinePicker && (
+        <View className="modal-overlay" onClick={() => setShowLinePicker(false)}>
+          <View className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <Text className="modal-title">恭喜获得自选解锁资格 🎉</Text>
+            <Text className="modal-desc">连续签到第7天成就达成！选择一条你想深度解读的掌纹线：</Text>
+            {PAID_LINES.filter((l) => !unlockedLines.includes(l.key)).map((line) => (
+              <View
+                key={line.key}
+                className={`modal-line-option ${claimLoading ? 'btn-disabled' : ''}`}
+                onClick={() => handleClaimLine(line.key)}
+              >
+                <Text className="modal-line-name">{line.label}</Text>
+                <Text className="modal-line-desc">{line.desc}</Text>
+              </View>
+            ))}
+            <View className="modal-close" onClick={() => setShowLinePicker(false)}>
+              <Text>稍后再说</Text>
+            </View>
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 }
