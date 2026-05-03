@@ -1,0 +1,71 @@
+.points-marking-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1B1035 0%, #2D1B69 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 32rpx;
+}
+
+.guide-text {
+  color: #FFD166;
+  font-size: 32rpx;
+  margin-bottom: 48rpx;
+  text-align: center;
+}
+
+.canvas-wrapper {
+  width: 600rpx;
+  height: 800rpx;
+  position: relative;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2rpx solid rgba(255, 255, 255, 0.12);
+}
+
+.marking-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.marker-dot {
+  position: absolute;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  background: #EF476F;
+  transform: translate(-50%, -50%);
+}
+
+.marker-label {
+  position: absolute;
+  top: -40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  color: #FFD166;
+  font-size: 22rpx;
+}
+
+.button-row {
+  display: flex;
+  gap: 32rpx;
+  margin-top: 64rpx;
+}
+
+.btn-reset, .btn-confirm {
+  padding: 24rpx 56rpx;
+  border-radius: 48rpx;
+  font-size: 28rpx;
+}
+
+.btn-reset {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, #FFD166, #EF476F);
+  color: #1B1035;
+}
