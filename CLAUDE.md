@@ -80,6 +80,7 @@ palm-persona-ai/
 - 修改中：小步改 → 遵循风格 → 不破坏其他功能
 - 修改后：测试 → lint → typecheck → git diff 自查 → 汇报
 - 失败：不忽略 → 分析根因 → 修复或说明
+- **每次任务完成后自动执行 pnpm run check（或 typecheck），通过后 git commit 保存。不等待用户提醒。**
 
 ## 常用命令
 ```bash
