@@ -3,7 +3,7 @@ import { z } from 'zod';
 const configSchema = z.object({
   nodeEnv: z.enum(['development', 'production', 'test']).default('development'),
   port: z.coerce.number().default(3001),
-  aiProvider: z.enum(['mock', 'openai', 'claude', 'dashscope', 'doubao', 'hunyuan']).default('mock'),
+  aiProvider: z.enum(['mock', 'openai', 'claude', 'dashscope', 'doubao', 'hunyuan', 'deepseek']).default('mock'),
   aiModel: z.string().optional(),
   maxImageSizeMb: z.coerce.number().default(5),
   contentSafetyLevel: z.enum(['strict', 'normal', 'disabled']).default('strict'),
@@ -15,6 +15,7 @@ const configSchema = z.object({
   dashscopeApiKey: z.string().optional(),
   doubaoApiKey: z.string().optional(),
   hunyuanApiKey: z.string().optional(),
+  deepseekApiKey: z.string().optional(),
 });
 
 export type Config = z.infer<typeof configSchema>;

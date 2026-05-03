@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro';
+import { apiUrl } from './api';
 
 export interface CheckInResult {
   checkedIn: boolean;
@@ -14,7 +15,7 @@ export interface CheckInResult {
 export async function dailyCheckIn(): Promise<CheckInResult | null> {
   try {
     const res = await Taro.request({
-      url: '/api/checkin',
+      url: apiUrl('/api/checkin'),
       method: 'POST',
     });
 

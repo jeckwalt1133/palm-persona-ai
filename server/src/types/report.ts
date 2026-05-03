@@ -18,6 +18,7 @@ export const PersonaReportSchema = z.object({
   insights: z.array(z.string()),
   keywords: z.array(z.string()),
   quote: z.string(),
+  suspenseText: z.string(),
 });
 
 export type PersonaScore = z.infer<typeof PersonaScoreSchema>;

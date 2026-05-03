@@ -42,7 +42,8 @@ function calcTargetSize(
 // 获取文件大小（KB）
 function getFileSizeKb(filePath: string): Promise<number> {
   return new Promise((resolve) => {
-    Taro.getFileInfo({
+    const fs = Taro.getFileSystemManager();
+    fs.getFileInfo({
       filePath,
       success: (res) => resolve((res.size ?? 0) / 1024),
       fail: () => resolve(Infinity),

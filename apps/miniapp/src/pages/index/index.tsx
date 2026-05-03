@@ -1,7 +1,12 @@
 import { View, Text, Button } from '@tarojs/components';
+import Taro from '@tarojs/taro';
 import './index.scss';
 
 export default function IndexPage() {
+  const goToCapture = () => {
+    Taro.navigateTo({ url: '/pages/capture/index' });
+  };
+
   return (
     <View className="home-page">
       <View className="home-hero">
@@ -15,7 +20,7 @@ export default function IndexPage() {
         </Text>
       </View>
 
-      <Button className="home-btn">开始分析</Button>
+      <Button className="home-btn" onClick={goToCapture}>开始分析</Button>
     </View>
   );
 }

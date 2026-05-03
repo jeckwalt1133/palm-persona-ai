@@ -10,9 +10,13 @@ import { reportRoutes } from './routes/report.js';
 import { matchRoutes } from './routes/match.js';
 import { analyticsRoutes } from './routes/analytics.js';
 import { growthRoutes } from './routes/growth.js';
+import { analysisService } from './services/analysis-service.js';
+import { createAiProvider } from './ai/index.js';
 
 async function main() {
   const config = loadConfig();
+  const aiProvider = createAiProvider(config);
+  analysisService.setAiProvider(aiProvider);
 
   const app = Fastify({
     bodyLimit: 10485760, // 10MB — 手掌照片上传
@@ -50,6 +54,9 @@ async function main() {
   await app.register(matchRoutes, { prefix: '/api' });
   await app.register(analyticsRoutes, { prefix: '/api' });
   await app.register(growthRoutes, { prefix: '/api' });
+
+  // 播种演示数据（仅 mock 模式）
+  await analysisService.seedDemoData();
 
   // 优雅关机
   const shutdown = async (signal: string) => {

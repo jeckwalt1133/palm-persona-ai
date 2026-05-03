@@ -19,6 +19,9 @@ const config = {
     postcss: {
       pxtransform: { enable: true, config: {} },
     },
+    copy: {
+      patterns: [{ from: 'project.config.json', to: 'project.config.json' }],
+    },
   },
 };
 
