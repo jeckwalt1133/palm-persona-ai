@@ -94,3 +94,35 @@ P1:理解计划 → P2:工程骨架(含packages/) → P3:后端基础(含限流/
 ## Definition of Done
 代码实现 → 测试通过 → typecheck通过 → lint通过 → git diff自查 → 汇报改了什么/为什么/验证结果/风险
 - 额外：非手掌图片正确提示、重新测试按钮可用、空状态引导存在、匹配7天过期有效、报告含视觉锚点、README含类目/appid/备案
+
+## Skill 自动调用规则
+以下任务类型发生时，必须主动调用对应技能，不等待用户提醒。
+
+| 任务类型 | 自动调用的技能 |
+|----------|--------------|
+| 写 UI/样式 | frontend-design + developer |
+| 写代码 | developer + code-style |
+| 代码审查 | cr |
+| 修 bug | bug-fix + tester |
+| 报错排查 | bug-fix |
+| 跑测试 | tester + team-tester |
+| 性能优化 | perf-opt + website-perf |
+| 新产品方案 | product-manager + pm |
+| 技术架构 | architect + team-architect |
+| 复杂多步任务 | planning-with-files（建立 task_plan.md） |
+| 生成文档 | auto-docs |
+| Git 操作 | git-workflow |
+| 生成 CRUD | crud-gen |
+| 框架转换 | framework-x |
+| 安全检查 | security-review |
+| 扫描项目 | project-scan |
+| 部署上线 | team-ops |
+| 团队协作 | team |
+| 需要看图 | snapview 或 video-reader |
+| 记忆维护 | memory-maintainer + consolidate-memory |
+| 创建新技能 | skill-creator |
+| 定时任务 | schedule |
+| 前端设计 | frontend-design |
+
+规则：识别到对应任务类型，直接自动调用。不等待用户说"请使用 xx 技能"。
+每次完成任务后，检查是否有遗漏的 skill 应该被调用。
