@@ -65,6 +65,7 @@ export async function dailyCheckIn(): Promise<CheckInResult | null> {
     const res = await Taro.request({
       url: apiUrl('/api/checkin'),
       method: 'POST',
+      timeout: 15000,
     });
     const body = res.data as { success: boolean; data: CheckInResult };
     if (!body.success || !body.data) return null;

@@ -82,7 +82,7 @@ export default function ReportPage() {
       const instance = Taro.getCurrentInstance();
       const reportId = instance.router?.params?.id;
       const url = reportId ? apiUrl(`/api/reports/${reportId}`) : apiUrl('/api/reports');
-      const res = await Taro.request({ url, method: 'GET' });
+      const res = await Taro.request({ url, method: 'GET', timeout: 30000 });
       const body = res.data as { success: boolean; data?: ReportData | ReportData[]; error?: { message: string } };
 
       if (!body.success) {

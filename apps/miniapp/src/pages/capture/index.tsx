@@ -28,6 +28,7 @@ export default function CapturePage() {
     if (!imagePath) return;
 
     setAnalyzing(true);
+    Taro.showLoading({ title: '分析中...' });
     try {
       // 先压缩
       let finalPath = imagePath;
@@ -46,18 +47,23 @@ export default function CapturePage() {
         method: 'POST',
         data: { imageBase64: base64 },
         header: { 'content-type': 'application/json' },
+        timeout: 60000, // 真机调试隧道延迟高，给足 60s
       });
 
       const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };
 
       if (body.success && body.data) {
-        Taro.showToast({ title: '分析完成', icon: 'success' });
+        Taro.hideLoading();
         Taro.redirectTo({ url: `/pages/report/index?id=${body.data.id}` });
       } else {
-        Taro.showToast({ title: body.error?.message || '分析失败', icon: 'none' });
+        Taro.hideLoading();
+        Taro.showToast({ title: body.error?.message || '分析失败', icon: 'none', duration: 3000 });
       }
-    } catch {
-      Taro.showToast({ title: '网络错误，请重试', icon: 'none' });
+    } catch (err) {
+      Taro.hideLoading();
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn('[capture] 分析请求失败:', msg);
+      Taro.showToast({ title: '网络超时，请重试', icon: 'none', duration: 3000 });
     } finally {
       setAnalyzing(false);
     }
