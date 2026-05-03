@@ -52,4 +52,11 @@ export async function growthRoutes(app: FastifyInstance) {
       data: record ?? { userId, lastCheckInDate: null, consecutiveDays: 0, totalDays: 0 },
     };
   });
+
+  // 已解锁掌纹线查询
+  app.get('/checkin/unlocked-lines', async (req, _reply) => {
+    const userId = req.userId ?? req.ip;
+    const unlockedLines = await growthRepository.getUnlockedLines(userId);
+    return { success: true, data: { unlockedLines } };
+  });
 }

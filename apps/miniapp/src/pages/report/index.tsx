@@ -4,6 +4,7 @@ import { useState } from 'react';
 import RadarCanvas from '../../components/RadarCanvas';
 import { apiUrl } from '../../utils/api';
 import { playRewardedVideo } from '../../utils/rewarded-video';
+import { dailyCheckIn, getCheckInRecord, getUnlockedLines, buildCheckInMessage } from '../../utils/checkin';
 import './index.scss';
 
 interface ScoreItem {
@@ -44,6 +45,18 @@ export default function ReportPage() {
   const [unlockLevel, setUnlockLevel] = useState<'free' | 'adUnlocked'>('free');
   const [adLoading, setAdLoading] = useState(false);
 
+  // 每日关键词
+  const [dailyKeyword, setDailyKeyword] = useState<{ keyword: string; description: string } | null>(null);
+  // 签到
+  const [checkInDays, setCheckInDays] = useState(0);
+  const [checkedInToday, setCheckedInToday] = useState(false);
+  const [checkInMessage, setCheckInMessage] = useState<string | null>(null);
+  const [checkInLoading, setCheckInLoading] = useState(false);
+  // 已解锁掌纹线
+  const [unlockedLines, setUnlockedLines] = useState<string[]>([]);
+
+  // ── 数据初始化 ──
+
   const fetchReport = async () => {
     setLoading(true);
     setError(null);
@@ -76,13 +89,77 @@ export default function ReportPage() {
     }
   };
 
+  const fetchDailyKeyword = async () => {
+    try {
+      const res = await Taro.request({ url: apiUrl('/api/daily-keyword'), method: 'GET' });
+      const body = res.data as { success: boolean; data: { keyword: string; description: string } };
+      if (body.success) setDailyKeyword(body.data);
+    } catch {
+      // 静默失败，不影响主内容
+    }
+  };
+
+  const fetchCheckInData = async () => {
+    try {
+      const record = await getCheckInRecord();
+      if (record) {
+        setCheckInDays(record.consecutiveDays);
+        // 判断今天是否已签到
+        const today = new Date().toISOString().split('T')[0];
+        if (record.lastCheckInDate === today) {
+          setCheckedInToday(true);
+          setCheckInMessage(buildCheckInMessage(record.consecutiveDays));
+        }
+      }
+      const lines = await getUnlockedLines();
+      setUnlockedLines(lines);
+    } catch {
+      // 静默失败
+    }
+  };
+
   const [fetched, setFetched] = useState(false);
+  const [keywordFetched, setKeywordFetched] = useState(false);
+  const [checkinFetched, setCheckinFetched] = useState(false);
   if (!fetched) {
     fetchReport();
     setFetched(true);
   }
+  if (!keywordFetched) {
+    fetchDailyKeyword();
+    setKeywordFetched(true);
+  }
+  if (!checkinFetched) {
+    fetchCheckInData();
+    setCheckinFetched(true);
+  }
 
-  // 看广告解锁
+  // ── 签到 ──
+  const handleCheckIn = async () => {
+    if (checkInLoading) return;
+    setCheckInLoading(true);
+    try {
+      const result = await dailyCheckIn();
+      if (result && result.checkedIn) {
+        setCheckedInToday(true);
+        setCheckInDays(result.consecutiveDays);
+        const msg = buildCheckInMessage(result.consecutiveDays, result.reward);
+        setCheckInMessage(msg);
+        Taro.showToast({ title: `连签 ${result.consecutiveDays} 天`, icon: 'success', duration: 2000 });
+        // 重新拉取解锁状态（有可能触发了解锁）
+        const lines = await getUnlockedLines();
+        setUnlockedLines(lines);
+      } else if (result && !result.checkedIn) {
+        Taro.showToast({ title: '今天已签到过了', icon: 'none' });
+      }
+    } catch {
+      Taro.showToast({ title: '签到失败，请稍后重试', icon: 'none' });
+    } finally {
+      setCheckInLoading(false);
+    }
+  };
+
+  // ── 看广告解锁 ──
   const handleWatchAd = async () => {
     setAdLoading(true);
     try {
@@ -94,21 +171,19 @@ export default function ReportPage() {
         Taro.showToast({ title: '需要看完广告才能解锁哦', icon: 'none' });
       }
     } catch {
-      // 开发环境降级：直接解锁
       setUnlockLevel('adUnlocked');
     } finally {
       setAdLoading(false);
     }
   };
 
-  // 从报告中选取 3 个最具辨识度的核心维度
+  // ── 辅助函数 ──
   const top3Scores = (scores: ScoreItem[]) => {
     return [...scores]
       .sort((a, b) => Math.abs(b.score - 50) - Math.abs(a.score - 50))
       .slice(0, 3);
   };
 
-  // 被误解最深点：取偏离 50 最多的维度
   const mostMisunderstood = (scores: ScoreItem[]) => {
     const extreme = [...scores].sort(
       (a, b) => Math.abs(b.score - 50) - Math.abs(a.score - 50),
@@ -145,6 +220,8 @@ export default function ReportPage() {
     return `${extreme.dimension}得分${extreme.score}分——这比你想象中更说明问题。`;
   };
 
+  // ── 渲染 ──
+
   if (loading) {
     return (
       <View className="report-page">
@@ -175,6 +252,36 @@ export default function ReportPage() {
 
   return (
     <ScrollView className="report-page" scrollY enableBackToTop>
+      {/* ══════ 顶部工具条：关键词 + 签到 ══════ */}
+      <View className="top-toolbar">
+        {dailyKeyword && (
+          <View className="keyword-bar">
+            <Text className="keyword-icon">✦</Text>
+            <Text className="keyword-text">
+              今日关键词：<Text className="keyword-em">{dailyKeyword.keyword}</Text>
+            </Text>
+          </View>
+        )}
+
+        <View className="checkin-bar">
+          {checkedInToday ? (
+            <Text className="checkin-done-text">
+              📍 连签 {checkInDays} 天 · {checkInMessage}
+            </Text>
+          ) : (
+            <View
+              className={`checkin-btn ${checkInLoading ? 'btn-disabled' : ''}`}
+              onClick={handleCheckIn}
+            >
+              <Text className="checkin-btn-icon">📅</Text>
+              <Text className="checkin-btn-text">
+                {checkInDays > 0 ? `签到第 ${checkInDays + 1} 天` : '今日签到'}
+              </Text>
+            </View>
+          )}
+        </View>
+      </View>
+
       {/* ══════ 第1层：免费 ══════ */}
       {/* 人格标签 */}
       <View className="report-hero">
@@ -204,6 +311,15 @@ export default function ReportPage() {
             <Text className="score-desc">{s.description}</Text>
           </View>
         ))}
+
+        {/* 免费层→广告层 钩子：还有2维隐藏 */}
+        <View className="hidden-dims-teaser">
+          <Text className="hidden-dims-lock-icon">🔒</Text>
+          <View className="hidden-dims-info">
+            <Text className="hidden-dims-title">还有 2 个维度已隐藏</Text>
+            <Text className="hidden-dims-sub">看15秒广告解锁完整五维人格图谱</Text>
+          </View>
+        </View>
       </View>
 
       {/* 免费层→广告层 钩子 */}
@@ -291,26 +407,46 @@ export default function ReportPage() {
             </View>
           </View>
 
-          {/* ══════ 第3层：付费入口 ══════ */}
+          {/* ══════ 第3层：付费入口（含付费钩子提示） ══════ */}
           <View className="section">
             <Text className="section-title">每条掌纹线的深度解读</Text>
             <Text className="paid-intro">
               每条线都有独特的含义——你的掌纹里藏着更多关于你的事。
             </Text>
-            {PAID_LINES.map((line) => (
-              <View key={line.key} className="paid-line-card">
-                <View className="paid-line-info">
-                  <Text className="paid-line-name">{line.label}</Text>
-                  <Text className="paid-line-desc">{line.desc}</Text>
-                </View>
-                <View className="paid-line-price">
-                  <Text className="paid-price-tag">¥1.99</Text>
-                  <View className="paid-status-tag">
-                    <Text className="paid-status-text">即将开放</Text>
+
+            {/* 广告层→付费层 钩子 */}
+            <View className="paid-tier-hint">
+              <Text className="paid-hint-icon">🔓</Text>
+              <Text className="paid-hint-text">
+                每条线的深度解读还没打开{unlockedLines.length > 0 ? '——签到已解锁部分线路' : '，签到7天免费解锁一条'}
+              </Text>
+            </View>
+
+            {PAID_LINES.map((line) => {
+              const isUnlocked = unlockedLines.includes(line.key);
+              return (
+                <View key={line.key} className={`paid-line-card ${isUnlocked ? 'paid-line-unlocked' : ''}`}>
+                  <View className="paid-line-info">
+                    <Text className="paid-line-name">{line.label}</Text>
+                    <Text className="paid-line-desc">{line.desc}</Text>
+                  </View>
+                  <View className="paid-line-price">
+                    {isUnlocked ? (
+                      <View className="paid-status-unlocked">
+                        <Text className="paid-unlocked-text">已解锁</Text>
+                      </View>
+                    ) : (
+                      <>
+                        <Text className="paid-price-tag">¥1.99</Text>
+                        <View className="paid-status-tag">
+                          <Text className="paid-status-text">即将开放</Text>
+                        </View>
+                      </>
+                    )}
                   </View>
                 </View>
-              </View>
-            ))}
+              );
+            })}
             <View className="paid-bundle-card">
               <View className="bundle-info">
                 <Text className="bundle-name">四条线全家桶</Text>
