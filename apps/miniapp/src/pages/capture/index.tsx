@@ -47,7 +47,7 @@ export default function CapturePage() {
         method: 'POST',
         data: { imageBase64: base64 },
         header: { 'content-type': 'application/json' },
-        timeout: 60000, // 真机调试隧道延迟高，给足 60s
+        timeout: 120000, // 热点上传慢，给足 120s
       });
 
       const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };

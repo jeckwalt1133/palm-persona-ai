@@ -1,5 +1,5 @@
 // 图片压缩工具 — 上传前对图片进行压缩处理
-// 目标：≤200KB，真机预览网络慢，优先保证上传速度
+// 目标：≤80KB，热点带宽窄，极限压缩优先上传速度
 
 import Taro from '@tarojs/taro';
 
@@ -11,10 +11,10 @@ interface CompressOptions {
 }
 
 const DEFAULT_OPTIONS: CompressOptions = {
-  maxWidth: 800,
-  maxHeight: 1067,
-  quality: 0.6,
-  maxSizeKb: 200,
+  maxWidth: 480,
+  maxHeight: 640,
+  quality: 0.45,
+  maxSizeKb: 80,
 };
 
 // 根据图片原始尺寸计算目标尺寸
