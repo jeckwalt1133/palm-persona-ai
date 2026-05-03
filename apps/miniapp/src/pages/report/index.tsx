@@ -300,7 +300,7 @@ export default function ReportPage() {
   const coreScores = top3Scores(report.scores);
 
   return (
-    <ScrollView className="report-page" scrollY enableBackToTop>
+    <ScrollView className="report-page" scrollY enableBackToTop enhanced bounces={false}>
       {/* ══════ 顶部工具条：关键词 + 签到 ══════ */}
       <View className="top-toolbar">
         {dailyKeyword && (
