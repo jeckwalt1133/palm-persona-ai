@@ -34,6 +34,8 @@ export interface PersonaReport {
   keywords: string[];
   quote: string;
   suspenseText: string;
+  coreTruth: string;
+  weeklyAdvice: string;
 }
 
 export interface MatchDimension {

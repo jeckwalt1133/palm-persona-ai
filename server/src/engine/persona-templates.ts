@@ -248,6 +248,8 @@ export function assembleReport(
   quote: string,
   seed: number,
   suspenseText?: string,
+  coreTruth?: string,
+  weeklyAdvice?: string,
 ): PersonaReport {
   const insightCount = Math.min(3, template.insightPool.length);
   const keywordCount = Math.min(3, template.keywordPool.length);
@@ -258,6 +260,9 @@ export function assembleReport(
   for (let i = 0; i < insightCount; i++) {
     insights.push(template.insightPool[(startIdx + i) % template.insightPool.length]);
   }
+
+  // 默认核心真相：从 summary 中取第一句
+  const defaultCoreTruth = template.summaryTemplate.split('。')[0] + '。';
 
   return {
     id,
@@ -270,5 +275,7 @@ export function assembleReport(
     keywords: template.keywordPool.slice(0, keywordCount),
     quote,
     suspenseText: suspenseText ?? SUSPENSE_TEXTS[seed % SUSPENSE_TEXTS.length],
+    coreTruth: coreTruth ?? defaultCoreTruth,
+    weeklyAdvice: weeklyAdvice ?? '保持对自己的觉察，本周尝试一次跟自己独处的对话。',
   };
 }

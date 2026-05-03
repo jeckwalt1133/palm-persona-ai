@@ -31,7 +31,9 @@ export class MockResonanceNarrativeEngine implements ResonanceNarrativeEngine {
 
     const quote = pickQuote(hash % QUOTE_ENTRIES.length);
     const suspenseText = pickSuspenseText(hash);
-    return assembleReport(features.hash, template, scores, quote, hash, suspenseText);
+    const topScore = [...scores].sort((a, b) => b.score - a.score)[0];
+    const coreTruth = `你是${template.label}——${topScore.description.split('。')[0]}。`;
+    return assembleReport(features.hash, template, scores, quote, hash, suspenseText, coreTruth);
   }
 }
 

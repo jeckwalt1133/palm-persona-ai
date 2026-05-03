@@ -188,20 +188,240 @@
   color: var(--color-accent-gold);
 }
 
-/* Suspense */
-.suspense-section {
+/* Core Truth */
+.core-truth-card {
   text-align: center;
-  padding: 48rpx 16rpx;
-  background: linear-gradient(180deg, transparent, rgba(255, 209, 102, 0.06));
-  border-radius: 24rpx;
-  margin-bottom: 32rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.truth-icon {
+  display: block;
+  font-size: 36rpx;
+  color: var(--color-accent-gold);
+  margin-bottom: 16rpx;
+}
+
+.truth-text {
+  display: block;
+  font-size: 30rpx;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* Hook / Ad Unlock */
+.hook-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-ad-unlock {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 32rpx;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.12), rgba(255, 107, 138, 0.12));
+  border: 1px solid rgba(255, 209, 102, 0.3);
+  border-radius: 20rpx;
+  gap: 24rpx;
+  transition: opacity 0.2s;
+}
+
+.btn-ad-unlock:active {
+  opacity: 0.8;
+}
+
+.btn-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.btn-ad-icon {
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  font-size: 32rpx;
+  background: rgba(255, 209, 102, 0.2);
+  border-radius: 50%;
+  color: var(--color-accent-gold);
+  flex-shrink: 0;
+}
+
+.btn-ad-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.btn-ad-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.btn-ad-sub {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.suspense-bar {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 24rpx;
+  padding: 24rpx;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16rpx;
+  gap: 12rpx;
+}
+
+.suspense-icon {
+  font-size: 24rpx;
+  color: var(--color-accent-gold);
+  flex-shrink: 0;
+  margin-top: 2rpx;
 }
 
 .suspense-text {
-  font-size: 28rpx;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.8;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
   font-style: italic;
+}
+
+/* Misunderstood */
+.misunderstood-card {
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.06), rgba(255, 107, 138, 0.06));
+  border: 1px solid rgba(255, 209, 102, 0.15);
+}
+
+.misunderstood-text {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* Advice */
+.advice-card {
+  background: rgba(100, 200, 255, 0.06);
+  border: 1px solid rgba(100, 200, 255, 0.15);
+}
+
+.advice-text {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* Paid Lines */
+.paid-intro {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  margin-bottom: 24rpx;
+  padding-left: 8rpx;
+}
+
+.paid-line-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.paid-line-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.paid-line-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.paid-line-desc {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.paid-line-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8rpx;
+  flex-shrink: 0;
+}
+
+.paid-price-tag {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-accent-gold);
+}
+
+.paid-status-tag {
+  padding: 4rpx 16rpx;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20rpx;
+}
+
+.paid-status-text {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.paid-bundle-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx 28rpx;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.1), rgba(255, 107, 138, 0.08));
+  border: 1px solid rgba(255, 209, 102, 0.2);
+  border-radius: 16rpx;
+  margin-top: 8rpx;
+}
+
+.bundle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.bundle-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-accent-gold);
+}
+
+.bundle-desc {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.bundle-price-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8rpx;
+}
+
+.bundle-price {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-accent-gold);
 }
 
 /* Bottom */

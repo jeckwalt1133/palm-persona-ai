@@ -77,11 +77,16 @@ export class MockAnalysisService implements AnalysisService {
             role: 'system',
             content: `你是一个人格分析助手。根据五维人格数据生成以下内容：
 
-1. **维度解析**：为每个维度写一段个性化描述（30-50字），要结合具体分数、有洞察力
-2. **综合分析**：200-300字综合分析，温暖有洞察力
-3. **关系洞察**：3条洞察（每条15-25字）
+1. **一句话核心真相**：一句戳心总结（15-25字），像"你看起来很好说话，但心里有张严格的评分表"这种
+2. **维度解析**：为每个维度写一段个性化描述（30-50字），要结合具体分数、有洞察力
+3. **综合分析**：200-300字综合分析，温暖有洞察力
+4. **本周建议**：一条针对性的本周行动建议（20-40字）
+5. **关系洞察**：3条洞察（每条15-25字）
 
 格式：
+---核心真相---
+[一句话]
+
 ---维度解析---
 情绪频率: [描述]
 沟通同步: [描述]
@@ -92,6 +97,9 @@ export class MockAnalysisService implements AnalysisService {
 ---综合分析---
 [文案]
 
+---本周建议---
+[建议]
+
 ---关系洞察---
 1. [洞察1]
 2. [洞察2]
@@ -101,7 +109,8 @@ export class MockAnalysisService implements AnalysisService {
 - 语气温暖但不矫情，有洞察力但不武断
 - 使用"倾向于""更容易"等温和措辞，避免绝对化表达（"一定""必然""注定"）
 - 不涉及迷信、命运、占卜等敏感内容
-- 结合具体分数给出有针对性的分析，而非泛泛而谈`,
+- 结合具体分数给出有针对性的分析，而非泛泛而谈
+- 每份报告要有独特性，不要套模板`,
           },
           {
             role: 'user',
@@ -109,11 +118,17 @@ export class MockAnalysisService implements AnalysisService {
 五维分数：
 ${scoresText}
 
-请基于以上数据生成维度解析、综合分析文案和关系洞察。`,
+请基于以上数据生成全部内容。`,
           },
         ]);
 
-        // 1. 解析维度解析
+        // 1. 解析核心真相
+        const truthMatch = aiSummary.match(/---核心真相---\n*([^\n]+)/);
+        if (truthMatch?.[1]?.trim()) {
+          report.coreTruth = truthMatch[1].trim();
+        }
+
+        // 2. 解析维度解析
         const dimMatch = aiSummary.match(/---维度解析---\n*([\s\S]*?)\n*---综合分析---/);
         if (dimMatch?.[1]?.trim()) {
           const dimLines = dimMatch[1].trim().split('\n');
@@ -129,12 +144,16 @@ ${scoresText}
           }
         }
 
-        // 2. 解析综合分析
-        const summaryMatch = aiSummary.match(/---综合分析---\n*([\s\S]*?)\n*---关系洞察---/);
+        // 3. 解析综合分析
+        const summaryMatch = aiSummary.match(/---综合分析---\n*([\s\S]*?)\n*---本周建议---/);
+        const weeklyMatch = aiSummary.match(/---本周建议---\n*([^\n]+)/);
         const insightMatch = aiSummary.match(/---关系洞察---\n*([\s\S]*)/);
 
         if (summaryMatch?.[1]?.trim()) {
           report.summary = summaryMatch[1].trim();
+        }
+        if (weeklyMatch?.[1]?.trim()) {
+          report.weeklyAdvice = weeklyMatch[1].trim();
         }
         if (insightMatch?.[1]?.trim()) {
           const lines = insightMatch[1]
