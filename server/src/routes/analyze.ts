@@ -61,4 +61,38 @@ export async function analyzeRoutes(app: FastifyInstance) {
       });
     }
   });
+
+  // multipart 上传路由（真机 Taro.uploadFile 使用）
+  app.post('/analyze/upload', async (req, reply) => {
+    try {
+      const file = await req.file();
+      if (!file) {
+        return reply.status(400).send({
+          success: false,
+          error: { code: 'NO_FILE', message: '未收到图片文件' },
+        });
+      }
+
+      const buffer = await file.toBuffer();
+      const imageBase64 = buffer.toString('base64');
+
+      const report = await analysisService.analyze(imageBase64);
+      return reply.status(201).send({
+        success: true,
+        data: report,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '分析失败';
+      const statusMap: Record<string, number> = {
+        '图片数据无效或过小': 400,
+        '图片过大，请压缩后重试': 413,
+        '图片格式不支持，请上传 JPG 或 PNG 格式': 415,
+      };
+      const status = statusMap[message] ?? 500;
+      return reply.status(status).send({
+        success: false,
+        error: { code: 'ANALYZE_ERROR', message },
+      });
+    }
+  });
 }

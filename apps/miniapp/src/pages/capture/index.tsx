@@ -38,26 +38,52 @@ export default function CapturePage() {
         // 压缩失败直接用原图
       }
 
-      // 读取为 base64
-      const fs = Taro.getFileSystemManager();
-      const base64 = fs.readFileSync(finalPath, 'base64');
+      // 检测平台：模拟器走 JSON body，真机走 multipart 文件上传
+      let platform = 'devtools';
+      try {
+        platform = Taro.getSystemInfoSync().platform || 'devtools';
+      } catch { /* 使用默认 */ }
 
-      const res = await Taro.request({
-        url: apiUrl('/api/analyze'),
-        method: 'POST',
-        data: { imageBase64: base64 },
-        header: { 'content-type': 'application/json' },
-        timeout: 120000, // 热点上传慢，给足 120s
-      });
+      if (platform === 'devtools') {
+        // 模拟器：JSON body + base64
+        const fs = Taro.getFileSystemManager();
+        const base64 = fs.readFileSync(finalPath, 'base64');
 
-      const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };
+        const res = await Taro.request({
+          url: apiUrl('/api/analyze'),
+          method: 'POST',
+          data: { imageBase64: base64 },
+          header: { 'content-type': 'application/json' },
+          timeout: 120000,
+        });
 
-      if (body.success && body.data) {
-        Taro.hideLoading();
-        Taro.redirectTo({ url: `/pages/report/index?id=${body.data.id}` });
+        const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };
+
+        if (body.success && body.data) {
+          Taro.hideLoading();
+          Taro.redirectTo({ url: `/pages/report/index?id=${body.data.id}` });
+        } else {
+          Taro.hideLoading();
+          Taro.showToast({ title: body.error?.message || '分析失败', icon: 'none', duration: 3000 });
+        }
       } else {
-        Taro.hideLoading();
-        Taro.showToast({ title: body.error?.message || '分析失败', icon: 'none', duration: 3000 });
+        // 真机：multipart/form-data 文件上传（微信原生优化，弱网更可靠）
+        const res = await Taro.uploadFile({
+          url: apiUrl('/api/analyze/upload'),
+          filePath: finalPath,
+          name: 'image',
+          timeout: 120000,
+        });
+
+        const body = JSON.parse(res.data) as { success: boolean; data?: { id: string }; error?: { message: string } };
+
+        if (body.success && body.data) {
+          Taro.hideLoading();
+          Taro.redirectTo({ url: `/pages/report/index?id=${body.data.id}` });
+        } else {
+          Taro.hideLoading();
+          Taro.showToast({ title: body.error?.message || '分析失败', icon: 'none', duration: 3000 });
+        }
       }
     } catch (err) {
       Taro.hideLoading();

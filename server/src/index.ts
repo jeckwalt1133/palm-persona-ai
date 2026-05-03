@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import fastifyMultipart from '@fastify/multipart';
 import { loadConfig } from './config/index.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { globalLimiter } from './middleware/rate-limiter.js';
@@ -47,6 +48,7 @@ async function main() {
   });
 
   await app.register(cors, { origin: true });
+  await app.register(fastifyMultipart);
 
   await app.register(healthRoutes, { prefix: '/api' });
   await app.register(analyzeRoutes, { prefix: '/api' });
