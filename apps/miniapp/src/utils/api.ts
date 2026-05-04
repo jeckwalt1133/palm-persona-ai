@@ -15,6 +15,11 @@ function resolveBase(): string {
     }
   } catch { /* 忽略 */ }
 
+  // H5：同源部署，使用相对路径
+  if (process.env.TARO_ENV === 'h5') {
+    return '';
+  }
+
   // 真机（通过电脑热点连接）→ 热点 IP
   return `http://${HOTSPOT_IP}:${SERVER_PORT}`;
 }

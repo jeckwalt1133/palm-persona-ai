@@ -597,9 +597,30 @@ export default function ReportPage() {
           </View>
         )}
 
-        <Button className="btn-share" open-type="share">
-          发给朋友，看看谁更懂你
-        </Button>
+        {process.env.TARO_ENV === 'h5' ? (
+          <View
+            className="btn-share"
+            onClick={() => {
+              const shareTitle = report
+                ? `AI说我是「${report.personaLabel}」——你也来测测`
+                : '掌心人格局 — AI人格分析';
+              const shareUrl = window.location.href;
+              if (navigator.share) {
+                navigator.share({ title: shareTitle, url: shareUrl }).catch(() => {});
+              } else {
+                navigator.clipboard?.writeText(`${shareTitle} ${shareUrl}`).then(() => {
+                  Taro.showToast({ title: '链接已复制，粘贴给朋友吧', icon: 'none' });
+                }).catch(() => {});
+              }
+            }}
+          >
+            发给朋友，看看谁更懂你
+          </View>
+        ) : (
+          <Button className="btn-share" open-type="share">
+            发给朋友，看看谁更懂你
+          </Button>
+        )}
         <View className="bottom-invite">
           <Text className="bottom-invite-text">
             已有 128,634 人通过手掌了解了自己——你的朋友可能也在其中

@@ -40,10 +40,28 @@ export default function CapturePage() {
       platform = Taro.getSystemInfoSync().platform || 'devtools';
     } catch { /* 使用默认 */ }
 
+    const isMobile = platform === 'ios' || platform === 'android';
+
+    // 读取文件为 base64（H5 不支持 readFileSync，用异步 API）
+    const readFileAsBase64 = async (fp: string): Promise<string> => {
+      if (process.env.TARO_ENV === 'h5') {
+        // H5 浏览器环境：通过 fetch 获取 blob 再转 base64
+        const response = await fetch(fp);
+        const blob = await response.blob();
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve((reader.result as string).split(',')[1]);
+          reader.onerror = () => reject(new Error('文件读取失败'));
+          reader.readAsDataURL(blob);
+        });
+      }
+      // 模拟器/小程序：使用 readFileSync
+      return Taro.getFileSystemManager().readFileSync(fp, 'base64') as string;
+    };
+
     try {
-      if (platform === 'devtools') {
-        const fs = Taro.getFileSystemManager();
-        const base64 = fs.readFileSync(finalPath, 'base64');
+      if (!isMobile) {
+        const base64 = await readFileAsBase64(finalPath);
         const res = await Taro.request({
           url: apiUrl('/api/analyze'),
           method: 'POST',

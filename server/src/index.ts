@@ -1,6 +1,9 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import fastifyMultipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
 import { loadConfig } from './config/index.js';
 import { errorHandler } from './middleware/error-handler.js';
 import { globalLimiter } from './middleware/rate-limiter.js';
@@ -56,6 +59,23 @@ async function main() {
   await app.register(matchRoutes, { prefix: '/api' });
   await app.register(analyticsRoutes, { prefix: '/api' });
   await app.register(growthRoutes, { prefix: '/api' });
+
+  // H5 静态文件托管
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const h5Dist = path.resolve(__dirname, '../../apps/miniapp/dist');
+  await app.register(fastifyStatic, {
+    root: h5Dist,
+    prefix: '/',
+  });
+
+  // SPA 回退：非 API 路径返回 index.html
+  app.setNotFoundHandler((req, reply) => {
+    if (req.url.startsWith('/api/')) {
+      return reply.status(404).send({ error: 'Not found' });
+    }
+    return reply.sendFile('index.html');
+  });
 
   // 播种演示数据（仅 mock 模式）
   await analysisService.seedDemoData();
