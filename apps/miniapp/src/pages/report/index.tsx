@@ -356,6 +356,16 @@ export default function ReportPage() {
         )}
       </View>
 
+      {/* 每日关键词 — 留存钩子，每天不同 */}
+      {dailyKeyword && (
+        <View className="daily-keyword-hero">
+          <Text className="daily-keyword-date">{new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' })}</Text>
+          <Text className="daily-keyword-badge">{dailyKeyword.keyword}</Text>
+          <Text className="daily-keyword-desc">{dailyKeyword.description}</Text>
+          <Text className="daily-keyword-hint">明天同一时间，你的关键词会变</Text>
+        </View>
+      )}
+
       {/* 视觉锚点：AI真的分析了你的手掌 + 社交比较 */}
       {report.visualAnchors && (
         <View className="section">
@@ -568,15 +578,8 @@ export default function ReportPage() {
         </>
       )}
 
-      {/* 底部：每日关键词 + 签到 + 分享 + 返回 */}
+      {/* 底部：签到 + 分享 + 返回 */}
       <View className="bottom-bar">
-        {dailyKeyword && (
-          <View className="keyword-bar">
-            <Text className="keyword-label">今日关键词</Text>
-            <Text className="keyword-em">{dailyKeyword.keyword}</Text>
-          </View>
-        )}
-
         {checkedInToday && checkInParagraph ? (
           <View className="checkin-done-card">
             <Text className="checkin-done-icon">{'>'}</Text>
