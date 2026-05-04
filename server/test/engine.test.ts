@@ -100,9 +100,9 @@ describe('MockResonanceNarrativeEngine', () => {
     const r1 = engine.generate(f1);
     const r2 = engine.generate(f2);
     // createdAt 依赖当前时间，忽略比较
-    const { createdAt: _, ...rest1 } = r1;
-    const { createdAt: __, ...rest2 } = r2;
-    expect(rest1).toEqual(rest2);
+    delete (r1 as Record<string, unknown>).createdAt;
+    delete (r2 as Record<string, unknown>).createdAt;
+    expect(r1).toEqual(r2);
   });
 
   it('assigns different persona types for different inputs', () => {

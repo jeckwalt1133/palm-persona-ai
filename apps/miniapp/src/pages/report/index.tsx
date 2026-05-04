@@ -247,12 +247,6 @@ export default function ReportPage() {
   };
 
   // ── 辅助函数 ──
-  const top3Scores = (scores: ScoreItem[]) => {
-    return [...scores]
-      .sort((a, b) => Math.abs(b.score - 50) - Math.abs(a.score - 50))
-      .slice(0, 3);
-  };
-
   const mostMisunderstood = (scores: ScoreItem[]) => {
     const extreme = [...scores].sort(
       (a, b) => Math.abs(b.score - 50) - Math.abs(a.score - 50),
@@ -329,7 +323,6 @@ export default function ReportPage() {
   if (!report) return null;
 
   const radarScores = report.scores.map((s) => ({ label: s.dimension, score: s.score }));
-  const coreScores = top3Scores(report.scores);
 
   return (
     <ScrollView className="report-page" scrollY enableBackToTop enhanced bounces={false}>
@@ -387,23 +380,6 @@ export default function ReportPage() {
         </View>
       </View>
 
-      {/* 3个核心维度分数 */}
-      <View className="section">
-        <Text className="section-title">你的核心特质</Text>
-        {coreScores.map((s, i) => (
-          <View key={i} className="score-card">
-            <View className="score-card-top">
-              <Text className="score-name">{s.dimension}</Text>
-              <Text className="score-num">{s.score}</Text>
-            </View>
-            <View className="score-bar-track">
-              <View className="score-bar-fill" style={{ width: `${s.score}%` }} />
-            </View>
-            <Text className="score-desc">{s.description}</Text>
-          </View>
-        ))}
-      </View>
-
       {/* 免费层→广告层 钩子 */}
       {unlockLevel === 'free' && (
         <View className="section hook-section">
@@ -412,8 +388,8 @@ export default function ReportPage() {
             onClick={handleWatchAd}
           >
             <View className="btn-ad-text">
-              <Text className="btn-ad-title">查看完整人格画像</Text>
-              <Text className="btn-ad-sub">你的手掌还透露了更多——关于你的关系模式、被误解的那一面、以及本周该怎么做</Text>
+              <Text className="btn-ad-title">查看5维人格得分与深度解读</Text>
+              <Text className="btn-ad-sub">解锁你的完整人格图谱——含5维雷达图、关系洞察、被误解的那一面、本周建议</Text>
             </View>
             <Text className="btn-ad-arrow">&rsaquo;</Text>
           </View>
