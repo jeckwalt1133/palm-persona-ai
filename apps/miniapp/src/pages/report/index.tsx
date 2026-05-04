@@ -342,7 +342,7 @@ export default function ReportPage() {
         )}
       </View>
 
-      {/* 视觉锚点：先证明AI真的分析了手掌 */}
+      {/* 视觉锚点：AI真的分析了你的手掌 + 社交比较 */}
       {report.visualAnchors && (
         <View className="section">
           <Text className="section-title">AI 从你的手掌读取到</Text>
@@ -371,6 +371,9 @@ export default function ReportPage() {
               </View>
             </View>
           </View>
+          <View className="va-comparison-hint">
+            <Text className="va-comparison-text">把你的数据发出去——看看朋友圈里有谁跟你一样</Text>
+          </View>
         </View>
       )}
 
@@ -380,7 +383,7 @@ export default function ReportPage() {
           <Text className="truth-text">{report.coreTruth}</Text>
         </View>
         <View className="share-hint">
-          <Text className="share-hint-text">这句话戳中你了？长按截图，发给懂你的人</Text>
+          <Text className="share-hint-text">截图发给那个你想到的人——TA会懂的</Text>
         </View>
       </View>
 
@@ -597,7 +600,12 @@ export default function ReportPage() {
         <View className="btn-share" onClick={() => {
           Taro.showShareMenu({ withShareTicket: true });
         }}>
-          <Text>分享你的报告</Text>
+          <Text>发给朋友，看看谁更懂你</Text>
+        </View>
+        <View className="bottom-invite">
+          <Text className="bottom-invite-text">
+            已有 128,634 人通过手掌了解了自己——你的朋友可能也在其中
+          </Text>
         </View>
         <View className="btn-home" onClick={() => Taro.reLaunch({ url: '/pages/index/index' })}>
           <Text>返回首页</Text>

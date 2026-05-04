@@ -97,7 +97,12 @@ describe('MockResonanceNarrativeEngine', () => {
   it('returns deterministic report for same input', () => {
     const f1 = extractor.extract('deterministic');
     const f2 = extractor.extract('deterministic');
-    expect(engine.generate(f1)).toEqual(engine.generate(f2));
+    const r1 = engine.generate(f1);
+    const r2 = engine.generate(f2);
+    // createdAt 依赖当前时间，忽略比较
+    const { createdAt: _, ...rest1 } = r1;
+    const { createdAt: __, ...rest2 } = r2;
+    expect(rest1).toEqual(rest2);
   });
 
   it('assigns different persona types for different inputs', () => {

@@ -935,3 +935,28 @@
   height: 56rpx;
   background: rgba(255, 255, 255, 0.08);
 }
+
+.va-comparison-hint {
+  display: flex;
+  justify-content: center;
+  padding: 16rpx 0 0;
+  margin-top: 8rpx;
+}
+
+.va-comparison-text {
+  font-size: 22rpx;
+  color: rgba(255, 209, 102, 0.35);
+  font-style: italic;
+}
+
+/* ── 底部邀请 ── */
+.bottom-invite {
+  padding: 8rpx 32rpx;
+  text-align: center;
+}
+
+.bottom-invite-text {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.25);
+  line-height: 1.6;
+}
