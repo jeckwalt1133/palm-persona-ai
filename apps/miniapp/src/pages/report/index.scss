@@ -901,6 +901,81 @@
   color: rgba(255, 255, 255, 0.35);
 }
 
+/* ── 关系频率密码 ── */
+.rel-code-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  background: linear-gradient(135deg, rgba(100, 200, 255, 0.06), rgba(255, 107, 138, 0.04));
+  border: 1px solid rgba(100, 200, 255, 0.12);
+}
+
+.rel-code-badge {
+  text-align: center;
+  padding: 16rpx 24rpx;
+  background: rgba(100, 200, 255, 0.08);
+  border-radius: 12rpx;
+}
+
+.rel-code-badge-text {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--color-accent-cyan);
+  line-height: 1.5;
+}
+
+.rel-code-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.rel-code-label {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--color-accent-gold);
+  letter-spacing: 2rpx;
+}
+
+.rel-code-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+}
+
+/* ── 名人彩蛋 ── */
+.celebrity-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.06), rgba(255, 107, 138, 0.04));
+  border: 1px solid rgba(255, 209, 102, 0.12);
+}
+
+.celebrity-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+}
+
+.celebrity-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--color-accent-gold);
+}
+
+.celebrity-title {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.celebrity-reason {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+}
+
 /* Bottom */
 .bottom-bar {
   padding: 32rpx 0 64rpx;

@@ -39,6 +39,19 @@ interface VisualAnchorsData {
   fingerPercentile: string;
 }
 
+interface CelebrityMatch {
+  name: string;
+  title: string;
+  reason: string;
+}
+
+interface RelationshipCode {
+  frequencyLabel: string;
+  signalPattern: string;
+  bestMatchType: string;
+  tensionPoint: string;
+}
+
 interface ReportData {
   id: string;
   createdAt: string;
@@ -55,6 +68,8 @@ interface ReportData {
   visualAnchors?: VisualAnchorsData;
   identityBadge?: string;
   adTeaser?: string;
+  relationshipCode?: RelationshipCode;
+  celebrityMatches?: CelebrityMatch[];
 }
 
 // 付费解读维度配置
@@ -493,6 +508,52 @@ export default function ReportPage() {
               </Text>
             </View>
           </View>
+
+          {/* 关系频率密码 */}
+          {report.relationshipCode && (
+            <View className="section">
+              <Text className="section-title">你的关系频率密码</Text>
+              <View className="card rel-code-card">
+                <View className="rel-code-badge">
+                  <Text className="rel-code-badge-text">{report.relationshipCode.frequencyLabel}</Text>
+                </View>
+                <View className="rel-code-section">
+                  <Text className="rel-code-label">信号模式</Text>
+                  <Text className="rel-code-text">{report.relationshipCode.signalPattern}</Text>
+                </View>
+                <View className="rel-code-section">
+                  <Text className="rel-code-label">最佳同频</Text>
+                  <Text className="rel-code-text">{report.relationshipCode.bestMatchType}</Text>
+                </View>
+                <View className="rel-code-section">
+                  <Text className="rel-code-label">关系张力</Text>
+                  <Text className="rel-code-text">{report.relationshipCode.tensionPoint}</Text>
+                </View>
+              </View>
+              <View className="share-hint">
+                <Text className="share-hint-text">发给朋友，看看TA是不是你的"最佳同频"</Text>
+              </View>
+            </View>
+          )}
+
+          {/* 名人彩蛋 */}
+          {report.celebrityMatches && report.celebrityMatches.length > 0 && (
+            <View className="section">
+              <Text className="section-title">你的「名人同频」彩蛋</Text>
+              {report.celebrityMatches.map((match, i) => (
+                <View key={i} className="card celebrity-card">
+                  <View className="celebrity-header">
+                    <Text className="celebrity-name">{match.name}</Text>
+                    <Text className="celebrity-title">{match.title}</Text>
+                  </View>
+                  <Text className="celebrity-reason">{match.reason}</Text>
+                </View>
+              ))}
+              <View className="share-hint">
+                <Text className="share-hint-text">截图发给那个懂你的人——TA会知道为什么像</Text>
+              </View>
+            </View>
+          )}
 
           {/* 本周建议 */}
           <View className="section">

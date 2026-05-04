@@ -8,6 +8,19 @@ export const PersonaScoreSchema = z.object({
   description: z.string(),
 });
 
+export const CelebrityMatchSchema = z.object({
+  name: z.string(),
+  title: z.string(),
+  reason: z.string(),
+});
+
+export const RelationshipCodeSchema = z.object({
+  frequencyLabel: z.string(),
+  signalPattern: z.string(),
+  bestMatchType: z.string(),
+  tensionPoint: z.string(),
+});
+
 export const PersonaReportSchema = z.object({
   id: z.string(),
   createdAt: z.string(),
@@ -21,7 +34,11 @@ export const PersonaReportSchema = z.object({
   suspenseText: z.string(),
   coreTruth: z.string(),
   weeklyAdvice: z.string(),
+  relationshipCode: RelationshipCodeSchema.optional(),
+  celebrityMatches: z.array(CelebrityMatchSchema).optional(),
 });
 
 export type PersonaScore = z.infer<typeof PersonaScoreSchema>;
 export type PersonaReport = z.infer<typeof PersonaReportSchema>;
+export type CelebrityMatch = z.infer<typeof CelebrityMatchSchema>;
+export type RelationshipCode = z.infer<typeof RelationshipCodeSchema>;

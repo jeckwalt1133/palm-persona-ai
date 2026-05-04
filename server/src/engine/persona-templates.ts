@@ -254,6 +254,137 @@ export function pickAdTeaserText(seed: number): string {
   return AD_TEASER_TEXTS[seed % AD_TEASER_TEXTS.length];
 }
 
+// ── 名人彩蛋映射（每种人格类型对应的名人）──
+export interface CelebrityEntry {
+  name: string;
+  title: string;
+  reason: string;
+}
+
+export const CELEBRITY_MAP: Record<string, CelebrityEntry[]> = {
+  'starry-dreamer': [
+    { name: '宫崎骏', title: '动画大师', reason: '同样用想象力构建了一个让人沉浸的世界——你的创造力是他那种类型的' },
+    { name: '梵高', title: '后印象派画家', reason: '你们都看到世界不为人知的那一层色彩——孤独但丰盛' },
+    { name: '朴树', title: '音乐人', reason: '同样不按常理出牌，但内心有一座花园——敏感而真实' },
+  ],
+  'silent-guardian': [
+    { name: '坂本龙一', title: '音乐家', reason: '用行动和作品说话——沉默但每一击都精准深刻' },
+    { name: '汤姆·汉克斯', title: '演员', reason: '可靠而温暖——他演的角色总能让人放心，像你一样' },
+    { name: '村上春树', title: '作家', reason: '独处中产出最深的东西——你的沉淀力是他的特质' },
+  ],
+  'flame-explorer': [
+    { name: 'Elon Musk', title: '企业家', reason: '想到了就去做——你的冲动和他的行动力是同一种发动机' },
+    { name: '黄永玉', title: '画家/作家', reason: '一辈子都在玩、在试、在奔跑——你的好奇心是他的燃料' },
+    { name: 'Pharrell Williams', title: '音乐制作人', reason: '永远在跨界、永远有能量——快乐也是一种生产力' },
+  ],
+  'deep-thinker': [
+    { name: '刘慈欣', title: '科幻作家', reason: '脑子里有一个宇宙——你的思考深度和他是同一类' },
+    { name: 'Christopher Nolan', title: '导演', reason: '他的电影需要看三遍才懂——复杂不是你的问题，是别人的' },
+    { name: '李安', title: '导演', reason: '每个镜头都在想"还能怎样"——这种深度是天赋也是枷锁' },
+  ],
+  'gentle-healer': [
+    { name: 'Fred Rogers', title: '儿童节目主持人', reason: '他的温柔改变了整个时代的孩子的童年——你的共情能力也有这个潜力' },
+    { name: '树木希林', title: '演员', reason: '每句话都让人觉得被理解——你的存在就是安慰' },
+    { name: '陈奕迅', title: '歌手', reason: '他的歌能唱到人心里最软的地方——你也有这种让人卸下防备的能力' },
+  ],
+  'sharp-pioneer': [
+    { name: 'Steve Jobs', title: 'Apple 创始人', reason: '现实扭曲力场——你的"做了再说"和他的"现实可以改变"是同一种东西' },
+    { name: '谷爱凌', title: '运动员', reason: '做就做到最好——你的执行力是她那种大赛型选手级别的' },
+    { name: '董明珠', title: '企业家', reason: '不拖泥带水、说一不二——你的果断是她那样的领袖特质' },
+  ],
+  'moon-artist': [
+    { name: 'Billie Eilish', title: '歌手', reason: '不按流行套路出牌但全世界都在听——你的独特审美终将被看见' },
+    { name: '王家卫', title: '导演', reason: '一个镜头能拍三个月——对艺术的偏执是你和他的共同语言' },
+    { name: '草间弥生', title: '艺术家', reason: '用自己的方式表达世界——你不走寻常路的创造力是她那种级别的' },
+  ],
+  'bridge-builder': [
+    { name: 'Oprah Winfrey', title: '主持人', reason: '能让任何人敞开心扉——你的沟通力和她一样来自真实的共情' },
+    { name: '何炅', title: '主持人', reason: '全场最累的人是照顾所有人感受的人——你最懂他的不容易' },
+    { name: '俞敏洪', title: '教育家', reason: '把一群人聚在一起朝一个方向走——你的凝聚力是他那种组织天赋' },
+  ],
+  'quiet-mountain': [
+    { name: 'Keanu Reeves', title: '演员', reason: '世界再喧闹，他只是安静地做好自己——你的沉稳和他的气质同频' },
+    { name: '北野武', title: '导演/演员', reason: '表面冷硬，作品里全是温度和智慧——你也是外冷内热的类型' },
+    { name: '张艺谋', title: '导演', reason: '话不多但每一部作品都在回应时代——你的沉默同样有重量' },
+  ],
+  'sunshine-spark': [
+    { name: 'Taylor Swift', title: '歌手', reason: '把情绪转化为作品——你的感染力是她那种能把心掏出来还让人觉得温暖的类型' },
+    { name: '大张伟', title: '音乐人', reason: '看起来在闹，其实比谁都通透——你的快乐是他那种"经历过才选择开心"的智慧' },
+    { name: 'Robin Williams', title: '演员', reason: '让所有人笑的人往往最值得被认真对待——你的热度下面有一颗柔软的心' },
+  ],
+  'wind-wanderer': [
+    { name: '三毛', title: '作家', reason: '一辈子在走、在看、在写——你的自由灵魂是她那种不被任何地方困住的人' },
+    { name: '窦唯', title: '音乐人', reason: '不为市场创作、只为自己——你的随性是艺术家式的忠于内心' },
+    { name: 'Jack Kerouac', title: '作家', reason: '在路上就是生活的全部意义——你和他的频率都在路上' },
+  ],
+  'root-keeper': [
+    { name: '是枝裕和', title: '导演', reason: '他的电影里全是家的温度——你的守护力是他那种能把日常拍出神圣感的视角' },
+    { name: '汪涵', title: '主持人', reason: '守住了自己的节奏和标准——你对根基的重视是他那种老派但不过时的讲究' },
+    { name: '梅西', title: '足球运动员', reason: '忠诚、专注、把一件事做到极致——你的稳是冠军级别的' },
+  ],
+};
+
+// ── 关系频率密码生成（基于得分特征）──
+export interface RelationshipCode {
+  frequencyLabel: string;
+  signalPattern: string;
+  bestMatchType: string;
+  tensionPoint: string;
+}
+
+export function generateRelationshipCode(scores: Array<{ dimensionKey: string; score: number }>): RelationshipCode {
+  const get = (key: string) => scores.find((s) => s.dimensionKey === key)?.score ?? 50;
+  const comm = get('communicationSync');
+  const emo = get('emotionalResonance');
+  const trust = get('trustPotential');
+  const friction = get('frictionRisk');
+
+  // 频率标签
+  const avgExpress = (comm + emo) / 2;
+  let frequencyLabel: string;
+  if (avgExpress >= 67) frequencyLabel = '高频共振型 — 你的情绪和表达像 FM 电台，身边的人不用调频就能收到';
+  else if (avgExpress >= 34) frequencyLabel = '波段切换型 — 你在不同的人面前切换不同的频率，这是适应力也是保护色';
+  else frequencyLabel = '低频深海型 — 你的信号不嘈杂但传得很远，真正在乎你的人会调到你的频率';
+
+  // 信号模式
+  let signalPattern: string;
+  if (comm >= 60 && emo >= 60) {
+    signalPattern = '你的关系信号是"即时广播"——喜欢一个人你会让对方感觉到，不喜欢也不会装。在关系里你最怕的不是冲突，是猜来猜去。直接、坦诚、不消耗——这是你最舒服的相处方式。';
+  } else if (comm >= 60 && emo < 60) {
+    signalPattern = '你的关系信号是"加密频道"——嘴上说着没事，心里其实翻江倒海。你在关系里最大的特点是有选择性地表达：对信任的人滔滔不绝，对不熟的人惜字如金。这种分层不是防备，是节能。';
+  } else if (comm < 60 && emo >= 60) {
+    signalPattern = '你的关系信号是"身体先于语言"——你心里已经翻了很多页，但嘴上只说了一行。你在乎人的方式不是说出来，是做出来。缺点是：对方可能不知道你有多在乎。优点是：一旦对方懂了，就不会再怀疑。';
+  } else {
+    signalPattern = '你的关系信号是"静默深度传输"——你不轻易发出信号，但一旦发出就是认真的。你不喜欢浅尝辄止的关系，宁愿一个人待着也不愿应付。进入你世界的人会发现，你的感情不是不够热，是烧得慢但烧得久。';
+  }
+
+  // 最佳匹配类型
+  let bestMatchType: string;
+  if (trust >= 65 && friction <= 35) {
+    bestMatchType = '你最舒服的关系是一个让你不用解释的人。你给信任很大方，但前提是对方不踩你的边界。能读懂你沉默的人，会在你的世界里得到最高权限。';
+  } else if (trust >= 65 && friction >= 65) {
+    bestMatchType = '你最舒服的关系是一个能接住你坦诚的人。你不怕冲突、不藏情绪——你需要的是一个不会被你的直接吓跑的人。敢和你"吵"完还能一起去吃火锅的人，就是对的。';
+  } else if (trust <= 35 && friction <= 35) {
+    bestMatchType = '你最舒服的关系是一个有耐心等你慢慢打开的人。你的信任不是随手给的，但对的人会发现等待是值得的。你需要的是一个不急着定义关系、但一直在的人。';
+  } else {
+    bestMatchType = '你最舒服的关系是一个和你节奏一致的人——不用刻意找话题、不用费力维持、不用假装开心。你们可以安静地待在一起各自做各自的事，但知道对方在就很踏实。';
+  }
+
+  // 关系张力点
+  let tensionPoint: string;
+  if (friction >= 65) {
+    tensionPoint = '你在关系里最容易出问题的地方是：底线太清楚了。对方可能觉得你"太硬"，但其实你只是不擅长在重要的事情上妥协。这不是缺点——但让在乎的人知道你的底线从哪来，比只亮出底线更有用。';
+  } else if (friction <= 35 && emo >= 65) {
+    tensionPoint = '你在关系里最容易出问题的地方是：太能忍了。你以为忍过去就好，但其实每一次忍都在身体里存着。学会在不满还没变成"算了"之前说出来，是你要做的功课。';
+  } else if (trust <= 35 && comm <= 35) {
+    tensionPoint = '你在关系里最容易出问题的地方是：让人猜得太累了。你的沉默有力量，但不等于所有人都能读懂它。偶尔多开一扇窗——不是让你改变自己，是让值得的人能走近一点。';
+  } else {
+    tensionPoint = '你在关系里最容易出问题的地方是：有时候太关注自己的感受而忘了对方也有他的频率。你们不是同步率不够，是频率没对上。最好的关系不是完全一样的人，而是愿意互相调频的人。';
+  }
+
+  return { frequencyLabel, signalPattern, bestMatchType, tensionPoint };
+}
+
 export function assembleReport(
   id: string,
   template: PersonaTemplate,
@@ -267,6 +398,8 @@ export function assembleReport(
   visualAnchors?: PersonaReport['visualAnchors'],
   identityBadge?: string,
   adTeaser?: string,
+  relationshipCode?: PersonaReport['relationshipCode'],
+  celebrityMatches?: PersonaReport['celebrityMatches'],
 ): PersonaReport {
   const insightCount = Math.min(3, template.insightPool.length);
   const keywordCount = Math.min(3, template.keywordPool.length);
@@ -295,5 +428,7 @@ export function assembleReport(
     visualAnchors,
     identityBadge,
     adTeaser,
+    relationshipCode,
+    celebrityMatches,
   };
 }

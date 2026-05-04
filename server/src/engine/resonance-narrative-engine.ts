@@ -1,5 +1,5 @@
 import { PalmFeatures, AnalysisContext, PersonaReport, PersonaScore } from './types.js';
-import { getAllTemplates, pickQuote, assembleReport, QUOTE_ENTRIES, getDimensions, pickSuspenseText, pickAdTeaserText, type PersonaTemplate } from './persona-templates.js';
+import { getAllTemplates, pickQuote, assembleReport, QUOTE_ENTRIES, getDimensions, pickSuspenseText, pickAdTeaserText, CELEBRITY_MAP, generateRelationshipCode, type PersonaTemplate } from './persona-templates.js';
 import { simpleHash } from '../utils/hash.js';
 
 export interface ResonanceNarrativeEngine {
@@ -48,10 +48,16 @@ export class MockResonanceNarrativeEngine implements ResonanceNarrativeEngine {
       description: enrichDescription(s, features, i),
     }));
 
+    // 关系频率密码
+    const relationshipCode = generateRelationshipCode(enrichedScores);
+
+    // 名人彩蛋
+    const celebrityMatches = CELEBRITY_MAP[template.type] ?? [];
+
     return assembleReport(
       features.hash, template, enrichedScores, quote, hash,
       suspenseText, coreTruth, undefined, enrichedSummary, visualAnchors,
-      identityBadge, adTeaser,
+      identityBadge, adTeaser, relationshipCode, celebrityMatches,
     );
   }
 }

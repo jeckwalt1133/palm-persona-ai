@@ -40,6 +40,19 @@ export interface VisualAnchors {
   fingerPercentile: string;
 }
 
+export interface CelebrityMatch {
+  name: string;
+  title: string;
+  reason: string;
+}
+
+export interface RelationshipCode {
+  frequencyLabel: string;
+  signalPattern: string;
+  bestMatchType: string;
+  tensionPoint: string;
+}
+
 export interface PersonaReport {
   id: string;
   createdAt: string;
@@ -56,6 +69,8 @@ export interface PersonaReport {
   visualAnchors?: VisualAnchors;
   identityBadge?: string;
   adTeaser?: string;
+  relationshipCode?: RelationshipCode;
+  celebrityMatches?: CelebrityMatch[];
 }
 
 export interface MatchDimension {
