@@ -40,35 +40,40 @@ export default function CapturePage() {
       platform = Taro.getSystemInfoSync().platform || 'devtools';
     } catch { /* 使用默认 */ }
 
-    if (platform === 'devtools') {
-      const fs = Taro.getFileSystemManager();
-      const base64 = fs.readFileSync(finalPath, 'base64');
-      const res = await Taro.request({
-        url: apiUrl('/api/analyze'),
-        method: 'POST',
-        data: { imageBase64: base64 },
-        header: { 'content-type': 'application/json' },
-        timeout: 120000,
-      });
-      const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };
-      if (body.success && body.data) {
-        reportIdRef.current = body.data.id;
+    try {
+      if (platform === 'devtools') {
+        const fs = Taro.getFileSystemManager();
+        const base64 = fs.readFileSync(finalPath, 'base64');
+        const res = await Taro.request({
+          url: apiUrl('/api/analyze'),
+          method: 'POST',
+          data: { imageBase64: base64 },
+          header: { 'content-type': 'application/json' },
+          timeout: 120000,
+        });
+        const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };
+        if (body.success && body.data) {
+          reportIdRef.current = body.data.id;
+        } else {
+          errorRef.current = body.error?.message || '分析失败';
+        }
       } else {
-        errorRef.current = body.error?.message || '分析失败';
+        const res = await Taro.uploadFile({
+          url: apiUrl('/api/analyze/upload'),
+          filePath: finalPath,
+          name: 'image',
+          timeout: 120000,
+        });
+        const body = JSON.parse(res.data) as { success: boolean; data?: { id: string }; error?: { message: string } };
+        if (body.success && body.data) {
+          reportIdRef.current = body.data.id;
+        } else {
+          errorRef.current = body.error?.message || '分析失败';
+        }
       }
-    } else {
-      const res = await Taro.uploadFile({
-        url: apiUrl('/api/analyze/upload'),
-        filePath: finalPath,
-        name: 'image',
-        timeout: 120000,
-      });
-      const body = JSON.parse(res.data) as { success: boolean; data?: { id: string }; error?: { message: string } };
-      if (body.success && body.data) {
-        reportIdRef.current = body.data.id;
-      } else {
-        errorRef.current = body.error?.message || '分析失败';
-      }
+    } catch (err: unknown) {
+      const taroErr = err as { errMsg?: string };
+      errorRef.current = taroErr?.errMsg || String(err) || '网络异常，请检查连接后重试';
     }
   }, []);
 
