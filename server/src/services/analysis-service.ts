@@ -158,7 +158,7 @@ ${scoresText}
         if (insightMatch?.[1]?.trim()) {
           const lines = insightMatch[1]
             .split('\n')
-            .map((l) => l.replace(/^\d+[\.\、]\s*/, '').trim())
+            .map((l) => l.replace(/^\d+[.、]\s*/, '').trim())
             .filter(Boolean);
           if (lines.length >= 2) {
             report.insights = lines.slice(0, 3);

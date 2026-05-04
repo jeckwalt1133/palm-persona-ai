@@ -308,7 +308,9 @@ export default function ReportPage() {
     return (
       <View className="report-page">
         <View className="state-box">
-          <Text className="state-icon">🔮</Text>
+          <View className="ap-pulse-ring">
+            <View className="ap-pulse-inner" />
+          </View>
           <Text className="state-text">{error}</Text>
           <View className="btn-retry" onClick={() => {
             setError(null);
@@ -331,66 +333,16 @@ export default function ReportPage() {
 
   return (
     <ScrollView className="report-page" scrollY enableBackToTop enhanced bounces={false}>
-      {/* ══════ 顶部工具条：关键词 + 签到 ══════ */}
-      <View className="top-toolbar">
-        {dailyKeyword && (
-          <View className="keyword-bar">
-            <Text className="keyword-label">今日情绪频率关键词</Text>
-            <Text className="keyword-em">{dailyKeyword.keyword}</Text>
-          </View>
-        )}
-
-        <View className="checkin-bar">
-          {checkedInToday ? (
-            <View className="checkin-done-card">
-              <Text className="checkin-done-icon">📅</Text>
-              <View className="checkin-done-body">
-                <Text className="checkin-done-title">连签 {checkInDays} 天</Text>
-                <Text className="checkin-done-text">{checkInParagraph}</Text>
-              </View>
-            </View>
-          ) : (
-            <View
-              className={`checkin-btn ${checkInLoading ? 'btn-disabled' : ''}`}
-              onClick={handleCheckIn}
-            >
-              <Text className="checkin-btn-icon">📅</Text>
-              <Text className="checkin-btn-title">
-                {checkInDays > 0 ? `签到第 ${checkInDays + 1} 天` : '今日签到'}
-              </Text>
-              <Text className="checkin-btn-sub">
-                {checkInDays > 0 ? `已连签 ${checkInDays} 天` : '每日AI洞察'}
-              </Text>
-            </View>
-          )}
-        </View>
-      </View>
-
       {/* ══════ 第1层：免费 ══════ */}
       {/* 人格标签 */}
       <View className="report-hero">
-        <Text className="report-date">{report.createdAt.slice(0, 10)}</Text>
         <Text className="report-label">{report.personaLabel}</Text>
         {report.identityBadge && (
           <Text className="report-badge">{report.identityBadge}</Text>
         )}
-        <Text className="report-social-proof">已有 128,634 人通过手掌了解自己</Text>
       </View>
 
-      {/* 一句话核心真相 */}
-      <View className="section">
-        <View className="card core-truth-card">
-          <Text className="truth-icon">✦</Text>
-          <Text className="truth-text">{report.coreTruth}</Text>
-        </View>
-        <View className="share-hint" onClick={() => {
-          Taro.showShareMenu({ withShareTicket: true });
-        }}>
-          <Text className="share-hint-text">↑ 这句话戳中你了？转发给懂你的人</Text>
-        </View>
-      </View>
-
-      {/* 视觉锚点：AI 读取到的手掌特征 */}
+      {/* 视觉锚点：先证明AI真的分析了手掌 */}
       {report.visualAnchors && (
         <View className="section">
           <Text className="section-title">AI 从你的手掌读取到</Text>
@@ -422,24 +374,19 @@ export default function ReportPage() {
         </View>
       )}
 
-      {/* 关于你——展示摘要前两段，自然引导解锁 */}
+      {/* 一句话核心真相 */}
       <View className="section">
-        <Text className="section-title">关于你</Text>
-        <View className="card">
-          {report.summary.split('\n').filter(p => p.trim()).slice(0, 2).map((paragraph, i) => (
-            <Text key={i} className="card-paragraph">{paragraph}</Text>
-          ))}
-          {report.summary.split('\n').filter(p => p.trim()).length > 2 && (
-            <Text className="card-paragraph" style={{ color: 'rgba(255,255,255,0.35)', fontStyle: 'italic' }}>
-              解锁完整报告，查看全部深度分析...
-            </Text>
-          )}
+        <View className="card core-truth-card">
+          <Text className="truth-text">{report.coreTruth}</Text>
+        </View>
+        <View className="share-hint">
+          <Text className="share-hint-text">这句话戳中你了？长按截图，发给懂你的人</Text>
         </View>
       </View>
 
       {/* 3个核心维度分数 */}
       <View className="section">
-        <Text className="section-title">核心维度</Text>
+        <Text className="section-title">你的核心特质</Text>
         {coreScores.map((s, i) => (
           <View key={i} className="score-card">
             <View className="score-card-top">
@@ -449,19 +396,9 @@ export default function ReportPage() {
             <View className="score-bar-track">
               <View className="score-bar-fill" style={{ width: `${s.score}%` }} />
             </View>
-            <Text className="score-label">{s.label}</Text>
             <Text className="score-desc">{s.description}</Text>
           </View>
         ))}
-
-        {/* 免费层→广告层 钩子 */}
-        <View className="hidden-dims-teaser">
-          <Text className="hidden-dims-lock-icon">🔮</Text>
-          <View className="hidden-dims-info">
-            <Text className="hidden-dims-title">解锁你的完整人格图谱</Text>
-            <Text className="hidden-dims-sub">含五维雷达图 + 深度洞察 + 被误解分析</Text>
-          </View>
-        </View>
       </View>
 
       {/* 免费层→广告层 钩子 */}
@@ -471,20 +408,19 @@ export default function ReportPage() {
             className={`btn-ad-unlock ${adLoading ? 'btn-disabled' : ''}`}
             onClick={handleWatchAd}
           >
-            <Text className="btn-ad-icon">▶</Text>
             <View className="btn-ad-text">
-              <Text className="btn-ad-title">看15秒广告，解锁完整5维报告</Text>
-              <Text className="btn-ad-sub">含完整雷达图 + 深度洞察 + 本周建议</Text>
+              <Text className="btn-ad-title">查看完整人格画像</Text>
+              <Text className="btn-ad-sub">你的手掌还透露了更多——关于你的关系模式、被误解的那一面、以及本周该怎么做</Text>
             </View>
+            <Text className="btn-ad-arrow">&rsaquo;</Text>
           </View>
 
           <View className="suspense-bar">
-            <Text className="suspense-icon">✦</Text>
             <Text className="suspense-text">{report.adTeaser ?? report.suspenseText}</Text>
           </View>
 
           <View className="dev-unlock" onClick={() => setUnlockLevel('adUnlocked')}>
-            <Text className="dev-unlock-text">[开发模式] 一键解锁完整报告</Text>
+            <Text className="dev-unlock-text">[开发模式] 跳过广告</Text>
           </View>
         </View>
       )}
@@ -495,7 +431,7 @@ export default function ReportPage() {
           {/* 解锁提示 */}
           <View className="section">
             <View className="unlock-banner">
-              <Text className="unlock-banner-icon">🎉</Text>
+              <Text className="unlock-banner-icon">{'>'}</Text>
               <Text className="unlock-banner-text">完整人格报告已解锁</Text>
             </View>
           </View>
@@ -574,7 +510,7 @@ export default function ReportPage() {
 
             {/* 广告层→付费层 钩子 */}
             <View className="paid-tier-hint">
-              <Text className="paid-hint-icon">🔓</Text>
+              <Text className="paid-hint-icon">{'>'}</Text>
               <Text className="paid-hint-text">
                 你的生命线/智慧线/感情线/事业线还没解读——想看哪条？
               </Text>
@@ -593,7 +529,7 @@ export default function ReportPage() {
                         <Text className="paid-line-preview-text">{preview}</Text>
                         {!isUnlocked && (
                           <View className="paid-line-blur-overlay">
-                            <Text className="paid-line-lock-icon">🔒</Text>
+                            <Text className="paid-line-lock-icon">+</Text>
                             <Text className="paid-line-blur-hint">解锁后查看完整解读</Text>
                           </View>
                         )}
@@ -632,12 +568,36 @@ export default function ReportPage() {
         </>
       )}
 
-      {/* 底部导航 */}
+      {/* 底部：每日关键词 + 签到 + 分享 + 返回 */}
       <View className="bottom-bar">
+        {dailyKeyword && (
+          <View className="keyword-bar">
+            <Text className="keyword-label">今日关键词</Text>
+            <Text className="keyword-em">{dailyKeyword.keyword}</Text>
+          </View>
+        )}
+
+        {checkedInToday && checkInParagraph ? (
+          <View className="checkin-done-card">
+            <Text className="checkin-done-icon">{'>'}</Text>
+            <View className="checkin-done-body">
+              <Text className="checkin-done-title">{checkInDays}</Text>
+              <Text className="checkin-done-text">{checkInParagraph}</Text>
+            </View>
+          </View>
+        ) : (
+          <View className="checkin-bar">
+            <View className="checkin-btn" onClick={handleCheckIn}>
+              <Text className="checkin-btn-title">{checkInDays > 0 ? `${checkInDays}` : '签到'}</Text>
+              <Text className="checkin-btn-sub">{checkInDays > 0 ? '连续签到领解锁资格' : '每天签到，第7天解锁一条掌纹线'}</Text>
+            </View>
+          </View>
+        )}
+
         <View className="btn-share" onClick={() => {
           Taro.showShareMenu({ withShareTicket: true });
         }}>
-          <Text>📤 分享你的报告</Text>
+          <Text>分享你的报告</Text>
         </View>
         <View className="btn-home" onClick={() => Taro.reLaunch({ url: '/pages/index/index' })}>
           <Text>返回首页</Text>
@@ -648,7 +608,7 @@ export default function ReportPage() {
       {showLinePicker && (
         <View className="modal-overlay" onClick={() => setShowLinePicker(false)}>
           <View className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <Text className="modal-title">恭喜获得自选解锁资格 🎉</Text>
+            <Text className="modal-title">自选解锁资格已达成</Text>
             <Text className="modal-desc">连续签到第7天成就达成！选择一条你想深度解读的掌纹线：</Text>
             {PAID_LINES.filter((l) => !unlockedLines.includes(l.key)).map((line) => (
               <View

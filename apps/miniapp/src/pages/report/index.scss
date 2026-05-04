@@ -530,6 +530,14 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+.btn-ad-arrow {
+  font-size: 48rpx;
+  color: rgba(255, 209, 102, 0.5);
+  font-weight: 300;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 .suspense-bar {
   display: flex;
   align-items: flex-start;
