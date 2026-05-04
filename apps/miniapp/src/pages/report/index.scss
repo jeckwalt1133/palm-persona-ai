@@ -886,6 +886,13 @@
   border-radius: 48rpx;
   font-size: 26rpx;
   color: var(--color-accent-gold);
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-share::after {
+  border: none;
 }
 
 /* ── 视觉锚点卡片 ── */

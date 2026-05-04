@@ -1,5 +1,5 @@
-import { View, Text, ScrollView } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import { View, Text, ScrollView, Button } from '@tarojs/components';
+import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { useState } from 'react';
 import RadarCanvas from '../../components/RadarCanvas';
 import { apiUrl } from '../../utils/api';
@@ -245,6 +245,27 @@ export default function ReportPage() {
       setAdLoading(false);
     }
   };
+
+  // ── 分享配置 ──
+  useShareAppMessage(() => {
+    const title = report
+      ? `AI说我是「${report.personaLabel}」——你也来拍一张，看看AI怎么说你`
+      : '拍一张手掌，看看AI读出了怎样的你';
+    return {
+      title,
+      path: '/pages/index/index',
+    };
+  });
+
+  useShareTimeline(() => {
+    const title = report
+      ? `AI说我是「${report.personaLabel}」——你也来测测`
+      : '掌心人格局 — AI人格分析';
+    return {
+      title,
+      path: '/pages/index/index',
+    };
+  });
 
   // ── 辅助函数 ──
   const mostMisunderstood = (scores: ScoreItem[]) => {
@@ -573,11 +594,9 @@ export default function ReportPage() {
           </View>
         )}
 
-        <View className="btn-share" onClick={() => {
-          Taro.showShareMenu({ withShareTicket: true });
-        }}>
-          <Text>发给朋友，看看谁更懂你</Text>
-        </View>
+        <Button className="btn-share" open-type="share">
+          发给朋友，看看谁更懂你
+        </Button>
         <View className="bottom-invite">
           <Text className="bottom-invite-text">
             已有 128,634 人通过手掌了解了自己——你的朋友可能也在其中
