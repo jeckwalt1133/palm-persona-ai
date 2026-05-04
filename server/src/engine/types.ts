@@ -54,6 +54,8 @@ export interface PersonaReport {
   coreTruth: string;
   weeklyAdvice: string;
   visualAnchors?: VisualAnchors;
+  identityBadge?: string;
+  adTeaser?: string;
 }
 
 export interface MatchDimension {

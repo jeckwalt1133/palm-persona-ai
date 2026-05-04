@@ -237,8 +237,21 @@ export const SUSPENSE_TEXTS: string[] = [
   '有一件事你的手掌已经说了，但今天的分析还没讲到——明天见。',
 ];
 
+// 广告解锁钩子文案（免费层展现在广告按钮下方）
+export const AD_TEASER_TEXTS: string[] = [
+  '还有 2 个隐藏维度 + 深度洞察 + 本周专属建议——就在这15秒后面。',
+  '你的完整人格图谱就在这层广告后面——15秒后解锁全部5维分析。',
+  '想知道你在亲密关系里是什么样子？15秒广告后，答案就会出现。',
+  '你的手掌已经告诉了AI答案，15秒后你就能看到全部。',
+  '免费层只是序幕——真正的洞察，在你决定看完这15秒的瞬间开始。',
+];
+
 export function pickSuspenseText(index: number): string {
   return SUSPENSE_TEXTS[index % SUSPENSE_TEXTS.length];
+}
+
+export function pickAdTeaserText(seed: number): string {
+  return AD_TEASER_TEXTS[seed % AD_TEASER_TEXTS.length];
 }
 
 export function assembleReport(
@@ -252,6 +265,8 @@ export function assembleReport(
   weeklyAdvice?: string,
   enrichedSummary?: string,
   visualAnchors?: PersonaReport['visualAnchors'],
+  identityBadge?: string,
+  adTeaser?: string,
 ): PersonaReport {
   const insightCount = Math.min(3, template.insightPool.length);
   const keywordCount = Math.min(3, template.keywordPool.length);
@@ -278,5 +293,7 @@ export function assembleReport(
     coreTruth: coreTruth ?? defaultCoreTruth,
     weeklyAdvice: weeklyAdvice ?? '保持对自己的觉察，本周尝试一次跟自己独处的对话。',
     visualAnchors,
+    identityBadge,
+    adTeaser,
   };
 }

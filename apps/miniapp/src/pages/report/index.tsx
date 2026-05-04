@@ -53,6 +53,8 @@ interface ReportData {
   coreTruth: string;
   weeklyAdvice: string;
   visualAnchors?: VisualAnchorsData;
+  identityBadge?: string;
+  adTeaser?: string;
 }
 
 // 付费线条入口配置
@@ -260,24 +262,24 @@ export default function ReportPage() {
     const isLow = extreme.score < 35;
     const templates: Record<string, { high: string; low: string }> = {
       emotionalResonance: {
-        high: '你以为TA情绪化，其实TA只是不想在你面前藏。',
-        low: '你以为TA不在乎，其实TA只是不习惯表达。',
+        high: '你以为TA情绪化，其实TA只是不想在你面前藏。那些眼泪和笑容都是真的——TA对重要的人不设防。',
+        low: '你以为TA不在乎，其实TA只是不习惯表达。TA心里已经翻了一百页，嘴上只翻了一页。',
       },
       communicationSync: {
-        high: '你以为TA话多，其实TA是在意冷场。',
-        low: '你以为TA冷漠，其实TA只是还没想好怎么开口。',
+        high: '你以为TA话多，其实TA是在意冷场。TA怕尴尬、怕沉默、怕你不舒服——TA的话痨是一种体贴。',
+        low: '你以为TA冷漠，其实TA只是还没想好怎么开口。TA的沉默不是拒绝，是没找到对的入口。',
       },
       actionComplement: {
-        high: '你以为TA冲动，其实TA已经想了三遍才动手。',
-        low: '你以为TA犹豫，其实TA是在等最佳时机。',
+        high: '你以为TA冲动，其实TA已经想了三遍才动手。TA的"快"是因为大脑跑得比嘴巴快。',
+        low: '你以为TA犹豫，其实TA是在等最佳时机。TA不动不是怕，是在算最稳的那步。',
       },
       trustPotential: {
-        high: '你以为TA对人没防备，其实TA心里有一本账。',
-        low: '你以为TA疏远，其实TA只是需要时间相信你。',
+        high: '你以为TA对人没防备，其实TA心里有一本账。TA的真诚是真的，但TA从不轻易交底。',
+        low: '你以为TA疏远，其实TA只是需要时间相信你。一旦信任成立，TA就是那种不会走的人。',
       },
       frictionRisk: {
-        high: '你以为TA脾气大，其实TA只是不忍了。',
-        low: '你以为TA没脾气，其实TA只是不想让你难堪。',
+        high: '你以为TA脾气大，其实TA只是不忍了。TA忍了很久才发作——那不是脾气，是边界被踩穿的信号。',
+        low: '你以为TA没脾气，其实TA只是不想让你难堪。TA把不舒服都自己消化了——但容量再大也有上限。',
       },
     };
     const t = templates[extreme.dimensionKey];
@@ -369,7 +371,10 @@ export default function ReportPage() {
       <View className="report-hero">
         <Text className="report-date">{report.createdAt.slice(0, 10)}</Text>
         <Text className="report-label">{report.personaLabel}</Text>
-        <Text className="report-type">{report.personaType}</Text>
+        {report.identityBadge && (
+          <Text className="report-badge">{report.identityBadge}</Text>
+        )}
+        <Text className="report-social-proof">已有 128,634 人通过手掌了解自己</Text>
       </View>
 
       {/* 一句话核心真相 */}
@@ -377,6 +382,11 @@ export default function ReportPage() {
         <View className="card core-truth-card">
           <Text className="truth-icon">✦</Text>
           <Text className="truth-text">{report.coreTruth}</Text>
+        </View>
+        <View className="share-hint" onClick={() => {
+          Taro.showShareMenu({ withShareTicket: true });
+        }}>
+          <Text className="share-hint-text">↑ 这句话戳中你了？转发给懂你的人</Text>
         </View>
       </View>
 
@@ -470,7 +480,7 @@ export default function ReportPage() {
 
           <View className="suspense-bar">
             <Text className="suspense-icon">✦</Text>
-            <Text className="suspense-text">{report.suspenseText}</Text>
+            <Text className="suspense-text">{report.adTeaser ?? report.suspenseText}</Text>
           </View>
 
           <View className="dev-unlock" onClick={() => setUnlockLevel('adUnlocked')}>
@@ -482,6 +492,14 @@ export default function ReportPage() {
       {/* ══════ 第2层：广告解锁 ══════ */}
       {unlockLevel === 'adUnlocked' && (
         <>
+          {/* 解锁提示 */}
+          <View className="section">
+            <View className="unlock-banner">
+              <Text className="unlock-banner-icon">🎉</Text>
+              <Text className="unlock-banner-text">完整人格报告已解锁</Text>
+            </View>
+          </View>
+
           {/* 完整五维雷达图 */}
           <View className="section">
             <Text className="section-title">五维人格图谱</Text>
@@ -616,6 +634,11 @@ export default function ReportPage() {
 
       {/* 底部导航 */}
       <View className="bottom-bar">
+        <View className="btn-share" onClick={() => {
+          Taro.showShareMenu({ withShareTicket: true });
+        }}>
+          <Text>📤 分享你的报告</Text>
+        </View>
         <View className="btn-home" onClick={() => Taro.reLaunch({ url: '/pages/index/index' })}>
           <Text>返回首页</Text>
         </View>

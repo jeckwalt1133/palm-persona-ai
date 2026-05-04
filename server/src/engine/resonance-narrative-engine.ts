@@ -1,5 +1,5 @@
 import { PalmFeatures, AnalysisContext, PersonaReport, PersonaScore } from './types.js';
-import { getAllTemplates, pickQuote, assembleReport, QUOTE_ENTRIES, getDimensions, pickSuspenseText } from './persona-templates.js';
+import { getAllTemplates, pickQuote, assembleReport, QUOTE_ENTRIES, getDimensions, pickSuspenseText, pickAdTeaserText, type PersonaTemplate } from './persona-templates.js';
 import { simpleHash } from '../utils/hash.js';
 
 export interface ResonanceNarrativeEngine {
@@ -36,6 +36,8 @@ export class MockResonanceNarrativeEngine implements ResonanceNarrativeEngine {
 
     // 核心真相：不用机械拼装，用模板 summary 的第一句 + 最突出维度的洞察
     const coreTruth = buildCoreTruth(scores, visualAnchors);
+    const identityBadge = buildIdentityBadge(template, scores, visualAnchors);
+    const adTeaser = pickAdTeaserText(hash);
 
     // summary 保持模板原文（视觉锚点 opening 已单独展示）
     const enrichedSummary = template.summaryTemplate;
@@ -49,6 +51,7 @@ export class MockResonanceNarrativeEngine implements ResonanceNarrativeEngine {
     return assembleReport(
       features.hash, template, enrichedScores, quote, hash,
       suspenseText, coreTruth, undefined, enrichedSummary, visualAnchors,
+      identityBadge, adTeaser,
     );
   }
 }
@@ -113,6 +116,24 @@ function buildCoreTruth(
   ];
   const hash = simpleHash(anchors.opening);
   return hooks[hash % hooks.length];
+}
+
+// ── 身份标签：用户可"认领"的简短身份（像 16personalities 的 INTJ-A）──
+
+function buildIdentityBadge(
+  template: PersonaTemplate,
+  scores: PersonaScore[],
+  anchors: ReturnType<typeof buildVisualAnchors>,
+): string {
+  const top = [...scores].sort((a, b) => b.score - a.score)[0];
+  const trait = naturalTrait(top.dimensionKey, top.score);
+  const badges = [
+    `「${template.label}」—— 一个${trait}的人`,
+    `${template.label} · ${trait}型`,
+    `${anchors.prominentMount}灵魂 · ${template.label}`,
+  ];
+  const hash = simpleHash(anchors.opening + 'badge');
+  return badges[hash % badges.length];
 }
 
 function enrichDescription(s: PersonaScore, f: PalmFeatures, dimIdx: number): string {

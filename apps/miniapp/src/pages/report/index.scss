@@ -193,6 +193,39 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+.report-badge {
+  display: inline-block;
+  margin-top: 16rpx;
+  padding: 8rpx 28rpx;
+  background: rgba(255, 209, 102, 0.1);
+  border: 1px solid rgba(255, 209, 102, 0.2);
+  border-radius: 32rpx;
+  font-size: 24rpx;
+  color: var(--color-accent-gold);
+  letter-spacing: 2rpx;
+}
+
+.report-social-proof {
+  display: block;
+  margin-top: 20rpx;
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 1rpx;
+}
+
+.share-hint {
+  display: flex;
+  justify-content: center;
+  padding: 16rpx 0 8rpx;
+  opacity: 0.5;
+}
+
+.share-hint-text {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.35);
+  font-style: italic;
+}
+
 /* Sections */
 .section {
   margin-bottom: 48rpx;
@@ -561,6 +594,28 @@
   text-align: center;
 }
 
+/* 解锁横幅 */
+.unlock-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding: 24rpx;
+  background: linear-gradient(135deg, rgba(100, 200, 255, 0.08), rgba(255, 209, 102, 0.06));
+  border: 1px solid rgba(100, 200, 255, 0.15);
+  border-radius: 16rpx;
+}
+
+.unlock-banner-icon {
+  font-size: 32rpx;
+}
+
+.unlock-banner-text {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
 /* Paid Lines */
 .paid-intro {
   display: block;
@@ -802,7 +857,9 @@
 .bottom-bar {
   padding: 32rpx 0 64rpx;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
 }
 
 .btn-home {
@@ -812,6 +869,15 @@
   font-size: 28rpx;
   font-weight: 600;
   color: #ffffff;
+}
+
+.btn-share {
+  padding: 20rpx 60rpx;
+  background: rgba(255, 209, 102, 0.08);
+  border: 1px solid rgba(255, 209, 102, 0.2);
+  border-radius: 48rpx;
+  font-size: 26rpx;
+  color: var(--color-accent-gold);
 }
 
 /* ── 视觉锚点卡片 ── */
