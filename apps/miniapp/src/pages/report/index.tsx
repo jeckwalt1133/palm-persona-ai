@@ -57,12 +57,12 @@ interface ReportData {
   adTeaser?: string;
 }
 
-// 付费线条入口配置
+// 付费解读维度配置
 const PAID_LINES = [
-  { key: 'life', label: '生命线', desc: '精力节奏 · 恢复力 · 透支点' },
-  { key: 'wisdom', label: '智慧线', desc: '思维模式 · 决策风格 · 学习方式' },
-  { key: 'emotion', label: '感情线', desc: '恋爱模式 · 表达方式 · 相处密码' },
-  { key: 'career', label: '事业线', desc: '行动节奏 · 领导力 · 适合行业' },
+  { key: 'life', label: '活力密码', desc: '精力节奏 · 恢复力 · 透支点' },
+  { key: 'wisdom', label: '思维密码', desc: '思维模式 · 决策风格 · 学习方式' },
+  { key: 'emotion', label: '情感密码', desc: '恋爱模式 · 表达方式 · 相处密码' },
+  { key: 'career', label: '行动密码', desc: '行动节奏 · 领导力 · 适合行业' },
 ];
 
 // 付费线预览片段（前2句免费展示）
@@ -503,16 +503,16 @@ export default function ReportPage() {
 
           {/* ══════ 第3层：付费入口 ══════ */}
           <View className="section">
-            <Text className="section-title">每条掌纹线的深度解读</Text>
+            <Text className="section-title">深度人格维度解读</Text>
             <Text className="paid-intro">
-              每条线都有独特的含义——你的掌纹里藏着更多关于你的事。
+              每个维度都有独特的含义——你的手掌里藏着更多关于你的事。
             </Text>
 
             {/* 广告层→付费层 钩子 */}
             <View className="paid-tier-hint">
               <Text className="paid-hint-icon">{'>'}</Text>
               <Text className="paid-hint-text">
-                你的生命线/智慧线/感情线/事业线还没解读——想看哪条？
+                你的活力密码 / 思维密码 / 情感密码 / 行动密码还没解读——想看哪个？
               </Text>
             </View>
 
@@ -556,12 +556,12 @@ export default function ReportPage() {
             <View className="paid-bundle-card">
               <View className="bundle-badge">省3块</View>
               <View className="bundle-info">
-                <Text className="bundle-name">四条线全家桶</Text>
+                <Text className="bundle-name">四个维度全家桶</Text>
                 <Text className="bundle-desc">原价¥7.96 · 省¥2.97</Text>
               </View>
               <View className="bundle-price-area">
                 <Text className="bundle-price">¥4.99</Text>
-                <Text className="paid-share-hint">解锁全部四条线</Text>
+                <Text className="paid-share-hint">解锁全部四个维度</Text>
               </View>
             </View>
           </View>
@@ -589,7 +589,7 @@ export default function ReportPage() {
           <View className="checkin-bar">
             <View className="checkin-btn" onClick={handleCheckIn}>
               <Text className="checkin-btn-title">{checkInDays > 0 ? `${checkInDays}` : '签到'}</Text>
-              <Text className="checkin-btn-sub">{checkInDays > 0 ? '连续签到领解锁资格' : '每天签到，第7天解锁一条掌纹线'}</Text>
+              <Text className="checkin-btn-sub">{checkInDays > 0 ? '连续签到领解锁资格' : '每天签到，第7天解锁一个深度维度'}</Text>
             </View>
           </View>
         )}
@@ -609,7 +609,7 @@ export default function ReportPage() {
         <View className="modal-overlay" onClick={() => setShowLinePicker(false)}>
           <View className="modal-content" onClick={(e) => e.stopPropagation()}>
             <Text className="modal-title">自选解锁资格已达成</Text>
-            <Text className="modal-desc">连续签到第7天成就达成！选择一条你想深度解读的掌纹线：</Text>
+            <Text className="modal-desc">连续签到第7天成就达成！选择一个你想深度解读的维度：</Text>
             {PAID_LINES.filter((l) => !unlockedLines.includes(l.key)).map((line) => (
               <View
                 key={line.key}

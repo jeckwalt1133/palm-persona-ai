@@ -27,10 +27,10 @@ export default function CapturePage() {
     });
   };
 
-  const doUpload = useCallback(async (imagePath: string) => {
-    let finalPath = imagePath;
+  const doUpload = useCallback(async (imgPath: string) => {
+    let finalPath = imgPath;
     try {
-      finalPath = await compressImage(imagePath);
+      finalPath = await compressImage(imgPath);
     } catch {
       // 压缩失败直接用原图
     }
@@ -75,7 +75,6 @@ export default function CapturePage() {
   const handleAnalyze = () => {
     if (!imagePath) return;
     setAnalyzing(true);
-    // 后台启动上传，不阻塞动画
     doUpload(imagePath);
   };
 
@@ -86,7 +85,6 @@ export default function CapturePage() {
       setAnalyzing(false);
       Taro.showToast({ title: errorRef.current, icon: 'none', duration: 3000 });
     } else {
-      // 上传还在进行中，等 2 秒再试
       setTimeout(() => {
         if (reportIdRef.current) {
           Taro.redirectTo({ url: `/pages/report/index?id=${reportIdRef.current}` });
@@ -112,16 +110,35 @@ export default function CapturePage() {
 
   return (
     <View className="capture-page">
-      <Text className="capture-title">上传手掌照片</Text>
-      <Text className="capture-desc">
-        拍摄或选择一张手掌照片，AI 将通过掌纹特征分析你的人格图谱
-      </Text>
+      <View className="capture-header">
+        <Text className="capture-title">上传手掌照片</Text>
+        <Text className="capture-desc">
+          AI 会分析你手掌的几何特征——宽度、手指比例、纹路清晰度和走向——然后匹配人格模型
+        </Text>
+      </View>
+
+      {/* 拍照提示 */}
+      <View className="capture-tips">
+        <View className="tip-item">
+          <Text className="tip-dot" />
+          <Text className="tip-text">手掌平放，五指自然分开</Text>
+        </View>
+        <View className="tip-item">
+          <Text className="tip-dot" />
+          <Text className="tip-text">光线充足，避免阴影遮挡纹路</Text>
+        </View>
+        <View className="tip-item">
+          <Text className="tip-dot" />
+          <Text className="tip-text">尽量让手掌占满画面</Text>
+        </View>
+      </View>
 
       {!imagePath ? (
         <View className="upload-area" onClick={handleChooseImage}>
           <View className="upload-placeholder">
             <Text className="upload-icon">+</Text>
-            <Text className="upload-text">点击选择照片</Text>
+            <Text className="upload-text">拍摄或选择照片</Text>
+            <Text className="upload-hint">支持相机拍摄和相册选择</Text>
           </View>
         </View>
       ) : (
@@ -143,7 +160,7 @@ export default function CapturePage() {
 
       <View className="capture-disclaimer">
         <Text className="disclaimer-text">
-          照片仅用于本次 AI 分析，不会存储或分享。结果仅供娱乐参考。
+          照片仅用于本次 AI 分析，不会存储原始图像。结果仅供娱乐参考。
         </Text>
       </View>
     </View>

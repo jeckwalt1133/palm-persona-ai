@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import './AnalyzeProgress.scss';
 
 const STEPS = [
-  { key: 'upload', label: '上传图片', icon: '📷' },
-  { key: 'extract', label: '提取掌纹特征', icon: '🔍' },
-  { key: 'analyze', label: '分析纹路走向', icon: '🧬' },
-  { key: 'match', label: '匹配人格模型', icon: '🎯' },
-  { key: 'report', label: '生成专属报告', icon: '✨' },
+  { key: 'upload', label: '上传图片' },
+  { key: 'extract', label: '提取手掌特征' },
+  { key: 'analyze', label: '分析线条走向' },
+  { key: 'match', label: '匹配人格模型' },
+  { key: 'report', label: '生成专属报告' },
 ];
 
 interface Props {
@@ -51,9 +51,9 @@ export default function AnalyzeProgress({ onComplete }: Props) {
             <View className="ap-step-left">
               <View className={`ap-step-icon-wrap ${stepsDone[i] ? 'ap-icon-done' : i === currentStep ? 'ap-icon-active' : ''}`}>
                 {stepsDone[i] ? (
-                  <Text className="ap-check">✓</Text>
+                  <Text className="ap-check">&#10003;</Text>
                 ) : (
-                  <Text className="ap-step-icon">{step.icon}</Text>
+                  <Text className="ap-step-num">{i + 1}</Text>
                 )}
               </View>
               {i < 4 && (

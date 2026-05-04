@@ -111,7 +111,7 @@ function buildCoreTruth(
     `${anchors.prominentMount}的弧度告诉我，你看起来${trait1}，实际上比谁都在意细节。`,
     `AI在你的手掌上看到${anchors.lineCountLabel}的主线——每一条都在说：你比你表现出来的更复杂。`,
     `外表${trait1}，内心${trait2 ?? '藏着别人看不见的敏感'}。你的手掌不会说谎。`,
-    `${anchors.clarityLabel}的掌纹、${anchors.prominentMount}的弧度——这些细节拼出一个你：${trait1}，但${trait2 ? `底色是${trait2}` : '没人能简单定义'}。`,
+    `${anchors.clarityLabel}的掌心线条、${anchors.prominentMount}的弧度——这些细节拼出一个你：${trait1}，但${trait2 ? `底色是${trait2}` : '没人能简单定义'}。`,
     `很多人只看到你${trait1}的一面，只有你的手掌知道——你${trait2 ? `更多的是${trait2}` : '比表面多好几个层次'}。`,
   ];
   const hash = simpleHash(anchors.opening);
@@ -142,7 +142,7 @@ function enrichDescription(s: PersonaScore, f: PalmFeatures, dimIdx: number): st
       `手掌${f.lineClarity > 60 ? '清晰的纹路' : '柔和的线条'}也在说同一件事。`,
     ],
     communicationSync: [
-      `掌心${f.lineCount > 4 ? '分叉的智慧线' : '延续的线条'}印证了你的沟通模式。`,
+      `掌心${f.lineCount > 4 ? '分叉的线条' : '延续的线条'}印证了你的沟通模式。`,
     ],
     actionComplement: [
       `${f.mountProminence[dimIdx] > 50 ? '饱满的掌丘轮廓' : '平坦的丘位'}与你的行动风格一致。`,

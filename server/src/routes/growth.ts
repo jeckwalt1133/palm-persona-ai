@@ -53,7 +53,7 @@ export async function growthRoutes(app: FastifyInstance) {
     };
   });
 
-  // 已解锁掌纹线查询
+  // 已解锁维度查询
   app.get('/checkin/unlocked-lines', async (req, _reply) => {
     const userId = req.userId ?? req.ip;
     const unlockedLines = await growthRepository.getUnlockedLines(userId);
@@ -67,7 +67,7 @@ export async function growthRoutes(app: FastifyInstance) {
     return { success: true, data: { pendingUnlock: pending } };
   });
 
-  // 自选解锁掌纹线（第7天）
+  // 自选解锁维度（第7天）
   app.post<{ Body: { lineKey?: string } }>('/checkin/claim-line', async (req, reply) => {
     const userId = req.userId ?? req.ip;
     const { lineKey } = req.body ?? {};
@@ -75,7 +75,7 @@ export async function growthRoutes(app: FastifyInstance) {
     if (!lineKey) {
       return reply.status(400).send({
         success: false,
-        error: { code: 'MISSING_LINE_KEY', message: '请选择要解锁的掌纹线' },
+        error: { code: 'MISSING_LINE_KEY', message: '请选择要解锁的维度' },
       });
     }
 

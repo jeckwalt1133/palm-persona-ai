@@ -27,20 +27,20 @@ export interface GrowthRepository {
 }
 
 const DAY_REWARDS: Record<number, string> = {
-  1: '今日金句解锁 ✨',
+  1: '今日金句解锁',
   3: '深度分析体验卡 ×1',
   5: '专属人格标签解锁',
-  7: '自选一条掌纹线（已获得资格）',
+  7: '自选一个深度维度（已获得资格）',
 };
 
 export const LINE_KEYS = ['life', 'wisdom', 'emotion', 'career'] as const;
 export type LineKey = (typeof LINE_KEYS)[number];
 
 export const LINE_LABELS: Record<string, string> = {
-  life: '生命线',
-  wisdom: '智慧线',
-  emotion: '感情线',
-  career: '事业线',
+  life: '活力密码',
+  wisdom: '思维密码',
+  emotion: '情感密码',
+  career: '行动密码',
 };
 
 export class InMemoryGrowthRepository implements GrowthRepository {
@@ -75,7 +75,7 @@ export class InMemoryGrowthRepository implements GrowthRepository {
       if (!existing.pendingUnlock) {
         existing.pendingUnlock = true;
         this.unlocks.set(userId, existing);
-        reward = '获得自选一条掌纹线的资格 🎉';
+        reward = '获得自选一个深度维度的资格';
       }
     }
 
