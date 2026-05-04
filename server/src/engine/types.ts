@@ -23,6 +23,23 @@ export interface PersonaScore {
   description: string;
 }
 
+export interface VisualAnchors {
+  opening: string;
+  widthLabel: string;
+  fingerLabel: string;
+  clarityLabel: string;
+  lineCountLabel: string;
+  prominentMount: string;
+  palmWidth: number;
+  lineClarity: number;
+  lineCount: number;
+  fingerLengthRatio: number;
+  widthPercentile: string;
+  clarityPercentile: string;
+  lineCountPercentile: string;
+  fingerPercentile: string;
+}
+
 export interface PersonaReport {
   id: string;
   createdAt: string;
@@ -36,6 +53,7 @@ export interface PersonaReport {
   suspenseText: string;
   coreTruth: string;
   weeklyAdvice: string;
+  visualAnchors?: VisualAnchors;
 }
 
 export interface MatchDimension {

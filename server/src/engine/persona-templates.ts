@@ -1,11 +1,11 @@
 import { PersonaReport } from './types.js';
 
 const DIMENSIONS = [
-  { key: 'emotionalResonance', label: '情绪频率' },
-  { key: 'communicationSync', label: '沟通同步' },
-  { key: 'actionComplement', label: '行动互补' },
-  { key: 'trustPotential', label: '信任潜力' },
-  { key: 'frictionRisk', label: '摩擦风险' },
+  { key: 'emotionalResonance', label: '情绪感知' },
+  { key: 'communicationSync', label: '沟通风格' },
+  { key: 'actionComplement', label: '行动力' },
+  { key: 'trustPotential', label: '信任深度' },
+  { key: 'frictionRisk', label: '边界感' },
 ];
 
 export interface PersonaTemplate {
@@ -250,18 +250,18 @@ export function assembleReport(
   suspenseText?: string,
   coreTruth?: string,
   weeklyAdvice?: string,
+  enrichedSummary?: string,
+  visualAnchors?: PersonaReport['visualAnchors'],
 ): PersonaReport {
   const insightCount = Math.min(3, template.insightPool.length);
   const keywordCount = Math.min(3, template.keywordPool.length);
 
-  // 环形选取，保证始终取到足够的 insight
   const startIdx = seed % template.insightPool.length;
   const insights: string[] = [];
   for (let i = 0; i < insightCount; i++) {
     insights.push(template.insightPool[(startIdx + i) % template.insightPool.length]);
   }
 
-  // 默认核心真相：从 summary 中取第一句
   const defaultCoreTruth = template.summaryTemplate.split('。')[0] + '。';
 
   return {
@@ -270,12 +270,13 @@ export function assembleReport(
     personaType: template.type,
     personaLabel: template.label,
     scores,
-    summary: template.summaryTemplate,
+    summary: enrichedSummary ?? template.summaryTemplate,
     insights,
     keywords: template.keywordPool.slice(0, keywordCount),
     quote,
     suspenseText: suspenseText ?? SUSPENSE_TEXTS[seed % SUSPENSE_TEXTS.length],
     coreTruth: coreTruth ?? defaultCoreTruth,
     weeklyAdvice: weeklyAdvice ?? '保持对自己的觉察，本周尝试一次跟自己独处的对话。',
+    visualAnchors,
   };
 }

@@ -1,0 +1,155 @@
+.analyze-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 48rpx 48rpx;
+}
+
+/* 脉冲动画 */
+.ap-pulse-ring {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 209, 102, 0.15), rgba(255, 107, 138, 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.ap-pulse-inner {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-pink));
+}
+
+@keyframes pulse-ring {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+.ap-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 56rpx;
+  letter-spacing: 4rpx;
+}
+
+/* 步骤列表 */
+.ap-steps {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ap-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 24rpx;
+  padding: 16rpx 0;
+  transition: opacity 0.3s;
+}
+
+.ap-step:not(.ap-step-active):not(.ap-step-done) {
+  opacity: 0.3;
+}
+
+.ap-step-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 64rpx;
+  flex-shrink: 0;
+}
+
+.ap-step-icon-wrap {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s;
+}
+
+.ap-icon-active {
+  background: rgba(255, 209, 102, 0.15);
+  border-color: rgba(255, 209, 102, 0.5);
+  box-shadow: 0 0 16rpx rgba(255, 209, 102, 0.2);
+}
+
+.ap-icon-done {
+  background: rgba(100, 200, 255, 0.12);
+  border-color: rgba(100, 200, 255, 0.3);
+}
+
+.ap-check {
+  font-size: 24rpx;
+  color: var(--color-accent-cyan);
+  font-weight: 700;
+}
+
+.ap-step-icon {
+  font-size: 24rpx;
+}
+
+.ap-connector {
+  width: 2rpx;
+  height: 48rpx;
+  background: rgba(255, 255, 255, 0.06);
+  margin-top: 4rpx;
+  transition: background 0.5s;
+}
+
+.ap-connector-done {
+  background: rgba(100, 200, 255, 0.15);
+}
+
+.ap-step-text-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  padding-top: 12rpx;
+}
+
+.ap-step-label {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.3s;
+}
+
+.ap-label-active {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.ap-label-done {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ap-step-sub {
+  font-size: 22rpx;
+  color: rgba(255, 209, 102, 0.5);
+  animation: blink-dot 1s infinite;
+}
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.ap-footer {
+  margin-top: 56rpx;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.25);
+  text-align: center;
+}

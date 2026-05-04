@@ -22,6 +22,23 @@ interface ScoreItem {
   description: string;
 }
 
+interface VisualAnchorsData {
+  opening: string;
+  widthLabel: string;
+  fingerLabel: string;
+  clarityLabel: string;
+  lineCountLabel: string;
+  prominentMount: string;
+  palmWidth: number;
+  lineClarity: number;
+  lineCount: number;
+  fingerLengthRatio: number;
+  widthPercentile: string;
+  clarityPercentile: string;
+  lineCountPercentile: string;
+  fingerPercentile: string;
+}
+
 interface ReportData {
   id: string;
   createdAt: string;
@@ -35,6 +52,7 @@ interface ReportData {
   suspenseText: string;
   coreTruth: string;
   weeklyAdvice: string;
+  visualAnchors?: VisualAnchorsData;
 }
 
 // 付费线条入口配置
@@ -275,7 +293,10 @@ export default function ReportPage() {
     return (
       <View className="report-page">
         <View className="state-box">
-          <Text className="state-text">加载中...</Text>
+          <View className="ap-pulse-ring">
+            <View className="ap-pulse-inner" />
+          </View>
+          <Text className="state-text">正在生成你的报告...</Text>
         </View>
       </View>
     );
@@ -285,7 +306,14 @@ export default function ReportPage() {
     return (
       <View className="report-page">
         <View className="state-box">
+          <Text className="state-icon">🔮</Text>
           <Text className="state-text">{error}</Text>
+          <View className="btn-retry" onClick={() => {
+            setError(null);
+            setFetched(false);
+          }}>
+            <Text>重新加载</Text>
+          </View>
           <View className="btn-back" onClick={() => Taro.reLaunch({ url: '/pages/index/index' })}>
             <Text>返回首页</Text>
           </View>
@@ -352,6 +380,53 @@ export default function ReportPage() {
         </View>
       </View>
 
+      {/* 视觉锚点：AI 读取到的手掌特征 */}
+      {report.visualAnchors && (
+        <View className="section">
+          <Text className="section-title">AI 从你的手掌读取到</Text>
+          <View className="card visual-anchors-card">
+            <Text className="va-opening">{report.visualAnchors.opening}</Text>
+            <View className="va-features-row">
+              <View className="va-feature-item">
+                <Text className="va-feature-val">{report.visualAnchors.widthLabel}</Text>
+                <Text className="va-feature-label">{report.visualAnchors.widthPercentile}</Text>
+              </View>
+              <View className="va-feature-divider" />
+              <View className="va-feature-item">
+                <Text className="va-feature-val">{report.visualAnchors.clarityLabel}</Text>
+                <Text className="va-feature-label">{report.visualAnchors.clarityPercentile}</Text>
+              </View>
+            </View>
+            <View className="va-features-row">
+              <View className="va-feature-item">
+                <Text className="va-feature-val">{report.visualAnchors.lineCountLabel}</Text>
+                <Text className="va-feature-label">{report.visualAnchors.lineCountPercentile}</Text>
+              </View>
+              <View className="va-feature-divider" />
+              <View className="va-feature-item">
+                <Text className="va-feature-val">{report.visualAnchors.fingerLabel}</Text>
+                <Text className="va-feature-label">{report.visualAnchors.fingerPercentile}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      )}
+
+      {/* 关于你——展示摘要前两段，自然引导解锁 */}
+      <View className="section">
+        <Text className="section-title">关于你</Text>
+        <View className="card">
+          {report.summary.split('\n').filter(p => p.trim()).slice(0, 2).map((paragraph, i) => (
+            <Text key={i} className="card-paragraph">{paragraph}</Text>
+          ))}
+          {report.summary.split('\n').filter(p => p.trim()).length > 2 && (
+            <Text className="card-paragraph" style={{ color: 'rgba(255,255,255,0.35)', fontStyle: 'italic' }}>
+              解锁完整报告，查看全部深度分析...
+            </Text>
+          )}
+        </View>
+      </View>
+
       {/* 3个核心维度分数 */}
       <View className="section">
         <Text className="section-title">核心维度</Text>
@@ -361,6 +436,9 @@ export default function ReportPage() {
               <Text className="score-name">{s.dimension}</Text>
               <Text className="score-num">{s.score}</Text>
             </View>
+            <View className="score-bar-track">
+              <View className="score-bar-fill" style={{ width: `${s.score}%` }} />
+            </View>
             <Text className="score-label">{s.label}</Text>
             <Text className="score-desc">{s.description}</Text>
           </View>
@@ -368,10 +446,10 @@ export default function ReportPage() {
 
         {/* 免费层→广告层 钩子 */}
         <View className="hidden-dims-teaser">
-          <Text className="hidden-dims-lock-icon">🔒</Text>
+          <Text className="hidden-dims-lock-icon">🔮</Text>
           <View className="hidden-dims-info">
-            <Text className="hidden-dims-title">还有 2 个维度已隐藏</Text>
-            <Text className="hidden-dims-sub">看15秒广告解锁完整人格画像</Text>
+            <Text className="hidden-dims-title">解锁你的完整人格图谱</Text>
+            <Text className="hidden-dims-sub">含五维雷达图 + 深度洞察 + 被误解分析</Text>
           </View>
         </View>
       </View>
@@ -419,10 +497,14 @@ export default function ReportPage() {
                   <Text className="score-name">{s.dimension}</Text>
                   <Text className="score-num">{s.score}</Text>
                 </View>
+                <View className="score-bar-track">
+                  <View className="score-bar-fill" style={{ width: `${s.score}%` }} />
+                </View>
                 <Text className="score-label">{s.label}</Text>
                 <Text className="score-desc">{s.description}</Text>
               </View>
             ))}
+
           </View>
 
           {/* 3条深度洞察 */}

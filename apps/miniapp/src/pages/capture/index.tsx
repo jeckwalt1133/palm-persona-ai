@@ -1,13 +1,16 @@
 import { View, Text, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { compressImage } from '../../utils/imageCompress';
 import { apiUrl } from '../../utils/api';
+import AnalyzeProgress from '../../components/AnalyzeProgress';
 import './index.scss';
 
 export default function CapturePage() {
   const [imagePath, setImagePath] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
+  const reportIdRef = useRef<string | null>(null);
+  const errorRef = useRef<string | null>(null);
 
   const handleChooseImage = () => {
     Taro.chooseImage({
@@ -24,80 +27,88 @@ export default function CapturePage() {
     });
   };
 
-  const handleAnalyze = async () => {
-    if (!imagePath) return;
-
-    setAnalyzing(true);
-    Taro.showLoading({ title: '分析中...' });
+  const doUpload = useCallback(async (imagePath: string) => {
+    let finalPath = imagePath;
     try {
-      // 先压缩
-      let finalPath = imagePath;
-      try {
-        finalPath = await compressImage(imagePath);
-      } catch {
-        // 压缩失败直接用原图
-      }
+      finalPath = await compressImage(imagePath);
+    } catch {
+      // 压缩失败直接用原图
+    }
 
-      // 检测平台：模拟器走 JSON body，真机走 multipart 文件上传
-      let platform = 'devtools';
-      try {
-        platform = Taro.getSystemInfoSync().platform || 'devtools';
-      } catch { /* 使用默认 */ }
+    let platform = 'devtools';
+    try {
+      platform = Taro.getSystemInfoSync().platform || 'devtools';
+    } catch { /* 使用默认 */ }
 
-      if (platform === 'devtools') {
-        // 模拟器：JSON body + base64
-        const fs = Taro.getFileSystemManager();
-        const base64 = fs.readFileSync(finalPath, 'base64');
-
-        const res = await Taro.request({
-          url: apiUrl('/api/analyze'),
-          method: 'POST',
-          data: { imageBase64: base64 },
-          header: { 'content-type': 'application/json' },
-          timeout: 120000,
-        });
-
-        const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };
-
-        if (body.success && body.data) {
-          Taro.hideLoading();
-          Taro.redirectTo({ url: `/pages/report/index?id=${body.data.id}` });
-        } else {
-          Taro.hideLoading();
-          Taro.showToast({ title: body.error?.message || '分析失败', icon: 'none', duration: 3000 });
-        }
+    if (platform === 'devtools') {
+      const fs = Taro.getFileSystemManager();
+      const base64 = fs.readFileSync(finalPath, 'base64');
+      const res = await Taro.request({
+        url: apiUrl('/api/analyze'),
+        method: 'POST',
+        data: { imageBase64: base64 },
+        header: { 'content-type': 'application/json' },
+        timeout: 120000,
+      });
+      const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };
+      if (body.success && body.data) {
+        reportIdRef.current = body.data.id;
       } else {
-        // 真机：multipart/form-data 文件上传（微信原生优化，弱网更可靠）
-        const res = await Taro.uploadFile({
-          url: apiUrl('/api/analyze/upload'),
-          filePath: finalPath,
-          name: 'image',
-          timeout: 120000,
-        });
-
-        const body = JSON.parse(res.data) as { success: boolean; data?: { id: string }; error?: { message: string } };
-
-        if (body.success && body.data) {
-          Taro.hideLoading();
-          Taro.redirectTo({ url: `/pages/report/index?id=${body.data.id}` });
-        } else {
-          Taro.hideLoading();
-          Taro.showToast({ title: body.error?.message || '分析失败', icon: 'none', duration: 3000 });
-        }
+        errorRef.current = body.error?.message || '分析失败';
       }
-    } catch (err) {
-      Taro.hideLoading();
-      const msg = err instanceof Error ? err.message : String(err);
-      console.warn('[capture] 分析请求失败:', msg);
-      Taro.showToast({ title: '网络超时，请重试', icon: 'none', duration: 3000 });
-    } finally {
+    } else {
+      const res = await Taro.uploadFile({
+        url: apiUrl('/api/analyze/upload'),
+        filePath: finalPath,
+        name: 'image',
+        timeout: 120000,
+      });
+      const body = JSON.parse(res.data) as { success: boolean; data?: { id: string }; error?: { message: string } };
+      if (body.success && body.data) {
+        reportIdRef.current = body.data.id;
+      } else {
+        errorRef.current = body.error?.message || '分析失败';
+      }
+    }
+  }, []);
+
+  const handleAnalyze = () => {
+    if (!imagePath) return;
+    setAnalyzing(true);
+    // 后台启动上传，不阻塞动画
+    doUpload(imagePath);
+  };
+
+  const handleProgressComplete = () => {
+    if (reportIdRef.current) {
+      Taro.redirectTo({ url: `/pages/report/index?id=${reportIdRef.current}` });
+    } else if (errorRef.current) {
       setAnalyzing(false);
+      Taro.showToast({ title: errorRef.current, icon: 'none', duration: 3000 });
+    } else {
+      // 上传还在进行中，等 2 秒再试
+      setTimeout(() => {
+        if (reportIdRef.current) {
+          Taro.redirectTo({ url: `/pages/report/index?id=${reportIdRef.current}` });
+        } else {
+          setAnalyzing(false);
+          Taro.showToast({ title: '网络较慢，请重试', icon: 'none', duration: 3000 });
+        }
+      }, 2000);
     }
   };
 
   const handleReset = () => {
     setImagePath(null);
   };
+
+  if (analyzing) {
+    return (
+      <View className="capture-page">
+        <AnalyzeProgress onComplete={handleProgressComplete} />
+      </View>
+    );
+  }
 
   return (
     <View className="capture-page">
@@ -124,11 +135,8 @@ export default function CapturePage() {
           <View className="btn-reset" onClick={handleReset}>
             <Text>重新选择</Text>
           </View>
-          <View
-            className={`btn-analyze ${analyzing ? 'btn-disabled' : ''}`}
-            onClick={handleAnalyze}
-          >
-            <Text>{analyzing ? '分析中...' : '开始分析'}</Text>
+          <View className="btn-analyze" onClick={handleAnalyze}>
+            <Text>开始分析</Text>
           </View>
         </View>
       )}
