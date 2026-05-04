@@ -1,0 +1,13 @@
+// PosterCanvas — 离屏渲染
+.poster-canvas-wrapper {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.poster-canvas {
+  display: block;
+}
