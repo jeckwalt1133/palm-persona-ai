@@ -86,7 +86,8 @@ fi
 echo "" >> "$OUTPUT"
 echo "### 跨学习状态" >> "$OUTPUT"
 CROSS_RESULT=$(bash "$PROJECT_DIR/scripts/cross-learning-check.sh" 2>&1) || true
-VIOLATIONS=$(echo "$CROSS_RESULT" | grep -c "❌" || echo "0")
+VIOLATIONS=$(echo "$CROSS_RESULT" | grep -c "❌" 2>/dev/null | head -1) || VIOLATIONS=0
+VIOLATIONS=${VIOLATIONS:-0}
 echo "$CROSS_RESULT" >> "$OUTPUT"
 if [ "${VIOLATIONS:-0}" -gt 0 ]; then
   echo "- 🟡 跨学习违规: ${VIOLATIONS}人无交叉审查记录。建议立即分配跨领域审查任务。" >> "$OUTPUT"
