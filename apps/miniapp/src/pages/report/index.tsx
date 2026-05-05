@@ -432,6 +432,15 @@ export default function ReportPage() {
         </View>
       )}
 
+      {/* 综合解读 — AI 200字整体画像 */}
+      {report.summary && (
+        <View className="section">
+          <View className="card summary-card">
+            <Text className="summary-text">{report.summary}</Text>
+          </View>
+        </View>
+      )}
+
       {/* 视觉锚点：AI真的分析了你的手掌 + 社交比较 */}
       {report.visualAnchors && (
         <View className="section">
