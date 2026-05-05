@@ -81,6 +81,78 @@ guard_tunnel() {
   fi
 }
 
+# ============================================================
+# agent-router inbox 守护
+# ============================================================
+ROUTER_SCRIPT="$PROJECT_DIR/scripts/agent-router.py"
+INBOX_DIR="$PROJECT_DIR/messages/inbox"
+
+guard_inbox() {
+  if [ ! -f "$ROUTER_SCRIPT" ]; then
+    return 0  # agent-router 未部署，跳过
+  fi
+
+  local state_file="$PROJECT_DIR/messages/.state.json"
+  if [ ! -f "$state_file" ]; then
+    return 0  # 无消息记录
+  fi
+
+  # 检查每个 managed agent 是否有未确认消息
+  for role in "${STUDENT_ROLES[@]}"; do
+    local session="claude-${role}"
+    local inbox="$INBOX_DIR/$role"
+
+    if [ ! -d "$inbox" ]; then
+      continue
+    fi
+
+    # 统计未确认消息
+    local unacked
+    unacked=$(python3 -c "
+import json
+try:
+    state = json.load(open('$state_file'))
+    count = sum(1 for m in state.values() if m.get('receiver')=='$role' and m.get('status')=='delivered')
+    print(count)
+except: print(0)
+" 2>/dev/null || echo "0")
+
+    if [ "$unacked" -gt 0 ] 2>/dev/null; then
+      # 只通知当前在线的会话
+      if tmux has-session -t "$session" 2>/dev/null; then
+        local msg_count
+        msg_count=$(find "$inbox" -maxdepth 1 -name '*.json' ! -name '*.tmp' 2>/dev/null | wc -l)
+        log "📬 ${ROLE_NAME[$role]} 有 $unacked 条未确认消息 (inbox共 $msg_count 条)"
+        # 每30分钟只通知一次 (通过 state_file 的 lastNotified 字段)
+        local now
+        now=$(date +%s)
+        local last_notify
+        last_notify=$(python3 -c "
+import json
+try:
+    state = json.load(open('$state_file'))
+    print(state.get('_lastInboxNotify',{}).get('$role', 0))
+except: print(0)
+" 2>/dev/null || echo "0")
+        if [ $((now - last_notify)) -gt 1800 ] 2>/dev/null; then
+          tmux send-keys -t "$session" "bash scripts/check-inbox.sh --agent $role" Enter 2>/dev/null || true
+          # 记录通知时间
+          python3 -c "
+import json, os
+state = {}
+sf = '$state_file'
+if os.path.exists(sf):
+    state = json.load(open(sf))
+state.setdefault('_lastInboxNotify', {})['$role'] = $now
+open(sf+'.tmp', 'w').write(json.dumps(state, ensure_ascii=False))
+os.replace(sf+'.tmp', sf)
+" 2>/dev/null || true
+        fi
+      fi
+    fi
+  done
+}
+
 cleanup() {
   log "团队守护进程退出"
   rm -f "$PIDFILE"
@@ -167,6 +239,9 @@ while true; do
 
   # 公网隧道守护
   guard_tunnel
+
+  # agent-router inbox 守护——检测未确认消息并通知
+  guard_inbox
 
   sleep "$CHECK_INTERVAL"
 done

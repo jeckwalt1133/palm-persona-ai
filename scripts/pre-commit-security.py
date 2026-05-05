@@ -25,6 +25,8 @@ LAYER_ASSIGNMENT = {
     "PAT-004": "L1", "PAT-005": "L1", "PAT-006": "L2",
     "PAT-007": "L2", "PAT-008": "L1", "PAT-009": "L2",
     "PAT-010": "L2", "PAT-011": "L2", "PAT-012": "L2",
+    # L1 新增阻断规则 (V7-W5-003)
+    "L1-07": "L1", "L1-08": "L1", "L1-09": "L1", "L1-10": "L1",
     # L3 信息记录层
     "L3-001": "L3", "L3-002": "L3", "L3-003": "L3",
     "L3-004": "L3", "L3-005": "L3", "L3-006": "L3",
@@ -130,6 +132,39 @@ PATTERNS = [
         "description": "包管理器注册表令牌（npm/docker/pypi/nuget）",
         "remediation": "使用CI Secret变量注入，本地开发用--registry配置",
     },
+    # ─── L1 阻断层新增 (L1-07~L1-10, V7-W5-003) ───
+    {
+        "id": "L1-07",
+        "name": "JWT Secret/密钥硬编码",
+        "pattern": r'(jwtSecret|JWT_SECRET|jwt_secret|jwtKey|tokenSecret)\s*[:=]\s*[\x27\x22]?([a-zA-Z0-9_\-!@#$%^&*]{16,})[\x27\x22]?',
+        "severity": "critical",
+        "description": "JWT签名密钥硬编码在代码中，泄露后攻击者可伪造任意令牌",
+        "remediation": "使用环境变量或密钥管理服务(KMS)存储JWT密钥，启动时加载",
+    },
+    {
+        "id": "L1-08",
+        "name": "数据库密码硬编码",
+        "pattern": r'(password|passwd|db_password|DB_PASSWORD|mysql_password|pg_password)\s*[:=]\s*[\x27\x22]?([^\x27\x22\s]{6,})[\x27\x22]?',
+        "severity": "critical",
+        "description": "数据库密码直接写在代码中，是OWASP Top 10 A07认证失败类漏洞",
+        "remediation": "密码放入.env并通过process.env引用；生产环境使用Vault/Secrets Manager",
+    },
+    {
+        "id": "L1-09",
+        "name": "内网地址/内部域名硬编码",
+        "pattern": r'(host|HOST|endpoint|ENDPOINT|baseUrl|BASE_URL|apiUrl|API_URL)\s*[:=]\s*[\x27\x22](https?://)?(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3})(:\d+)?[\x27\x22]|(host|HOST|endpoint|ENDPOINT|baseUrl|BASE_URL|apiUrl|API_URL)\s*[:=]\s*[\x27\x22](https?://)?[a-zA-Z0-9_-]+\.(internal|corp|lan)[\x27\x22]',
+        "severity": "critical",
+        "description": "内网地址/.internal域硬编码，部署到公网后暴露内部拓扑",
+        "remediation": "使用环境变量或服务发现机制(DNS SRV/Consul)替代硬编码地址",
+    },
+    {
+        "id": "L1-10",
+        "name": "CI/CD Pipeline Token泄露",
+        "pattern": r'(CI_JOB_TOKEN|GITHUB_TOKEN|GITLAB_TOKEN|NPM_TOKEN|DOCKER_TOKEN|ARTIFACTORY_TOKEN|SONAR_TOKEN)\s*[:=]\s*[\x27\x22]?([a-zA-Z0-9_-]{12,})',
+        "severity": "critical",
+        "description": "CI/CD平台令牌泄露，攻击者可访问私有仓库/发布恶意包/篡改构建",
+        "remediation": "使用CI平台的Secret变量功能(${{ secrets.XXX }})，绝不硬编码",
+    },
     # ─── L3 记录层 (信息安全气味，不阻断不警告) ───
     {
         "id": "L3-001",
@@ -199,11 +234,82 @@ def is_false_positive(line, pattern_id):
     # .env.example 中的模板
     if '.env.example' in line or 'your-' in line.lower() or 'changeme' in line.lower():
         return True
+    # process.env / secrets.XXX 引用 (非硬编码)
+    if re.search(r'(process\.env\.|secrets\.\w+|CI_JOB_TOKEN\s*[:=]\s*\$\w+)', line):
+        return True
     return False
 
 
-def scan_diff(file_path, diff_content):
+# ─── 逃生门: 白名单机制 ───────────────────────────
+WHITELIST_FILE = PROJECT_DIR / ".claude" / "security-whitelist.json"
+
+
+def load_whitelist():
+    """加载白名单，自动清除过期条目(>24h)"""
+    if not WHITELIST_FILE.exists():
+        return []
+    try:
+        data = json.loads(WHITELIST_FILE.read_text())
+        entries = data.get("whitelist", [])
+    except (json.JSONDecodeError, KeyError):
+        return []
+
+    now = datetime.now(timezone.utc)
+    valid = []
+    changed = False
+    for entry in entries:
+        try:
+            expires = datetime.fromisoformat(entry.get("expires", ""))
+            if expires > now:
+                valid.append(entry)
+            else:
+                changed = True
+        except (ValueError, TypeError):
+            changed = True  # 无法解析的条目直接丢弃
+            continue
+    if changed:
+        save_whitelist(valid)
+    return valid
+
+
+def save_whitelist(entries):
+    """保存白名单到文件"""
+    WHITELIST_FILE.parent.mkdir(parents=True, exist_ok=True)
+    WHITELIST_FILE.write_text(json.dumps({"whitelist": entries, "updatedAt": datetime.now(timezone.utc).isoformat()}, ensure_ascii=False, indent=2))
+
+
+def is_whitelisted(pattern_id, file_path, whitelist_entries):
+    """检查发现是否在白名单中"""
+    for entry in whitelist_entries:
+        if entry.get("pattern") == pattern_id:
+            entry_file = entry.get("file", "")
+            if entry_file == file_path or entry_file == "*" or file_path.endswith(entry_file):
+                return True
+    return False
+
+
+def add_whitelist_entry(pattern_id, file_path, reason, approver="nie", hours=24):
+    """添加白名单条目 (逃生门API)"""
+    entries = load_whitelist()
+    expires = datetime.now(timezone.utc)
+    from datetime import timedelta
+    expires = (expires + timedelta(hours=hours)).isoformat()
+    entries.append({
+        "pattern": pattern_id,
+        "file": file_path,
+        "reason": reason,
+        "expires": expires,
+        "approver": approver,
+        "createdAt": datetime.now(timezone.utc).isoformat(),
+    })
+    save_whitelist(entries)
+    return expires
+
+
+def scan_diff(file_path, diff_content, whitelist_entries=None):
     """扫描单个文件的diff，返回发现的密钥列表"""
+    if whitelist_entries is None:
+        whitelist_entries = []
     findings = []
     lines = diff_content.split("\n")
 
@@ -221,6 +327,8 @@ def scan_diff(file_path, diff_content):
             for match in re.finditer(pat["pattern"], clean_line):
                 matched_text = match.group(0)
                 if is_false_positive(clean_line, pat["id"]):
+                    continue
+                if is_whitelisted(pat["id"], file_path, whitelist_entries):
                     continue
                 findings.append({
                     "patternId": pat["id"],
@@ -248,6 +356,9 @@ def get_staged_files():
 
 def should_scan(file_path):
     """判断文件是否需要扫描"""
+    # 跳过自身 — C5自噬: 扫描器测试用例含假密钥会触发自身规则
+    if file_path.startswith("scripts/pre-commit-security"):
+        return False
     # 跳过二进制和依赖
     skip_exts = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".woff", ".woff2", ".ttf", ".lock", ".sum"}
     skip_dirs = {"node_modules", "dist", ".next", ".git"}
@@ -272,6 +383,7 @@ def get_diff(file_path):
 def run_scan():
     """主扫描逻辑"""
     staged = get_staged_files()
+    whitelist = load_whitelist()
     all_findings = []
     scanned = 0
     skipped = 0
@@ -283,7 +395,7 @@ def run_scan():
         scanned += 1
         diff = get_diff(f)
         if diff:
-            findings = scan_diff(f, diff)
+            findings = scan_diff(f, diff, whitelist)
             all_findings.extend(findings)
 
     # 按层级+严重性排序
@@ -413,6 +525,54 @@ def run_tests():
         "PAT-010",
         True,
     )
+
+    # ─── L1-07: JWT Secret 测试 (10条) ───
+    add_test("JWT secret直接赋值", "const jwtSecret = 'abcdefghijklmnop123456';", "L1-07", True)
+    add_test("JWT_SECRET环境变量式硬编码", 'JWT_SECRET=my-super-secret-key-123', "L1-07", True)
+    add_test("jwtKey硬编码", 'const jwtKey = "myPrivateKey123456";', "L1-07", True)
+    add_test("tokenSecret配置", 'tokenSecret: "another-secret-key-abc"', "L1-07", True)
+    add_test("jwt_secret下划线风格", 'const jwt_secret = "topSecret2026!!!!";', "L1-07", True)
+    add_test("JWT Secret 短值不应触发(<16字符)", "const jwtSecret = 'short';", "L1-07", False)
+    add_test("JWT Secret process.env正常用法", "const jwtSecret = process.env.JWT_SECRET;", "L1-07", False)
+    add_test("JWT Secret 注释说明", "// jwtSecret 应从环境变量加载", "L1-07", False)
+    add_test("jwtSecret空字符串", "const jwtSecret = '';", "L1-07", False)
+    add_test("jwt expiresIn 非secret", "const jwtExpiresIn = '3600';", "L1-07", False)
+
+    # ─── L1-08: 数据库密码 测试 (10条) ───
+    add_test("DB密码直接赋值", "const password = 'mydbpassword123';", "L1-08", True)
+    add_test("DB_PASSWORD环境变量式", "DB_PASSWORD=superSecretDB2026!", "L1-08", True)
+    add_test("mysql连接串密码", "mysql_password: 'root123456'", "L1-08", True)
+    add_test("pg_password postgres", "pg_password='pgsql_secret_2026'", "L1-08", True)
+    add_test("passwd变量", 'const passwd = "secr3tP4ss2026!";', "L1-08", True)
+    add_test("短密码(<6字符)不应触发", "const password = '12345';", "L1-08", False)
+    add_test("password process.env正常", "const password = process.env.DB_PASSWORD;", "L1-08", False)
+    add_test("password空值", "const password = '';", "L1-08", False)
+    add_test("passwordField字段名不触发", "const passwordField = 'input_password';", "L1-08", False)
+    add_test("注释中的password说明", "// password 必须至少8个字符", "L1-08", False)
+
+    # ─── L1-09: 内网地址 测试 (10条) ───
+    add_test("HOST=10.x内网IP", "const HOST = '10.0.1.100';", "L1-09", True)
+    add_test("API_URL=192.168内网", 'const API_URL = "https://192.168.1.50:8080";', "L1-09", True)
+    add_test("baseUrl=.internal域名", 'const baseUrl = "http://api.internal";', "L1-09", True)
+    add_test("endpoint .corp域名", 'const endpoint = "https://db.corp";', "L1-09", True)
+    add_test("172.16 Docker内网", 'const host = "172.16.0.100";', "L1-09", True)
+    add_test("公网IP不应触发", "const HOST = '203.0.113.50';", "L1-09", False)
+    add_test("localhost开发说明(注释)", "// localhost is used for development", "L1-09", False)
+    add_test("HOST=process.env正常", "const HOST = process.env.API_HOST;", "L1-09", False)
+    add_test("非host字段含数字", "const port = 19216;", "L1-09", False)
+    add_test(".local域不应触发(非.internal/corp)", 'const baseUrl = "http://myapp.local";', "L1-09", False)
+
+    # ─── L1-10: CI/CD Token 测试 (10条) ───
+    add_test("CI_JOB_TOKEN硬编码", "CI_JOB_TOKEN=token-abc123def456ghi", "L1-10", True)
+    add_test("GITHUB_TOKEN赋值", 'const GITHUB_TOKEN = "ghp_ci_token_2026_xyz";', "L1-10", True)
+    add_test("NPM_TOKEN发布令牌", "NPM_TOKEN=npm_abcdefghijklmnop", "L1-10", True)
+    add_test("DOCKER_TOKEN容器注册表", "DOCKER_TOKEN=dkr_pat_2026secret", "L1-10", True)
+    add_test("SONAR_TOKEN代码分析", 'SONAR_TOKEN: "squ_abc123def456ghi789"', "L1-10", True)
+    add_test("CI token短值不应触发(<12字符)", "CI_JOB_TOKEN=short", "L1-10", False)
+    add_test("GitHub Actions ${{ secrets }}", "GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}", "L1-10", False)
+    add_test("注释中的Token说明", "// GITHUB_TOKEN is set by CI pipeline", "L1-10", False)
+    add_test("GITLAB_TOKEN使用环境变量", "const token = process.env.GITLAB_TOKEN;", "L1-10", False)
+    add_test("Token变量名不匹配", 'const myToken = "somevalue123456";', "L1-10", False)
 
     # 测试9: 正常代码(不应被检测) — 无害变量
     add_test(
