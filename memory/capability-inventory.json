@@ -42,7 +42,7 @@
           "level": "L1",
           "proficiency": "理解LiteLLM的作用和价值",
           "lastUsed": "2026-05-05",
-          "evidence": "CLAUDE.md 技术栈定义"
+          "evidence": "CLAUDE.md (LiteLLM技术栈定义)"
         },
         {
           "id": "AI-004",
@@ -79,7 +79,7 @@
           "level": "L2",
           "proficiency": "能新增卡片类型+集成到管线",
           "lastUsed": "2026-05-05",
-          "evidence": "6张报告卡片全部就绪"
+          "evidence": "server/src/engine/report-pipeline.ts (6张报告卡片管线)"
         },
         {
           "id": "ENG-004",
@@ -87,7 +87,7 @@
           "level": "L2",
           "proficiency": "能设计+实现Canvas合成海报",
           "lastUsed": "2026-05-05",
-          "evidence": "P9分享海报功能"
+          "evidence": "P9分享海报功能 (Canvas前端合成, commit 663bf8c)"
         }
       ]
     },
@@ -114,7 +114,7 @@
           "id": "SEC-003",
           "name": "同音字字典扩展",
           "level": "L1",
-          "proficiency": "能从10扩展到50+同音字",
+          "proficiency": "任务规划中 — 从10扩展到50+同音字，待P1实施",
           "lastUsed": null,
           "evidence": "task-dependency-graph.json T008"
         },
@@ -132,7 +132,7 @@
           "level": "L1",
           "proficiency": "能识别日志泄露+硬编码密钥+不安全输出",
           "lastUsed": "2026-05-05",
-          "evidence": "curriculum/guest-modules/zhou-security-01.md 练习2"
+          "evidence": "curriculum/guest-modules/zhou-security-01.md (练习2: 安全代码审查)"
         }
       ]
     },
@@ -145,7 +145,7 @@
           "level": "L2",
           "proficiency": "能独立管理分支+提交+diff自查",
           "lastUsed": "2026-05-05",
-          "evidence": "git log — 多个规范提交"
+          "evidence": "git log (多个规范提交记录)"
         },
         {
           "id": "ENGI-002",
@@ -177,7 +177,7 @@
           "level": "L1",
           "proficiency": "能按DoD标准审查代码",
           "lastUsed": "2026-05-05",
-          "evidence": "palm-engineering.md DoD"
+          "evidence": ".claude/skills/palm-engineering.md (DoD审查标准)"
         }
       ]
     },
@@ -190,7 +190,7 @@
           "level": "L2",
           "proficiency": "能组织4人批判→投票→生成最终方案",
           "lastUsed": "2026-05-05",
-          "evidence": "memory/v7.triangulation-critique.md 292行"
+          "evidence": "memory/v7.triangulation-critique-day2.md (292行三角批判记录)"
         },
         {
           "id": "MTH-002",
@@ -296,7 +296,7 @@
           "level": "L1",
           "proficiency": "能编译H5到微信/抖音小程序",
           "lastUsed": "2026-05-05",
-          "evidence": "H5编译配置"
+          "evidence": "H5编译配置 (微信+抖音小程序多平台)"
         },
         {
           "id": "PRD-002",
@@ -304,7 +304,7 @@
           "level": "L2",
           "proficiency": "能设计+实现Canvas多卡片合成",
           "lastUsed": "2026-05-05",
-          "evidence": "P9 分享海报 6张卡片"
+          "evidence": "P9分享海报功能 (Canvas前端合成6张卡片)"
         },
         {
           "id": "PRD-003",
@@ -319,7 +319,7 @@
           "name": "文案铁律(5条)",
           "level": "L1",
           "proficiency": "能按铁律审查文案",
-          "lastUsed": null,
+          "lastUsed": "2026-05-05",
           "evidence": ".claude/skills/palm-product.md"
         }
       ]
@@ -370,7 +370,7 @@
           "level": "L1",
           "proficiency": "能在WSL2中搭建+维护开发环境",
           "lastUsed": "2026-05-05",
-          "evidence": "WSL2 Ubuntu 6.6.87"
+          "evidence": "WSL2 Ubuntu 6.6.87-microsoft-standard (开发环境)"
         },
         {
           "id": "OPS-002",
@@ -378,7 +378,7 @@
           "level": "L1",
           "proficiency": "能用ngrok/localhost.run暴露服务",
           "lastUsed": "2026-05-05",
-          "evidence": "L3.1公网HTTPS验证"
+          "evidence": "L3.1公网HTTPS验证 (ngrok/localhost.run隧道)"
         },
         {
           "id": "OPS-003",
@@ -386,7 +386,7 @@
           "level": "L1",
           "proficiency": "能创建+管理Agent tmux会话",
           "lastUsed": "2026-05-05",
-          "evidence": "claude-student session"
+          "evidence": "scripts/team-watchdog.sh (claude-student/claude-wang/claude-zhou会话)"
         },
         {
           "id": "OPS-004",
@@ -394,7 +394,7 @@
           "level": "L1",
           "proficiency": "能编译H5+托管静态文件",
           "lastUsed": "2026-05-05",
-          "evidence": "H5 localhost:3001"
+          "evidence": "H5静态托管 localhost:3001"
         }
       ]
     },
@@ -415,7 +415,7 @@
           "level": "L2",
           "proficiency": "能设计A/B对照实验+10种攻击向量",
           "lastUsed": "2026-05-05",
-          "evidence": "L2.2 21样本 7攻击向量"
+          "evidence": "L2.2对抗测试 (21样本7攻击向量)"
         },
         {
           "id": "RSH-003",
@@ -423,7 +423,7 @@
           "level": "L2",
           "proficiency": "能发布结构化开源项目(README+CI+文档)",
           "lastUsed": "2026-05-05",
-          "evidence": "palm-mcp-server GitHub公开仓库"
+          "evidence": "palm-mcp-server GitHub公开仓库 (MIT许可)"
         },
         {
           "id": "RSH-004",
@@ -438,7 +438,7 @@
           "name": "全网研究爬取",
           "level": "L1",
           "proficiency": "能搜索arXiv/HN/顶会+结构化输出",
-          "lastUsed": null,
+          "lastUsed": "2026-05-06",
           "evidence": ".claude/skills/palm-web-research.md"
         }
       ]

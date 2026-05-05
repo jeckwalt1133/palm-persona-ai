@@ -58,6 +58,14 @@ check_evidence_file() {
       if [ -f "$full_path" ] || [ -d "$full_path" ]; then
         found=$((found + 1))
         sources="$sources $part"
+      else
+        # 递归搜索文件名（处理evidence不含目录前缀的情况）
+        local fname=$(basename "$part" 2>/dev/null)
+        local found_path=$(find "$REPO_ROOT" -name "$fname" -not -path '*/node_modules/*' -not -path '*/.git/*' 2>/dev/null | head -1)
+        if [ -n "$found_path" ] && [ -f "$found_path" ]; then
+          found=$((found + 1))
+          sources="$sources ${found_path#$REPO_ROOT/}"
+        fi
       fi
     fi
   done
