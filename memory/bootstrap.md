@@ -2,7 +2,7 @@
 name: Bootstrap — 会话快速启动
 description: 团队身份+当前进度+恢复指令+关键文件索引。唯一存储路径D盘。
 type: project
-updated: 2026-05-05 20:53
+updated: 2026-05-05 22:25
 version: AI师生研究院 V-6.1
 ---
 
@@ -81,6 +81,7 @@ L0 教学暗线 0.1→0.2→0.3  ~0.1(材料包) | 0.2锁定
 
 ## 公网地址
 
-- H5: https://4e062b49788623.lhr.life  ✅ 2026-05-05 22:08 验证 HTTPS 200 (localhost.run)
+- H5: https://b64b44683f1b13.lhr.life  ✅ 2026-05-05 22:25 验证 HTTPS 200 (localhost.run)
 - 本地: http://localhost:3001
-- 隧道: SSH nohup localhost.run (PID 134322) 保活30s
+- 隧道: SSH nohup localhost.run (PID 138358) 保活30s
+- DeepSeek API: sk-3edb3841d6094dce8d4f6272d79c0cc6 (降级链路: deepseek→doubao→qwen→mock)

@@ -81,7 +81,7 @@
           "status": "completed",
           "date": "2026-05-05",
           "requirement": "独立交付1个功能模块上线+真实用户使用",
-          "evidence": "https://4e062b49788623.lhr.life (HTTPS 200, localhost.run SSH隧道, 2026-05-05 22:08)"
+          "evidence": "https://b64b44683f1b13.lhr.life (HTTPS 200, localhost.run SSH隧道, 2026-05-05 22:25)"
         },
         {
           "level": "3.2",
