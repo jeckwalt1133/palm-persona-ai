@@ -16,7 +16,7 @@ export async function seedDemoReports(repo: ReportRepository): Promise<void> {
   const extractor = new MockPalmFeatureExtractor();
 
   for (const hash of DEMO_HASHES) {
-    const features = extractor.extract(Buffer.from(hash));
+    const features = await extractor.extract(Buffer.from(hash));
     // 覆盖 hash 保证每次生成同一个人格
     features.hash = hash;
     const report = engine.generate(features);

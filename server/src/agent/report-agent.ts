@@ -219,7 +219,7 @@ export class ReportAgent {
     }
 
     // Step 2: 去重 — 先用 extractor 算 hash
-    const features = this.extractor.extract(Buffer.from(imageBase64, 'base64'));
+    const features = await this.extractor.extract(Buffer.from(imageBase64, 'base64'));
     const existing = await this.repo.findById(features.hash);
     if (existing) {
       return {

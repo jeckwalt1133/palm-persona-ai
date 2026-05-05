@@ -10,7 +10,7 @@
  *  降级策略: AI Provider 失败 → 引擎默认值兜底
  */
 
-import { PalmFeatureExtractor, MockPalmFeatureExtractor } from './palm-feature-extractor.js';
+import { PalmFeatureExtractor, MockPalmFeatureExtractor, RealPalmFeatureExtractor } from './palm-feature-extractor.js';
 import { PersonaScoringEngine, MockPersonaScoringEngine } from './persona-scoring-engine.js';
 import { ResonanceNarrativeEngine, MockResonanceNarrativeEngine } from './resonance-narrative-engine.js';
 import { ContentSafety, defaultSafety } from '../safety/content-safety.js';
@@ -46,8 +46,13 @@ export interface PipelineDeps {
   safety: ContentSafety;
 }
 
+function createExtractor(): PalmFeatureExtractor {
+  try { return new RealPalmFeatureExtractor(); }
+  catch { return new MockPalmFeatureExtractor(); }
+}
+
 const defaultDeps: PipelineDeps = {
-  extractor: new MockPalmFeatureExtractor(),
+  extractor: createExtractor(),
   scoring: new MockPersonaScoringEngine(),
   narrative: new MockResonanceNarrativeEngine(),
   ai: new MockAiProvider(),
@@ -222,7 +227,7 @@ export async function runPipeline(
 
   // Worker 1: 特征提取
   const t1 = Date.now();
-  const features = d.extractor.extract(Buffer.from(imageBase64, 'base64'));
+  const features = await d.extractor.extract(Buffer.from(imageBase64, 'base64'));
   const extractMs = Date.now() - t1;
 
   // Worker 2: 五维评分

@@ -5,7 +5,7 @@ export type { ResonanceNarrativeEngine } from './resonance-narrative-engine.js';
 export type { CompatibilityEngine, CompatibilityResult, MatchDimension } from './compatibility-engine.js';
 export type { PipelineResult, PipelineDeps } from './report-pipeline.js';
 
-export { MockPalmFeatureExtractor } from './palm-feature-extractor.js';
+export { MockPalmFeatureExtractor, RealPalmFeatureExtractor } from './palm-feature-extractor.js';
 export { MockPersonaScoringEngine } from './persona-scoring-engine.js';
 export { MockResonanceNarrativeEngine } from './resonance-narrative-engine.js';
 export { MockCompatibilityEngine } from './compatibility-engine.js';
