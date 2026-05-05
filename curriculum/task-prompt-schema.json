@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-teacher-student.org/task-prompt-schema.json",
+  "title": "AI师生研究院 Task Prompt Schema",
+  "description": "教师向学生发送任务的标准化格式。所有任务必须走此格式，拒绝自由文本。",
+  "type": "object",
+  "required": ["taskId", "sender", "receiver", "title", "background", "requirement", "acceptanceCriteria"],
+  "properties": {
+    "taskId": {
+      "type": "string",
+      "pattern": "^V\\d+-\\d{3}$",
+      "description": "任务编号，格式 V{版本号}-{序号}，如 V7-002"
+    },
+    "sender": {
+      "type": "object",
+      "required": ["role", "name"],
+      "properties": {
+        "role": {"type": "string", "enum": ["teacher", "student", "guest-copywriter", "guest-qa"]},
+        "name": {"type": "string", "enum": ["聂富贵", "马富贵", "王富贵", "周富贵"]}
+      }
+    },
+    "receiver": {
+      "type": "object",
+      "required": ["role", "name"],
+      "properties": {
+        "role": {"type": "string", "enum": ["teacher", "student", "guest-copywriter", "guest-qa"]},
+        "name": {"type": "string", "enum": ["聂富贵", "马富贵", "王富贵", "周富贵"]}
+      }
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "任务标题，一句话说清楚要做什么"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2"],
+      "default": "P0",
+      "description": "P0=本周必须完成 P1=下周 P2=下月"
+    },
+    "background": {
+      "type": "string",
+      "minLength": 20,
+      "description": "为什么需要做这个任务？上下文是什么？不做会怎样？"
+    },
+    "requirement": {
+      "type": "string",
+      "minLength": 30,
+      "description": "具体要做什么？范围边界是什么？什么是超出范围的？"
+    },
+    "acceptanceCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"},
+      "description": "完成标准。每一项必须是可客观判断的（能自动检查的更佳）"
+    },
+    "deliverables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "description"],
+        "properties": {
+          "path": {"type": "string", "description": "交付物文件路径（相对于项目根目录）"},
+          "description": {"type": "string"}
+        }
+      }
+    },
+    "estimatedHours": {
+      "type": "number",
+      "minimum": 0.5,
+      "maximum": 40,
+      "description": "预估工时（小时）"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date",
+      "description": "截止日期 YYYY-MM-DD"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^V\\d+-\\d{3}$"},
+      "description": "前置任务ID列表（建议性，非强制锁）"
+    },
+    "learningObjectives": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "完成这个任务后学生应该学到什么？（教学视角）"
+    },
+    "notes": {
+      "type": "string",
+      "description": "教师补充说明（可选）"
+    }
+  }
+}
