@@ -18,6 +18,16 @@ import PosterCanvas from '../../components/PosterCanvas';
 import { captureAndSave } from '../../utils/poster';
 import { resolveShareCopy } from '../../utils/shareCopyMatcher';
 import { startPageTracking, stopPageTracking, TrackerHandle } from '../../utils/heartbeat';
+import {
+  type ToneMode,
+  getStoredTone,
+  setStoredTone,
+  applyToneToCoreTruth,
+  applyToneToInsight,
+  applyToneToSignalPattern,
+  applyToneToTensionPoint,
+  getRefreshVariants,
+} from '../../utils/toneVariants';
 import './index.scss';
 
 interface ScoreItem {
@@ -118,6 +128,11 @@ export default function ReportPage() {
   const [posterCardIndex, setPosterCardIndex] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
   const [savingPoster, setSavingPoster] = useState(false);
   const posterCanvasId = `poster_${Math.random().toString(36).slice(2, 10)}`;
+
+  // 语气偏好
+  const [toneMode, setToneMode] = useState<ToneMode>(getStoredTone);
+  // "换一句" 轮换索引（每条洞察独立）
+  const [insightVariants, setInsightVariants] = useState<Record<number, number>>({});
 
   // ── 页面停留追踪（H5） ──
   const trackerRef = useRef<TrackerHandle | null>(null);
@@ -388,6 +403,25 @@ export default function ReportPage() {
         )}
       </View>
 
+      {/* 语气偏好切换 — 借鉴Grok Fun Mode + 豆包多角色 */}
+      <View className="tone-toggle-bar">
+        <Text className="tone-toggle-label">语气偏好</Text>
+        <View className="tone-toggle-btns">
+          <View
+            className={`tone-btn ${toneMode === 'mild' ? 'tone-btn-active' : ''}`}
+            onClick={() => { setToneMode('mild'); setStoredTone('mild'); }}
+          >
+            <Text>温和 · 像朋友</Text>
+          </View>
+          <View
+            className={`tone-btn ${toneMode === 'sharp' ? 'tone-btn-active tone-btn-sharp' : ''}`}
+            onClick={() => { setToneMode('sharp'); setStoredTone('sharp'); }}
+          >
+            <Text>犀利 · 像镜子</Text>
+          </View>
+        </View>
+      </View>
+
       {/* 每日关键词 — 留存钩子，每天不同 */}
       {dailyKeyword && (
         <View className="daily-keyword-hero">
@@ -436,7 +470,7 @@ export default function ReportPage() {
       {/* 一句话核心真相 */}
       <View className="section">
         <View className="card core-truth-card">
-          <Text className="truth-text">{report.coreTruth}</Text>
+          <Text className="truth-text">{applyToneToCoreTruth(report.coreTruth, report.personaType, toneMode)}</Text>
         </View>
         <View className="share-hint">
           <Text className="share-hint-text">这张就是你的身份卡——长按保存，发个朋友圈</Text>
@@ -507,12 +541,37 @@ export default function ReportPage() {
           {report.insights.length > 0 && (
             <View className="section">
               <Text className="section-title">深度关系洞察</Text>
-              {report.insights.map((insight, i) => (
-                <View key={i} className="insight-row">
-                  <Text className="insight-dot">✦</Text>
-                  <Text className="insight-text">{insight}</Text>
+              {report.insights.map((insight, i) => {
+                const displayInsight = applyToneToInsight(insight, toneMode);
+                const refreshPool = getRefreshVariants(insight);
+                const variantIdx = insightVariants[i] ?? 0;
+                const finalText = variantIdx > 0 && refreshPool[variantIdx - 1]
+                  ? refreshPool[variantIdx - 1]
+                  : displayInsight;
+
+                return (
+                <View key={i} className="insight-block">
+                  <View className="insight-row">
+                    <Text className="insight-dot">✦</Text>
+                    <Text className="insight-text">{finalText}</Text>
+                  </View>
+                  <View className="insight-actions">
+                    <View
+                      className="insight-refresh-btn"
+                      onClick={() => {
+                        setInsightVariants((prev) => ({
+                          ...prev,
+                          [i]: ((prev[i] ?? 0) + 1) % (refreshPool.length + 1),
+                        }));
+                      }}
+                    >
+                      <Text className="insight-refresh-icon">↻</Text>
+                      <Text className="insight-refresh-label">换一句</Text>
+                    </View>
+                  </View>
                 </View>
-              ))}
+                );
+              })}
             </View>
           )}
 
@@ -536,7 +595,7 @@ export default function ReportPage() {
                 </View>
                 <View className="rel-code-section">
                   <Text className="rel-code-label">信号模式</Text>
-                  <Text className="rel-code-text">{report.relationshipCode.signalPattern}</Text>
+                  <Text className="rel-code-text">{applyToneToSignalPattern(report.relationshipCode.signalPattern, toneMode)}</Text>
                 </View>
                 <View className="rel-code-section">
                   <Text className="rel-code-label">最佳同频</Text>
@@ -544,7 +603,7 @@ export default function ReportPage() {
                 </View>
                 <View className="rel-code-section">
                   <Text className="rel-code-label">关系张力</Text>
-                  <Text className="rel-code-text">{report.relationshipCode.tensionPoint}</Text>
+                  <Text className="rel-code-text">{applyToneToTensionPoint(report.relationshipCode.tensionPoint, toneMode)}</Text>
                 </View>
               </View>
               <View className="share-hint">
