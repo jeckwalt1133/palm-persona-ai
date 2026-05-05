@@ -33,5 +33,25 @@ export function loadConfig(): Config {
     console.error('[CONFIG] 配置验证失败，使用默认值。请检查环境变量:', parsed.error.flatten());
     return configSchema.parse({}); // fallback to defaults
   }
-  return parsed.data;
+
+  const config = parsed.data;
+
+  // Mock门禁：非显式允许时，拒绝以mock启动（防止虚假管线）
+  if (config.aiProvider === 'mock' && process.env.ALLOW_MOCK !== 'true') {
+    console.error('');
+    console.error('🛑 ==========================================================');
+    console.error('  生产Mock门禁：AI_PROVIDER=mock 被拒绝');
+    console.error('  当前报告管线全部基于Mock数据（随机特征/随机分数）');
+    console.error('  如需绕过：ALLOW_MOCK=true pnpm run dev');
+    console.error('  正确做法：在 server/.env 中配置真实AI Provider');
+    console.error('=============================================================');
+    console.error('');
+    process.exit(1);
+  }
+
+  if (config.aiProvider === 'mock') {
+    console.warn('[CONFIG] ⚠️  ALLOW_MOCK=true — Mock门禁已绕过，仅限开发/测试使用');
+  }
+
+  return config;
 }

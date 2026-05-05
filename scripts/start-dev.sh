@@ -15,9 +15,18 @@ npx tsc
 # 2. 启动 API 服务（后台）
 echo "[2/3] 启动 API 服务 (port 3001)..."
 kill $(lsof -t -i:3001) 2>/dev/null || true
-DEEPSEEK_API_KEY=sk-29abfa7967ea4d5c97408a3f79c12d64 \
-AI_PROVIDER=deepseek \
-AI_MODEL=deepseek-v4-pro \
+
+# 安全：从 .env 加载配置，绝不硬编码密钥
+if [ -f "$PROJECT_DIR/server/.env" ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . "$PROJECT_DIR/server/.env"
+  set +a
+else
+  echo "❌ 缺少 server/.env 文件，请先配置"
+  exit 1
+fi
+
 node dist/index.js &
 sleep 3
 

@@ -9,8 +9,20 @@ LOGFILE="/tmp/student-watchdog.log"
 SESSION="claude-student"
 CHECK_INTERVAL=120
 PROJECT_DIR="/mnt/d/Claude/Workspace/palm-persona-ai"
+ENV_FILE="$PROJECT_DIR/server/.env"
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOGFILE"; }
+
+# 安全：从 .env 读取密钥，绝不硬编码
+load_env() {
+  if [ ! -f "$ENV_FILE" ]; then
+    log "❌ .env 文件不存在: $ENV_FILE"
+    return 1
+  fi
+  # shellcheck disable=SC2046
+  export $(grep -v '^\s*#' "$ENV_FILE" | grep -v '^\s*$' | xargs)
+  return 0
+}
 
 cleanup() {
   log "守护进程退出"
@@ -41,12 +53,19 @@ while true; do
     continue
   fi
 
-  # Step 2: 注入环境变量
-  tmux send-keys -t "$SESSION" "export ANTHROPIC_API_KEY='sk-f9a088e647ac427d94ab5249673f76f6'" Enter
+  # Step 2: 从 .env 加载密钥并注入环境变量
+  if ! load_env; then
+    log "❌ 无法加载 .env，跳过环境变量注入"
+    sleep "$CHECK_INTERVAL"
+    continue
+  fi
+
+  # 使用 DEEPSEEK_API_KEY 作为 Claude Code 的 ANTHROPIC_API_KEY
+  tmux send-keys -t "$SESSION" "export ANTHROPIC_API_KEY='${DEEPSEEK_API_KEY}'" Enter
   sleep 0.3
-  tmux send-keys -t "$SESSION" "export ANTHROPIC_BASE_URL='https://api.deepseek.com/anthropic'" Enter
+  tmux send-keys -t "$SESSION" "export ANTHROPIC_BASE_URL='${ANTHROPIC_BASE_URL:-https://api.deepseek.com/anthropic}'" Enter
   sleep 0.3
-  tmux send-keys -t "$SESSION" "export ANTHROPIC_MODEL='deepseek-v4-pro'" Enter
+  tmux send-keys -t "$SESSION" "export ANTHROPIC_MODEL='${ANTHROPIC_MODEL:-deepseek-v4-pro}'" Enter
   sleep 0.3
 
   # Step 3: 启动 Claude Code
