@@ -26,6 +26,15 @@ import { type ComplianceGateResult } from '../safety/compliance-gate.js';
 import { AiProvider } from '../ai/index.js';
 import { ReportRepository } from '../repository/report-repository.js';
 import { PipelineOrchestrator, type OrchestratorResult } from './pipeline-orchestrator.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ─── 项目根路径 ────────────────────────────────
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const PROJECT_ROOT = path.resolve(__dirname, '../../..');
 
 // ─── 类型 ────────────────────────────────────────
 
@@ -141,8 +150,16 @@ class QualityWorker {
 
 // ─── Reflexion Logger ────────────────────────────
 
+const DEFAULT_LOG_PATH = path.join(PROJECT_ROOT, 'memory/reflexion/reflexion-log.jsonl');
+
 class ReflexionLogger {
   private entries: ReflexionEntry[] = [];
+  private logPath: string;
+
+  constructor(logPath?: string) {
+    this.logPath = logPath ?? DEFAULT_LOG_PATH;
+    this.load();
+  }
 
   log(
     reportId: string,
@@ -151,14 +168,16 @@ class ReflexionLogger {
     qualityScore: number,
     lessons: string[],
   ): void {
-    this.entries.push({
+    const entry: ReflexionEntry = {
       timestamp: Date.now(),
       reportId,
       personaType,
       complianceViolations,
       qualityScore,
       lessons,
-    });
+    };
+    this.entries.push(entry);
+    this.appendToFile(entry);
   }
 
   getStats(): { totalReports: number; avgQuality: number; commonLessons: string[] } {
@@ -178,6 +197,29 @@ class ReflexionLogger {
       .slice(0, 3)
       .map(([lesson]) => lesson);
     return { totalReports: this.entries.length, avgQuality: avgQ, commonLessons: common };
+  }
+
+  private appendToFile(entry: ReflexionEntry): void {
+    try {
+      const dir = path.dirname(this.logPath);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.appendFileSync(this.logPath, JSON.stringify(entry) + '\n');
+    } catch (err) {
+      console.warn('[ReflexionLogger] 文件写入失败:', (err as Error).message);
+    }
+  }
+
+  private load(): void {
+    try {
+      if (fs.existsSync(this.logPath)) {
+        const lines = fs.readFileSync(this.logPath, 'utf-8').trim().split('\n');
+        for (const line of lines) {
+          if (line.trim()) this.entries.push(JSON.parse(line));
+        }
+      }
+    } catch (err) {
+      console.warn('[ReflexionLogger] 文件加载失败，使用空日志:', (err as Error).message);
+    }
   }
 }
 
