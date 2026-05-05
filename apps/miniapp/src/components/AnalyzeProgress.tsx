@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import './AnalyzeProgress.scss';
 
 const STEPS = [
-  { key: 'upload', label: '上传图片' },
-  { key: 'extract', label: '提取手掌特征' },
-  { key: 'analyze', label: '分析线条走向' },
-  { key: 'match', label: '匹配人格模型' },
-  { key: 'report', label: '生成专属报告' },
+  { key: 'upload', label: '读取你的掌纹' },
+  { key: 'extract', label: '找到线条里的秘密' },
+  { key: 'analyze', label: '拼出你的性格拼图' },
+  { key: 'match', label: '寻找最匹配的人格' },
+  { key: 'report', label: '生成专属解读' },
 ];
 
 interface Props {
@@ -43,7 +43,7 @@ export default function AnalyzeProgress({ onComplete }: Props) {
         <View className="ap-pulse-inner" />
       </View>
 
-      <Text className="ap-title">AI 正在分析你的手掌</Text>
+      <Text className="ap-title">AI 正在仔细读你的手掌...</Text>
 
       <View className="ap-steps">
         {STEPS.map((step, i) => (
@@ -65,14 +65,14 @@ export default function AnalyzeProgress({ onComplete }: Props) {
                 {step.label}
               </Text>
               {i === currentStep && (
-                <Text className="ap-step-sub">正在进行...</Text>
+                <Text className="ap-step-sub">快好了...</Text>
               )}
             </View>
           </View>
         ))}
       </View>
 
-      <Text className="ap-footer">首次分析需要 3-5 秒，请耐心等待</Text>
+      <Text className="ap-footer">每条线都在认真看——第一次见面，它想认真一点</Text>
     </View>
   );
 }

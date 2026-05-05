@@ -73,7 +73,7 @@ export default function CapturePage() {
         if (body.success && body.data) {
           reportIdRef.current = body.data.id;
         } else {
-          errorRef.current = body.error?.message || '分析失败';
+          errorRef.current = body.error?.message || '好像出了点小问题——再试一次？';
         }
       } else {
         const res = await Taro.uploadFile({
@@ -86,12 +86,12 @@ export default function CapturePage() {
         if (body.success && body.data) {
           reportIdRef.current = body.data.id;
         } else {
-          errorRef.current = body.error?.message || '分析失败';
+          errorRef.current = body.error?.message || '好像出了点小问题——再试一次？';
         }
       }
     } catch (err: unknown) {
       const taroErr = err as { errMsg?: string };
-      errorRef.current = taroErr?.errMsg || String(err) || '网络异常，请检查连接后重试';
+      errorRef.current = taroErr?.errMsg || String(err) || '网络信号不太好——换一个姿势试试？';
     }
   }, []);
 
@@ -113,7 +113,7 @@ export default function CapturePage() {
           Taro.redirectTo({ url: `/pages/report/index?id=${reportIdRef.current}` });
         } else {
           setAnalyzing(false);
-          Taro.showToast({ title: '网络较慢，请重试', icon: 'none', duration: 3000 });
+          Taro.showToast({ title: '网络有点慢，AI 还在等数据——稍后再试', icon: 'none', duration: 3000 });
         }
       }, 2000);
     }
@@ -134,9 +134,9 @@ export default function CapturePage() {
   return (
     <View className="capture-page">
       <View className="capture-header">
-        <Text className="capture-title">上传手掌照片</Text>
+        <Text className="capture-title">伸出手，让 AI 看看你</Text>
         <Text className="capture-desc">
-          AI 会分析你手掌的几何特征——宽度、手指比例、纹路清晰度和走向——然后匹配人格模型
+          每一条掌纹都有自己的故事。AI 会从你的手掌线条中，读出属于你的那一种人格——不是算命，是了解自己的一种新方式
         </Text>
       </View>
 
@@ -183,7 +183,7 @@ export default function CapturePage() {
 
       <View className="capture-disclaimer">
         <Text className="disclaimer-text">
-          照片仅用于本次 AI 分析，不会存储原始图像。结果仅供娱乐参考。
+          AI 趣味解读 · 认真但不较真。照片仅用于本次分析，用完即删。
         </Text>
       </View>
     </View>

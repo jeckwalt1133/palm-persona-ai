@@ -165,7 +165,7 @@ function drawFooter(ctx: CanvasRenderingContext2D, w: number, h: number, shareTe
   const discFontSize = 18;
   ctx.font = `${discFontSize}px sans-serif`;
   ctx.fillStyle = WHITE_FAINT;
-  ctx.fillText('趣味语境下的AI人格分析 · 仅供娱乐参考', w / 2, disclaimerY);
+  ctx.fillText('AI 的趣味解读 · 认真但不较真 · 掌心人格局', w / 2, disclaimerY);
 
   // Slogan
   ctx.fillText('掌心人格局 · 拍一张手掌，看看AI读出了怎样的你', w / 2, disclaimerY + 24);

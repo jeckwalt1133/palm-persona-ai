@@ -123,10 +123,11 @@
         {
           "id": "SEC-004",
           "name": "密钥扫描自动化",
-          "level": "L1",
-          "proficiency": "能用grep扫描历史中的密钥",
-          "lastUsed": "2026-05-05",
-          "evidence": "curriculum/guest-modules/zhou-security-01.md"
+          "level": "L2",
+          "proficiency": "能配置≥8种密钥模式扫描+自检测试+JSON报告输出",
+          "lastUsed": "2026-05-06",
+          "evidence": "scripts/pre-commit-security.sh + scripts/pre-commit-security.py (12种密钥模式+10项自检测试全部通过)",
+          "evidenceTier": "file"
         },
         {
           "id": "SEC-005",

@@ -13,7 +13,7 @@ export default function IndexPage() {
       <View className="home-hero">
         <Text className="home-title">掌心人格局</Text>
         <Text className="home-subtitle">
-          AI 读取你手掌的几何特征，生成一份让你想截图发给朋友的人格报告
+          伸出手掌，让 AI 看到你的线条里藏着怎样的你——结果可能会让你想截图发给朋友
         </Text>
       </View>
 
@@ -46,7 +46,7 @@ export default function IndexPage() {
           <View className="preview-card-body">
             <Text className="preview-card-title">一句戳中你的核心真相</Text>
             <Text className="preview-card-desc">
-              AI 从你的手掌特征中提取那句你最想发给某个人的话
+              AI 从你的掌纹中找出那句你最想发给某个人的话
             </Text>
           </View>
         </View>
@@ -72,7 +72,7 @@ export default function IndexPage() {
       {/* 免责声明 */}
       <View className="home-disclaimer">
         <Text className="disclaimer-text">
-          本产品为 AI 趣味分析工具，结果仅供娱乐和自我探索。照片仅用于本次分析，不会存储原始图像。
+          AI 趣味解读 · 认真但不较真。照片仅用于本次分析，用完即删。
         </Text>
       </View>
     </View>

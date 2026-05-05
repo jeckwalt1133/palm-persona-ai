@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Button } from '@tarojs/components';
 import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import RadarCanvas from '../../components/RadarCanvas';
 import { apiUrl } from '../../utils/api';
 import { playRewardedVideo } from '../../utils/rewarded-video';
@@ -17,6 +17,7 @@ import { getMostMisunderstood } from '../../utils/reportUtils';
 import PosterCanvas from '../../components/PosterCanvas';
 import { captureAndSave } from '../../utils/poster';
 import { resolveShareCopy } from '../../utils/shareCopyMatcher';
+import { startPageTracking, stopPageTracking, TrackerHandle } from '../../utils/heartbeat';
 import './index.scss';
 
 interface ScoreItem {
@@ -117,6 +118,22 @@ export default function ReportPage() {
   const [posterCardIndex, setPosterCardIndex] = useState<1 | 2 | 3 | 4 | 5 | 6>(1);
   const [savingPoster, setSavingPoster] = useState(false);
   const posterCanvasId = `poster_${Math.random().toString(36).slice(2, 10)}`;
+
+  // ── 页面停留追踪（H5） ──
+  const trackerRef = useRef<TrackerHandle | null>(null);
+
+  useEffect(() => {
+    if (report && !trackerRef.current) {
+      trackerRef.current = startPageTracking('report_page');
+    }
+    return () => {
+      if (trackerRef.current) {
+        stopPageTracking(trackerRef.current);
+        trackerRef.current = null;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [report]);
 
   // ── 数据初始化 ──
 

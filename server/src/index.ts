@@ -13,6 +13,7 @@ import { analyzeRoutes } from './routes/analyze.js';
 import { reportRoutes } from './routes/report.js';
 import { matchRoutes } from './routes/match.js';
 import { analyticsRoutes } from './routes/analytics.js';
+import { trackingRoutes } from './routes/tracking.js';
 import { growthRoutes } from './routes/growth.js';
 import { complianceRoutes } from './routes/compliance.js';
 import { analysisService } from './services/analysis-service.js';
@@ -59,6 +60,7 @@ async function main() {
   await app.register(reportRoutes, { prefix: '/api' });
   await app.register(matchRoutes, { prefix: '/api' });
   await app.register(analyticsRoutes, { prefix: '/api' });
+  await app.register(trackingRoutes, { prefix: '/api' });
   await app.register(growthRoutes, { prefix: '/api' });
   await app.register(complianceRoutes);
 

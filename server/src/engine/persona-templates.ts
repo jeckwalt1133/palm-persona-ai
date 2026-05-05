@@ -424,7 +424,7 @@ export function assembleReport(
     quote,
     suspenseText: suspenseText ?? SUSPENSE_TEXTS[seed % SUSPENSE_TEXTS.length],
     coreTruth: coreTruth ?? defaultCoreTruth,
-    weeklyAdvice: weeklyAdvice ?? '保持对自己的觉察，本周尝试一次跟自己独处的对话。',
+    weeklyAdvice: weeklyAdvice ?? '这周试着做一件事：在说"好的"之前，先停3秒问问自己"我想不想"。',
     visualAnchors,
     identityBadge,
     adTeaser,
