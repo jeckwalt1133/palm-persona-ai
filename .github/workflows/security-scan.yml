@@ -1,0 +1,35 @@
+name: 安全扫描
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 100 }
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+
+      - uses: pnpm/action-setup@v4
+        with: { version: '10' }
+
+      - name: Install dependencies
+        run: cd server && pnpm install --frozen-lockfile
+
+      - name: TypeScript typecheck
+        run: cd server && npx tsc --noEmit
+
+      - name: Run tests
+        run: cd server && npx vitest run
+
+      - name: Full-repo secret scan
+        run: bash scripts/security-scan-keys.sh
+
+      - name: npm audit (high+critical)
+        run: cd server && pnpm audit --audit-level=high || echo "⚠ audit found issues"
