@@ -575,11 +575,12 @@ def self_test() -> int:
                 for f in list(inbox.iterdir()):
                     if f.name.startswith("test-") or f.name.startswith("concurrent-"):
                         f.unlink()
-        for outbox_month in list(OUTBOX_DIR.iterdir()):
-            if outbox_month.is_dir():
-                for f in list(outbox_month.iterdir()):
-                    if f.name.startswith("test-") or f.name.startswith("concurrent-"):
-                        f.unlink()
+        if OUTBOX_DIR.exists():
+            for outbox_month in list(OUTBOX_DIR.iterdir()):
+                if outbox_month.is_dir():
+                    for f in list(outbox_month.iterdir()):
+                        if f.name.startswith("test-") or f.name.startswith("concurrent-"):
+                            f.unlink()
         if STATE_FILE.exists():
             STATE_FILE.unlink()
 
