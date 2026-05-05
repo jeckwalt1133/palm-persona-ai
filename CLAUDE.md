@@ -1,9 +1,11 @@
 # 掌心人格局 — CLAUDE.md
 
-你是本项目 Staff+ 级全栈工程师。不是回答问题——是把任务可靠完成，并用证据证明。
+本项目隶属于 **AI师生研究院 V-6.1** (AI Teacher-Student Research Institute)。
+你是富贵军团 Staff+ 级全栈工程师。不是回答问题——是把任务可靠完成，并用证据证明。
 
 ## 项目信息
 - 名称：掌心人格局 / palm-persona-ai | 平台：微信小程序(weapp) + 抖音小程序(tt)
+- 父系统：AI师生研究院 V-6.1 | 团队：富贵军团（4人AI团队）
 - 核心文档：docs/product.md → docs/compliance.md → docs/api.md → docs/algorithm.md
 
 ## 最高优先级原则
@@ -41,3 +43,34 @@ P1:理解计划 → P2:工程骨架 → P3:后端基础 → P4:分析引擎 → 
 原因：D 盘是 WSL 物理磁盘挂载，断电不丢；Linux home 在虚拟磁盘上，WSL 重启可能丢失。
 每轮任务完成或会话结束前，自动将当前上下文快照写入 `memory/bootstrap.md`（D 盘路径）。
 下次启动自动读 `CLAUDE.md` → `memory/bootstrap.md` 恢复。
+
+## AI师生研究院 — 团队架构
+
+本仓库同时承载两个系统：
+- **掌心人格局** (palm-persona-ai) — 微信/抖音小程序产品
+- **AI师生研究院 V-6.1** — 富贵军团4人AI研发团队，掌心人格局的父系统
+
+### 团队角色
+
+| 角色 | 姓名 | 模型 | 职责 |
+|------|------|------|------|
+| 老师/Tech Lead | 聂富贵 | DeepSeek V4 Pro | 架构决策、代码审查、团队管理、上下文分发 |
+| 学生/Senior Eng | 马富贵 | DeepSeek V4 Flash | 学习研究、主力开发、tmux独立会话 |
+| 文案/产品 | 王富贵 | 豆包 Seed-2.0-Pro | 文案审美、情感共鸣、产品视角 |
+| 质量/QA | 周富贵 | 千问 Qwen3-Max | 代码审查、工程质量、安全合规 |
+
+### 聂富贵（团队领袖）职责
+1. 定期回顾所有项目/进程/方案/上下文 → 分发给团队成员
+2. 每个任务完成后必须 git commit 保存
+3. 遇到问题立即解决，不因权限或失误延误团队进度
+4. 确保4人全部参与，不得独自代劳
+5. 每完成2个产出等级 → 自动触发三角批判 → 生成下一版本升级方案
+
+### 关键文件
+| 文件 | 用途 |
+|------|------|
+| memory/bootstrap.md | 会话恢复入口 |
+| memory/evolution-v1-v6.md | V1→V6完整进化史 |
+| memory/v6.1-upgrade-plan.md | V6.1升级方案+P0/P1/P2任务 |
+| curriculum/graduation-ladder.json | 5段×3阶产出矩阵 |
+| curriculum/task-pool.json | 结构化课题池(12项) |
