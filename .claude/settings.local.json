@@ -333,6 +333,30 @@
     "palm-persona-mcp"
   ],
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /mnt/d/Claude/Workspace/palm-persona-ai/scripts/sessionstart-recover.sh",
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /mnt/d/Claude/Workspace/palm-persona-ai/scripts/precompact-snapshot.sh \"$CLAUDE_SESSION_ID\" \"teacher\"",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "",
