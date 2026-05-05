@@ -69,9 +69,9 @@
     {
       "id": "T005",
       "title": "L4.1证据补全：GitHub仓库",
-      "description": "创建fugui-legion/palm-mcp-server仓库→push代码→README可见",
+      "description": "创建jeckwalt1133/palm-mcp-server仓库→push代码→README可见",
       "owner": "马富贵",
-      "status": "pending",
+      "status": "completed",
       "priorityScore": 8.5,
       "businessValue": 9,
       "learningDepth": 3,
@@ -189,9 +189,9 @@
   ],
   "stats": {
     "total": 12,
-    "completed": 3,
+    "completed": 4,
     "in_progress": 1,
-    "pending": 8,
+    "pending": 7,
     "byOwner": {
       "聂富贵": 4,
       "马富贵": 3,
