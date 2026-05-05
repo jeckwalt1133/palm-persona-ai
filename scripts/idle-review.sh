@@ -82,6 +82,16 @@ else
   echo "- 方法论纯化: 无偏离迹象" >> "$OUTPUT"
 fi
 
+# 4.5. 跨学习强制执行检查
+echo "" >> "$OUTPUT"
+echo "### 跨学习状态" >> "$OUTPUT"
+CROSS_RESULT=$(bash "$PROJECT_DIR/scripts/cross-learning-check.sh" 2>&1) || true
+VIOLATIONS=$(echo "$CROSS_RESULT" | grep -c "❌" || echo "0")
+echo "$CROSS_RESULT" >> "$OUTPUT"
+if [ "${VIOLATIONS:-0}" -gt 0 ]; then
+  echo "- 🟡 跨学习违规: ${VIOLATIONS}人无交叉审查记录。建议立即分配跨领域审查任务。" >> "$OUTPUT"
+fi
+
 # 5. 建议下一步
 echo "" >> "$OUTPUT"
 echo "### 建议下一步" >> "$OUTPUT"
