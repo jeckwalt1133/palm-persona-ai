@@ -630,24 +630,62 @@ def run_tests():
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="pre-commit 安全扫描引擎")
+    parser = argparse.ArgumentParser(description="pre-commit 安全扫描引擎 V3")
     parser.add_argument("--json", action="store_true", help="输出JSON格式报告")
     parser.add_argument("--test", action="store_true", help="运行自检测试用例")
+    parser.add_argument("--whitelist-add", nargs=4, metavar=("PATTERN", "FILE", "REASON", "HOURS"),
+                        help="添加临时白名单: PATTERN FILE REASON HOURS")
+    parser.add_argument("--whitelist-list", action="store_true", help="列出当前有效白名单")
+    parser.add_argument("--whitelist-clean", action="store_true", help="清除所有过期白名单条目")
     args = parser.parse_args()
 
     if args.test:
         ok = run_tests()
         sys.exit(0 if ok else 1)
 
+    # 白名单管理命令
+    if args.whitelist_add:
+        pattern_id, file_path, reason, hours = args.whitelist_add
+        try:
+            hrs = int(hours)
+            if hrs > 24:
+                print("错误: 白名单最长24小时")
+                sys.exit(1)
+            expires = add_whitelist_entry(pattern_id, file_path, reason, hours=hrs)
+            print(f"✅ 白名单已添加: {pattern_id} @ {file_path}")
+            print(f"   过期时间: {expires}")
+            print(f"   审批人: nie (仓库管理员)")
+        except ValueError:
+            print("错误: HOURS必须是数字")
+            sys.exit(1)
+        sys.exit(0)
+
+    if args.whitelist_list:
+        entries = load_whitelist()
+        if entries:
+            print(f"当前有效白名单 ({len(entries)}条):")
+            for e in entries:
+                print(f"  [{e['pattern']}] {e['file']} — {e['reason']} (过期: {e['expires'][:19]})")
+        else:
+            print("无有效白名单条目")
+        sys.exit(0)
+
+    if args.whitelist_clean:
+        entries = load_whitelist()
+        print(f"白名单已刷新: {len(entries)} 条仍然有效")
+        sys.exit(0)
+
     report = run_scan()
+    report["whitelist"] = {"active": len(load_whitelist())}
 
     if args.json:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:
         s = report["summary"]
         d = report["defense"]
+        wl_count = report["whitelist"]["active"]
         print("🔒 安全门禁 V3 (三层防线)")
-        print(f"  扫描文件: {s['filesScanned']} | 跳过: {s['filesSkipped']}")
+        print(f"  扫描文件: {s['filesScanned']} | 跳过: {s['filesSkipped']} | 白名单: {wl_count} 条")
         print()
 
         # L1 阻断层

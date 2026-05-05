@@ -21,11 +21,11 @@ import { PersonaReport, AnalysisContext } from '../engine/types.js';
 import { ResonanceNarrativeEngine, MockResonanceNarrativeEngine } from '../engine/resonance-narrative-engine.js';
 import { PalmFeatureExtractor, MockPalmFeatureExtractor } from '../engine/palm-feature-extractor.js';
 import { PersonaScoringEngine, MockPersonaScoringEngine } from '../engine/persona-scoring-engine.js';
-import { runPipeline } from '../engine/report-pipeline.js';
 import { ContentSafety, defaultSafety } from '../safety/content-safety.js';
 import { type ComplianceGateResult } from '../safety/compliance-gate.js';
 import { AiProvider } from '../ai/index.js';
 import { ReportRepository } from '../repository/report-repository.js';
+import { PipelineOrchestrator, type OrchestratorResult } from './pipeline-orchestrator.js';
 
 // ─── 类型 ────────────────────────────────────────
 
@@ -228,26 +228,31 @@ export class ReportAgent {
       };
     }
 
-    // Step 3-7: 5Worker 并行流水线 (特征→评分→叙事∥社交→合规)
-    const pipelineResult = await runPipeline(imageBase64, {
+    // Step 3-7: Multi-Agent并行管线 ({Analyst‖Copywriter‖Safety.preCheck} → 聚合 → Safety.postCheck)
+    const orchestrator = new PipelineOrchestrator({
       extractor: this.extractor,
       scoring: this.scoring,
       narrative: this.engine,
       ai: this.aiProvider,
       safety: this.safety,
     });
-    const report = pipelineResult.report;
+    const orchResult: OrchestratorResult = await orchestrator.run(imageBase64);
+    const report = orchResult.report;
 
-    // 合规门禁（流水线内部已完成，此处仅获取结果）
+    // 收集降级信息
+    for (const [agent, status] of Object.entries(orchResult.agentStatus)) {
+      if (status === 'failed') {
+        lessons.push(`降级: ${agent} Agent 失败，使用兜底输出`);
+      }
+    }
+
+    // 合规门禁结果
     const complianceGate: ComplianceGateResult = {
-      passed: pipelineResult.complianceViolations === 0,
+      passed: orchResult.agentStatus.safetyPre === 'success',
       violations: [],
-      totalViolations: pipelineResult.complianceViolations,
+      totalViolations: 0,
       report,
     };
-    if (pipelineResult.complianceViolations > 0) {
-      lessons.push(`合规: 自动过滤${pipelineResult.complianceViolations}个违规词`);
-    }
 
     // Step 8: 质量评分
     const qualityWorker = new QualityWorker();

@@ -43,7 +43,7 @@ export class CopywriterAgent {
       return this.engineFallback(input);
     }
 
-    const { scores, visualAnchors, personaType, personaLabel, identityBadge } = input;
+    const { scores, visualAnchors, personaLabel, identityBadge } = input;
     const topScore = [...scores].sort((a, b) => b.score - a.score)[0];
     const lowScore = [...scores].sort((a, b) => a.score - b.score)[scores.length - 1];
 
@@ -103,7 +103,7 @@ ${personaHint}
       lineClarity: input.visualAnchors.lineClarity,
       lineCount: input.visualAnchors.lineCount,
       mountProminence: [50, 50, 50, 60, 50],
-    }, input.personaType ? { personaType: input.personaType } : undefined);
+    });
 
     return {
       summary: result.summary,
