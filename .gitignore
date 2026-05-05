@@ -7,3 +7,7 @@ dist/
 coverage/
 .vitest/
 .claude/security-report.json
+memory/reflexion/
+messages/
+scripts/__pycache__/
+server/memory/
