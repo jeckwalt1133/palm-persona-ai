@@ -1,35 +1,33 @@
 {
   "version": "1.0",
-  "updated": "2026-05-06T05:30:00Z",
+  "updated": "2026-05-05T20:42:05Z",
   "session": {
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T20:41:11Z"
+    "lastCheckpoint": "2026-05-05T20:42:20Z"
   },
   "currentTask": {
-    "id": "V7-W3-MONITOR-R2",
-    "title": "R2监控: 马(埋点方案)+王(文案模块03)+周(同音字)",
-    "assignedTo": "nie",
-    "status": "in_progress",
+    "id": "V7-W3-MONITOR-R3",
+    "title": "R3监控: 马(Heartbeat实现)+王(文案审查)+周(密钥扫描)",
     "subTasks": [
       {
-        "id": "V7-W3-005",
+        "id": "V7-W3-008",
         "assignee": "ma",
         "status": "dispatched",
-        "title": "移动端埋点可靠性方案"
+        "title": "PageHeartbeat H5实现"
       },
       {
-        "id": "V7-W3-006",
+        "id": "V7-W3-009",
         "assignee": "wang",
         "status": "dispatched",
-        "title": "文案教学模块03"
+        "title": "文案全量审查"
       },
       {
-        "id": "V7-W3-003",
+        "id": "V7-W3-007",
         "assignee": "zhou",
-        "status": "in_progress",
-        "title": "同音字字典扩展"
+        "status": "dispatched",
+        "title": "SEC-004密钥扫描增强"
       }
     ]
   },
@@ -190,6 +188,24 @@
       "title": "文案教学模块03 — 技术概念的消费级翻译",
       "evidence": "curriculum/guest-modules/copywriting-03-consumer-translation.md 412行: 12术语翻译对照表+5条工程→产品翻译原则+3练习+参考答案+grading+safety",
       "completedAt": "2026-05-06T05:30:00Z"
+    },
+    {
+      "id": "V7-W3-003",
+      "title": "周富贵同音字字典扩展",
+      "completedAt": "2026-05-05T20:42:05Z",
+      "result": "329变体93%覆盖率, SEC-003验证通过"
+    },
+    {
+      "id": "V7-W3-005",
+      "title": "马富贵移动端埋点可靠性研究",
+      "completedAt": "2026-05-05T20:42:05Z",
+      "result": "PageHeartbeat机制设计,3端API对比,心跳协议"
+    },
+    {
+      "id": "V7-W3-006",
+      "title": "王富贵文案教学模块03",
+      "completedAt": "2026-05-05T20:42:05Z",
+      "result": "技术概念消费级翻译5原则+10术语翻译+15练习题"
     }
   ],
   "teamMembers": {
@@ -360,9 +376,8 @@
   "sprint": {
     "name": "Week 3 Sprint",
     "status": "in_progress",
-    "tasksTotal": 6,
-    "tasksCompleted": 3,
-    "tasksDispatched": 2,
-    "tasksInProgress": 1
+    "tasksTotal": 9,
+    "tasksCompleted": 6,
+    "tasksInProgress": 3
   }
 }
