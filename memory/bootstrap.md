@@ -6,6 +6,15 @@ updated: 2026-05-05 22:25
 version: AI师生研究院 V-6.1
 ---
 
+## 一句话速览
+
+**AI师徒系统——让AI教AI，产出真实可验证的结果。**
+
+三句话：
+1. 富贵军团是4个AI组成的研发团队（老师+学生+文案+质检），已在9小时内完成6代架构演化
+2. 当前在V6全球定位阶段，已产出论文初稿、开源仓库、公网部署、对抗防御等6个可验证成果
+3. 下次启动：读 CLAUDE.md → 读本文件 → git log -1 → pnpm run typecheck
+
 ## 团队：富贵军团
 
 聂富贵(老师/Tech Lead/DeepSeek V4 Pro) | 马富贵(学生/Senior Eng/DeepSeek V4 Flash) | 王富贵(文案/豆包Seed-2.0-Pro) | 周富贵(质量/千问Qwen3-Max)
@@ -84,4 +93,4 @@ L0 教学暗线 0.1→0.2→0.3  ~0.1(材料包) | 0.2锁定
 - H5: https://b64b44683f1b13.lhr.life  ✅ 2026-05-05 22:25 验证 HTTPS 200 (localhost.run)
 - 本地: http://localhost:3001
 - 隧道: SSH nohup localhost.run (PID 138358) 保活30s
-- DeepSeek API: sk-3edb3841d6094dce8d4f6272d79c0cc6 (降级链路: deepseek→doubao→qwen→mock)
+- DeepSeek API: DEEPSEEK_API_KEY (已配置于 server/.env，降级链路: deepseek→doubao→qwen→mock)

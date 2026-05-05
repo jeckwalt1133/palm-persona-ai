@@ -51,7 +51,7 @@
           "status": "completed",
           "date": "2026-05-05",
           "requirement": "精读10篇论文+写批判性综述(≥5000字)",
-          "evidence": "learning/agent-research-survey-2026.md — 18506字节, 10篇论文, 5维度批判, 12参考"
+          "evidence": "learning/agent-research-survey-2026.md — 10篇论文覆盖5个Agent子领域，每篇≥2维度批判分析，引用12篇参考文献"
         },
         {
           "level": "2.2",
@@ -87,7 +87,7 @@
           "level": "3.2",
           "name": "迭代者",
           "status": "locked",
-          "requirement": "功能被真实用户使用，根据反馈迭代≥3次",
+          "requirement": "功能被≥10个真实用户使用，产生≥3条有效反馈并根据反馈迭代",
           "evidence": "待完成"
         },
         {

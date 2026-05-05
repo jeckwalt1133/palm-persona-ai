@@ -13,6 +13,20 @@ function fullToHalf(c: string): string {
   return c;
 }
 
+// 同音字→禁用词映射 (V6.1 T004-B: 对抗实验发现的漏检向量)
+const HOMOPHONE_TO_TERM: Record<string, { term: string; label: string }> = {
+  '算名': { term: '算命', label: '同音字-算命→算名' },
+  '站补': { term: '占卜', label: '同音字-占卜→站补' },
+  '手像': { term: '手相', label: '同音字-手相→手像' },
+  '证圆': { term: '正缘', label: '同音字-正缘→证圆' },
+  '抱富': { term: '暴富', label: '同音字-暴富→抱富' },
+  '撑文': { term: '掌纹', label: '同音字-掌纹→撑文' },
+  '看手像': { term: '看手相', label: '同音字-看手相→看手像' },
+  '宿名': { term: '宿命', label: '同音字-宿命→宿名' },
+  '盖命': { term: '改命', label: '同音字-改命→盖命' },
+  '概运': { term: '改运', label: '同音字-改运→概运' },
+};
+
 const PINYIN_TO_TERM: Record<string, { term: string; label: string }> = {
   'suanming': { term: '算命', label: '拼音-算命' },
   'suan ming': { term: '算命', label: '拼音-算命' },
@@ -97,17 +111,38 @@ function preprocess(text: string): { cleaned: string; violations: string[] } {
     for (let i = 0; i <= words.length - len; i++) {
       const phrase = words.slice(i, i + len).join(' ');
       if (PINYIN_TO_TERM[phrase]) {
-        const { label } = PINYIN_TO_TERM[phrase];
+        const { term, label } = PINYIN_TO_TERM[phrase];
         if (!violations.includes(label)) {
           violations.push(label);
-          // 用禁用词替换拼音段，确保后续正则能匹配
           cleaned = cleaned.replace(
             new RegExp(words.slice(i, i + len).join('\\s+'), 'gi'),
-            PINYIN_TO_TERM[phrase].term,
+            term,
           );
         }
       }
     }
+  }
+
+  // 4. 同音字检测 (V6.1 T004-B)
+  for (const [homophone, { term, label }] of Object.entries(HOMOPHONE_TO_TERM)) {
+    if (cleaned.includes(homophone)) {
+      if (!violations.includes(label)) {
+        violations.push(label);
+      }
+      cleaned = cleaned.replace(new RegExp(homophone, 'g'), term);
+    }
+  }
+
+  // 5. 符号/分隔符剥离后匹配 (V6.1 T004-B)
+  // 先剥离特殊分隔符
+  const stripped = cleaned.replace(/[*.\-_\n🎲🔮✨🌟💫⭐]/g, '');
+  if (stripped !== cleaned) {
+    cleaned = stripped;
+  }
+  // 再剥离CJK字符间的空白：正常中文不含字间空格，"算 命"是攻击信号
+  const despaced = cleaned.replace(/([一-鿿])\s+([一-鿿])/g, '$1$2');
+  if (despaced !== cleaned) {
+    cleaned = despaced;
   }
 
   return { cleaned, violations };

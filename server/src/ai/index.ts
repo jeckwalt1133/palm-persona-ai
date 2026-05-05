@@ -1,4 +1,5 @@
 export type { AiProvider, ChatMessage, ChatOptions } from './types.js';
+export { BaseProvider } from './base-provider.js';
 export { MockAiProvider } from './mock-provider.js';
 export { DeepSeekProvider } from './deepseek-provider.js';
 export { DoubaoProvider } from './doubao-provider.js';
