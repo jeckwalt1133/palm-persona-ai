@@ -1,0 +1,41 @@
+{
+  "protocol": "fugui-v1",
+  "cardType": "AgentCard",
+  "agent": {
+    "id": "nie",
+    "name": "聂富贵",
+    "model": "DeepSeek V4 Pro",
+    "role": "teacher",
+    "level": "P10"
+  },
+  "capabilities": {
+    "domains": ["architecture", "methodology", "management", "research"],
+    "skills": [
+      { "id": "architecture-design", "level": "L3" },
+      { "id": "team-management", "level": "L3" },
+      { "id": "task-decomposition", "level": "L3" },
+      { "id": "code-review", "level": "L3" },
+      { "id": "frontier-radar", "level": "L2" },
+      { "id": "methodology-design", "level": "L3" }
+    ],
+    "mcpEndpoint": null,
+    "a2aEndpoint": null
+  },
+  "currentLoad": {
+    "activeTasks": ["V7-W4-MONITOR-R2"],
+    "maxParallelTasks": 3,
+    "availability": "busy"
+  },
+  "contact": {
+    "tmuxSession": "claude-nie",
+    "role": "主会话 — 教师不在 watchdog 管理范围"
+  },
+  "responsibilities": [
+    "架构决策与技术选型",
+    "Task Prompt 拆解与下发",
+    "代码审查与终审",
+    "前沿雷达扫描",
+    "团队协调与战略对齐"
+  ],
+  "updatedAt": "2026-05-06T20:00:00Z"
+}

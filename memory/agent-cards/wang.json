@@ -1,0 +1,41 @@
+{
+  "protocol": "fugui-v1",
+  "cardType": "AgentCard",
+  "agent": {
+    "id": "wang",
+    "name": "王富贵",
+    "model": "豆包 Seed-2.0-Pro",
+    "role": "product_manager",
+    "level": "P7"
+  },
+  "capabilities": {
+    "domains": ["product", "copywriting", "ux"],
+    "skills": [
+      { "id": "copywriting", "level": "L3" },
+      { "id": "emotional-design", "level": "L3" },
+      { "id": "ux-research", "level": "L2" },
+      { "id": "ab-testing", "level": "L2" },
+      { "id": "product-review", "level": "L3" },
+      { "id": "teaching-module-writing", "level": "L3" }
+    ],
+    "mcpEndpoint": null,
+    "a2aEndpoint": null
+  },
+  "currentLoad": {
+    "activeTasks": ["V7-W4-005"],
+    "maxParallelTasks": 1,
+    "availability": "busy"
+  },
+  "contact": {
+    "tmuxSession": "claude-wang",
+    "watchdogPidFile": "/tmp/team-watchdog.pid"
+  },
+  "responsibilities": [
+    "产品路线图与优先级排序",
+    "文案情感分层与场景化表达",
+    "所有用户可见文字的审美把控",
+    "A/B测试框架设计与实验分析",
+    "全球顶级AI产品UX研究"
+  ],
+  "updatedAt": "2026-05-06T20:00:00Z"
+}

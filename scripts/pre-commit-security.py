@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""pre-commit 安全扫描引擎 — ≥8种密钥模式 + 暂存区扫描 + JSON报告
+"""pre-commit 安全扫描引擎 V3 — 三层防线(L1阻断/L2警告/L3记录) + JSON报告
 
-用法: python3 scripts/pre-commit-security.py [--json] [--test]
-      --json  输出JSON到stdout
-      --test  运行自检测试用例
+用法: python3 scripts/pre-commit-security.py [--json] [--test] [--layer L1|L2|L3|all]
+      --json   输出JSON到stdout
+      --test   运行自检测试用例
+      --layer  仅扫描指定层级 (默认all)
+
+架构: student-notebook/zhou-three-layer-defense.md
 """
 
 import json
@@ -15,7 +18,19 @@ from pathlib import Path
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 
-# ─── 密钥检测模式库（12种，超出8+要求） ──────────
+# ─── 层级分配 (三层防线架构) ───────────────────────
+# L1=阻断 L2=警告 L3=记录 (详见 student-notebook/zhou-three-layer-defense.md)
+LAYER_ASSIGNMENT = {
+    "PAT-001": "L1", "PAT-002": "L1", "PAT-003": "L1",
+    "PAT-004": "L1", "PAT-005": "L1", "PAT-006": "L2",
+    "PAT-007": "L2", "PAT-008": "L1", "PAT-009": "L2",
+    "PAT-010": "L2", "PAT-011": "L2", "PAT-012": "L2",
+    # L3 信息记录层
+    "L3-001": "L3", "L3-002": "L3", "L3-003": "L3",
+    "L3-004": "L3", "L3-005": "L3", "L3-006": "L3",
+}
+
+# ─── 密钥检测模式库 ───────────────────────────────
 
 PATTERNS = [
     {
@@ -24,6 +39,7 @@ PATTERNS = [
         "pattern": r'sk-[a-zA-Z0-9]{20,}',
         "severity": "critical",
         "description": "OpenAI/DeepSeek/Anthropic API密钥，格式sk-开头+20位以上字母数字",
+        "defenseLayer": "L1",
         "remediation": "移至.env文件，使用process.env引用；在平台控制台轮换密钥",
     },
     {
@@ -114,6 +130,55 @@ PATTERNS = [
         "description": "包管理器注册表令牌（npm/docker/pypi/nuget）",
         "remediation": "使用CI Secret变量注入，本地开发用--registry配置",
     },
+    # ─── L3 记录层 (信息安全气味，不阻断不警告) ───
+    {
+        "id": "L3-001",
+        "name": "硬编码内网地址",
+        "pattern": r'(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*[:;,]',
+        "severity": "info",
+        "description": "代码中含内网地址，部署到生产环境时可能失效",
+        "remediation": "使用环境变量或配置文件管理地址",
+    },
+    {
+        "id": "L3-002",
+        "name": "chmod 777 危险权限",
+        "pattern": r'chmod\s+(777|a\+rwx|ugo\+rwx)',
+        "severity": "info",
+        "description": "文件权限设为所有人可读写执行，存在安全风险",
+        "remediation": "使用最小权限原则：chmod 644(文件) 或 755(目录)",
+    },
+    {
+        "id": "L3-003",
+        "name": "TODO/HACK含安全关键词",
+        "pattern": r'(TODO|FIXME|HACK|XXX|HACKY)\s*[:\-]?\s*.*(安全|security|密钥|token|secret|password|encrypt|crypto|漏洞|合规)',
+        "severity": "info",
+        "description": "标记了但未完成的安全相关修复/临时方案",
+        "remediation": "在sprint中安排修复时间，或将TODO转为正式task",
+    },
+    {
+        "id": "L3-004",
+        "name": "已弃用API使用",
+        "pattern": r'(substr\s*\(|escape\s*\(|unescape\s*\(|document\.write\s*\()',
+        "severity": "info",
+        "description": "使用了JavaScript已弃用的API (substr/escape/unescape/document.write)",
+        "remediation": "substr→slice/substring, escape→encodeURIComponent, document.write→DOM API",
+    },
+    {
+        "id": "L3-005",
+        "name": "缺少输入长度校验",
+        "pattern": r'\.(length|size|count)\s*(>|<|>=|<=)\s*\d{4,}(?!.*\.(length|size))',
+        "severity": "info",
+        "description": "发现大数值长度检查，需确认有输入长度限制防止DoS",
+        "remediation": "在API入口添加输入长度校验（推荐zod/yup schema）",
+    },
+    {
+        "id": "L3-006",
+        "name": "console.log打印完整对象",
+        "pattern": r'console\.(log|info|debug|warn)\((?!.*\.(length|toString|slice|substring))[^)]{30,}\)',
+        "severity": "info",
+        "description": "console输出长内容，检查是否包含敏感数据",
+        "remediation": "生产环境使用专用logger并配置redact规则",
+    },
 ]
 
 
@@ -160,6 +225,7 @@ def scan_diff(file_path, diff_content):
                 findings.append({
                     "patternId": pat["id"],
                     "patternName": pat["name"],
+                    "defenseLayer": LAYER_ASSIGNMENT.get(pat["id"], "L2"),
                     "severity": pat["severity"],
                     "file": file_path,
                     "line": f"+{line_num_offset + 1}",
@@ -220,26 +286,49 @@ def run_scan():
             findings = scan_diff(f, diff)
             all_findings.extend(findings)
 
-    # 按严重性排序
-    severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
-    all_findings.sort(key=lambda x: severity_order.get(x["severity"], 5))
+    # 按层级+严重性排序
+    layer_order = {"L1": 0, "L2": 1, "L3": 2}
+    severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
+    all_findings.sort(key=lambda x: (
+        layer_order.get(x.get("defenseLayer", "L2"), 5),
+        severity_order.get(x.get("severity", "info"), 5),
+    ))
 
-    critical_count = sum(1 for f in all_findings if f["severity"] == "critical")
-    high_count = sum(1 for f in all_findings if f["severity"] == "high")
+    # 分层统计
+    L1_findings = [f for f in all_findings if f.get("defenseLayer") == "L1"]
+    L2_findings = [f for f in all_findings if f.get("defenseLayer") == "L2"]
+    L3_findings = [f for f in all_findings if f.get("defenseLayer") == "L3"]
+
+    l1_critical = sum(1 for f in L1_findings if f["severity"] == "critical")
+    l2_high = sum(1 for f in L2_findings if f["severity"] in ("high", "critical"))
 
     report = {
         "scanTime": datetime.now(timezone.utc).isoformat(),
         "scanner": "pre-commit-security.py",
-        "version": "2.0.0",
+        "version": "3.0.0",
+        "architecture": "三层防线 (L1阻断/L2警告/L3记录)",
+        "defense": {
+            "L1_blocked": l1_critical > 0,
+            "L1_total": len(L1_findings),
+            "L1_critical": l1_critical,
+            "L2_total": len(L2_findings),
+            "L2_warnings": l2_high,
+            "L3_total": len(L3_findings),
+        },
         "summary": {
             "filesScanned": scanned,
             "filesSkipped": skipped,
             "totalFindings": len(all_findings),
-            "criticalFindings": critical_count,
-            "highFindings": high_count,
-            "blocked": critical_count > 0,
+            "criticalFindings": l1_critical,
+            "highFindings": l2_high,
+            "infoRecords": len(L3_findings),
+            "blocked": l1_critical > 0,
         },
-        "findings": all_findings,
+        "findings": {
+            "L1": L1_findings,
+            "L2": L2_findings,
+            "L3": L3_findings,
+        },
     }
 
     return report
@@ -395,25 +484,47 @@ def main():
     if args.json:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:
-        # 人类可读输出
         s = report["summary"]
-        print("🔒 pre-commit 安全扫描")
+        d = report["defense"]
+        print("🔒 安全门禁 V3 (三层防线)")
         print(f"  扫描文件: {s['filesScanned']} | 跳过: {s['filesSkipped']}")
-        print(f"  发现问题: {s['totalFindings']} (严重:{s['criticalFindings']} 高危:{s['highFindings']})")
         print()
 
-        if report["findings"]:
-            for f in report["findings"]:
-                icon = "❌" if f["severity"] == "critical" else "⚠️"
-                print(f"  {icon} [{f['patternId']}] {f['file']}: {f['match'][:40]}")
-                print(f"     修复: {f['remediation']}")
-            print()
-            if s["blocked"]:
-                print("❌ 提交被拦截：发现严重级别密钥泄露。请移除密钥后重试。")
-            else:
-                print("⚠️ 发现疑似密钥模式，请人工复查。")
+        # L1 阻断层
+        print("[L1 阻断层]")
+        if report["findings"]["L1"]:
+            for f in report["findings"]["L1"]:
+                print(f"  ❌ [{f['patternId']}] {f['file']}: {f['match'][:50]}")
+                print(f"     → {f['remediation']}")
         else:
-            print("  ✅ 未发现密钥泄露")
+            print("  ✅ 全部通过")
+        print()
+
+        # L2 警告层
+        print("[L2 警告层]")
+        if report["findings"]["L2"]:
+            for f in report["findings"]["L2"]:
+                print(f"  ⚠️  [{f['patternId']}] {f['file']}: {f['match'][:50]}")
+                print(f"     → {f['remediation']}")
+        else:
+            print("  ✅ 全部通过")
+        print()
+
+        # L3 记录层 (静默，仅计数)
+        print(f"[L3 记录层]")
+        if report["findings"]["L3"]:
+            print(f"  📊 {len(report['findings']['L3'])} 项记录已写入报告")
+        else:
+            print("  ✅ 无记录")
+        print()
+
+        # 判定
+        if d["L1_blocked"]:
+            print("❌ 提交被拦截 (L1阻断层发现严重威胁)")
+        elif d["L2_warnings"] > 0:
+            print(f"⚠️  放行 (L2有{d['L2_warnings']}个警告，请复查)")
+        else:
+            print("✅ 三层防线全部通过")
 
     # 退出码：critical级别阻断提交
     sys.exit(1 if report["summary"]["blocked"] else 0)

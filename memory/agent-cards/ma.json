@@ -1,0 +1,41 @@
+{
+  "protocol": "fugui-v1",
+  "cardType": "AgentCard",
+  "agent": {
+    "id": "ma",
+    "name": "马富贵",
+    "model": "DeepSeek V4 Flash",
+    "role": "student",
+    "level": "P7"
+  },
+  "capabilities": {
+    "domains": ["architecture", "engineering", "research"],
+    "skills": [
+      { "id": "memory-research", "level": "L2" },
+      { "id": "protocol-design", "level": "L2" },
+      { "id": "cross-review", "level": "L2" },
+      { "id": "frontend-dev", "level": "L1" },
+      { "id": "backend-dev", "level": "L2" },
+      { "id": "knowledge-graph", "level": "L2" },
+      { "id": "test-automation", "level": "L2" }
+    ],
+    "mcpEndpoint": "http://localhost:3001/mcp/ma",
+    "a2aEndpoint": null
+  },
+  "currentLoad": {
+    "activeTasks": ["V7-W4-004"],
+    "maxParallelTasks": 1,
+    "availability": "busy"
+  },
+  "contact": {
+    "tmuxSession": "claude-ma",
+    "watchdogPidFile": "/tmp/student-watchdog.pid"
+  },
+  "responsibilities": [
+    "主力开发与实现",
+    "外部前沿技术深度研究",
+    "独立方案设计与影响分析",
+    "跨领域工程审查"
+  ],
+  "updatedAt": "2026-05-06T20:00:00Z"
+}

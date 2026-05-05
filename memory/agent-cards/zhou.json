@@ -1,0 +1,42 @@
+{
+  "protocol": "fugui-v1",
+  "cardType": "AgentCard",
+  "agent": {
+    "id": "zhou",
+    "name": "周富贵",
+    "model": "千问 Qwen3-Max",
+    "role": "quality_engineer",
+    "level": "P7"
+  },
+  "capabilities": {
+    "domains": ["security", "quality", "compliance"],
+    "skills": [
+      { "id": "security-audit", "level": "L3" },
+      { "id": "compliance-check", "level": "L3" },
+      { "id": "code-review", "level": "L3" },
+      { "id": "ci-automation", "level": "L2" },
+      { "id": "homophone-dict", "level": "L3" },
+      { "id": "threat-modeling", "level": "L2" },
+      { "id": "constitutional-classifier", "level": "L1" }
+    ],
+    "mcpEndpoint": null,
+    "a2aEndpoint": null
+  },
+  "currentLoad": {
+    "activeTasks": ["V7-W4-006"],
+    "maxParallelTasks": 1,
+    "availability": "busy"
+  },
+  "contact": {
+    "tmuxSession": "claude-zhou",
+    "watchdogPidFile": "/tmp/team-watchdog.pid"
+  },
+  "responsibilities": [
+    "安全审计与漏洞识别",
+    "合规审查（27项禁用词+同音字检测）",
+    "CI/CD 质量门禁维护",
+    "代码审查与工程标准维护",
+    "全球AI安全前沿研究"
+  ],
+  "updatedAt": "2026-05-06T20:00:00Z"
+}
