@@ -5,7 +5,7 @@
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T21:51:30Z"
+    "lastCheckpoint": "2026-05-05T22:11:23Z"
   },
   "currentTask": {
     "id": "V7-W5-SPRINT",
@@ -368,14 +368,14 @@
       "rank": 1,
       "taskId": "V7-W5-001",
       "title": "马富贵 Agent协议产品化",
-      "status": "in_progress",
+      "status": "completed",
       "assignedTo": "ma"
     },
     {
       "rank": 2,
       "taskId": "V7-W5-002",
       "title": "王富贵 UX调研产品落地",
-      "status": "in_progress",
+      "status": "completed",
       "assignedTo": "wang"
     },
     {
@@ -384,6 +384,13 @@
       "title": "周富贵 安全L1+L3实现",
       "status": "in_progress",
       "assignedTo": "zhou"
+    },
+    {
+      "rank": 4,
+      "taskId": "V7-W5-004",
+      "title": "马富贵 Multi-Agent产品管线",
+      "status": "in_progress",
+      "assignedTo": "ma"
     }
   ],
   "infrastructure": {
