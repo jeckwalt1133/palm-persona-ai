@@ -1,11 +1,11 @@
 {
   "version": "1.0",
-  "updated": "2026-05-05T21:49:01Z",
+  "updated": "2026-05-05T23:02:37Z",
   "session": {
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T22:57:53Z"
+    "lastCheckpoint": "2026-05-05T23:09:05Z"
   },
   "currentTask": {
     "id": "V7-W5-SPRINT",
@@ -30,6 +30,11 @@
         "id": "V7-W5-004",
         "assignee": "ma",
         "title": "Multi-Agent产品管线 — 串行→并行, 4Agent模块, Promise.all编排"
+      },
+      {
+        "id": "V7-W5-005",
+        "assignee": "wang",
+        "title": "竞品动态追踪 + 产品Roadmap v2 + 留存文案设计"
       }
     ]
   },
@@ -343,15 +348,15 @@
       "status": "active",
       "tmuxSession": "claude-ma",
       "currentTask": "V7-W5-004 Multi-Agent产品管线",
-      "lastActive": "2026-05-06T08:45:00Z",
+      "lastActive": "2026-05-05T23:02:37Z",
       "currentFocus": "V7-W5-004: 串行→并行管线重构, 4 Agent模块, Promise.all编排"
     },
     "wang": {
       "status": "active",
       "lastReview": null,
-      "currentFocus": "【PM】V7-W5-002完成: 语气切换(温和/犀利)+换一句(轮换备选)+分享落地页原型(Teleport模式)。调研→产品闭环。",
-      "currentTask": "V7-W5-002 UX调研产品落地",
-      "lastActive": "2026-05-06T08:00:00Z",
+      "currentFocus": "【PM】V7-W5-005: 竞品动态追踪(5月更新)+产品Roadmap v2(P0/P1/P2)+6条新文案(推送/回流/变化提醒)",
+      "currentTask": "V7-W5-005 竞品追踪+Roadmap v2+留存文案",
+      "lastActive": "2026-05-05T23:02:37Z",
       "tmuxSession": "claude-wang"
     },
     "zhou": {
@@ -391,6 +396,13 @@
       "title": "马富贵 Multi-Agent产品管线",
       "status": "in_progress",
       "assignedTo": "ma"
+    },
+    {
+      "rank": 5,
+      "taskId": "V7-W5-005",
+      "title": "王富贵 竞品追踪+Roadmap v2+留存文案",
+      "status": "pending",
+      "assignedTo": "wang"
     }
   ],
   "infrastructure": {

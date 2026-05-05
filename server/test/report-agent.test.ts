@@ -61,8 +61,10 @@ describe('ReportAgent (毕业设计)', () => {
 });
 
 describe('ReportPipeline (毕业设计)', () => {
+  const mockExtractor = new MockPalmFeatureExtractor();
+
   it('Mock 模式: 5 Worker 全部完成', async () => {
-    const result = await runPipeline(TEST_IMAGE);
+    const result = await runPipeline(TEST_IMAGE, { extractor: mockExtractor });
     expect(result.report).toBeDefined();
     expect(result.timing.extractMs).toBeGreaterThanOrEqual(0);
     expect(result.timing.scoreMs).toBeGreaterThanOrEqual(0);
@@ -72,7 +74,7 @@ describe('ReportPipeline (毕业设计)', () => {
   });
 
   it('报告包含视觉锚点', async () => {
-    const result = await runPipeline(TEST_IMAGE);
+    const result = await runPipeline(TEST_IMAGE, { extractor: mockExtractor });
     expect(result.report.visualAnchors).toBeDefined();
     expect(result.report.visualAnchors.opening).toBeTruthy();
     expect(result.report.visualAnchors.widthLabel).toBeTruthy();
@@ -80,18 +82,18 @@ describe('ReportPipeline (毕业设计)', () => {
   });
 
   it('报告包含关系频率密码', async () => {
-    const result = await runPipeline(TEST_IMAGE);
+    const result = await runPipeline(TEST_IMAGE, { extractor: mockExtractor });
     expect(result.report.relationshipCode).toBeDefined();
     expect(result.report.relationshipCode.frequencyLabel).toBeTruthy();
   });
 
   it('合规违规为 0（Mock 模式）', async () => {
-    const result = await runPipeline(TEST_IMAGE);
+    const result = await runPipeline(TEST_IMAGE, { extractor: mockExtractor });
     expect(result.complianceViolations).toBe(0);
   });
 
   it('评分在 0-100 范围内', async () => {
-    const result = await runPipeline(TEST_IMAGE);
+    const result = await runPipeline(TEST_IMAGE, { extractor: mockExtractor });
     for (const s of result.report.scores) {
       expect(s.score).toBeGreaterThanOrEqual(0);
       expect(s.score).toBeLessThanOrEqual(100);
