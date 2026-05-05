@@ -2,8 +2,8 @@
 name: Bootstrap — 会话快速启动
 description: 团队身份+当前进度+恢复指令+关键文件索引。唯一存储路径D盘。
 type: project
-updated: 2026-05-05 13:30
-version: V6 全球定位+产品化
+updated: 2026-05-05 20:53
+version: AI师生研究院 V-6.1
 ---
 
 ## 团队：富贵军团
@@ -81,5 +81,6 @@ L0 教学暗线 0.1→0.2→0.3  ~0.1(材料包) | 0.2锁定
 
 ## 公网地址
 
-- H5: http://bore.pub:63959
+- H5: http://bore.pub:63959  ✅ 2026-05-05 20:53 验证 HTTP 200
 - 本地: http://localhost:3002
+- Bore PID: 114689  (/tmp/bore local 3002 --to bore.pub --port 63959)

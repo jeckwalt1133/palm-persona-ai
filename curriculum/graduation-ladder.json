@@ -1,9 +1,9 @@
 {
-  "system": "AI 毕业阶梯 — 5段×3阶 产出矩阵 (V5核心/V6沿用)",
+  "system": "AI师生研究院 — 5段×3阶 产出矩阵",
   "version": "2.1.0",
-  "parentSystem": "V6 全球定位+产品化 — 完整进化见 memory/evolution-v1-v6.md",
+  "parentSystem": "AI师生研究院 V-6.1 — 完整进化见 memory/evolution-v1-v6.md",
   "created": "2026-05-05",
-  "updated": "2026-05-05",
+  "updated": "2026-05-05 20:55",
   "designRationale": "用户(贵哥)5阶段产出骨架 + Claude 58级颗粒度血肉 → 合成15级+教学暗线。每段3阶(初阶跟着做→中阶独立做→高阶带人做)，每级有可验证的数字指标。",
   "philosophy": "不产出真实影响力的学习是自我感动。真实影响力=可被第三方验证的结果(论文被引/产品DAU/GitHub Star/收入)。",
   "stages": [
@@ -81,7 +81,7 @@
           "status": "completed",
           "date": "2026-05-05",
           "requirement": "独立交付1个功能模块上线+真实用户使用",
-          "evidence": "H5公网部署 bore.pub:63959 (HTTP 200)，6张报告卡片完整可测"
+          "evidence": "bore.pub:63959 (HTTP 200, 2026-05-05 20:53 恢复验证)"
         },
         {
           "level": "3.2",
@@ -214,7 +214,7 @@
       "0.2",
       "0.3"
     ],
-    "currentFocus": "L2.2 实验者 — 可复现实验+代码开源+baseline对比",
+    "currentFocus": "V6.1执行中 — P0完成+P1推进",
     "todayLearningHours": 10,
     "todayTargetHours": 12,
     "achievements": [
@@ -224,7 +224,7 @@
       "L2.2: 对抗测试实验 21样本 10种攻击向量",
       "L0.1: 教学材料包 10课索引+8周路径"
     ],
-    "lastUpdated": "2026-05-05 12:40"
+    "lastUpdated": "2026-05-05 20:55"
   },
   "promotionRules": {
     "withinTier": "完成当前等级所有requirement即可晋升（同段内不跳级）",
