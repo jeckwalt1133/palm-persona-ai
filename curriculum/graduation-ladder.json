@@ -81,7 +81,7 @@
           "status": "completed",
           "date": "2026-05-05",
           "requirement": "独立交付1个功能模块上线+真实用户使用",
-          "evidence": "bore.pub:63959 (HTTP 200, 2026-05-05 20:53 恢复验证)"
+          "evidence": "https://4e062b49788623.lhr.life (HTTPS 200, localhost.run SSH隧道, 2026-05-05 22:08)"
         },
         {
           "level": "3.2",
@@ -111,7 +111,7 @@
           "status": "completed",
           "date": "2026-05-05",
           "requirement": "发布第一个开源项目(README+CI+文档+示例)",
-          "evidence": "mcp-servers/palm-mcp-server/ — 221行, 3T+3R+3P, MIT许可, 可发布npm"
+          "evidence": "https://github.com/jeckwalt1133/palm-mcp-server — 公开仓库, 3T+3R+3P, MIT许可"
         },
         {
           "level": "4.2",
