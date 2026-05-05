@@ -1,0 +1,33 @@
+{
+  "fugui-task-V7-W5-001-ma": {
+    "id": "fugui-task-V7-W5-001-ma",
+    "type": "TaskCard",
+    "sender": "nie",
+    "receiver": "ma",
+    "status": "acknowledged",
+    "sentAt": "2026-05-05T21:42:04Z",
+    "ttlSeconds": 604800,
+    "expiresAt": "2026-05-12T21:42:04Z",
+    "ackedAt": "2026-05-05T21:42:26Z"
+  },
+  "fugui-task-V7-W5-001-wang": {
+    "id": "fugui-task-V7-W5-001-wang",
+    "type": "TaskCard",
+    "sender": "nie",
+    "receiver": "wang",
+    "status": "delivered",
+    "sentAt": "2026-05-05T21:42:04Z",
+    "ttlSeconds": 604800,
+    "expiresAt": "2026-05-12T21:42:04Z"
+  },
+  "fugui-task-V7-W5-001-zhou": {
+    "id": "fugui-task-V7-W5-001-zhou",
+    "type": "TaskCard",
+    "sender": "nie",
+    "receiver": "zhou",
+    "status": "delivered",
+    "sentAt": "2026-05-05T21:42:05Z",
+    "ttlSeconds": 604800,
+    "expiresAt": "2026-05-12T21:42:05Z"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "jsonrpc": "2.0",
+  "id": "fugui-task-V7-W5-001-zhou",
+  "method": "task.dispatch",
+  "params": {
+    "protocol": "fugui-v1",
+    "cardType": "TaskCard",
+    "task": {
+      "id": "V7-W5-001",
+      "title": "Agent协议产品化 — 团队消息总线+广播+inbox检查器",
+      "domain": "engineering",
+      "priority": "P0",
+      "requirement": "将agent-router.py从研究原型升级为团队日常工具：1) team-broadcast.sh一键广播 2) check-inbox.sh消息检查 3) 与tmux+watchdog集成",
+      "acceptanceCriteria": [
+        "team-broadcast.sh 一键发送3个TaskCard，30秒内全部送达",
+        "check-inbox.sh 能显示未读消息数量和内容摘要",
+        "3天统计: 消息丢失率=0%，P99延迟<5秒",
+        "agent-router.py 集成到 team-watchdog.sh 守护"
+      ],
+      "outputPath": "student-notebook/ma-agent-productization.md",
+      "additionalOutputs": [
+        "scripts/team-broadcast.sh",
+        "scripts/check-inbox.sh"
+      ],
+      "evidenceRequired": [
+        "runnable_script",
+        "broadcast_log",
+        "latency_stats"
+      ],
+      "estimatedHours": 3
+    },
+    "sender": {
+      "agentId": "nie",
+      "name": "聂富贵",
+      "role": "teacher"
+    },
+    "receiver": {
+      "agentId": "zhou",
+      "name": "周富贵",
+      "role": "quality_engineer"
+    },
+    "direction": "vertical",
+    "dependsOn": [
+      "V7-W4-004",
+      "V7-W4-007"
+    ],
+    "createdAt": "2026-05-06T12:00:00Z"
+  }
+}

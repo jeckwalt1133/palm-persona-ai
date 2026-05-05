@@ -1,5 +1,5 @@
 {
-  "scanTime": "2026-05-05T21:47:58.704521+00:00",
+  "scanTime": "2026-05-05T21:50:08.212438+00:00",
   "scanner": "pre-commit-security.py",
   "version": "3.0.0",
   "architecture": "三层防线 (L1阻断/L2警告/L3记录)",
@@ -9,15 +9,15 @@
     "L1_critical": 0,
     "L2_total": 0,
     "L2_warnings": 0,
-    "L3_total": 2
+    "L3_total": 4
   },
   "summary": {
-    "filesScanned": 5,
-    "filesSkipped": 0,
-    "totalFindings": 2,
+    "filesScanned": 4,
+    "filesSkipped": 1,
+    "totalFindings": 4,
     "criticalFindings": 0,
     "highFindings": 0,
-    "infoRecords": 2,
+    "infoRecords": 4,
     "blocked": false
   },
   "findings": {
@@ -29,10 +29,10 @@
         "patternName": "console.log打印完整对象",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "h5-demo/share-landing.html",
-        "line": "+272",
+        "file": ".claude/security-report.json",
+        "line": "+44",
         "match": "console.log('[Teleport] 分享落地页 — 从A的分享→B的体验是连续故事')",
-        "context": "console.log('[Teleport] 分享落地页 — 从A的分享→B的体验是连续故事');",
+        "context": "\"match\": \"console.log('[Teleport] 分享落地页 — 从A的分享→B的体验是连续故事')\",",
         "remediation": "生产环境使用专用logger并配置redact规则"
       },
       {
@@ -40,10 +40,32 @@
         "patternName": "console.log打印完整对象",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "h5-demo/share-landing.html",
-        "line": "+273",
+        "file": ".claude/security-report.json",
+        "line": "+45",
+        "match": "console.log('[Teleport] 分享落地页 — 从A的分享→B的体验是连续故事')",
+        "context": "\"context\": \"console.log('[Teleport] 分享落地页 — 从A的分享→B的体验是连续故事');\",",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+55",
         "match": "console.log('[Teleport] 分享者:', sharerName, '| 人格:', personaLabel)",
-        "context": "console.log('[Teleport] 分享者:', sharerName, '| 人格:', personaLabel);",
+        "context": "\"match\": \"console.log('[Teleport] 分享者:', sharerName, '| 人格:', personaLabel)\",",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+56",
+        "match": "console.log('[Teleport] 分享者:', sharerName, '| 人格:', personaLabel)",
+        "context": "\"context\": \"console.log('[Teleport] 分享者:', sharerName, '| 人格:', personaLabel);\",",
         "remediation": "生产环境使用专用logger并配置redact规则"
       }
     ]
