@@ -12,8 +12,9 @@ export default function IndexPage() {
       {/* Hero */}
       <View className="home-hero">
         <Text className="home-title">掌心人格局</Text>
+        <Text className="home-slogan">了解自己，是一种很酷的事</Text>
         <Text className="home-subtitle">
-          伸出手掌，让 AI 看到你的线条里藏着怎样的你——结果可能会让你想截图发给朋友
+          拍一张手掌，AI 会告诉你掌心线条里藏着怎样的你
         </Text>
       </View>
 

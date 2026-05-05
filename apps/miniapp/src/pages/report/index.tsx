@@ -439,7 +439,7 @@ export default function ReportPage() {
           <Text className="truth-text">{report.coreTruth}</Text>
         </View>
         <View className="share-hint">
-          <Text className="share-hint-text">截图发给那个你想到的人——TA会懂的</Text>
+          <Text className="share-hint-text">这张就是你的身份卡——长按保存，发个朋友圈</Text>
         </View>
       </View>
 
@@ -548,7 +548,7 @@ export default function ReportPage() {
                 </View>
               </View>
               <View className="share-hint">
-                <Text className="share-hint-text">发给朋友，看看TA是不是你的"最佳同频"</Text>
+                <Text className="share-hint-text">发给那个你觉得可能同频的人——你们的关系密码可能一模一样</Text>
               </View>
             </View>
           )}
@@ -567,7 +567,7 @@ export default function ReportPage() {
                 </View>
               ))}
               <View className="share-hint">
-                <Text className="share-hint-text">截图发给那个懂你的人——TA会知道为什么像</Text>
+                <Text className="share-hint-text">发到群里——看看朋友们觉得准不准（通常比你自己觉得的还准）</Text>
               </View>
             </View>
           )}
@@ -718,16 +718,16 @@ export default function ReportPage() {
               }
             }}
           >
-            发给朋友，看看谁更懂你
+            你的手掌故事已经生成好了——发给朋友，开启你们的下一个话题
           </View>
         ) : (
           <Button className="btn-share" open-type="share">
-            发给朋友，看看谁更懂你
+            你的手掌故事已经生成好了——发给朋友，开启你们的下一个话题
           </Button>
         )}
         <View className="bottom-invite">
           <Text className="bottom-invite-text">
-            已有 128,634 人通过手掌了解了自己——你的朋友可能也在其中
+            每天都有新的人通过手掌发现自己的另一面——今天是你
           </Text>
         </View>
         <View className="btn-home" onClick={() => Taro.reLaunch({ url: '/pages/index/index' })}>

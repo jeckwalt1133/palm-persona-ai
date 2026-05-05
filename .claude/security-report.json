@@ -1,26 +1,14 @@
 {
-  "scanTime": "2026-05-05T20:59:12.962781+00:00",
+  "scanTime": "2026-05-05T21:21:23.691652+00:00",
   "scanner": "pre-commit-security.py",
   "version": "2.0.0",
   "summary": {
-    "filesScanned": 3,
+    "filesScanned": 4,
     "filesSkipped": 0,
-    "totalFindings": 1,
-    "criticalFindings": 1,
+    "totalFindings": 0,
+    "criticalFindings": 0,
     "highFindings": 0,
-    "blocked": true
+    "blocked": false
   },
-  "findings": [
-    {
-      "patternId": "PAT-001",
-      "patternName": "OpenAI/DeepSeek/Anthropic API Key",
-      "severity": "critical",
-      "file": "_test-debug.ts",
-      "line": "+7",
-      "match": "sk-a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6",
-      "context": "const KEY = \"sk-a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6\";",
-      "remediation": "移至.env文件，使用process.env引用；在平台控制台轮换密钥"
-    }
-  ]
+  "findings": []
 }
-{"summary":{"blocked":false}}

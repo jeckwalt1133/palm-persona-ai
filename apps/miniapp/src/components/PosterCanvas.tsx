@@ -168,7 +168,7 @@ function drawFooter(ctx: CanvasRenderingContext2D, w: number, h: number, shareTe
   ctx.fillText('AI 的趣味解读 · 认真但不较真 · 掌心人格局', w / 2, disclaimerY);
 
   // Slogan
-  ctx.fillText('掌心人格局 · 拍一张手掌，看看AI读出了怎样的你', w / 2, disclaimerY + 24);
+  ctx.fillText('掌心人格局 · 你的手掌里藏着的，可能比你以为的多', w / 2, disclaimerY + 24);
 }
 
 // ══════ 6 种卡片内容绘制 ══════
