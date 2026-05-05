@@ -22,6 +22,8 @@ while IFS= read -r f; do
   [ -z "$f" ] && continue
   [[ "$f" =~ \.(png|jpg|jpeg|gif|svg|ico|woff2?|ttf|lock|sum)$ ]] && continue
   [[ "$f" =~ ^(node_modules|dist|\.next)/ ]] && continue
+  # 跳过 .md 文档 — 教学模式中的正则示例不应被扫描。文档由人审查。
+  [[ "$f" =~ \.md$ ]] && continue
 
   # 只扫描新增行（+），不扫描删除行（-）。删除密钥是安全的
   DIFF=$(git diff --cached -- "$f" 2>/dev/null)
@@ -48,15 +50,27 @@ if git diff --cached --name-only | grep -q '^\.env$'; then
 fi
 echo -e "  ${GREEN}✅ .env 检查通过${NC}"
 
+# ---- 门禁2.5: .md文档密钥警告（不阻断） ----
+MD_WARN=0
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  [[ "$f" =~ \.md$ ]] || continue
+  DIFF=$(git diff --cached -- "$f" 2>/dev/null)
+  if echo "$DIFF" | grep -E '^\+' | grep -qE 'sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16}|ghp_[a-zA-Z0-9]{36}' 2>/dev/null; then
+    echo -e "  ${YELLOW}⚠️  $f: .md文档中含密钥模式（若是教学示例可忽略）${NC}"
+    MD_WARN=1
+  fi
+done <<< "$STAGED"
+[ "$MD_WARN" -eq 0 ] && echo -e "  ${GREEN}✅ .md文档检查通过${NC}"
+
 # ---- 门禁3: 代码模式（警告级） ----
 MODE_FOUND=0
 while IFS= read -r f; do
   [ -z "$f" ] && continue
   [[ "$f" =~ \.(ts|tsx|js|jsx)$ ]] || continue
 
-  # 只扫描新增行（+），不扫描删除行（-）。删除密钥是安全的
   DIFF=$(git diff --cached -- "$f" 2>/dev/null)
-  if echo "$DIFF" | grep -E '^\+' | grep -qE "console\.(log|info|warn)\(.*process\.env" 2>/dev/null; then
+  if echo "$DIFF" | grep -qE "console\.(log|info|warn)\(.*process\.env" 2>/dev/null; then
     echo -e "  ${YELLOW}⚠️  $f: console.log 打印环境变量（检查是否泄露密钥）${NC}"
     MODE_FOUND=1
   fi

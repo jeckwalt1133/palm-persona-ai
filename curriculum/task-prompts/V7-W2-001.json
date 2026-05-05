@@ -1,0 +1,20 @@
+{
+  "taskId": "V7-W2-001",
+  "sender": {"role": "teacher", "name": "聂富贵"},
+  "receiver": {"role": "student", "name": "马富贵"},
+  "title": "知识图谱补充矛盾关系 — 从文档索引升级为真知识图谱",
+  "priority": "P0",
+  "background": "V7-003验收通过(L2+)。三角批判发现关键缺陷：26节点32边中，contradicts和implements关系声明但零使用。没有矛盾的知识图谱是文档索引。",
+  "requirement": "1. 在knowledge-graph.json中新增≥5条contradicts边。矛盾来源提示：Mock管线vs真实数据、文件存储vs向量数据库、教师不写代码vs学生需要示范、教师审查深度vs学生独立空间。\n2. 补充≥3条implements边。哪些概念是另一些概念的实现？\n3. 每新增一条边必须写label说明矛盾的具体内容。\n4. 运行memory-search.sh验证新增节点可检索。",
+  "acceptanceCriteria": [
+    "≥5条contradicts边，每条有label说明矛盾双方立场",
+    "≥3条implements边",
+    "memory-search.sh 可检索新边",
+    "knowledge-graph.json stats.relationTypes更新",
+    "≤3个循环（3轮自审查）"
+  ],
+  "estimatedHours": 2,
+  "targetLevel": "L2",
+  "domain": "memory",
+  "note": "这是L2+任务——Phase 2证明了你能独立构建，现在要求你识别知识体系中的矛盾和缺失。矛盾不是bug，是知识体系的完整性标志。3小时内完成，无需等老师指令，自主多轮迭代直到达标。"
+}

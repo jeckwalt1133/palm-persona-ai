@@ -112,21 +112,36 @@ URL=$(grep -oP 'https?://[a-zA-Z0-9.-]+\.lhr\.life' "$LADDER" 2>/dev/null | tail
 if [ -z "$URL" ]; then
   URL=$(grep -oP 'https?://[a-zA-Z0-9.-]+\.lhr\.life' "$PROJECT_DIR/memory/bootstrap.md" 2>/dev/null | tail -1 || echo "")
 fi
+# 也尝试 bore.pub 和其他隧道
+if [ -z "$URL" ]; then
+  URL=$(grep -oP 'https?://[a-zA-Z0-9.-]+\.(lhr\.life|bore\.pub|trycloudflare\.com|ngrok\.io|localhost\.run)' "$LADDER" 2>/dev/null | tail -1 || echo "")
+fi
 
 if [ -n "$URL" ]; then
-  HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL" 2>/dev/null || echo "000")
+  # 测量响应时间
+  START_TIME=$(date +%s%3N 2>/dev/null || date +%s)
+  HTTP_CODE=$(curl -s -o /tmp/evidence-l3-response.txt -w "%{http_code}" --max-time 15 "$URL" 2>/dev/null || echo "000")
+  END_TIME=$(date +%s%3N 2>/dev/null || date +%s)
+  RESPONSE_TIME=$((END_TIME - START_TIME))
   # 清理非数字字符
   HTTP_CODE=$(echo "$HTTP_CODE" | tr -cd '0-9')
   [ -z "$HTTP_CODE" ] && HTTP_CODE="000"
+  CONTENT_LEN=$(wc -c < /tmp/evidence-l3-response.txt 2>/dev/null || echo "0")
+  rm -f /tmp/evidence-l3-response.txt
+
   if [ "$HTTP_CODE" = "200" ]; then
-    pass "公网HTTPS可达: $URL (HTTP $HTTP_CODE)"
+    if [ "$CONTENT_LEN" -gt 100 ]; then
+      pass "公网HTTPS可达: $URL (HTTP $HTTP_CODE, ${RESPONSE_TIME}ms, ${CONTENT_LEN}字节)"
+    else
+      fail "公网内容有效" "$URL 返回200但仅${CONTENT_LEN}字节（疑似空白页）"
+    fi
   elif [ "$HTTP_CODE" = "000" ]; then
-    fail "公网HTTPS 200" "$URL 无法连接（隧道可能过期，需重建SSH隧道）"
+    fail "公网HTTPS可达" "$URL 无法连接（隧道过期，需重建）"
   else
-    fail "公网HTTPS 200" "$URL 返回 HTTP $HTTP_CODE"
+    fail "公网HTTPS 200" "$URL 返回 HTTP $HTTP_CODE (${RESPONSE_TIME}ms)"
   fi
 else
-  fail "公网URL找到" "未找到 .lhr.life 地址"
+  fail "公网URL找到" "未找到隧道地址（lhr.life/bore.pub等）"
 fi
 
 # ---- L4.1: 发布者 — GitHub开源 ----
@@ -134,12 +149,38 @@ echo ""
 echo "【L4.1 发布者】GitHub开源仓库"
 GITHUB_URL=$(grep -oP 'https://github\.com/[\w-]+/[\w-]+' "$LADDER" 2>/dev/null | head -1 || echo "")
 if [ -n "$GITHUB_URL" ]; then
+  # 提取 owner/repo
+  GH_REPO=$(echo "$GITHUB_URL" | grep -oP 'github\.com/[\w-]+/[\w-]+' | head -1 | sed 's|github\.com/||')
+
+  # GitHub API 检查真实数据
+  GH_API="https://api.github.com/repos/$GH_REPO"
+  GH_DATA=$(curl -s --max-time 10 -H "Accept: application/vnd.github+json" "$GH_API" 2>/dev/null || echo "{}")
+  STARS=$(echo "$GH_DATA" | grep -oP '"stargazers_count"\s*:\s*\K\d+' || echo "0")
+  FORKS=$(echo "$GH_DATA" | grep -oP '"forks_count"\s*:\s*\K\d+' || echo "0")
+  OPEN_ISSUES=$(echo "$GH_DATA" | grep -oP '"open_issues_count"\s*:\s*\K\d+' || echo "0")
+  IS_PRIVATE=$(echo "$GH_DATA" | grep -oP '"private"\s*:\s*\K\w+' || echo "unknown")
+  LICENSE=$(echo "$GH_DATA" | grep -oP '"spdx_id"\s*:\s*"\K[^"]+' || echo "none")
+  UPDATED=$(echo "$GH_DATA" | grep -oP '"pushed_at"\s*:\s*"\K[^"]+' || echo "unknown")
+
+  # 页面可达性
   GH_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$GITHUB_URL" 2>/dev/null || echo "000")
+
   if [ "$GH_CODE" = "200" ]; then
-    pass "GitHub仓库公开: $GITHUB_URL (HTTP $GH_CODE)"
+    echo -e "  ${GREEN}✅ PASS${NC} GitHub页面公开: $GITHUB_URL"
   else
-    warn "GitHub仓库公开: $GITHUB_URL (HTTP $GH_CODE) — 可能需要登录"
+    echo -e "  ${RED}❌ FAIL${NC} GitHub页面可达: HTTP $GH_CODE"
+    FAIL_COUNT=$((FAIL_COUNT + 1))
   fi
+
+  # API数据验证
+  if [ "$STARS" != "0" ] || [ -n "$GH_DATA" ] && echo "$GH_DATA" | grep -q '"full_name"'; then
+    echo -e "  ${GREEN}✅ PASS${NC} GitHub API: ⭐${STARS:-0} ⑂${FORKS:-0} Issues:${OPEN_ISSUES:-0} License:${LICENSE:-none}"
+    [ "$LICENSE" = "none" ] && warn "License缺失" "开源仓库应有LICENSE文件"
+    [ "${STARS:-0}" -eq 0 ] && warn "0 Stars" "宣传推广待加强"
+  else
+    echo -e "  ${YELLOW}⚠ WARN${NC} GitHub API无数据（可能被限流或仓库不存在）"
+  fi
+  PASS_COUNT=$((PASS_COUNT + 1))
 else
   warn "GitHub URL" "未在ladder中找到，手动检查"
 fi
@@ -157,6 +198,43 @@ if [ -f "$TEACHING" ]; then
   fi
 else
   fail "教学材料包存在" "文件缺失"
+fi
+
+# ---- 内容真实性验证（证据不是文件存在就能过的） ----
+echo ""
+echo "【E0 内容真实性】证据质量评分"
+# L2.1: 论文综述必须有≥3处对比分析
+if [ -f "$SURVEY" ]; then
+  COMPARE_COUNT=$(grep -cE '(vs\.?|对比|相较于|优于|不如|underperforms|outperforms)' "$SURVEY" 2>/dev/null || echo "0")
+  if [ "${COMPARE_COUNT:-0}" -ge 3 ]; then
+    pass "综述对比分析: ≥3处对比 (${COMPARE_COUNT}处)"
+  else
+    warn "综述对比分析≥3" "仅${COMPARE_COUNT}处 — 可能概括而非批判"
+  fi
+fi
+# L2.2: 测试必须有≥20个用例
+if [ "${TEST_PASSED:-0}" -gt 0 ]; then
+  if [ "${TEST_PASSED:-0}" -ge 20 ]; then
+    pass "测试覆盖充分: ${TEST_PASSED}通过 ≥ 20"
+  else
+    warn "测试覆盖" "仅${TEST_PASSED}通过 — '至少20个测试'标准未达"
+  fi
+fi
+# L0.1: 教学模块检查
+GUEST_MODULES=$(find "$PROJECT_DIR/curriculum/guest-modules/" -name "*.md" 2>/dev/null | wc -l)
+if [ "$GUEST_MODULES" -ge 2 ]; then
+  pass "客座教学模块: ${GUEST_MODULES}个 (≥2)"
+else
+  warn "客座教学模块≥2" "仅${GUEST_MODULES}个"
+fi
+# 证据新鲜度
+LADDER_AGE=$(($(date +%s) - $(stat -c %Y "$LADDER" 2>/dev/null || echo "0")))
+if [ "$LADDER_AGE" -lt 86400 ]; then
+  pass "毕业阶梯24h内更新 ($((LADDER_AGE / 3600))h前)"
+elif [ "$LADDER_AGE" -lt 604800 ]; then
+  warn "毕业阶梯更新" "$((LADDER_AGE / 86400))天前 — 建议周更"
+else
+  fail "毕业阶梯刷新" "$((LADDER_AGE / 86400))天前 — 证据可能过期"
 fi
 
 # ---- API Key 安全检查 ----

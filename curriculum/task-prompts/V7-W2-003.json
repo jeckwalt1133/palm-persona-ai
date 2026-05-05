@@ -1,0 +1,20 @@
+{
+  "taskId": "V7-W2-003",
+  "sender": {"role": "teacher", "name": "聂富贵"},
+  "receiver": {"role": "guest-lecturer", "name": "周富贵"},
+  "title": "capability声明验证脚本 — 能力必须有证据佐证",
+  "priority": "P0",
+  "background": "ZHOU-02审查通过(L2)。三角批判发现：82项能力矩阵中很多是'声明'而非'验证'。比如'具有Sprint规划能力'无法从decisions.md中找到对应决策记录。你的安全模块已经实现了自动化密钥扫描——同样的思路，现在扫描能力声明的真实性。",
+  "requirement": "1. 编写scripts/verify-capabilities.sh：读取capability-inventory.json中每个成员的能力→检查decisions.md/证据文件/产出记录中是否有对应佐证→输出验证报告\n2. 验证逻辑示例：'Sprint规划能力'需要decisions.md中有≥1条Sprint相关决策作为佐证\n3. 无佐证的能力标记为'未验证'并建议降级或补充证据\n4. 输出格式：成员/能力/声明级别/佐证存在/佐证来源/验证状态",
+  "acceptanceCriteria": [
+    "逐项扫描所有82项能力",
+    "每条能力的验证状态: verified(有佐证)/unverified(无佐证)/degraded(曾验证但过期)",
+    "输出验证报告到/tmp/capability-verification-report.md",
+    "建议操作: 保留/降级/补充证据",
+    "脚本可独立运行: bash scripts/verify-capabilities.sh"
+  ],
+  "estimatedHours": 3,
+  "targetLevel": "L2",
+  "domain": "security",
+  "note": "安全工程师的思维延伸——你已经学会扫描代码中的密钥，现在扫描组织中的'能力假阳性'。底层逻辑完全相同：规则→扫描→验证→报告。"
+}
