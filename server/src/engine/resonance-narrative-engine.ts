@@ -75,7 +75,7 @@ function buildVisualAnchors(f: PalmFeatures) {
   const maxMountName = mountNames[maxMountIdx];
 
   return {
-    opening: `AI 读取到你的手掌宽度${widthLabel}，${fingerLabel}，掌心纹路${clarityLabel}，主线条${lineCountLabel}。${maxMountName}区域较为突出——这通常与情感能量和自我表达有关。`,
+    opening: `你的手掌${widthLabel}，${fingerLabel}，掌心纹路${clarityLabel}，线条${lineCountLabel}。手掌最饱满的区域透露了一些关于你的信息——不是你想的那种玄学，是手掌本身就在说话。`,
     widthLabel,
     fingerLabel,
     clarityLabel,
@@ -114,10 +114,10 @@ function buildCoreTruth(
   const trait2 = topTwo[1] ? naturalTrait(topTwo[1].dimensionKey, topTwo[1].score) : null;
   const hooks = [
     `你掌心${anchors.clarityLabel}的纹路，藏着一个${trait1}的人——${trait2 ? `但骨子里，你是${trait2}。` : '比你想象中更复杂。'}`,
-    `${anchors.prominentMount}的弧度告诉我，你看起来${trait1}，实际上比谁都在意细节。`,
+    `你手掌的弧度告诉我，你看起来${trait1}，实际上比谁都在意细节。`,
     `AI在你的手掌上看到${anchors.lineCountLabel}的主线——每一条都在说：你比你表现出来的更复杂。`,
     `外表${trait1}，内心${trait2 ?? '藏着别人看不见的敏感'}。你的手掌不会说谎。`,
-    `${anchors.clarityLabel}的掌心线条、${anchors.prominentMount}的弧度——这些细节拼出一个你：${trait1}，但${trait2 ? `底色是${trait2}` : '没人能简单定义'}。`,
+    `${anchors.clarityLabel}的掌心线条、手掌的整体轮廓——这些细节拼出一个你：${trait1}，但${trait2 ? `底色是${trait2}` : '没人能简单定义'}。`,
     `很多人只看到你${trait1}的一面，只有你的手掌知道——你${trait2 ? `更多的是${trait2}` : '比表面多好几个层次'}。`,
   ];
   const hash = simpleHash(anchors.opening);
@@ -136,7 +136,7 @@ function buildIdentityBadge(
   const badges = [
     `「${template.label}」—— 一个${trait}的人`,
     `${template.label} · ${trait}型`,
-    `${anchors.prominentMount}灵魂 · ${template.label}`,
+    `手掌形塑的 · ${template.label}`,
   ];
   const hash = simpleHash(anchors.opening + 'badge');
   return badges[hash % badges.length];

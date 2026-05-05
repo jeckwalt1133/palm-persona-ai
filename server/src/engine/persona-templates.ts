@@ -270,12 +270,12 @@ export const CELEBRITY_MAP: Record<string, CelebrityEntry[]> = {
   'silent-guardian': [
     { name: '坂本龙一', title: '音乐家', reason: '用行动和作品说话——沉默但每一击都精准深刻' },
     { name: '汤姆·汉克斯', title: '演员', reason: '可靠而温暖——他演的角色总能让人放心，像你一样' },
-    { name: '村上春树', title: '作家', reason: '独处中产出最深的东西——你的沉淀力是他的特质' },
+    { name: '村上春树', title: '作家', reason: '在独处中产出最打动人的东西——你的创造力和他来自同一个地方' },
   ],
   'flame-explorer': [
     { name: 'Elon Musk', title: '企业家', reason: '想到了就去做——你的冲动和他的行动力是同一种发动机' },
     { name: '黄永玉', title: '画家/作家', reason: '一辈子都在玩、在试、在奔跑——你的好奇心是他的燃料' },
-    { name: 'Pharrell Williams', title: '音乐制作人', reason: '永远在跨界、永远有能量——快乐也是一种生产力' },
+    { name: 'Pharrell Williams', title: '音乐制作人', reason: '永远在跨界、永远有能量——你的快乐不是不懂，是通透' },
   ],
   'deep-thinker': [
     { name: '刘慈欣', title: '科幻作家', reason: '脑子里有一个宇宙——你的思考深度和他是同一类' },
@@ -290,7 +290,7 @@ export const CELEBRITY_MAP: Record<string, CelebrityEntry[]> = {
   'sharp-pioneer': [
     { name: 'Steve Jobs', title: 'Apple 创始人', reason: '现实扭曲力场——你的"做了再说"和他的"现实可以改变"是同一种东西' },
     { name: '谷爱凌', title: '运动员', reason: '做就做到最好——你的执行力是她那种大赛型选手级别的' },
-    { name: '董明珠', title: '企业家', reason: '不拖泥带水、说一不二——你的果断是她那样的领袖特质' },
+    { name: '董明珠', title: '企业家', reason: '不拖泥带水——你的果断和她的风格一样：做了再说' },
   ],
   'moon-artist': [
     { name: 'Billie Eilish', title: '歌手', reason: '不按流行套路出牌但全世界都在听——你的独特审美终将被看见' },
@@ -300,16 +300,16 @@ export const CELEBRITY_MAP: Record<string, CelebrityEntry[]> = {
   'bridge-builder': [
     { name: 'Oprah Winfrey', title: '主持人', reason: '能让任何人敞开心扉——你的沟通力和她一样来自真实的共情' },
     { name: '何炅', title: '主持人', reason: '全场最累的人是照顾所有人感受的人——你最懂他的不容易' },
-    { name: '俞敏洪', title: '教育家', reason: '把一群人聚在一起朝一个方向走——你的凝聚力是他那种组织天赋' },
+    { name: '俞敏洪', title: '教育家', reason: '把一群人团结在一起——你和他一样，知道一个人走得快，一群人走得远' },
   ],
   'quiet-mountain': [
     { name: 'Keanu Reeves', title: '演员', reason: '世界再喧闹，他只是安静地做好自己——你的沉稳和他的气质同频' },
     { name: '北野武', title: '导演/演员', reason: '表面冷硬，作品里全是温度和智慧——你也是外冷内热的类型' },
-    { name: '张艺谋', title: '导演', reason: '话不多但每一部作品都在回应时代——你的沉默同样有重量' },
+    { name: '张艺谋', title: '导演', reason: '话不多但每一次出手都让人记住——你的沉默是力量，不是空白' },
   ],
   'sunshine-spark': [
     { name: 'Taylor Swift', title: '歌手', reason: '把情绪转化为作品——你的感染力是她那种能把心掏出来还让人觉得温暖的类型' },
-    { name: '大张伟', title: '音乐人', reason: '看起来在闹，其实比谁都通透——你的快乐是他那种"经历过才选择开心"的智慧' },
+    { name: '大张伟', title: '音乐人', reason: '看起来在闹，其实比谁都通透——你的快乐是选择，不是没心没肺' },
     { name: 'Robin Williams', title: '演员', reason: '让所有人笑的人往往最值得被认真对待——你的热度下面有一颗柔软的心' },
   ],
   'wind-wanderer': [
@@ -319,8 +319,8 @@ export const CELEBRITY_MAP: Record<string, CelebrityEntry[]> = {
   ],
   'root-keeper': [
     { name: '是枝裕和', title: '导演', reason: '他的电影里全是家的温度——你的守护力是他那种能把日常拍出神圣感的视角' },
-    { name: '汪涵', title: '主持人', reason: '守住了自己的节奏和标准——你对根基的重视是他那种老派但不过时的讲究' },
-    { name: '梅西', title: '足球运动员', reason: '忠诚、专注、把一件事做到极致——你的稳是冠军级别的' },
+    { name: '汪涵', title: '主持人', reason: '守住了自己的节奏——你对根基的重视，是那种在快时代里慢下来的底气' },
+    { name: '梅西', title: '足球运动员', reason: '忠诚、专注、把一件事做到极致——你的稳，是那种不需要喧哗的冠军心态' },
   ],
 };
 

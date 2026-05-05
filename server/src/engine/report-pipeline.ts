@@ -68,7 +68,7 @@ function buildVisualAnchors(features: PalmFeatures): VisualAnchors {
   const maxMount = mountNames[features.mountProminence.indexOf(Math.max(...features.mountProminence))];
 
   return {
-    opening: `AI 读取到你的手掌宽度${w > 75 ? '偏宽厚' : w > 60 ? '适中' : '偏窄'}，比例${fl > 0.85 ? '修长' : '和谐'}，掌心纹路${c > 60 ? '清晰可见' : c > 35 ? '柔和可见' : '若隐若现'}，主线条脉络${lc > 5 ? '非常丰富' : lc > 3 ? '丰富' : '简洁'}。${maxMount}区域较为突出。`,
+    opening: `你的手掌${w > 75 ? '偏宽厚' : w > 60 ? '适中' : '偏窄'}，${fl > 0.85 ? '手指修长' : '比例和谐'}，掌心纹路${c > 60 ? '清晰可见' : c > 35 ? '柔和可见' : '若隐若现'}，线条${lc > 5 ? '非常丰富' : lc > 3 ? '丰富' : '简洁'}。手掌最饱满的地方在${maxMount}——每个手掌的轮廓都不一样，这就是你的独特之处。`,
     widthLabel: `${w > 75 ? '偏宽厚' : w > 60 ? '适中' : '偏窄'} · ${w > 75 ? '人群中少见' : w > 60 ? '中等水平' : '精致手型'}`,
     fingerLabel: `${fl > 0.85 ? '修长指型' : fl > 0.75 ? '比例和谐' : '短指型'} · ${fl > 0.85 ? '多于大多数人' : fl > 0.75 ? '中等水平' : '少数人群'}`,
     clarityLabel: `${c > 60 ? '清晰可见' : c > 35 ? '柔和可见' : '若隐若现'} · ${c > 60 ? '多于大多数人' : c > 35 ? '中等水平' : '少数人群'}`,
