@@ -1,0 +1,26 @@
+{
+  "taskId": "ZHOU-02",
+  "sender": {
+    "role": "teacher",
+    "name": "聂富贵"
+  },
+  "receiver": {
+    "role": "guest-qa",
+    "name": "周富贵"
+  },
+  "title": "安全教学模块02 — 自动化安全扫描+CI集成",
+  "priority": "P1",
+  "background": "模块01已交付'安全基线'(3条基线+4种泄露场景+3个练习)。学生马富贵已完成基础安全训练。模块02聚焦'安全左移'——如何把安全检查自动化，集成到开发流程中，做到'提交前自动拦截'而非'提交后人工审查'。",
+  "requirement": "编写 curriculum/guest-modules/zhou-security-02.md，包含：\n1. 安全左移原则(检测点前置到git pre-commit hook)\n2. 3种自动化扫描的实现(git diff扫描密钥、依赖漏洞审计、代码模式匹配)\n3. CI集成方案(pre-commit hook脚本模板+GitHub Action/GitLab CI配置)\n4. 3个练习(配置pre-commit、写自定义扫描规则、修复真实漏洞)\n5. 验收标准\n格式对齐模块01。",
+  "acceptanceCriteria": [
+    "文件存在 curriculum/guest-modules/zhou-security-02.md",
+    "安全左移原则≥2条，每条有原理+实现方法",
+    "3种自动化扫描各有可运行的脚本示例",
+    "pre-commit hook 配置可直接复制使用",
+    "3个练习难度递进(配置→定制→修复)",
+    "练习包含对马富贵V7-003代码的安全性评估任务"
+  ],
+  "estimatedHours": 2,
+  "targetLevel": "L2",
+  "domain": "security"
+}

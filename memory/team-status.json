@@ -1,21 +1,21 @@
 {
   "version": "1.0",
-  "updated": "2026-05-06T01:37:00Z",
+  "updated": "2026-05-06T03:15:00Z",
   "session": {
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T17:29:48Z"
+    "lastCheckpoint": "2026-05-05T18:44:44Z"
   },
   "currentTask": {
-    "id": "V7-002",
-    "title": "记忆系统与上下文自动化研究",
-    "status": "completed",
-    "progress": "Phase 1三个交付物全部完成: team-status.json + precompact-snapshot.sh + sessionstart-recover.sh。hooks已接入settings.local.json。idle-review.sh已创建。",
+    "id": "V7-003",
+    "title": "记忆系统 Phase 2 — 知识图谱+记忆检索",
+    "status": "in_progress",
+    "progress": "马富贵独立完成三个交付物：knowledge-graph.json(25节点30边,覆盖概念/方法论/决策/产品四层)+memory-search.sh(多源检索+--domain/--since筛选)+team-status.json更新。待老师审查。",
     "blocker": null,
-    "nextAction": "等待老师审查 Phase 1 交付物，进行V7最终三角批判",
+    "nextAction": "聂富贵审查V7-003交付物。王富贵WANG-02已完成待审查。周富贵ZHOU-02进行中。",
     "assignedTo": "ma",
-    "startedAt": "2026-05-06T00:00:00.000Z"
+    "startedAt": "2026-05-05T18:16:11Z"
   },
   "decisions": [
     {
@@ -25,6 +25,35 @@
       "alternatives": "Markdown — 人类可读但脚本解析困难",
       "decidedBy": "马富贵（学生独立设计，待老师审查）",
       "timestamp": "2026-05-06T00:30:00.000Z"
+    },
+    {
+      "id": "D011",
+      "summary": "审查通过马富贵 V7-002 Phase 1 四个交付物",
+      "rationale": "team-status.json格式设计合理(机器可读+脚本可更新)；precompact-snapshot.sh在5s约束内稳定运行；sessionstart-recover.sh在30s内成功生成恢复上下文；idle-review.sh功能正常(line79整型比较bug已知不阻塞)。马富贵展示了L2级独立设计+实现能力。",
+      "decidedBy": "聂富贵（老师审查）",
+      "timestamp": "2026-05-05T18:16:11Z"
+    },
+    {
+      "id": "D012",
+      "summary": "分配三线任务：马富贵→V7-003记忆系统Phase 2，王富贵→文案教学模块02，周富贵→安全教学模块02",
+      "rationale": "闲置自检发现3/4成员idle超24h。打破单点瓶颈：马富贵可独立启动Phase 2研究(不依赖老师)；王/周富贵按01模板并行产出02模块。",
+      "decidedBy": "聂富贵",
+      "timestamp": "2026-05-05T18:16:11Z"
+    },
+    {
+      "id": "D013",
+      "summary": "知识图谱从课件内容重构为项目知识域——覆盖概念/方法论/决策/产品四层25节点30边",
+      "rationale": "原graph只有AI课件概念(15节点11边)，与项目记忆系统需求不匹配。重构后以三层记忆架构+PROTOCOL规则+决策链+工程概念为核心。",
+      "alternatives": "保留原graph+追加项目节点 — 两套知识体系混杂，检索信噪比低",
+      "decidedBy": "马富贵（Phase 2独立实现）",
+      "timestamp": "2026-05-06T02:45:00Z"
+    },
+    {
+      "id": "D013",
+      "summary": "增设PM(产品经理)+EM(研发经理)+QE(质量工程)三个职能角色，明确owner",
+      "rationale": "团队缺少产品方向和研发节奏的明确把控。PM→王富贵(已有产品感知基础)，EM→聂富贵(已有任务管理基础)，QE→周富贵(已有质量审查基础)。每个角色有7/6/4项核心能力待建设。",
+      "decidedBy": "聂富贵",
+      "timestamp": "2026-05-05T18:42:39Z"
     }
   ],
   "discoveries": [
@@ -52,6 +81,11 @@
       "summary": "evidence-auto-verify.sh 验证的是文件存在性而非内容真实性——存在假阳性风险",
       "category": "insight",
       "timestamp": "2026-05-06T00:00:00.000Z"
+    },
+    {
+      "summary": "全仓库安全扫描发现Git历史100次提交中有真实API Key(sk-f9a088e.../sk-29abfa.../sk-3edb38...)，需git-filter-repo清除",
+      "category": "risk",
+      "timestamp": "2026-05-06T03:15:00Z"
     }
   ],
   "completedTasks": [
@@ -60,72 +94,169 @@
       "title": "V7 Phase 1全量整改",
       "evidence": "git commit b4e893f — 15个文件1894行",
       "completedAt": "2026-05-06T01:37:00Z"
+    },
+    {
+      "id": "V7-002",
+      "title": "记忆系统与上下文自动化研究",
+      "evidence": "Phase 1交付: team-status.json + precompact-snapshot.sh + sessionstart-recover.sh + idle-review.sh + dream-consolidation.sh + state-tracker.sh。hooks全接线+CronCreate双循环。",
+      "completedAt": "2026-05-06T00:00:00.000Z"
+    },
+    {
+      "id": "WANG-02",
+      "title": "文案教学模块02 — 情感分层+场景化文案",
+      "evidence": "wang-copywriting-02.md 441行: 4层情感模型+6场景矩阵+温度计+3练习+grading rubric+安全红线+术语桥接",
+      "completedAt": "2026-05-06T04:05:00Z"
     }
   ],
   "teamMembers": {
     "nie": {
       "status": "active",
-      "currentFocus": "V7全量整改闭环 — hooks接线+闲置自检",
+      "currentFocus": "【EM+TL】团队协调+建设EM能力(Sprint/资源/交付管理)",
       "lastActive": "2026-05-06T00:00:00.000Z"
     },
     "ma": {
-      "status": "idle",
-      "tmuxSession": "claude-student",
-      "currentTask": "V7-002 记忆系统自动化",
-      "lastActive": "2026-05-06T00:30:00.000Z",
-      "currentFocus": "Phase 1 完成 — 等待审查"
+      "status": "active",
+      "tmuxSession": "claude-ma",
+      "currentTask": "V7-003 记忆系统 Phase 2",
+      "lastActive": "2026-05-06T02:45:00Z",
+      "currentFocus": "Phase 2三交付物完成：knowledge-graph.json(25N/30E)+memory-search.sh+team-status更新，待审查"
     },
     "wang": {
-      "status": "idle",
+      "status": "active",
       "lastReview": null,
-      "currentFocus": "教学模块01已交付"
+      "currentFocus": "【PM】WANG-02文案模块02 + 建设PM能力(PRD/用户画像/优先级)",
+      "currentTask": "WANG-02 文案共鸣进阶模块",
+      "lastActive": "2026-05-06T04:05:00Z",
+      "tmuxSession": "claude-wang"
     },
     "zhou": {
-      "status": "idle",
-      "lastReview": null,
-      "currentFocus": "教学模块01+健康检查已交付"
+      "status": "active",
+      "lastReview": "V7-003安全审计 — 评分9.25/10，发现Git历史API Key遗留问题",
+      "currentFocus": "ZHOU-02已完成；待三角批判+ZHOU-03模块选题",
+      "currentTask": "ZHOU-02 安全审查自动化模块 ★已完成",
+      "lastActive": "2026-05-06T03:15:00Z",
+      "tmuxSession": "claude-zhou"
     }
   },
   "priorityQueue": [
     {
       "rank": 1,
-      "taskId": "V7-002",
-      "title": "记忆系统与上下文自动化",
+      "taskId": "V7-003",
+      "title": "记忆系统 Phase 2 — 知识图谱+记忆检索",
       "status": "in_progress",
       "assignedTo": "ma",
       "dependency": null
     },
     {
       "rank": 2,
-      "taskId": "V7-P0-API-KEY",
-      "title": "全局 settings.json API Key 轮换",
-      "status": "pending",
-      "assignedTo": "nie",
+      "taskId": "WANG-02",
+      "title": "文案教学模块02 — 情感分层+场景化文案",
+      "status": "completed",
+      "assignedTo": "wang",
       "dependency": null
     },
     {
       "rank": 3,
-      "taskId": "V7-P0-MOCK-GATE",
-      "title": "生产Mock门禁",
-      "status": "pending",
-      "assignedTo": null,
-      "dependency": "V7-P0-API-KEY"
+      "taskId": "ZHOU-02",
+      "title": "安全教学模块02 — 自动化安全扫描+CI集成",
+      "status": "completed",
+      "assignedTo": "zhou",
+      "dependency": null,
+      "evidence": "zhou-security-02.md(557行)+pre-commit-template.sh(70行)+security-scan-keys.sh(112行)+hook已安装+审计报告(161行)"
     },
     {
       "rank": 4,
+      "taskId": "V7-P0-API-KEY",
+      "title": "全局 settings.json API Key 轮换",
+      "status": "pending",
+      "assignedTo": "nie",
+      "dependency": "需用户手动操作/home/fugui/.claude/settings.json"
+    },
+    {
+      "rank": 5,
       "taskId": "V7-P0-REAL-PIPELINE",
       "title": "Sharp真实像素提取替代Mock",
       "status": "pending",
       "assignedTo": null,
-      "dependency": "V7-P0-MOCK-GATE"
-    },
-    {
-      "rank": 5,
-      "taskId": "V7-P0-ARXIV",
-      "title": "arXiv论文投稿",
-      "status": "pending",
-      "assignedTo": null,
-      "dependency": null
+      "dependency": "V7-003"
     }
-  ]
+  ],
+  "infrastructure": {
+    "watchdog": "team-watchdog.sh",
+    "pidFile": "/tmp/team-watchdog.pid",
+    "managedSessions": [
+      "claude-ma",
+      "claude-wang",
+      "claude-zhou"
+    ],
+    "checkInterval": 60,
+    "autoRecovery": true
+  },
+  "knowledgeGraph": {
+    "file": "memory/knowledge-graph.json",
+    "version": "2.0",
+    "nodeCount": 26,
+    "edgeCount": 32,
+    "relationTypes": [
+      "defines",
+      "implements",
+      "triggered_by",
+      "precedes",
+      "supports",
+      "derives_from",
+      "depends_on",
+      "consumes",
+      "updates",
+      "reads",
+      "checks",
+      "enforces",
+      "governs",
+      "develops",
+      "feeds",
+      "requires",
+      "measured_by",
+      "produces",
+      "tracked_by",
+      "constrains",
+      "extends",
+      "built_on"
+    ],
+    "domains": [
+      "memory",
+      "methodology",
+      "engineering",
+      "security",
+      "product",
+      "architecture"
+    ],
+    "lastUpdated": "2026-05-06T02:30:00Z",
+    "updatedBy": "ma"
+  },
+  "functionalRoles": {
+    "productManager": {
+      "owner": "wang",
+      "name": "王富贵",
+      "responsibilities": "产品路线图/用户画像/优先级排序/PRD/竞品分析"
+    },
+    "engineeringManager": {
+      "owner": "nie",
+      "name": "聂富贵",
+      "responsibilities": "Sprint规划/资源分配/技术风险/交付管理/效能度量"
+    },
+    "qualityEngineer": {
+      "owner": "zhou",
+      "name": "周富贵",
+      "responsibilities": "质量体系/测试策略/发布门禁/缺陷根因分析"
+    },
+    "techLead": {
+      "owner": "nie",
+      "name": "聂富贵",
+      "responsibilities": "架构设计/技术选型/代码审查/Task Prompt"
+    },
+    "seniorEngineer": {
+      "owner": "ma",
+      "name": "马富贵",
+      "responsibilities": "主力开发/独立研究/快速原型/技术预研"
+    }
+  }
 }

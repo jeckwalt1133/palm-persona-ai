@@ -1,0 +1,526 @@
+{
+  "description": "AI师生研究院 完整能力清单 — 每项能力追踪最后使用时间，标记退化风险",
+  "version": "1.0.0",
+  "created": "2026-05-06",
+  "degradationRules": {
+    "L1": {
+      "thresholdDays": 30,
+      "action": "退回未验证 — 需重新独立操作验证"
+    },
+    "L2": {
+      "thresholdDays": 60,
+      "action": "退回L1 — 需重新跑通+改进"
+    },
+    "L3": {
+      "thresholdDays": 90,
+      "action": "退回L2 — 需重新教学验证"
+    }
+  },
+  "domains": {
+    "ai-infrastructure": {
+      "name": "AI基础设施",
+      "capabilities": [
+        {
+          "id": "AI-001",
+          "name": "AI Provider多模型降级链",
+          "level": "L2",
+          "proficiency": "能独立新增Provider+配置降级策略",
+          "lastUsed": "2026-05-05",
+          "evidence": "server/src/ai/provider-factory.ts + doubao-provider.ts + qwen-provider.ts + fallback-provider.ts"
+        },
+        {
+          "id": "AI-002",
+          "name": "Provider工厂模式设计",
+          "level": "L2",
+          "proficiency": "能解释工厂模式如何解耦Provider创建",
+          "lastUsed": "2026-05-05",
+          "evidence": "server/src/ai/provider-factory.ts"
+        },
+        {
+          "id": "AI-003",
+          "name": "LiteLLM统一网关概念",
+          "level": "L1",
+          "proficiency": "理解LiteLLM的作用和价值",
+          "lastUsed": "2026-05-05",
+          "evidence": "CLAUDE.md 技术栈定义"
+        },
+        {
+          "id": "AI-004",
+          "name": "API Key安全管理",
+          "level": "L2",
+          "proficiency": "能从.env加载+扫描硬编码+轮换流程",
+          "lastUsed": "2026-05-05",
+          "evidence": "scripts/student-watchdog.sh 安全修复"
+        }
+      ]
+    },
+    "engine": {
+      "name": "分析引擎",
+      "capabilities": [
+        {
+          "id": "ENG-001",
+          "name": "Mock管线架构理解",
+          "level": "L1",
+          "proficiency": "能解释5个Worker的Mock版本做什么",
+          "lastUsed": "2026-05-05",
+          "evidence": "server/src/engine/index.ts"
+        },
+        {
+          "id": "ENG-002",
+          "name": "Sharp真实像素提取",
+          "level": "L1",
+          "proficiency": "理论理解，未独立实现",
+          "lastUsed": null,
+          "evidence": "task-dependency-graph.json T006"
+        },
+        {
+          "id": "ENG-003",
+          "name": "报告卡片生成管线",
+          "level": "L2",
+          "proficiency": "能新增卡片类型+集成到管线",
+          "lastUsed": "2026-05-05",
+          "evidence": "6张报告卡片全部就绪"
+        },
+        {
+          "id": "ENG-004",
+          "name": "Canvas前端海报合成",
+          "level": "L2",
+          "proficiency": "能设计+实现Canvas合成海报",
+          "lastUsed": "2026-05-05",
+          "evidence": "P9分享海报功能"
+        }
+      ]
+    },
+    "security": {
+      "name": "安全合规",
+      "capabilities": [
+        {
+          "id": "SEC-001",
+          "name": "合规门禁系统",
+          "level": "L2",
+          "proficiency": "能扩展禁用词字典+添加新检测规则",
+          "lastUsed": "2026-05-05",
+          "evidence": "server/src/safety/compliance-gate.ts"
+        },
+        {
+          "id": "SEC-002",
+          "name": "27项禁用词管理",
+          "level": "L1",
+          "proficiency": "知道27项禁用词+能使用替代表达",
+          "lastUsed": "2026-05-05",
+          "evidence": ".claude/skills/palm-compliance.md"
+        },
+        {
+          "id": "SEC-003",
+          "name": "同音字字典扩展",
+          "level": "L1",
+          "proficiency": "能从10扩展到50+同音字",
+          "lastUsed": null,
+          "evidence": "task-dependency-graph.json T008"
+        },
+        {
+          "id": "SEC-004",
+          "name": "密钥扫描自动化",
+          "level": "L1",
+          "proficiency": "能用grep扫描历史中的密钥",
+          "lastUsed": "2026-05-05",
+          "evidence": "curriculum/guest-modules/zhou-security-01.md"
+        },
+        {
+          "id": "SEC-005",
+          "name": "安全代码审查",
+          "level": "L1",
+          "proficiency": "能识别日志泄露+硬编码密钥+不安全输出",
+          "lastUsed": "2026-05-05",
+          "evidence": "curriculum/guest-modules/zhou-security-01.md 练习2"
+        }
+      ]
+    },
+    "engineering": {
+      "name": "工程规范",
+      "capabilities": [
+        {
+          "id": "ENGI-001",
+          "name": "Git工作流纪律",
+          "level": "L2",
+          "proficiency": "能独立管理分支+提交+diff自查",
+          "lastUsed": "2026-05-05",
+          "evidence": "git log — 多个规范提交"
+        },
+        {
+          "id": "ENGI-002",
+          "name": "TypeScript strict模式",
+          "level": "L2",
+          "proficiency": "能在strict模式下开发+修复类型错误",
+          "lastUsed": "2026-05-05",
+          "evidence": "server/tsconfig.json"
+        },
+        {
+          "id": "ENGI-003",
+          "name": "Typecheck自动检查",
+          "level": "L1",
+          "proficiency": "每次改动后运行pnpm typecheck",
+          "lastUsed": "2026-05-05",
+          "evidence": "pnpm run typecheck 通过"
+        },
+        {
+          "id": "ENGI-004",
+          "name": "vitest测试编写",
+          "level": "L1",
+          "proficiency": "能编写+运行单元测试",
+          "lastUsed": "2026-05-05",
+          "evidence": "server/test/health.test.ts"
+        },
+        {
+          "id": "ENGI-005",
+          "name": "代码审查流程",
+          "level": "L1",
+          "proficiency": "能按DoD标准审查代码",
+          "lastUsed": "2026-05-05",
+          "evidence": "palm-engineering.md DoD"
+        }
+      ]
+    },
+    "methodology": {
+      "name": "方法论",
+      "capabilities": [
+        {
+          "id": "MTH-001",
+          "name": "三角批判机制执行",
+          "level": "L2",
+          "proficiency": "能组织4人批判→投票→生成最终方案",
+          "lastUsed": "2026-05-05",
+          "evidence": "memory/v7.triangulation-critique.md 292行"
+        },
+        {
+          "id": "MTH-002",
+          "name": "PROTOCOL.md规则执行",
+          "level": "L1",
+          "proficiency": "理解核心规则+能检测违规",
+          "lastUsed": "2026-05-05",
+          "evidence": "PROTOCOL.md + methodology-health-check.sh"
+        },
+        {
+          "id": "MTH-003",
+          "name": "Task Prompt标准化",
+          "level": "L2",
+          "proficiency": "能按Schema写14字段Task Prompt",
+          "lastUsed": "2026-05-05",
+          "evidence": "curriculum/task-prompt-schema.json"
+        },
+        {
+          "id": "MTH-004",
+          "name": "\"学会\"三级标准",
+          "level": "L2",
+          "proficiency": "能判定L1/L2/L3+设计教学任务",
+          "lastUsed": "2026-05-06",
+          "evidence": "curriculum/learning-standards.md"
+        },
+        {
+          "id": "MTH-005",
+          "name": "毕业阶梯体系",
+          "level": "L2",
+          "proficiency": "能维护graduation-ladder.json+晋升判定",
+          "lastUsed": "2026-05-06",
+          "evidence": "curriculum/graduation-ladder.json"
+        },
+        {
+          "id": "MTH-006",
+          "name": "方法论健康检查",
+          "level": "L1",
+          "proficiency": "能用7项检查自诊断系统健康",
+          "lastUsed": "2026-05-05",
+          "evidence": "scripts/methodology-health-check.sh"
+        }
+      ]
+    },
+    "memory": {
+      "name": "记忆系统",
+      "capabilities": [
+        {
+          "id": "MEM-001",
+          "name": "PreCompact自动快照",
+          "level": "L2",
+          "proficiency": "能配置hook+理解快照生成机制",
+          "lastUsed": "2026-05-06",
+          "evidence": "precompact-snapshot.sh + hooks配置"
+        },
+        {
+          "id": "MEM-002",
+          "name": "SessionStart自动恢复",
+          "level": "L2",
+          "proficiency": "能从快照恢复上下文+自动注入",
+          "lastUsed": "2026-05-06",
+          "evidence": "sessionstart-recover.sh"
+        },
+        {
+          "id": "MEM-003",
+          "name": "记忆巩固(做梦)引擎",
+          "level": "L1",
+          "proficiency": "理解海马体重放原理+能触发dream-consolidation",
+          "lastUsed": "2026-05-06",
+          "evidence": "scripts/dream-consolidation.sh"
+        },
+        {
+          "id": "MEM-004",
+          "name": "三层记忆架构",
+          "level": "L1",
+          "proficiency": "理解Layer1(快照)/Layer2(团队)/Layer3(知识图谱)",
+          "lastUsed": "2026-05-05",
+          "evidence": "research/memory-automation-design.md"
+        },
+        {
+          "id": "MEM-005",
+          "name": "团队仪表盘维护",
+          "level": "L2",
+          "proficiency": "能更新team-status.json+检测不一致",
+          "lastUsed": "2026-05-06",
+          "evidence": "memory/team-status.json"
+        },
+        {
+          "id": "MEM-006",
+          "name": "闲置自检机制",
+          "level": "L2",
+          "proficiency": "能配置CronCreate+idle-review.sh+检测跑偏",
+          "lastUsed": "2026-05-06",
+          "evidence": "CronCreate 589772bf + idle-review.sh"
+        }
+      ]
+    },
+    "product": {
+      "name": "产品能力",
+      "capabilities": [
+        {
+          "id": "PRD-001",
+          "name": "H5多平台编译",
+          "level": "L1",
+          "proficiency": "能编译H5到微信/抖音小程序",
+          "lastUsed": "2026-05-05",
+          "evidence": "H5编译配置"
+        },
+        {
+          "id": "PRD-002",
+          "name": "分享海报Canvas合成",
+          "level": "L2",
+          "proficiency": "能设计+实现Canvas多卡片合成",
+          "lastUsed": "2026-05-05",
+          "evidence": "P9 分享海报 6张卡片"
+        },
+        {
+          "id": "PRD-003",
+          "name": "文案共鸣矩阵",
+          "level": "L1",
+          "proficiency": "理解5人格×分享动机矩阵",
+          "lastUsed": "2026-05-05",
+          "evidence": "curriculum/guest-modules/wang-copywriting-01.md"
+        },
+        {
+          "id": "PRD-004",
+          "name": "文案铁律(5条)",
+          "level": "L1",
+          "proficiency": "能按铁律审查文案",
+          "lastUsed": null,
+          "evidence": ".claude/skills/palm-product.md"
+        }
+      ]
+    },
+    "teaching": {
+      "name": "教学能力",
+      "capabilities": [
+        {
+          "id": "TCH-001",
+          "name": "教学模块设计",
+          "level": "L2",
+          "proficiency": "能设计目标/前置/步骤/验收的模块",
+          "lastUsed": "2026-05-05",
+          "evidence": "curriculum/guest-modules/wang-copywriting-01.md + zhou-security-01.md"
+        },
+        {
+          "id": "TCH-002",
+          "name": "客座讲师管理",
+          "level": "L1",
+          "proficiency": "能分配教学任务+审查教学材料",
+          "lastUsed": "2026-05-05",
+          "evidence": "王富贵+周富贵 教学模块01 已交付"
+        },
+        {
+          "id": "TCH-003",
+          "name": "学生笔记本审查",
+          "level": "L1",
+          "proficiency": "能对照evidence-schema验证学生笔记",
+          "lastUsed": "2026-05-05",
+          "evidence": "student-notebook/v7-independent-analysis.md"
+        },
+        {
+          "id": "TCH-004",
+          "name": "学徒入职引导",
+          "level": "L2",
+          "proficiency": "能按onboarding.md带学徒完成Day 1",
+          "lastUsed": "2026-05-05",
+          "evidence": "curriculum/onboarding.md"
+        }
+      ]
+    },
+    "devops": {
+      "name": "部署运维",
+      "capabilities": [
+        {
+          "id": "OPS-001",
+          "name": "WSL环境管理",
+          "level": "L1",
+          "proficiency": "能在WSL2中搭建+维护开发环境",
+          "lastUsed": "2026-05-05",
+          "evidence": "WSL2 Ubuntu 6.6.87"
+        },
+        {
+          "id": "OPS-002",
+          "name": "公网隧道部署",
+          "level": "L1",
+          "proficiency": "能用ngrok/localhost.run暴露服务",
+          "lastUsed": "2026-05-05",
+          "evidence": "L3.1公网HTTPS验证"
+        },
+        {
+          "id": "OPS-003",
+          "name": "tmux会话管理",
+          "level": "L1",
+          "proficiency": "能创建+管理Agent tmux会话",
+          "lastUsed": "2026-05-05",
+          "evidence": "claude-student session"
+        },
+        {
+          "id": "OPS-004",
+          "name": "H5静态托管",
+          "level": "L1",
+          "proficiency": "能编译H5+托管静态文件",
+          "lastUsed": "2026-05-05",
+          "evidence": "H5 localhost:3001"
+        }
+      ]
+    },
+    "research": {
+      "name": "研究能力",
+      "capabilities": [
+        {
+          "id": "RSH-001",
+          "name": "论文批判综述",
+          "level": "L2",
+          "proficiency": "能精读论文+多维度批判分析+写综述",
+          "lastUsed": "2026-05-05",
+          "evidence": "learning/agent-research-survey-2026.md 10篇论文"
+        },
+        {
+          "id": "RSH-002",
+          "name": "对抗测试实验设计",
+          "level": "L2",
+          "proficiency": "能设计A/B对照实验+10种攻击向量",
+          "lastUsed": "2026-05-05",
+          "evidence": "L2.2 21样本 7攻击向量"
+        },
+        {
+          "id": "RSH-003",
+          "name": "开源项目发布",
+          "level": "L2",
+          "proficiency": "能发布结构化开源项目(README+CI+文档)",
+          "lastUsed": "2026-05-05",
+          "evidence": "palm-mcp-server GitHub公开仓库"
+        },
+        {
+          "id": "RSH-004",
+          "name": "MCP Server开发",
+          "level": "L2",
+          "proficiency": "能开发+发布MCP Server(3T+3R+3P)",
+          "lastUsed": "2026-05-05",
+          "evidence": "palm-mcp-server 221行 MIT许可"
+        },
+        {
+          "id": "RSH-005",
+          "name": "全网研究爬取",
+          "level": "L1",
+          "proficiency": "能搜索arXiv/HN/顶会+结构化输出",
+          "lastUsed": null,
+          "evidence": ".claude/skills/palm-web-research.md"
+        }
+      ]
+    }
+  },
+  "degradationAlerts": [],
+  "memberInventories": {
+    "nie": {
+      "file": "memory/capability-nie.json",
+      "count": 26,
+      "domains": 6,
+      "model": "deepseek-v4-pro"
+    },
+    "ma": {
+      "file": "memory/capability-ma.json",
+      "count": 15,
+      "domains": 5,
+      "model": "deepseek-v4-flash",
+      "note": "待创建独立清单"
+    },
+    "wang": {
+      "file": "memory/capability-wang.json",
+      "count": 22,
+      "domains": 5,
+      "model": "doubao-seed-2-0-pro-260215"
+    },
+    "zhou": {
+      "file": "memory/capability-zhou.json",
+      "count": 19,
+      "domains": 6,
+      "model": "qwen3-max"
+    }
+  },
+  "stats": {
+    "totalCapabilities": 82,
+    "sharedCapabilities": 47,
+    "memberSpecificCapabilities": 35,
+    "lastFullAudit": "2026-05-06"
+  },
+  "functionalRoles": {
+    "productManager": {
+      "owner": "王富贵",
+      "description": "定义做什么、为什么做、做给谁。产出PRD、用户画像、优先级排序、路线图。",
+      "keyCapabilities": [
+        "WANG-16",
+        "WANG-17",
+        "WANG-18",
+        "WANG-19",
+        "WANG-20",
+        "WANG-21",
+        "WANG-22"
+      ]
+    },
+    "engineeringManager": {
+      "owner": "聂富贵",
+      "description": "管交付节奏、资源分配、技术风险。产出Sprint计划、风险评估、效能报告。",
+      "keyCapabilities": [
+        "NIE-21",
+        "NIE-22",
+        "NIE-23",
+        "NIE-24",
+        "NIE-25",
+        "NIE-26"
+      ]
+    },
+    "qualityEngineer": {
+      "owner": "周富贵",
+      "description": "建立质量体系、度量标准、发布门禁。辅助EM做质量决策。",
+      "keyCapabilities": [
+        "ZHOU-16",
+        "ZHOU-17",
+        "ZHOU-18",
+        "ZHOU-19"
+      ]
+    },
+    "techLead": {
+      "owner": "聂富贵",
+      "description": "架构设计、技术选型、代码审查。产出架构文档、Task Prompt、审查意见。"
+    },
+    "seniorEngineer": {
+      "owner": "马富贵",
+      "description": "主力开发、独立研究、快速原型。产出代码、研究文档、独立分析。"
+    }
+  }
+}

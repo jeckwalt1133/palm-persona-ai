@@ -1,0 +1,224 @@
+{
+  "member": "聂富贵",
+  "role": "teacher",
+  "model": "deepseek-v4-pro",
+  "description": "团队首脑。产出不是代码，是Task Prompt、架构决策、审查意见。同时也在持续学习——不固步自封。",
+  "domains": {
+    "architecture": {
+      "name": "系统架构",
+      "capabilities": [
+        {
+          "id": "NIE-01",
+          "name": "多Agent系统架构设计",
+          "level": "L2",
+          "proficiency": "能设计4人Agent团队的协作架构+通信协议",
+          "lastUsed": "2026-05-06"
+        },
+        {
+          "id": "NIE-02",
+          "name": "记忆系统三层设计",
+          "level": "L2",
+          "proficiency": "能设计+维护PreCompact/SessionStart/防遗忘全链路",
+          "lastUsed": "2026-05-06"
+        },
+        {
+          "id": "NIE-03",
+          "name": "AI Provider降级链设计",
+          "level": "L2",
+          "proficiency": "能设计多Provider降级+Fallback策略",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "NIE-04",
+          "name": "技术选型决策",
+          "level": "L2",
+          "proficiency": "能在多方案间做可量化的技术选型",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "NIE-05",
+          "name": "跨系统集成设计",
+          "level": "L1",
+          "proficiency": "能设计Skill路由/代理翻译/Hook接线等跨系统集成",
+          "lastUsed": "2026-05-06"
+        }
+      ]
+    },
+    "management": {
+      "name": "团队管理",
+      "capabilities": [
+        {
+          "id": "NIE-06",
+          "name": "任务拆解与分配",
+          "level": "L2",
+          "proficiency": "能将模糊需求拆为结构化Task Prompt+合理分配",
+          "lastUsed": "2026-05-06"
+        },
+        {
+          "id": "NIE-07",
+          "name": "三角批判主持",
+          "level": "L2",
+          "proficiency": "能组织4人批判→投票→生成最终方案",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "NIE-08",
+          "name": "团队能力评估",
+          "level": "L2",
+          "proficiency": "能评估每个成员的能力等级+闲置风险+成长方向",
+          "lastUsed": "2026-05-06"
+        },
+        {
+          "id": "NIE-09",
+          "name": "瓶颈识别与消除",
+          "level": "L1",
+          "proficiency": "能识别团队单点瓶颈(如自己)并采取措施消除",
+          "lastUsed": "2026-05-06"
+        },
+        {
+          "id": "NIE-10",
+          "name": "跨成员学习协调",
+          "level": "L1",
+          "proficiency": "能设计+维护跨成员学习协议，确保知识流动",
+          "lastUsed": "2026-05-06"
+        }
+      ]
+    },
+    "research": {
+      "name": "研究方法",
+      "capabilities": [
+        {
+          "id": "NIE-11",
+          "name": "方法论设计",
+          "level": "L2",
+          "proficiency": "能设计可复用的方法论(PROTOCOL/学会标准/证据体系)",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "NIE-12",
+          "name": "文献调研",
+          "level": "L1",
+          "proficiency": "能搜索+批判分析AI Agent前沿研究",
+          "lastUsed": null
+        },
+        {
+          "id": "NIE-13",
+          "name": "实验设计",
+          "level": "L1",
+          "proficiency": "能设计A/B对照实验验证方法论有效性",
+          "lastUsed": null
+        }
+      ]
+    },
+    "engineering": {
+      "name": "工程能力",
+      "capabilities": [
+        {
+          "id": "NIE-14",
+          "name": "TypeScript全栈",
+          "level": "L2",
+          "proficiency": "能审查+指导TypeScript代码(不直接写)",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "NIE-15",
+          "name": "Infrastructure as Code",
+          "level": "L1",
+          "proficiency": "能设计+维护watchdog/proxy/hook等基础设施脚本",
+          "lastUsed": "2026-05-06"
+        },
+        {
+          "id": "NIE-16",
+          "name": "API设计审查",
+          "level": "L1",
+          "proficiency": "能审查REST API设计+Provider接口设计",
+          "lastUsed": "2026-05-05"
+        }
+      ]
+    },
+    "learning": {
+      "name": "持续学习（不能固步自封）",
+      "capabilities": [
+        {
+          "id": "NIE-17",
+          "name": "文案审美判断",
+          "level": "L1",
+          "proficiency": "能从'好不好'角度判断输出，不只是'对不对'",
+          "lastUsed": null,
+          "from": "王富贵"
+        },
+        {
+          "id": "NIE-18",
+          "name": "安全深度审查",
+          "level": "L1",
+          "proficiency": "能超越表面检查，做威胁建模+攻击面分析",
+          "lastUsed": null,
+          "from": "周富贵"
+        },
+        {
+          "id": "NIE-19",
+          "name": "快速学习新领域",
+          "level": "L1",
+          "proficiency": "能像马富贵一样快速进入新领域+产出独立分析",
+          "lastUsed": null,
+          "from": "马富贵"
+        },
+        {
+          "id": "NIE-20",
+          "name": "技术战略规划",
+          "level": "L1",
+          "proficiency": "能从3-6个月尺度规划技术演进路线",
+          "lastUsed": null
+        }
+      ]
+    },
+    "engineering-management": {
+      "name": "研发管理 (EM)",
+      "description": "不只是拆任务，是管交付节奏、资源、质量三角",
+      "capabilities": [
+        {
+          "id": "NIE-21",
+          "name": "Sprint规划与执行",
+          "level": "L1",
+          "proficiency": "能规划1-2周Sprint+跟踪执行+复盘",
+          "lastUsed": null
+        },
+        {
+          "id": "NIE-22",
+          "name": "资源分配与负载均衡",
+          "level": "L1",
+          "proficiency": "能评估每个成员带宽+避免单点过载",
+          "lastUsed": "2026-05-06"
+        },
+        {
+          "id": "NIE-23",
+          "name": "技术债务识别与管理",
+          "level": "L1",
+          "proficiency": "能识别+分类+排期技术债务(不影响交付)",
+          "lastUsed": null
+        },
+        {
+          "id": "NIE-24",
+          "name": "交付时间线管理",
+          "level": "L1",
+          "proficiency": "能给任务估时+识别关键路径+缓冲风险",
+          "lastUsed": null
+        },
+        {
+          "id": "NIE-25",
+          "name": "技术风险识别与缓解",
+          "level": "L1",
+          "proficiency": "能做技术风险矩阵(概率×影响)+缓解方案",
+          "lastUsed": null
+        },
+        {
+          "id": "NIE-26",
+          "name": "研发效能度量",
+          "level": "L1",
+          "proficiency": "能定义+追踪DORA指标(部署频率/变更失败率等)",
+          "lastUsed": null
+        }
+      ]
+    }
+  }
+}

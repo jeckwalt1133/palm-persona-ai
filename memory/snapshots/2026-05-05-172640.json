@@ -1,0 +1,13 @@
+{
+  "snapshotVersion": "1.0",
+  "sessionId": "test-session-001",
+  "role": "teacher",
+  "timestamp": "2026-05-05T17:26:40Z",
+  "git": {
+    "branch": "main",
+    "lastCommit": "04a67c5 feat: V7整改P0完成 — 健康检查+证据Schema+onboarding+2个客座教学模块+学会标准+Task Schema",
+    "uncommittedCount": 7,
+    "uncommittedFiles": "curriculum/task-prompts/V7-001-self-verification.md,memory/team-status.json,research/memory-automation-design.md,scripts/precompact-snapshot.sh,scripts/sessionstart-recover.sh,student-notebook/memory-research-progress.md,student-notebook/v7-independent-analysis.md"
+  },
+  "currentTask": {"id": "V7-002", "title": "记忆系统与上下文自动化研究", "status": "in_progress", "progress": "Phase 1 实现中——team-status.json已创建，precompact-snapshot.sh 和 sessionstart-recover.sh 编写中", "blocker": null, "nextAction": "完成 Phase 1 三个交付物并验证", "assignedTo": "ma", "startedAt": "2026-05-06T00:00:00.000Z"}
+}

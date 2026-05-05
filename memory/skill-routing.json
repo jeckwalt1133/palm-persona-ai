@@ -1,0 +1,264 @@
+{
+  "description": "Skill 自动匹配规则 — 全部34个Skill完整路由。按priority分组，数字越小优先级越高。",
+  "version": "2.0.0",
+  "created": "2026-05-06",
+  "updated": "2026-05-06",
+
+  "routingRules": {
+    "_p0_process": {
+      "description": "P0 — 方法论流程控制。决定HOW做任务。每次任务启动必须扫描。",
+      "skills": {
+        "superpowers:using-superpowers": {
+          "skill": "superpowers:using-superpowers",
+          "priority": 1,
+          "triggers": { "keywords": ["新会话", "开始", "初始化"], "always": true },
+          "description": "Skill系统基础 — 所有任务启动时加载",
+          "lastInvoked": "2026-05-06", "invokeCount": 1
+        },
+        "superpowers:brainstorming": {
+          "skill": "superpowers:brainstorming",
+          "priority": 2,
+          "triggers": { "keywords": ["方案", "设计", "怎么做", "怎么实现", "思路", "架构", "选型", "approach", "考虑一下", "想想", "有什么办法"] },
+          "description": "方案脑暴 — 不确定怎么做时先加载此skill",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:writing-plans": {
+          "skill": "superpowers:writing-plans",
+          "priority": 3,
+          "triggers": { "keywords": ["计划", "plan", "步骤", "分步", "规划", "实施计划", "执行方案", "路线图", "roadmap"] },
+          "description": "计划编写 — 确定方案后制定执行计划",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:systematic-debugging": {
+          "skill": "superpowers:systematic-debugging",
+          "priority": 4,
+          "triggers": { "keywords": ["bug", "报错", "修", "修复", "fix", "error", "调试", "debug", "crash", "崩溃", "不工作", "不对", "异常", "问题", "出错了", "挂了"] },
+          "description": "系统调试 — 遇到任何bug/报错/异常行为时加载",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:test-driven-development": {
+          "skill": "superpowers:test-driven-development",
+          "priority": 5,
+          "triggers": { "keywords": ["测试", "test", "TDD", "单元测试", "集成测试", "自动化测试", "测试用例", "vitest", "jest", "mocha"] },
+          "description": "TDD — 涉及测试编写/修改时加载",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:dispatching-parallel-agents": {
+          "skill": "superpowers:dispatching-parallel-agents",
+          "priority": 6,
+          "triggers": { "keywords": ["并行", "同时", "parallel", "多个任务", "分工", "一起做", "批量"] },
+          "description": "并行分发 — 多个独立任务同时执行时加载",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:executing-plans": {
+          "skill": "superpowers:executing-plans",
+          "priority": 7,
+          "triggers": { "keywords": ["执行", "开始做", "实施", "implement", "动手", "按计划"] },
+          "description": "计划执行 — 已通过的计划进入实施阶段",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:verification-before-completion": {
+          "skill": "superpowers:verification-before-completion",
+          "priority": 8,
+          "triggers": { "keywords": ["验证", "确认", "完成", "检查", "verify", "通过", "交付", "验收"] },
+          "description": "完成前验证 — 任务标记done前必须验证",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:requesting-code-review": {
+          "skill": "superpowers:requesting-code-review",
+          "priority": 9,
+          "triggers": { "keywords": ["审查", "review", "code review", "CR", "代码审查", "检查代码"] },
+          "description": "代码审查 — 提交前/完成任务后请求审查",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:receiving-code-review": {
+          "skill": "superpowers:receiving-code-review",
+          "priority": 10,
+          "triggers": { "keywords": ["收到审查", "审查意见", "review反馈", "改审查"] },
+          "description": "接收审查 — 处理他人审查意见时加载",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:subagent-driven-development": {
+          "skill": "superpowers:subagent-driven-development",
+          "priority": 11,
+          "triggers": { "keywords": ["复杂任务", "多文件", "大型", "大任务", "拆解", "委托", "子任务", "agent团队"] },
+          "description": "子Agent开发 — 复杂任务需拆解成多Agent协作",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:finishing-a-development-branch": {
+          "skill": "superpowers:finishing-a-development-branch",
+          "priority": 12,
+          "triggers": { "keywords": ["提交", "commit", "merge", "合并", "PR", "pull request", "推送", "push", "发布", "release"] },
+          "description": "分支收尾 — 代码完成准备提交/合并时加载",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:using-git-worktrees": {
+          "skill": "superpowers:using-git-worktrees",
+          "priority": 13,
+          "triggers": { "keywords": ["worktree", "隔离", "独立分支", "多分支"] },
+          "description": "Git工作树 — 需要隔离开发环境时加载",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "superpowers:writing-skills": {
+          "skill": "superpowers:writing-skills",
+          "priority": 14,
+          "triggers": { "keywords": ["创建skill", "写skill", "新skill", "skill模板"] },
+          "description": "编写Skill — 创建或修改Skill文件时加载",
+          "lastInvoked": null, "invokeCount": 0
+        }
+      }
+    },
+
+    "_p1_domain": {
+      "description": "P1 — 项目领域Skills。决定WHAT规则应用于当前任务。",
+      "skills": {
+        "palm-compliance": {
+          "skill": ".claude/skills/palm-compliance.md",
+          "priority": 15,
+          "triggers": { "keywords": ["合规", "禁用词", "审核", "过审", "违规", "内容安全", "敏感词", "同音字", "报告输出", "用户展示", "文案审查", "安全审查"] },
+          "description": "27项禁用词字典、替代表达、内容安全检测",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "palm-product": {
+          "skill": ".claude/skills/palm-product.md",
+          "priority": 16,
+          "triggers": { "keywords": ["文案", "分享", "海报", "UI", "产品", "用户增长", "共鸣", "情感调性", "视觉锚点", "截图", "埋点", "转化", "话题", "卡片", "界面"] },
+          "description": "文案铁律、截图驱动、视觉锚点、增长埋点",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "palm-engineering": {
+          "skill": ".claude/skills/palm-engineering.md",
+          "priority": 17,
+          "triggers": { "keywords": ["typecheck", "lint", "git", "commit", "部署", "deploy", "编译", "build", "TypeScript", "express", "API", "router", "代码修改", "重构", "pnpm", "npm", "package"] },
+          "description": "技术栈、强制工作流、DoD、常用命令",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "palm-web-research": {
+          "skill": ".claude/skills/palm-web-research.md",
+          "priority": 18,
+          "triggers": { "keywords": ["最新论文", "arXiv", "搜索", "查一下", "全网", "爬取", "研究动态", "Hacker News", "顶会", "NeurIPS", "ICML", "研究进展", "课程更新", "马富贵必读", "最新"] },
+          "description": "ArXiv/HN/GitHub全网爬取，结构化报告+马富贵必读",
+          "lastInvoked": "2026-05-06", "invokeCount": 1
+        }
+      }
+    },
+
+    "_p2_tools": {
+      "description": "P2 — 工具Skills。提供特定操作能力。",
+      "skills": {
+        "review-report": {
+          "skill": ".claude/skills/review-report",
+          "priority": 21,
+          "triggers": { "keywords": ["审查报告", "review report", "报告审查", "人格报告", "报告检查", "/review-report"] },
+          "description": "报告合规/质量/一致性三审",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "video-analyze": {
+          "skill": ".claude/skills/video-analyze",
+          "priority": 22,
+          "triggers": { "keywords": ["视频", "video", "视频分析", "看视频", "学习视频", "视频内容"] },
+          "description": "视频下载→关键帧提取→AI分析→学习报告",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "agent-browser": {
+          "skill": "agent-browser",
+          "priority": 23,
+          "triggers": { "keywords": ["打开网页", "浏览器", "截图网页", "填表", "自动化浏览器", "抓取页面", "登录", "表单"] },
+          "description": "浏览器自动化 — 网页交互/截图/抓取/测试",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "snapview": {
+          "skill": "snapview",
+          "priority": 24,
+          "triggers": { "keywords": ["屏幕截图", "看我屏幕", "看看这个", "截屏", "桌面截图", "显示"] },
+          "description": "屏幕截图注入 — 获取用户屏幕视觉上下文",
+          "lastInvoked": null, "invokeCount": 0
+        }
+      }
+    },
+
+    "_p3_team": {
+      "description": "P3 — 团队管理Skills。PUA体系，用于团队协作和压力管理。",
+      "skills": {
+        "pua": {
+          "skill": "pua",
+          "priority": 31,
+          "triggers": { "keywords": ["pua", "PUA", "阿里味", "加班", "kpi", "KPI", "考核", "绩效", "压力", "紧迫"] },
+          "description": "PUA核心引擎 — 阿里味团队管理",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "pua:p7": {
+          "skill": "pua:p7",
+          "priority": 32,
+          "triggers": { "keywords": ["P7", "骨干", "高级工程师", "独立开发", "方案驱动"] },
+          "description": "P7 Senior Engineer — 方案驱动执行",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "pua:p9": {
+          "skill": "pua:p9",
+          "priority": 33,
+          "triggers": { "keywords": ["P9", "tech lead", "技术负责人", "项目管理", "任务拆解", "agent管理"] },
+          "description": "P9 Tech Lead — 战略拆解+Agent团队管理",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "pua:p10": {
+          "skill": "pua:p10",
+          "priority": 34,
+          "triggers": { "keywords": ["P10", "CTO", "战略", "架构委员会", "技术方向", "组织设计"] },
+          "description": "P10 CTO — 技术战略+架构委员会",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "pua:pro": {
+          "skill": "pua:pro",
+          "priority": 35,
+          "triggers": { "keywords": ["自进化", "自动优化", "kpi报告", "平台化"] },
+          "description": "Pro模式 — 自进化+Platform+KPI",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "pua:yes": {
+          "skill": "pua:yes",
+          "priority": 36,
+          "triggers": { "keywords": ["夸夸", "鼓励", "正能量", "士气"] },
+          "description": "SB Leader夸夸模式 — ENFP型鼓励",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "pua:mama": {
+          "skill": "pua:mama",
+          "priority": 37,
+          "triggers": { "keywords": ["妈妈", "唠叨", "碎碎念"] },
+          "description": "妈妈唠叨模式 — 中国式妈妈碎碎念",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "pua:loop": {
+          "skill": "pua:loop",
+          "priority": 38,
+          "triggers": { "keywords": ["自动循环", "loop", "持续迭代", "不停"] },
+          "description": "PUA自动循环 — 持续迭代模式",
+          "lastInvoked": null, "invokeCount": 0
+        },
+        "pua:shot": {
+          "skill": "pua:shot",
+          "priority": 39,
+          "triggers": { "keywords": ["截图审查", "shot", "视觉审查"] },
+          "description": "截图批评模式",
+          "lastInvoked": null, "invokeCount": 0
+        }
+      }
+    }
+  },
+
+  "autoLoadRules": {
+    "always": ["superpowers:using-superpowers"],
+    "matchAndLoad": "扫描用户输入 → 匹配所有 routingRules.*.skills 中的 keywords → 按 priority 排序 → 用 Skill tool 逐个加载。匹配到几个就加载几个。",
+    "complexityThreshold": "≥3个不同领域匹配 → 复杂任务 → 追加加载 superpowers:subagent-driven-development",
+    "domainOverride": "用户明确说'不要X' → 跳过对应skill",
+    "postLoad": "加载skill后立即更新 invokeCount++ 和 lastInvoked 时间戳"
+  },
+
+  "stats": {
+    "totalSkills": 34,
+    "routedSkills": 34,
+    "unroutedSkills": 0,
+    "lastFullAudit": "2026-05-06"
+  }
+}

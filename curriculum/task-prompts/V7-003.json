@@ -1,0 +1,27 @@
+{
+  "taskId": "V7-003",
+  "sender": {
+    "role": "teacher",
+    "name": "聂富贵"
+  },
+  "receiver": {
+    "role": "student",
+    "name": "马富贵"
+  },
+  "title": "记忆系统 Phase 2 — 知识图谱构建+记忆检索",
+  "priority": "P0",
+  "background": "Phase 1审查通过。四个交付物全部达标，design文档(D010)中被采纳的JSON格式设计展示了独立判断力。Phase 2建立在你的研究文档(research/memory-automation-design.md)的2.4节'知识图谱'设计上。目标：让Layer 3语义记忆从'静态Markdown'升级为'可查询的知识图谱'。",
+  "requirement": "Phase 2三个交付物：\n\n1. memory/knowledge-graph.json — 知识图谱初始版本。节点=概念/方法论/决策，边=关系(precedes/supports/contradicts/derives_from)。初始≥15个节点+20条边。\n\n2. scripts/memory-search.sh — 记忆检索脚本。输入关键词→搜索graph.json节点+decisions.md+capability-inventory.json→输出相关记忆摘要。用python3实现，支持'按领域筛选'和'按时间筛选'。\n\n3. 更新 team-status.json 的 knowledge-graph 统计字段(节点数/边数/最后更新)。",
+  "acceptanceCriteria": [
+    "knowledge-graph.json ≥15节点+20边，每条边标注关系类型",
+    "memory-search.sh 可运行：bash scripts/memory-search.sh '安全' → 返回该领域相关记忆摘要",
+    "搜索支持2种筛选：--domain和--since",
+    "搜索结果≤20行(不溢出上下文窗口)",
+    "更新 team-status.json 的 layer3 统计",
+    "独立完成，不依赖老师写代码"
+  ],
+  "estimatedHours": 4,
+  "targetLevel": "L2",
+  "domain": "memory",
+  "note": "这是L2级任务——Phase 1证明了你能独立实现，Phase 2要求你在自己的设计文档基础上独立构建。遇到困难先查自己的research文档，再问老师。"
+}

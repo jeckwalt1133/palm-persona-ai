@@ -1,0 +1,25 @@
+{
+  "taskId": "WANG-02",
+  "sender": {
+    "role": "teacher",
+    "name": "聂富贵"
+  },
+  "receiver": {
+    "role": "guest-copywriter",
+    "name": "王富贵"
+  },
+  "title": "文案教学模块02 — 情感分层+场景化文案",
+  "priority": "P1",
+  "background": "模块01已交付'文案共鸣基础'(5人格×分享动机矩阵)。学生马富贵已完成基础训练，需要进阶内容。模块02聚焦'情感的颗粒度'——如何把笼统的'感动'拆解为具体的情绪层次，并针对不同场景写出有共鸣的文案。",
+  "requirement": "编写 curriculum/guest-modules/wang-copywriting-02.md，包含：\n1. 情感分层模型(至少3层：表层情绪→中层共鸣→深层价值观)\n2. 5个真实场景的文案改写示例(每个场景给'改写前'和'改写后'对比)\n3. 3个练习(难度递进)\n4. 验收标准(可度量，不是'感觉好')\n格式对齐模块01(grading/safety放在第8行后)。",
+  "acceptanceCriteria": [
+    "文件存在 curriculum/guest-modules/wang-copywriting-02.md",
+    "情感分层模型≥3层，每层有定义+判断标准+示例",
+    "5个场景×2版本=10条文案，每条标注'为什么改后更好'",
+    "3个练习难度递进(基础→进阶→创作)",
+    "验收标准可度量(如'改后版本在共鸣维度得分≥8/10')"
+  ],
+  "estimatedHours": 2,
+  "targetLevel": "L2",
+  "domain": "product"
+}

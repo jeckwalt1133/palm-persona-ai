@@ -1,0 +1,174 @@
+{
+  "member": "周富贵",
+  "role": "guest-qa",
+  "model": "qwen3-max",
+  "description": "团队的安全底线和质量标准。对安全红线有一票否决权。",
+  "domains": {
+    "security": {
+      "name": "安全审计",
+      "capabilities": [
+        {
+          "id": "ZHOU-01",
+          "name": "安全红线执行",
+          "level": "L2",
+          "proficiency": "能执行5条红线，发现违规立即报告+给出修复方案",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "ZHOU-02",
+          "name": "密钥泄露扫描",
+          "level": "L2",
+          "proficiency": "能用grep+git log扫描历史中的所有硬编码密钥",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "ZHOU-03",
+          "name": "代码安全审查",
+          "level": "L2",
+          "proficiency": "能识别日志泄露、不安全输出、注入漏洞",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "ZHOU-04",
+          "name": "依赖漏洞审计",
+          "level": "L1",
+          "proficiency": "能用npm audit/pip audit扫描项目依赖漏洞",
+          "lastUsed": null
+        },
+        {
+          "id": "ZHOU-05",
+          "name": "威胁建模",
+          "level": "L1",
+          "proficiency": "能对系统做STRIDE威胁建模，识别攻击面",
+          "lastUsed": null
+        }
+      ]
+    },
+    "ci": {
+      "name": "CI/自动化",
+      "capabilities": [
+        {
+          "id": "ZHOU-06",
+          "name": "Pre-commit Hook配置",
+          "level": "L2",
+          "proficiency": "能编写+部署pre-commit hook做提交前安全扫描",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "ZHOU-07",
+          "name": "GitHub Action安全集成",
+          "level": "L1",
+          "proficiency": "能编写CI pipeline做自动化安全检测",
+          "lastUsed": null
+        },
+        {
+          "id": "ZHOU-08",
+          "name": "代码模式匹配",
+          "level": "L1",
+          "proficiency": "能用正则/Semgrep匹配危险代码模式",
+          "lastUsed": null
+        }
+      ]
+    },
+    "quality": {
+      "name": "质量保障",
+      "capabilities": [
+        {
+          "id": "ZHOU-09",
+          "name": "测试覆盖评估",
+          "level": "L1",
+          "proficiency": "能评估测试覆盖率+识别未覆盖的关键路径",
+          "lastUsed": null
+        },
+        {
+          "id": "ZHOU-10",
+          "name": "工程规范审查",
+          "level": "L2",
+          "proficiency": "能按DoD标准审查TypeScript代码",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "ZHOU-11",
+          "name": "性能安全权衡",
+          "level": "L1",
+          "proficiency": "能在安全加固和性能之间做出合理权衡",
+          "lastUsed": null
+        }
+      ]
+    },
+    "teaching": {
+      "name": "教学能力",
+      "capabilities": [
+        {
+          "id": "ZHOU-12",
+          "name": "安全教学模块设计",
+          "level": "L2",
+          "proficiency": "能设计实操性安全教学模块(练习>理论)",
+          "lastUsed": "2026-05-05"
+        },
+        {
+          "id": "ZHOU-13",
+          "name": "安全意识培养",
+          "level": "L1",
+          "proficiency": "能通过案例而非说教培养团队安全意识",
+          "lastUsed": "2026-05-05"
+        }
+      ]
+    },
+    "learning": {
+      "name": "向其他成员学习",
+      "capabilities": [
+        {
+          "id": "ZHOU-14",
+          "name": "文案可读性判断",
+          "level": "L1",
+          "proficiency": "能判断安全文档是否能让非安全人员看懂",
+          "lastUsed": null,
+          "from": "王富贵"
+        },
+        {
+          "id": "ZHOU-15",
+          "name": "快速原型理解",
+          "level": "L1",
+          "proficiency": "能在代码审查中区分'原型临时方案'和'需修复的隐患'",
+          "lastUsed": null,
+          "from": "马富贵"
+        }
+      ]
+    },
+    "quality-engineering": {
+      "name": "质量工程 (QE)",
+      "description": "不只是找bug，是建立质量体系+度量+预防",
+      "capabilities": [
+        {
+          "id": "ZHOU-16",
+          "name": "质量度量体系",
+          "level": "L1",
+          "proficiency": "能定义bug密度/逃逸率/MTTR等质量指标",
+          "lastUsed": null
+        },
+        {
+          "id": "ZHOU-17",
+          "name": "测试策略设计",
+          "level": "L1",
+          "proficiency": "能设计分层测试策略(单元/集成/E2E比例)",
+          "lastUsed": null
+        },
+        {
+          "id": "ZHOU-18",
+          "name": "缺陷根因分析",
+          "level": "L1",
+          "proficiency": "能用5-Why/鱼骨图分析bug根因",
+          "lastUsed": null
+        },
+        {
+          "id": "ZHOU-19",
+          "name": "发布质量门禁",
+          "level": "L1",
+          "proficiency": "能设计发布前的质量检查清单+自动化门禁",
+          "lastUsed": null
+        }
+      ]
+    }
+  }
+}

@@ -16,19 +16,23 @@
 5. 不要伪代码/TODO 占位/死代码；能实现就实现
 6. 不硬编码密钥，用 .env；TypeScript strict
 
-## Skill 自动加载（按任务领域）
+## Skill 自动加载
 
-| 领域 | Skill 文件 |
-|------|-----------|
-| 产品方向 | `.claude/skills/palm-product.md` — 文案铁律、截图驱动、视觉锚点、增长埋点 |
-| 合规红线 | `.claude/skills/palm-compliance.md` — 27项禁用词、替代表达、过审必备 |
-| 工程规范 | `.claude/skills/palm-engineering.md` — 技术栈、强制工作流、DoD、常用命令 |
+**规则文件**: `memory/skill-routing.json` — 31个Skill的完整路由表
 
-**规则**：匹配到对应任务领域时，必须先 Read 对应的 Skill 文件再执行。
-- 涉及文案/UI/分享 → 加载 palm-product
-- 涉及报告输出/用户展示 → 加载 palm-compliance
-- 涉及代码修改/测试/部署 → 加载 palm-engineering
-- 复杂任务 → 三个全加载
+**执行机制**:
+1. 收到任务 → 扫描用户输入中的关键词
+2. 匹配 `skill-routing.json` 中任意 skill 的 `triggers.keywords`
+3. 按 `priority` 排序 → 用 `Skill` tool 逐个加载（不手动 Read）
+4. 3个以上领域匹配 → 复杂任务 → 追加加载 `subagent-driven-development`
+
+**4级优先级**:
+- **P0 流程控制** (1-14): brainstorming / systematic-debugging / TDD / 并行分发 / 审查
+- **P1 项目领域** (15-18): palm-compliance / palm-product / palm-engineering / palm-web-research
+- **P2 工具** (21-24): review-report / video-analyze / agent-browser / snapview
+- **P3 团队管理** (31-39): pua体系 / P7/P9/P10
+
+**硬规则**: 匹配到的 skill 必须加载。加载后更新 `skill-routing.json` 的 `invokeCount`。
 
 ## 12 Phase 执行
 P1:理解计划 → P2:工程骨架 → P3:后端基础 → P4:分析引擎 → P5:AI Provider → P6:API → P7:小程序前端 → P8:页面 → P9:分享海报 → P10:反馈 → P11:测试文档 → P12:最终验证

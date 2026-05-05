@@ -363,7 +363,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '[安全审计就绪] MCP Server security_audit tool 已注册'"
+            "command": "bash /mnt/d/Claude/Workspace/palm-persona-ai/scripts/state-tracker.sh",
+            "timeout": 1000,
+            "async": true
           }
         ]
       }

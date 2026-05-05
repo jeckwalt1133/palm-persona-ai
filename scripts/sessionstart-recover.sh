@@ -39,25 +39,28 @@ if [ -f "$TEAM_STATUS" ]; then
   TMP_FIELDS=$(mktemp)
   python3 -c "
 import json
+def s(val, default=''):
+    '''安全取值，处理 JSON null → Python None'''
+    return val if val is not None else default
 with open('$TEAM_STATUS') as f:
     d = json.load(f)
-ct = d.get('currentTask', {})
-tm = d.get('teamMembers', {})
+ct = d.get('currentTask', {}) or {}
+tm = d.get('teamMembers', {}) or {}
 fields = [
-    ct.get('title', '未知'),
-    ct.get('status', '未知'),
-    ct.get('progress', '未知'),
-    ct.get('nextAction', ''),
-    ct.get('blocker', ''),
-    ct.get('assignedTo', ''),
-    tm.get('nie', {}).get('status', 'unknown'),
-    tm.get('ma', {}).get('status', 'unknown'),
-    tm.get('wang', {}).get('status', 'unknown'),
-    tm.get('zhou', {}).get('status', 'unknown'),
+    s(ct.get('title'), '未知'),
+    s(ct.get('status'), '未知'),
+    s(ct.get('progress'), '未知'),
+    s(ct.get('nextAction'), ''),
+    s(ct.get('blocker'), ''),
+    s(ct.get('assignedTo'), ''),
+    s(tm.get('nie', {}).get('status'), 'unknown') if tm.get('nie') else 'unknown',
+    s(tm.get('ma', {}).get('status'), 'unknown') if tm.get('ma') else 'unknown',
+    s(tm.get('wang', {}).get('status'), 'unknown') if tm.get('wang') else 'unknown',
+    s(tm.get('zhou', {}).get('status'), 'unknown') if tm.get('zhou') else 'unknown',
 ]
 with open('$TMP_FIELDS', 'w') as out:
     for field in fields:
-        out.write(field + '\n')
+        out.write(str(field) + '\n')
 " 2>/dev/null
 
   mapfile -t FIELDS < "$TMP_FIELDS" 2>/dev/null || true
