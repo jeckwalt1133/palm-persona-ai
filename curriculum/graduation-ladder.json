@@ -1,6 +1,7 @@
 {
-  "system": "AI 毕业阶梯 — 5段×3阶 产出矩阵",
-  "version": "2.0.0",
+  "system": "AI 毕业阶梯 — 5段×3阶 产出矩阵 (V5核心/V6沿用)",
+  "version": "2.1.0",
+  "parentSystem": "V6 全球定位+产品化 — 完整进化见 memory/evolution-v1-v6.md",
   "created": "2026-05-05",
   "updated": "2026-05-05",
   "designRationale": "用户(贵哥)5阶段产出骨架 + Claude 58级颗粒度血肉 → 合成15级+教学暗线。每段3阶(初阶跟着做→中阶独立做→高阶带人做)，每级有可验证的数字指标。",
