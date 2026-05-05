@@ -7,6 +7,7 @@
 
 import { AiProvider, MockAiProvider } from '../ai/index.js';
 import { PersonaScore, VisualAnchors, RelationshipCode, CelebrityMatch } from '../engine/types.js';
+import { withTimeout, parseAiJson } from './agent-utils.js';
 
 export interface AnalystInput {
   scores: PersonaScore[];
@@ -83,7 +84,7 @@ ${scores.map(s => `  ${s.dimension}(${s.dimensionKey}): ${s.score}分 — ${s.la
         this.timeoutMs,
       );
 
-      const parsed = JSON.parse(raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+      const parsed = parseAiJson(raw);
       return {
         personaType: parsed.personaType || FALLBACK_OUTPUT.personaType,
         personaLabel: parsed.personaLabel || FALLBACK_OUTPUT.personaLabel,
@@ -99,9 +100,4 @@ ${scores.map(s => `  ${s.dimension}(${s.dimensionKey}): ${s.score}分 — ${s.la
   }
 }
 
-function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
-  return Promise.race([
-    promise,
-    new Promise<T>((_, reject) => setTimeout(() => reject(new Error(`超时(${ms}ms)`)), ms)),
-  ]);
-}
+export { withTimeout };

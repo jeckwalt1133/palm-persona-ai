@@ -8,6 +8,7 @@
 import { AiProvider, MockAiProvider } from '../ai/index.js';
 import { PersonaScore, VisualAnchors } from '../engine/types.js';
 import { ResonanceNarrativeEngine, MockResonanceNarrativeEngine } from '../engine/resonance-narrative-engine.js';
+import { withTimeout, parseAiJson } from './agent-utils.js';
 
 export interface CopywriterInput {
   scores: PersonaScore[];
@@ -79,7 +80,7 @@ ${personaHint}
         this.timeoutMs,
       );
 
-      const parsed = JSON.parse(raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
+      const parsed = parseAiJson(raw);
       return {
         summary: parsed.summary || '',
         coreTruth: parsed.coreTruth || '',
@@ -117,9 +118,4 @@ ${personaHint}
   }
 }
 
-function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
-  return Promise.race([
-    promise,
-    new Promise<T>((_, reject) => setTimeout(() => reject(new Error(`超时(${ms}ms)`)), ms)),
-  ]);
-}
+export { withTimeout };
