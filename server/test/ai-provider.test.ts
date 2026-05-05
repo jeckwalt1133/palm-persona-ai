@@ -1,7 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { MockAiProvider } from '../src/ai/mock-provider.js';
+import { FallbackProvider } from '../src/ai/fallback-provider.js';
 import { createAiProvider } from '../src/ai/provider-factory.js';
+import { AiProvider, ChatMessage, ChatOptions } from '../src/ai/types.js';
 import { Config } from '../src/config/index.js';
+
+class FailingProvider implements AiProvider {
+  name: string;
+  private failCount: number;
+  private callCount = 0;
+  constructor(name: string, failCount = 999) { this.name = name; this.failCount = failCount; }
+  async chat(_msgs: ChatMessage[], _opts?: ChatOptions): Promise<string> {
+    this.callCount++;
+    if (this.callCount <= this.failCount) throw new Error(`${this.name} 模拟故障`);
+    return `${this.name} 恢复`;
+  }
+}
 
 describe('MockAiProvider', () => {
   const provider = new MockAiProvider();
@@ -87,5 +101,45 @@ describe('createAiProvider', () => {
     };
     const provider = createAiProvider(config);
     expect(provider.name).toBe('mock');
+  });
+});
+
+describe('FallbackProvider', () => {
+  it('returns first provider result on success', async () => {
+    const mock = new MockAiProvider();
+    const fb = new FallbackProvider([mock]);
+    const result = await fb.chat([{ role: 'user', content: 'test' }]);
+    expect(result.length).toBeGreaterThan(0);
+  });
+
+  it('falls to next provider when first fails', async () => {
+    const failing = new FailingProvider('deepseek');
+    const mock = new MockAiProvider();
+    const fb = new FallbackProvider([failing, mock]);
+    const result = await fb.chat([{ role: 'user', content: 'test' }]);
+    expect(result.length).toBeGreaterThan(0);
+    expect(fb.name).toContain('deepseek→mock');
+  });
+
+  it('falls through 2 failures to reach working provider', async () => {
+    const f1 = new FailingProvider('deepseek');
+    const f2 = new FailingProvider('doubao');
+    const mock = new MockAiProvider();
+    const fb = new FallbackProvider([f1, f2, mock]);
+    const result = await fb.chat([{ role: 'user', content: 'test' }]);
+    expect(result.length).toBeGreaterThan(0);
+  });
+
+  it('throws when all providers fail', async () => {
+    const f1 = new FailingProvider('deepseek');
+    const f2 = new FailingProvider('doubao');
+    const fb = new FallbackProvider([f1, f2]);
+    await expect(fb.chat([{ role: 'user', content: 'test' }])).rejects.toThrow('所有 AI Provider 均调用失败');
+  });
+
+  it('name reflects full chain', () => {
+    const mock = new MockAiProvider();
+    const fb = new FallbackProvider([mock]);
+    expect(fb.name).toBe('fallback[mock]');
   });
 });
