@@ -1,13 +1,29 @@
 {
   "version": "2.1",
-  "updated": "2026-05-06T18:00:00Z",
+  "updated": "2026-05-06T19:00:00Z",
   "description": "AI师生研究院 V7 知识图谱 — Layer 3 语义记忆。节点=概念/方法论/决策/产品，边=标准4型关系+3型扩展。",
   "stats": {
     "nodeCount": 26,
-    "edgeCount": 32,
-    "primaryRelations": ["precedes", "supports", "contradicts", "derives_from"],
-    "extendedRelations": ["depends_on", "implements", "governs"],
-    "domains": ["methodology", "memory", "engineering", "security", "product", "architecture"]
+    "edgeCount": 43,
+    "primaryRelations": [
+      "precedes",
+      "supports",
+      "contradicts",
+      "derives_from"
+    ],
+    "extendedRelations": [
+      "depends_on",
+      "implements",
+      "governs"
+    ],
+    "domains": [
+      "methodology",
+      "memory",
+      "engineering",
+      "security",
+      "product",
+      "architecture"
+    ]
   },
   "nodes": [
     {
@@ -16,7 +32,17 @@
       "label": "三层记忆架构",
       "domain": "memory",
       "description": "Layer1会话快照(PreCompact/SessionStart) → Layer2团队仪表盘(team-status.json) → Layer3语义知识图谱(knowledge-graph.json)。三层递进：临时→共享→持久。",
-      "keywords": ["记忆", "三层", "Layer1", "Layer2", "Layer3", "快照", "仪表盘", "知识图谱", "架构"],
+      "keywords": [
+        "记忆",
+        "三层",
+        "Layer1",
+        "Layer2",
+        "Layer3",
+        "快照",
+        "仪表盘",
+        "知识图谱",
+        "架构"
+      ],
       "source": "research/memory-automation-design.md §2.1",
       "created": "2026-05-05"
     },
@@ -26,7 +52,15 @@
       "label": "PreCompact自动快照",
       "domain": "memory",
       "description": "上下文压缩前自动保存当前任务进度/决策/发现/阻塞项到team-status.json和snapshots/。执行<3秒，只存元数据不分析对话内容。",
-      "keywords": ["快照", "PreCompact", "压缩", "保存", "上下文", "hook", "自动化"],
+      "keywords": [
+        "快照",
+        "PreCompact",
+        "压缩",
+        "保存",
+        "上下文",
+        "hook",
+        "自动化"
+      ],
       "source": "scripts/precompact-snapshot.sh",
       "created": "2026-05-06"
     },
@@ -36,7 +70,14 @@
       "label": "SessionStart自动恢复",
       "domain": "memory",
       "description": "新会话启动时读取team-status.json+最新快照→生成恢复上下文注入/tmp/claude-resume-context.md。包含角色/任务/优先级队列。<30秒完成。",
-      "keywords": ["恢复", "SessionStart", "启动", "上下文", "hook", "自动化"],
+      "keywords": [
+        "恢复",
+        "SessionStart",
+        "启动",
+        "上下文",
+        "hook",
+        "自动化"
+      ],
       "source": "scripts/sessionstart-recover.sh",
       "created": "2026-05-06"
     },
@@ -46,7 +87,16 @@
       "label": "团队仪表盘 (team-status.json)",
       "domain": "memory",
       "description": "JSON格式全局仪表盘：会话状态/当前任务/决策列表/发现列表/已完成任务/成员状态/优先级队列。机器可读+脚本可增量更新。D010决策确定JSON格式。",
-      "keywords": ["仪表盘", "团队", "状态", "JSON", "team-status", "任务", "成员", "优先级"],
+      "keywords": [
+        "仪表盘",
+        "团队",
+        "状态",
+        "JSON",
+        "team-status",
+        "任务",
+        "成员",
+        "优先级"
+      ],
       "source": "memory/team-status.json",
       "created": "2026-05-06"
     },
@@ -56,7 +106,17 @@
       "label": "语义知识图谱",
       "domain": "memory",
       "description": "Layer 3语义记忆的存储形式。节点=概念/方法论/决策，边=4型标准关系(precedes/supports/contradicts/derives_from)。支持关键词检索+图遍历。",
-      "keywords": ["知识图谱", "语义", "图谱", "节点", "边", "关系", "检索", "knowledge-graph", "Layer3"],
+      "keywords": [
+        "知识图谱",
+        "语义",
+        "图谱",
+        "节点",
+        "边",
+        "关系",
+        "检索",
+        "knowledge-graph",
+        "Layer3"
+      ],
       "source": "memory/knowledge-graph.json",
       "created": "2026-05-06"
     },
@@ -66,7 +126,15 @@
       "label": "记忆检索工具 (memory-search.sh)",
       "domain": "memory",
       "description": "Python3实现的关键词记忆检索：搜索knowledge-graph.json节点+decisions.md+capability-inventory.json。支持--domain和--since筛选，输出≤20行。",
-      "keywords": ["搜索", "检索", "记忆", "查询", "search", "关键词", "查找"],
+      "keywords": [
+        "搜索",
+        "检索",
+        "记忆",
+        "查询",
+        "search",
+        "关键词",
+        "查找"
+      ],
       "source": "scripts/memory-search.sh",
       "created": "2026-05-06"
     },
@@ -76,7 +144,15 @@
       "label": "闲置自检机制",
       "domain": "memory",
       "description": "CronCreate周期性(15分钟)检查team-status.json成员lastActive→超24h标记idle→自动分配新任务。防止团队成员闲置和任务跑偏。",
-      "keywords": ["闲置", "自检", "检查", "CronCreate", "定时", "监控", "自动化"],
+      "keywords": [
+        "闲置",
+        "自检",
+        "检查",
+        "CronCreate",
+        "定时",
+        "监控",
+        "自动化"
+      ],
       "source": "scripts/idle-review.sh",
       "created": "2026-05-06"
     },
@@ -86,7 +162,16 @@
       "label": "记忆巩固 — Dream Consolidation",
       "domain": "memory",
       "description": "模拟海马体重放：闲置时回放当日snapshots/快照→提取模式→检测矛盾→增量合并到knowledge-graph.json。CronCreate双循环触发(precompact+dream)。",
-      "keywords": ["巩固", "做梦", "Dream", "回放", "海马体", "合并", "模式", "CronCreate"],
+      "keywords": [
+        "巩固",
+        "做梦",
+        "Dream",
+        "回放",
+        "海马体",
+        "合并",
+        "模式",
+        "CronCreate"
+      ],
       "source": "scripts/dream-consolidation.sh",
       "created": "2026-05-06"
     },
@@ -96,7 +181,16 @@
       "label": "记忆健康检查",
       "domain": "memory",
       "description": "7项自诊断：死链接/过期文件/重复内容/膨胀检测/快照有效性/团队状态一致性/双轨同步检查。methodology-health-check.sh每日运行。",
-      "keywords": ["健康检查", "诊断", "死链接", "过期", "重复", "膨胀", "一致性", "健康"],
+      "keywords": [
+        "健康检查",
+        "诊断",
+        "死链接",
+        "过期",
+        "重复",
+        "膨胀",
+        "一致性",
+        "健康"
+      ],
       "source": "scripts/methodology-health-check.sh",
       "created": "2026-05-05"
     },
@@ -106,7 +200,16 @@
       "label": "Hook生命周期 (8种事件)",
       "domain": "engineering",
       "description": "SessionStart/PreCompact/PostToolUse/Stop等8种Hook事件。通过settings.local.json配置command类型hook，执行bash脚本。",
-      "keywords": ["Hook", "生命周期", "事件", "SessionStart", "PreCompact", "PostToolUse", "Stop", "配置"],
+      "keywords": [
+        "Hook",
+        "生命周期",
+        "事件",
+        "SessionStart",
+        "PreCompact",
+        "PostToolUse",
+        "Stop",
+        "配置"
+      ],
       "source": ".claude/settings.local.json + 第4课笔记",
       "created": "2026-05-05"
     },
@@ -116,7 +219,16 @@
       "label": "Skill自动路由系统",
       "domain": "engineering",
       "description": "31个Skill的关键词匹配+4级优先级排序(P0流程→P1领域→P2工具→P3团队)+自动加载。skill-routing.json维护路由表+invokeCount。",
-      "keywords": ["Skill", "路由", "自动", "匹配", "关键词", "优先级", "加载", "skill"],
+      "keywords": [
+        "Skill",
+        "路由",
+        "自动",
+        "匹配",
+        "关键词",
+        "优先级",
+        "加载",
+        "skill"
+      ],
       "source": "memory/skill-routing.json",
       "created": "2026-05-06"
     },
@@ -126,7 +238,16 @@
       "label": "PROTOCOL.md V7规则",
       "domain": "methodology",
       "description": "AI原生师徒制三大核心规则：①教师不写代码只写Task Prompt+审查意见 ②学生独立完成任务 ③三角互批判防止权威盲从。CC BY 4.0开放协议。",
-      "keywords": ["协议", "PROTOCOL", "规则", "教师", "学生", "师徒", "开放协议", "V7"],
+      "keywords": [
+        "协议",
+        "PROTOCOL",
+        "规则",
+        "教师",
+        "学生",
+        "师徒",
+        "开放协议",
+        "V7"
+      ],
       "source": "PROTOCOL.md",
       "created": "2026-05-04"
     },
@@ -136,7 +257,15 @@
       "label": "三角互批判机制",
       "domain": "methodology",
       "description": "教师→学生→客座→教师四人循环批判→投票→生成升级方案。每完成2个产出等级自动触发。防止群体思维和权威盲从。",
-      "keywords": ["批判", "三角", "投票", "审查", "升级", "方案", "四人"],
+      "keywords": [
+        "批判",
+        "三角",
+        "投票",
+        "审查",
+        "升级",
+        "方案",
+        "四人"
+      ],
       "source": "memory/v7.triangulation-critique.md",
       "created": "2026-05-04"
     },
@@ -146,7 +275,16 @@
       "label": "Task Prompt标准化",
       "domain": "methodology",
       "description": "14字段JSON Schema标准格式：sender/receiver/title/priority/background/requirement/acceptanceCriteria/estimatedHours/targetLevel/domain/note。保证任务可验收。",
-      "keywords": ["Task", "Prompt", "任务", "标准", "Schema", "验收", "字段", "格式"],
+      "keywords": [
+        "Task",
+        "Prompt",
+        "任务",
+        "标准",
+        "Schema",
+        "验收",
+        "字段",
+        "格式"
+      ],
       "source": "curriculum/task-prompt-schema.json",
       "created": "2026-05-05"
     },
@@ -156,7 +294,16 @@
       "label": "\"学会\"三级标准",
       "domain": "methodology",
       "description": "L1跟着做(能复现)→L2独立做(能改进)→L3教别人(能设计教学模块)。每级需可公开验证证据，防止自我感动式学习。",
-      "keywords": ["学会", "标准", "三级", "L1", "L2", "L3", "能力", "判定"],
+      "keywords": [
+        "学会",
+        "标准",
+        "三级",
+        "L1",
+        "L2",
+        "L3",
+        "能力",
+        "判定"
+      ],
       "source": "curriculum/learning-standards.md",
       "created": "2026-05-05"
     },
@@ -166,7 +313,17 @@
       "label": "毕业阶梯体系 (15级5段)",
       "domain": "methodology",
       "description": "L1基础段→L2研究段→L3产品段→L4开源段→L0教学暗线。每段3阶(初阶跟着做/中阶独立做/高阶带人做)。用户5段骨架+Claude颗粒度血肉。",
-      "keywords": ["毕业", "阶梯", "段位", "L1", "L2", "L3", "L4", "L0", "晋升"],
+      "keywords": [
+        "毕业",
+        "阶梯",
+        "段位",
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L0",
+        "晋升"
+      ],
       "source": "curriculum/graduation-ladder.json",
       "created": "2026-05-04"
     },
@@ -176,7 +333,16 @@
       "label": "证据驱动验证 (Evidence Schema)",
       "domain": "methodology",
       "description": "所有产出必须附带结构化证据(URL/commit hash/测试结果/metrics)。evidence-auto-verify.sh自动检查10级证据有效性。",
-      "keywords": ["证据", "验证", "Evidence", "自动", "检查", "URL", "commit", "真实"],
+      "keywords": [
+        "证据",
+        "验证",
+        "Evidence",
+        "自动",
+        "检查",
+        "URL",
+        "commit",
+        "真实"
+      ],
       "source": "curriculum/evidence-schema.json",
       "created": "2026-05-05"
     },
@@ -186,7 +352,15 @@
       "label": "学徒入职引导 (Onboarding)",
       "domain": "methodology",
       "description": "新学徒Day 1手册：环境搭建→协议学习→首个任务。标准化onboarding流程确保新成员快速上手。",
-      "keywords": ["入职", "引导", "onboarding", "新成员", "Day1", "学徒", "环境"],
+      "keywords": [
+        "入职",
+        "引导",
+        "onboarding",
+        "新成员",
+        "Day1",
+        "学徒",
+        "环境"
+      ],
       "source": "curriculum/onboarding.md",
       "created": "2026-05-05"
     },
@@ -196,7 +370,14 @@
       "label": "AI师生研究院 (元系统)",
       "domain": "methodology",
       "description": "AI教AI的方法论系统——掌心人格局的父系统。产出可复用的方法论被所有子项目继承。元/子分离原则：元优化方法，子使用方法。",
-      "keywords": ["研究院", "元系统", "父系统", "方法论", "复用", "师生"],
+      "keywords": [
+        "研究院",
+        "元系统",
+        "父系统",
+        "方法论",
+        "复用",
+        "师生"
+      ],
       "source": "CLAUDE.md + memory/bootstrap.md",
       "created": "2026-05-04"
     },
@@ -206,7 +387,16 @@
       "label": "掌心人格局 (子产品)",
       "domain": "product",
       "description": "微信/抖音/H5三端AI人格报告小程序。上传掌纹→AI分析→6张报告卡片。当前Mock管线(5Worker基于hash随机)，真实Sharp特征提取待替换。",
-      "keywords": ["掌心", "人格", "小程序", "微信", "抖音", "报告", "掌纹", "产品"],
+      "keywords": [
+        "掌心",
+        "人格",
+        "小程序",
+        "微信",
+        "抖音",
+        "报告",
+        "掌纹",
+        "产品"
+      ],
       "source": "docs/product.md",
       "created": "2026-05-04"
     },
@@ -216,7 +406,18 @@
       "label": "5Worker报告流水线 (O-W模式)",
       "domain": "engineering",
       "description": "特征提取→人格评分→文案生成→安全审查→分享海报五步流水线。D001决策采用Orchestrator-Workers模式。report-pipeline.ts支持依赖注入。",
-      "keywords": ["流水线", "Worker", "报告", "O-W", "管线", "特征", "评分", "文案", "安全", "分享"],
+      "keywords": [
+        "流水线",
+        "Worker",
+        "报告",
+        "O-W",
+        "管线",
+        "特征",
+        "评分",
+        "文案",
+        "安全",
+        "分享"
+      ],
       "source": "server/src/engine/index.ts",
       "created": "2026-05-05"
     },
@@ -226,7 +427,17 @@
       "label": "AI Provider多模型降级链",
       "domain": "engineering",
       "description": "DeepSeek→豆包→千问→Mock四级自动降级。工厂模式解耦Provider创建。D008确定豆包(Seed-2.0-Pro)和千问(Qwen3-Max)旗舰模型。",
-      "keywords": ["Provider", "降级", "模型", "DeepSeek", "豆包", "千问", "工厂", "AI", "API"],
+      "keywords": [
+        "Provider",
+        "降级",
+        "模型",
+        "DeepSeek",
+        "豆包",
+        "千问",
+        "工厂",
+        "AI",
+        "API"
+      ],
       "source": "server/src/ai/provider-factory.ts",
       "created": "2026-05-05"
     },
@@ -236,7 +447,16 @@
       "label": "合规门禁系统",
       "domain": "security",
       "description": "27项禁用词检测+同音字字典+替代表达映射。MCP Server暴露check_compliance标准接口。报告发布前强制合规审查。",
-      "keywords": ["合规", "门禁", "安全", "禁用词", "同音字", "审查", "MCP", "检查"],
+      "keywords": [
+        "合规",
+        "门禁",
+        "安全",
+        "禁用词",
+        "同音字",
+        "审查",
+        "MCP",
+        "检查"
+      ],
       "source": "server/src/safety/compliance-gate.ts",
       "created": "2026-05-05"
     },
@@ -246,7 +466,15 @@
       "label": "Canvas前端海报合成",
       "domain": "product",
       "description": "Taro Canvas 2D前端渲染6张报告卡片为分享海报。D004决策选前端Canvas而非后端Puppeteer——跨三端工作+无重型依赖。",
-      "keywords": ["Canvas", "海报", "分享", "前端", "渲染", "卡片", "图片"],
+      "keywords": [
+        "Canvas",
+        "海报",
+        "分享",
+        "前端",
+        "渲染",
+        "卡片",
+        "图片"
+      ],
       "source": "apps/miniapp/src/pages/share/",
       "created": "2026-05-05"
     },
@@ -256,7 +484,14 @@
       "label": "MCP协议 (Model Context Protocol)",
       "domain": "architecture",
       "description": "Anthropic的模型上下文协议。D003决策将合规词库通过MCP Server暴露标准接口。palm-mcp-server支持check_compliance/query_reports/analyze_persona。",
-      "keywords": ["MCP", "协议", "Model Context Protocol", "Server", "接口", "标准化"],
+      "keywords": [
+        "MCP",
+        "协议",
+        "Model Context Protocol",
+        "Server",
+        "接口",
+        "标准化"
+      ],
       "source": "mcp-servers/palm-mcp-server/",
       "created": "2026-05-05"
     },
@@ -266,43 +501,278 @@
       "label": "能力清单 (capability-inventory.json)",
       "domain": "methodology",
       "description": "50项AI师生研究院完整能力清单，分10个领域(ai-infrastructure/engine/security/engineering/methodology/memory/product/teaching/devops/research)。L1-L3三级追踪+退化规则。",
-      "keywords": ["能力", "清单", "inventory", "技能", "追踪", "退化", "领域", "评估"],
+      "keywords": [
+        "能力",
+        "清单",
+        "inventory",
+        "技能",
+        "追踪",
+        "退化",
+        "领域",
+        "评估"
+      ],
       "source": "memory/capability-inventory.json",
       "created": "2026-05-06"
     }
   ],
   "edges": [
-    {"from": "three-layer-memory", "to": "precompact-snapshot", "relation": "supports", "label": "Layer1定义要求→PreCompact实现"},
-    {"from": "three-layer-memory", "to": "team-dashboard", "relation": "supports", "label": "Layer2定义框架→仪表盘填充"},
-    {"from": "three-layer-memory", "to": "semantic-knowledge-graph", "relation": "supports", "label": "Layer3定义目标→知识图谱实现"},
-    {"from": "precompact-snapshot", "to": "sessionstart-recovery", "relation": "precedes", "label": "快照必须先于恢复——快照是恢复的数据源"},
-    {"from": "precompact-snapshot", "to": "hook-lifecycle", "relation": "depends_on", "label": "依赖PreCompact hook事件触发"},
-    {"from": "sessionstart-recovery", "to": "hook-lifecycle", "relation": "depends_on", "label": "依赖SessionStart hook事件触发"},
-    {"from": "precompact-snapshot", "to": "team-dashboard", "relation": "supports", "label": "快照写入当前状态到仪表盘"},
-    {"from": "sessionstart-recovery", "to": "team-dashboard", "relation": "supports", "label": "恢复时读取仪表盘获取任务上下文"},
-    {"from": "dream-consolidation", "to": "precompact-snapshot", "relation": "supports", "label": "消费快照→提取模式→合并到知识图谱"},
-    {"from": "dream-consolidation", "to": "semantic-knowledge-graph", "relation": "supports", "label": "增量更新知识图谱节点和边"},
-    {"from": "semantic-knowledge-graph", "to": "memory-search", "relation": "supports", "label": "知识图谱是记忆检索的主数据源"},
-    {"from": "memory-search", "to": "team-dashboard", "relation": "supports", "label": "搜索decisions+capability-inventory补充图谱"},
-    {"from": "idle-review", "to": "team-dashboard", "relation": "supports", "label": "对照仪表盘最后活跃时间检测闲置"},
-    {"from": "memory-health-check", "to": "team-dashboard", "relation": "supports", "label": "检查仪表盘一致性+快照有效性"},
-    {"from": "memory-health-check", "to": "semantic-knowledge-graph", "relation": "supports", "label": "检测图谱死链接+过期引用"},
-    {"from": "protocol-v7", "to": "triangulation-critique", "relation": "supports", "label": "协议定义批判规则框架"},
-    {"from": "protocol-v7", "to": "task-prompt-standard", "relation": "supports", "label": "协议定义'教师只写Prompt'→标准化格式"},
-    {"from": "protocol-v7", "to": "ai-institute", "relation": "governs", "label": "协议治理元项目的运作规则"},
-    {"from": "triangulation-critique", "to": "task-prompt-standard", "relation": "precedes", "label": "V7批判结论直接驱动了14字段Task Prompt Schema"},
-    {"from": "task-prompt-standard", "to": "learning-standards", "relation": "supports", "label": "Task Prompt的targetLevel字段对应三级标准"},
-    {"from": "learning-standards", "to": "graduation-ladder", "relation": "supports", "label": "三级标准是毕业阶梯的判定依据"},
-    {"from": "evidence-schema", "to": "graduation-ladder", "relation": "supports", "label": "证据验证是毕业的质量门禁"},
-    {"from": "learning-standards", "to": "evidence-schema", "relation": "supports", "label": "学会标准要求可验证证据"},
-    {"from": "onboarding", "to": "learning-standards", "relation": "derives_from", "label": "Day1手册从学会标准派生"},
-    {"from": "ai-institute", "to": "palm-persona-ai", "relation": "supports", "label": "元系统研发子产品——方法论复用"},
-    {"from": "ai-institute", "to": "capability-inventory", "relation": "supports", "label": "能力清单追踪元系统的全部技能"},
-    {"from": "five-worker-pipeline", "to": "provider-factory", "relation": "depends_on", "label": "文案Worker依赖AI Provider调用"},
-    {"from": "five-worker-pipeline", "to": "canvas-poster", "relation": "precedes", "label": "报告生成→分享海报——流水线下游"},
-    {"from": "compliance-gate", "to": "mcp-protocol", "relation": "supports", "label": "合规词库通过MCP Server标准化暴露"},
-    {"from": "compliance-gate", "to": "palm-persona-ai", "relation": "supports", "label": "合规审查是产品上线的必要条件"},
-    {"from": "skill-routing", "to": "protocol-v7", "relation": "supports", "label": "路由强制加载协议规定的Skill"},
-    {"from": "protocol-v7", "to": "learning-standards", "relation": "supports", "label": "协议定义'学会'的判定规则"}
+    {
+      "from": "three-layer-memory",
+      "to": "precompact-snapshot",
+      "relation": "supports",
+      "label": "Layer1定义要求→PreCompact实现"
+    },
+    {
+      "from": "three-layer-memory",
+      "to": "team-dashboard",
+      "relation": "supports",
+      "label": "Layer2定义框架→仪表盘填充"
+    },
+    {
+      "from": "three-layer-memory",
+      "to": "semantic-knowledge-graph",
+      "relation": "supports",
+      "label": "Layer3定义目标→知识图谱实现"
+    },
+    {
+      "from": "precompact-snapshot",
+      "to": "sessionstart-recovery",
+      "relation": "precedes",
+      "label": "快照必须先于恢复——快照是恢复的数据源"
+    },
+    {
+      "from": "precompact-snapshot",
+      "to": "hook-lifecycle",
+      "relation": "depends_on",
+      "label": "依赖PreCompact hook事件触发"
+    },
+    {
+      "from": "sessionstart-recovery",
+      "to": "hook-lifecycle",
+      "relation": "depends_on",
+      "label": "依赖SessionStart hook事件触发"
+    },
+    {
+      "from": "precompact-snapshot",
+      "to": "team-dashboard",
+      "relation": "supports",
+      "label": "快照写入当前状态到仪表盘"
+    },
+    {
+      "from": "sessionstart-recovery",
+      "to": "team-dashboard",
+      "relation": "supports",
+      "label": "恢复时读取仪表盘获取任务上下文"
+    },
+    {
+      "from": "dream-consolidation",
+      "to": "precompact-snapshot",
+      "relation": "supports",
+      "label": "消费快照→提取模式→合并到知识图谱"
+    },
+    {
+      "from": "dream-consolidation",
+      "to": "semantic-knowledge-graph",
+      "relation": "supports",
+      "label": "增量更新知识图谱节点和边"
+    },
+    {
+      "from": "semantic-knowledge-graph",
+      "to": "memory-search",
+      "relation": "supports",
+      "label": "知识图谱是记忆检索的主数据源"
+    },
+    {
+      "from": "memory-search",
+      "to": "team-dashboard",
+      "relation": "supports",
+      "label": "搜索decisions+capability-inventory补充图谱"
+    },
+    {
+      "from": "idle-review",
+      "to": "team-dashboard",
+      "relation": "supports",
+      "label": "对照仪表盘最后活跃时间检测闲置"
+    },
+    {
+      "from": "memory-health-check",
+      "to": "team-dashboard",
+      "relation": "supports",
+      "label": "检查仪表盘一致性+快照有效性"
+    },
+    {
+      "from": "memory-health-check",
+      "to": "semantic-knowledge-graph",
+      "relation": "supports",
+      "label": "检测图谱死链接+过期引用"
+    },
+    {
+      "from": "protocol-v7",
+      "to": "triangulation-critique",
+      "relation": "supports",
+      "label": "协议定义批判规则框架"
+    },
+    {
+      "from": "protocol-v7",
+      "to": "task-prompt-standard",
+      "relation": "supports",
+      "label": "协议定义'教师只写Prompt'→标准化格式"
+    },
+    {
+      "from": "protocol-v7",
+      "to": "ai-institute",
+      "relation": "governs",
+      "label": "协议治理元项目的运作规则"
+    },
+    {
+      "from": "triangulation-critique",
+      "to": "task-prompt-standard",
+      "relation": "precedes",
+      "label": "V7批判结论直接驱动了14字段Task Prompt Schema"
+    },
+    {
+      "from": "task-prompt-standard",
+      "to": "learning-standards",
+      "relation": "supports",
+      "label": "Task Prompt的targetLevel字段对应三级标准"
+    },
+    {
+      "from": "learning-standards",
+      "to": "graduation-ladder",
+      "relation": "supports",
+      "label": "三级标准是毕业阶梯的判定依据"
+    },
+    {
+      "from": "evidence-schema",
+      "to": "graduation-ladder",
+      "relation": "supports",
+      "label": "证据验证是毕业的质量门禁"
+    },
+    {
+      "from": "learning-standards",
+      "to": "evidence-schema",
+      "relation": "supports",
+      "label": "学会标准要求可验证证据"
+    },
+    {
+      "from": "onboarding",
+      "to": "learning-standards",
+      "relation": "derives_from",
+      "label": "Day1手册从学会标准派生"
+    },
+    {
+      "from": "ai-institute",
+      "to": "palm-persona-ai",
+      "relation": "supports",
+      "label": "元系统研发子产品——方法论复用"
+    },
+    {
+      "from": "ai-institute",
+      "to": "capability-inventory",
+      "relation": "supports",
+      "label": "能力清单追踪元系统的全部技能"
+    },
+    {
+      "from": "five-worker-pipeline",
+      "to": "provider-factory",
+      "relation": "depends_on",
+      "label": "文案Worker依赖AI Provider调用"
+    },
+    {
+      "from": "five-worker-pipeline",
+      "to": "canvas-poster",
+      "relation": "precedes",
+      "label": "报告生成→分享海报——流水线下游"
+    },
+    {
+      "from": "compliance-gate",
+      "to": "mcp-protocol",
+      "relation": "supports",
+      "label": "合规词库通过MCP Server标准化暴露"
+    },
+    {
+      "from": "compliance-gate",
+      "to": "palm-persona-ai",
+      "relation": "supports",
+      "label": "合规审查是产品上线的必要条件"
+    },
+    {
+      "from": "skill-routing",
+      "to": "protocol-v7",
+      "relation": "supports",
+      "label": "路由强制加载协议规定的Skill"
+    },
+    {
+      "from": "protocol-v7",
+      "to": "learning-standards",
+      "relation": "supports",
+      "label": "协议定义'学会'的判定规则"
+    },
+    {
+      "from": "five-worker-pipeline",
+      "to": "palm-persona-ai",
+      "relation": "contradicts",
+      "label": "Mock(基于hash随机) vs 真实(Sharp特征提取)。Mock可2h内验证管线流程但不可上线；Sharp需真实掌纹数据但开发周期≥2天。矛盾：开发速度 vs 产品质量——V7 Phase 1选了速度，Phase 2必须转向质量"
+    },
+    {
+      "from": "semantic-knowledge-graph",
+      "to": "three-layer-memory",
+      "relation": "contradicts",
+      "label": "Layer3命名'语义记忆'但实现为JSON文件关键词检索——无向量嵌入、无语义相似度计算、无跨文档推理。关键词匹配≠语义理解。矛盾：命名(语义) vs 实现(关键词)——要么改名'结构化记忆'，要么补向量检索能力"
+    },
+    {
+      "from": "protocol-v7",
+      "to": "learning-standards",
+      "relation": "contradicts",
+      "label": "协议§3规定'教师只写Task Prompt不写代码'——但L1'跟着做'要求可复现的代码示范。L1学生无代码示范=无法起步，协议规则与学习阶梯在L1处冲突。矛盾：规则一致性 vs 学习科学——需要定义'何时示范、何时放手'的切换条件"
+    },
+    {
+      "from": "triangulation-critique",
+      "to": "protocol-v7",
+      "relation": "contradicts",
+      "label": "三角批判要求深度审查找缺陷——但深度审查可能引发'迎合预期'效应：学生为通过审查而输出老师想看的答案，压抑独立判断。矛盾：质量保证(深度审查) vs 独立思考(减少干预)——审查越深学生越保守"
+    },
+    {
+      "from": "compliance-gate",
+      "to": "hook-lifecycle",
+      "relation": "contradicts",
+      "label": "安全扫描在pre-commit hook中触发——但安全教学文档中的正则示例被自身hook拦截('教学代码杀死教学文档')。自动化越严密→假阳性越多→开发者养成--no-verify习惯。矛盾：安全严密性 vs 系统可靠性——每增加1条扫描规则引入假阳性风险"
+    },
+    {
+      "from": "protocol-v7",
+      "to": "ai-institute",
+      "relation": "contradicts",
+      "label": "4人专业化分工(记忆/文案/安全/架构)→单领域深度↑产出质量↑——但§6交叉学习规则无强制执行，知识在成员间不流动。周富贵的审计是老师assign而非主动跨学习。矛盾：专业深度 vs 知识广度——专业化越深孤岛越严重"
+    },
+    {
+      "from": "evidence-schema",
+      "to": "capability-inventory",
+      "relation": "contradicts",
+      "label": "evidence-schema要求所有产出附带可验证证据——但capability-inventory中50项能力全为自评声明，无一有decisions佐证。'具有Sprint规划能力'≠有实际Sprint决策记录。矛盾：证据驱动标准 vs 自评式能力声明——标准定义了但未对自身应用"
+    },
+    {
+      "from": "skill-routing",
+      "to": "protocol-v7",
+      "relation": "implements",
+      "label": "Skill自动路由(关键词匹配→优先级排序→自动装载)实现了协议§2[Skill自动加载]规则——31个skill的4级优先级路由表是协议的运行态实例"
+    },
+    {
+      "from": "graduation-ladder",
+      "to": "learning-standards",
+      "relation": "implements",
+      "label": "毕业阶梯(5段×3阶=15级)实现了'学会'三级标准的可操作化——L1初阶(跟着做)→L2中阶(独立做)→L3高阶(带人做)对应学会标准的三个层次"
+    },
+    {
+      "from": "compliance-gate",
+      "to": "mcp-protocol",
+      "relation": "implements",
+      "label": "合规门禁通过MCP Server暴露check_compliance标准接口——实现了MCP协议的Tool定义规范：声明式schema+标准化输入输出"
+    },
+    {
+      "from": "memory-search",
+      "to": "semantic-knowledge-graph",
+      "relation": "implements",
+      "label": "memory-search.sh实现了知识图谱的查询接口——关键词检索+领域筛选(--domain)+时间过滤(--since)+≤20行截断，是知识图谱的消费端实现"
+    }
   ]
 }
