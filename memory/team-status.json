@@ -1,32 +1,35 @@
 {
   "version": "1.0",
-  "updated": "2026-05-05T20:33:34Z",
+  "updated": "2026-05-05T20:35:14Z",
   "session": {
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T20:33:38Z"
+    "lastCheckpoint": "2026-05-05T20:35:48Z"
   },
   "currentTask": {
-    "id": "V7-W3-MONITOR",
-    "title": "监控3路团队任务产出",
+    "id": "V7-W3-MONITOR-R2",
+    "title": "R2监控: 马(埋点方案)+王(文案模块03)+周(同音字)",
     "assignedTo": "nie",
     "status": "in_progress",
     "subTasks": [
       {
-        "id": "V7-W3-001",
+        "id": "V7-W3-005",
         "assignee": "ma",
-        "status": "dispatched"
+        "status": "dispatched",
+        "title": "移动端埋点可靠性方案"
       },
       {
-        "id": "V7-W3-002",
+        "id": "V7-W3-006",
         "assignee": "wang",
-        "status": "dispatched"
+        "status": "dispatched",
+        "title": "文案教学模块03"
       },
       {
         "id": "V7-W3-003",
         "assignee": "zhou",
-        "status": "dispatched"
+        "status": "in_progress",
+        "title": "同音字字典扩展"
       }
     ]
   },
@@ -169,6 +172,18 @@
       "title": "能力证据终局处理 — 3项标记+公网隧道持久化",
       "completedAt": "2026-05-05T20:33:34Z",
       "result": "ENGI-001/OPS-001→evidenceTier:descriptive, SEC-003→pending, verify-capabilities.sh支持evidenceTier, tunnel.sh加入watchdog守护"
+    },
+    {
+      "id": "V7-W3-001",
+      "title": "马富贵跨学习审查王富贵A/B框架",
+      "completedAt": "2026-05-05T20:35:14Z",
+      "result": "7条审查意见(2方法论+5工程), student-notebook/ma-cross-review-w2.md"
+    },
+    {
+      "id": "V7-W3-002",
+      "title": "王富贵跨学习审查马富贵知识图谱",
+      "completedAt": "2026-05-05T20:35:14Z",
+      "result": "11条边逐条评估+2个P0命名问题, student-notebook/wang-cross-review-w2.md"
     }
   ],
   "teamMembers": {
@@ -339,8 +354,9 @@
   "sprint": {
     "name": "Week 3 Sprint",
     "status": "in_progress",
-    "tasksTotal": 4,
-    "tasksCompleted": 1,
-    "tasksDispatched": 3
+    "tasksTotal": 6,
+    "tasksCompleted": 3,
+    "tasksDispatched": 2,
+    "tasksInProgress": 1
   }
 }
