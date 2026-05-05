@@ -68,10 +68,10 @@
         {
           "id": "ENG-002",
           "name": "Sharp真实像素提取",
-          "level": "L1",
-          "proficiency": "理论理解，未独立实现",
-          "lastUsed": null,
-          "evidence": "task-dependency-graph.json T006"
+          "level": "L2",
+          "proficiency": "能独立实现Sobel边缘检测+真实图像特征提取",
+          "lastUsed": "2026-05-06",
+          "evidence": "server/src/engine/palm-feature-extractor.ts (RealPalmFeatureExtractor + Sobel)"
         },
         {
           "id": "ENG-003",

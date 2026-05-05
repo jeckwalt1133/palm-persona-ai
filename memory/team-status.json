@@ -1,21 +1,22 @@
 {
   "version": "1.0",
-  "updated": "2026-05-06T03:30:00Z",
+  "updated": "2026-05-06T00:30:00Z",
   "session": {
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T19:23:44Z"
+    "lastCheckpoint": "2026-05-05T19:33:58Z"
   },
   "currentTask": {
     "id": "V7-W2-SPRINT",
-    "title": "Week 2 Sprint — 7/8完成",
-    "status": "in_progress",
-    "progress": "马富贵三交付物全部达标(26N/32E超验收)。审查意见：知识图谱缺少矛盾边(contradicts声明但未使用)和implements边，非阻塞问题——Week 2 P0#1补充。评分L2+。",
+    "title": "Week 2 Sprint — 8/8 完成",
+    "status": "completed",
+    "progress": "全部8项P0+P1任务完成。V7-W2-003 capability验证脚本已交付：47项能力扫描，27验证/17待补证据/3退化。Sharp ENG-002已升级为L2。PROTOCOL.md §2.1.1教师示范vs放手规则已合入。decisions.md D013/D014编号修复。",
     "blocker": null,
-    "nextAction": "周富贵V7-W2-003进行中; 全部完成后D016决策审查",
-    "assignedTo": "ma",
-    "startedAt": "2026-05-05T18:16:11Z"
+    "nextAction": "Week 3 Sprint规划: 修复17项未验证能力证据 + 3项退化能力刷新 + 公网隧道重建",
+    "assignedTo": "nie",
+    "startedAt": "2026-05-05T18:16:11Z",
+    "completedAt": "2026-05-06T00:30:00Z"
   },
   "decisions": [
     {
@@ -138,6 +139,12 @@
       "title": "文案A/B测试框架",
       "evidence": "wang-ab-test-framework.md 18716字节, L3级",
       "completedAt": "2026-05-06T03:17:00Z"
+    },
+    {
+      "id": "V7-W2-003",
+      "title": "capability声明验证脚本",
+      "evidence": "scripts/verify-capabilities.sh — 47项扫描，27验证/17待补/3退化",
+      "completedAt": "2026-05-06T00:30:00Z"
     }
   ],
   "teamMembers": {
@@ -164,9 +171,9 @@
     "zhou": {
       "status": "active",
       "lastReview": "V7-003安全审计 — 评分9.25/10，发现Git历史API Key遗留问题",
-      "currentFocus": "V7-W2-003进行中: capability验证脚本",
+      "currentFocus": "V7-W2-003完成: capability验证脚本交付",
       "currentTask": "ZHOU-02 安全审查自动化模块 ★已完成",
-      "lastActive": "2026-05-06T03:15:00Z",
+      "lastActive": "2026-05-06T00:30:00Z",
       "tmuxSession": "claude-zhou"
     }
   },
@@ -191,7 +198,7 @@
       "rank": 3,
       "taskId": "V7-W2-003",
       "title": "capability声明验证脚本(自动检查能力是否有decisions佐证)",
-      "status": "pending",
+      "status": "completed",
       "assignedTo": "zhou",
       "dependency": null
     },

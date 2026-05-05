@@ -12,8 +12,37 @@
  * (从 mcp-servers/palm-mcp-server 目录)
  */
 
-import { checkTextCompliance, FORBIDDEN_TERMS } from '../mcp-servers/palm-mcp-server/src/compliance-bridge.js';
-import { queryReports } from '../mcp-servers/palm-mcp-server/src/report-bridge.js';
+// ─── 自包含合规词库（独立于外部依赖，确保第6课代码可运行）─────
+const FORBIDDEN_TERMS = [
+  '算命', '占卜', '手相', '看手相', '掌纹', '命运注定', '天注定', '宿命', '改命', '改运',
+  '开运', '正缘', '姻缘测算', '旺夫', '旺妻', '克夫', '克妻', '天生一对', '100%准确',
+  '比算命更准', '必然', '一定会', '暴富', '寿命预测', '疾病预测', '灾祸预测', '财富暴富预测',
+];
+function checkTextCompliance(text: string): { safe: boolean; violations: string[] } {
+  const violations: string[] = [];
+  for (const term of FORBIDDEN_TERMS) {
+    if (text.includes(term)) violations.push(term);
+  }
+  return { safe: violations.length === 0, violations };
+}
+
+// ─── 演示报告数据（自包含）─────────────────────
+function getDemoReport() {
+  return {
+    id: 'demo-001',
+    personaLabel: 'ENFP·快乐小狗',
+    personaType: 'ENFP',
+    summary: '你是一个充满热情和创造力的人，倾向于探索新事物并与他人建立有意义的连接。手掌线条清晰流畅，反映出你直觉敏锐的决策风格。',
+    coreTruth: '你被误解最深的是：看似随性，其实内心有清晰的价值排序。那些觉得你"不靠谱"的人，只是没看到你为信仰拼命的时刻。',
+    insights: [
+      '社交自信是你的优势，但独处时你常常陷入自我怀疑',
+      '你对别人的情绪敏感度很高，这是天赋也是负担',
+      '在工作中你更倾向于创新而非执行',
+    ],
+    weeklyAdvice: '这周适合整理一下你的社交圈。不是所有人都会留在你的生命里，但这没关系。尝试每天给自己留30分钟的独处时间。',
+    keywords: ['热情', '创造力', '社交', '直觉', '情绪敏感', '创新'],
+  };
+}
 
 // ─── 类型 ────────────────────────────────────────
 
@@ -356,10 +385,7 @@ async function main() {
 
   // Phase 1: 审计报告数据中的安全风险
   console.log('\n  📋 Phase 1: 审计掌心人报告...');
-  const reportId = process.argv[2] || 'demo-001';
-  const reports = queryReports({ id: reportId });
-  const report = reports[0] as unknown as ReportData | undefined;
-  if (!report) { console.error('❌ 报告未找到'); return; }
+  const report = getDemoReport() as unknown as ReportData;
 
   const before = Date.now();
   const audit = securityAuditWorker(report);

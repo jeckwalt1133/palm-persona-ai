@@ -114,13 +114,13 @@ def format_output(keyword, nodes, edges, decisions, capabilities, max_lines=20):
             cap = c["cap"]
             lines.append(f"  [{c['domain_name']}] {cap['name']} (L{cap.get('level','?')[1:]}) — {cap.get('proficiency','')[:50]}")
 
-    # 截断到max_lines (截断消息也计入行数)
-    total_matches = len(nodes) + len(decisions) + len(capabilities)
-    import sys as _sys; print(f"DEBUG_TRUNC: lines={len(lines)} max_lines={max_lines} trigger={len(lines) > max_lines}", file=_sys.stderr)
-    if len(lines) > max_lines:
-        trunc_msg = f"  ... (截断，总计{total_matches}条匹配)"
-        lines = lines[:max_lines - 1]
+    # 截断到max_lines (按实际输出行计数，section header中有\n嵌入)
+    actual_lines = "\n".join(lines).split("\n")
+    if len(actual_lines) > max_lines:
+        trunc_msg = f"  ... (截断，总计{len(nodes)+len(decisions)+len(capabilities)}条匹配)"
+        lines = actual_lines[:max_lines - 1]
         lines.append(trunc_msg)
+        return "\n".join(lines)
 
     if not nodes and not decisions and not capabilities:
         lines.append(f"\n  未找到与 '{keyword}' 相关的记忆。")
