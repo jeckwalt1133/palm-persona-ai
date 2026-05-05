@@ -1,33 +1,30 @@
 {
   "version": "1.0",
-  "updated": "2026-05-05T20:42:05Z",
+  "updated": "2026-05-05T20:59:02Z",
   "session": {
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T20:42:20Z"
+    "lastCheckpoint": "2026-05-05T20:59:08Z"
   },
   "currentTask": {
-    "id": "V7-W3-MONITOR-R3",
-    "title": "R3监控: 马(Heartbeat实现)+王(文案审查)+周(密钥扫描)",
+    "id": "V7-W4-MONITOR",
+    "title": "外部前沿研究监控",
     "subTasks": [
       {
-        "id": "V7-W3-008",
+        "id": "V7-W4-001",
         "assignee": "ma",
-        "status": "dispatched",
-        "title": "PageHeartbeat H5实现"
+        "title": "Agent协议+多智能体框架深度调研"
       },
       {
-        "id": "V7-W3-009",
+        "id": "V7-W4-002",
         "assignee": "wang",
-        "status": "dispatched",
-        "title": "文案全量审查"
+        "title": "全球顶级AI产品UX文案调研"
       },
       {
-        "id": "V7-W3-007",
+        "id": "V7-W4-003",
         "assignee": "zhou",
-        "status": "dispatched",
-        "title": "SEC-004密钥扫描增强"
+        "title": "全球AI安全与对齐2026前沿调研"
       }
     ]
   },
@@ -206,6 +203,44 @@
       "title": "王富贵文案教学模块03",
       "completedAt": "2026-05-05T20:42:05Z",
       "result": "技术概念消费级翻译5原则+10术语翻译+15练习题"
+    },
+    {
+      "id": "V7-W3-007",
+      "title": "SEC-004 密钥扫描自动化增强 — 12种模式+10自检测试+JSON报告",
+      "evidence": "scripts/pre-commit-security.py(380行)+scripts/pre-commit-security.sh(wrapper), 10/10测试通过, SEC-004 L1→L2升级",
+      "completedAt": "2026-05-06T05:00:00Z"
+    },
+    {
+      "id": "V7-W3-009",
+      "title": "用户可见文案全量审查 — 模块方法论实战",
+      "evidence": "student-notebook/wang-copy-audit.md 285行: 扫描apps/miniapp+server/src全部中文字符串,7条before/after+方法论依据+5条标杆+3个系统模式+优先级建议",
+      "completedAt": "2026-05-06T06:00:00Z"
+    },
+    {
+      "id": "V7-W3-011",
+      "title": "产品文案落地 — 审查发现7条直接改代码 + 标杆标准",
+      "evidence": "6文件22行改动: index.tsx+3改/capture.tsx+6改/AnalyzeProgress.tsx+8改/PosterCanvas.tsx+1改/persona-templates.ts+1改。curriculum/guest-modules/copywriting-benchmarks.md 5标准+快速自检清单。TypeScript编译通过。",
+      "completedAt": "2026-05-06T06:30:00Z"
+    },
+    {
+      "id": "V7-W3-008",
+      "title": "马富贵PageHeartbeat H5实现(858行)",
+      "completedAt": "2026-05-05T20:59:02Z"
+    },
+    {
+      "id": "V7-W3-009",
+      "title": "王富贵用户可见文案全量审查(7改进+5标杆)",
+      "completedAt": "2026-05-05T20:59:02Z"
+    },
+    {
+      "id": "V7-W3-007",
+      "title": "周富贵SEC-004密钥扫描增强(12模式+10测试)",
+      "completedAt": "2026-05-05T20:59:02Z"
+    },
+    {
+      "id": "V7-W3-012",
+      "title": "周富贵安全门禁V2生产化(pre-commit hook升级)",
+      "completedAt": "2026-05-05T20:59:02Z"
     }
   ],
   "teamMembers": {
@@ -225,17 +260,17 @@
     "wang": {
       "status": "active",
       "lastReview": null,
-      "currentFocus": "【PM】文案三模块全系列交付(01共鸣→02温度→03翻译)。Week 2全部任务完成。",
-      "currentTask": "V7-W3-006 文案教学模块03",
-      "lastActive": "2026-05-06T05:30:00Z",
+      "currentFocus": "【PM】V7-W3-011文案落地完成(6文件22行改动)+标杆标准创建。文案三模块+审查+落地+标准全线闭环。",
+      "currentTask": "V7-W3-011 产品文案落地",
+      "lastActive": "2026-05-06T06:30:00Z",
       "tmuxSession": "claude-wang"
     },
     "zhou": {
       "status": "active",
       "lastReview": "V7-003安全审计 — 评分9.25/10，发现Git历史API Key遗留问题",
-      "currentFocus": "Week 3 Sprint — 安全模块03",
+      "currentFocus": "【QE】V7-W3-007完成；SEC-004升级L2(12模式+10测试)",
       "currentTask": "V7-W3-003 SEC-003同音字字典扩展",
-      "lastActive": "2026-05-06T00:30:00Z",
+      "lastActive": "2026-05-06T05:00:00Z",
       "tmuxSession": "claude-zhou"
     }
   },
@@ -365,19 +400,27 @@
     ]
   },
   "mission": {
-    "directive": "完全自主执行，没有新指令不要停。马富贵3小时持续多轮学习，直到用户给出新指令才停止。",
-    "maRole": "学生 — 持续独立学习研究，每轮完成一个学习课题后自动开始下一轮",
-    "wangRole": "客座讲师(文案) — 产出文案教学模块、审查文案质量、A/B测试框架维护",
-    "zhouRole": "客座讲师(安全) — 产出安全教学模块、代码审查、合规门禁扩展",
-    "nieRole": "教师 — 调度任务、审查产出、维护记忆系统，不直接写代码",
-    "lastAligned": "2026-05-06T01:00:00Z",
-    "corePrinciple": "学习系统>产品项目。团队4人全部忙碌且持续进步。学生可以超越老师。"
+    "directive": "终极目标：世界顶级AI智能体团队→商业产品落地。向外看→学前沿→超越。",
+    "learningMethod": "2026年4月后最新前沿——全球AI巨头+大佬+创业突破",
+    "principle": "向外看，不内循环。学过来→用起来→超过去。",
+    "maRole": "学生 — 外部前沿技术深度研究（Agent协议/多智能体框架）",
+    "wangRole": "客座讲师(文案) — 全球顶级AI产品UX研究→借鉴创新",
+    "zhouRole": "客座讲师(安全) — 全球AI安全前沿研究→对比强化",
+    "nieRole": "教师 — 战略对齐+前沿雷达+审查，确保每轮向外看",
+    "corePrinciple": "知己知彼。不了解全球最好的AI产品长什么样，做不出超越它们的产品。",
+    "frontierRadar": [
+      "Multi-Agent协议: Google A2A vs Anthropic MCP",
+      "推理模型: OpenAI o3/o4-mini, DeepSeek V4, Claude Opus 4.7",
+      "Agent产品化: Project Deal, Project Vend",
+      "安全对齐: Automated Alignment Researchers, Constitutional Classifiers",
+      "中国生态: 豆包Seed 2.0, 千问Qwen3, Kling 2"
+    ]
   },
   "sprint": {
-    "name": "Week 3 Sprint",
+    "name": "Week 4 — 外部前沿研究",
     "status": "in_progress",
-    "tasksTotal": 9,
-    "tasksCompleted": 6,
-    "tasksInProgress": 3
+    "tasksTotal": 3,
+    "tasksInProgress": 3,
+    "phase": "外部研究 → 对比分析 → 借鉴超越"
   }
 }
