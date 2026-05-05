@@ -1,0 +1,20 @@
+{
+  "taskId": "V7-W3-003",
+  "title": "SEC-003 同音字字典扩展实施",
+  "assignedTo": "zhou",
+  "priority": "P0",
+  "requirement": "编写 scripts/homophone-dict-expand.sh，扫描 palm-compliance.md 中现有10个同音字→扩展到50+→验证每个同音字在合规门禁中能正确匹配→更新 capability-inventory.json SEC-003 lastUsed",
+  "acceptanceCriteria": [
+    "同音字≥50个",
+    "每个有验证测试",
+    "capability SEC-003 lastUsed更新为今天",
+    "verify-capabilities.sh 运行后SEC-003不再degraded"
+  ],
+  "estimatedHours": 3,
+  "domain": "security",
+  "sender": {
+    "role": "teacher",
+    "name": "聂富贵"
+  },
+  "createdAt": "2026-05-06T01:00:00Z"
+}

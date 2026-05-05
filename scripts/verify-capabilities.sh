@@ -43,39 +43,82 @@ echo ""
 # 检查 evidence 路径是否存在
 check_evidence_file() {
   local evidence="$1"
-  # evidence 可能包含多个文件（用 + 分隔）或描述性文本
-  # 尝试提取文件路径模式
   local found=0
   local sources=""
 
-  # 拆分 evidence 字段（可能包含 + 或空格分隔的路径）
-  IFS='+' read -ra PARTS <<< "$evidence"
-  for part in "${PARTS[@]}"; do
-    part=$(echo "$part" | xargs)  # trim
-    # 检查是否像文件路径（含 / 或 .ts/.md/.json/.sh/.yml/.yaml）
-    if [[ "$part" =~ \.(ts|md|json|sh|yml|yaml|js|py) ]] || [[ "$part" == */* ]]; then
-      local full_path="$REPO_ROOT/$part"
-      if [ -f "$full_path" ] || [ -d "$full_path" ]; then
+  # 辅助: 尝试验证一个路径候选
+  try_path() {
+    local candidate="$1"
+    # 去掉尾随的括号注释 "(...)" 或 "（...）"
+    candidate=$(echo "$candidate" | sed 's/[（(][^)）]*[)）]$//' | xargs)
+    [ -z "$candidate" ] && return 1
+
+    local full_path="$REPO_ROOT/$candidate"
+    if [ -f "$full_path" ] || [ -d "$full_path" ]; then
+      echo "$candidate"
+      return 0
+    fi
+    # 递归搜索文件名（尝试完整路径失败后，用basename搜索）
+    local fname=$(basename "$candidate" 2>/dev/null)
+    if [ -n "$fname" ]; then
+      local found_path=$(find "$REPO_ROOT" -name "$fname" -not -path '*/node_modules/*' -not -path '*/.git/*' 2>/dev/null | head -1)
+      if [ -n "$found_path" ] && [ -f "$found_path" ]; then
+        echo "${found_path#$REPO_ROOT/}"
+        return 0
+      fi
+    fi
+    return 1
+  }
+
+  # 提取候选路径：先尝试整个evidence，再尝试 " + " 分隔的片段
+  local CANDIDATES=("$evidence")
+  if [[ "$evidence" == *" + "* ]]; then
+    IFS='+' read -ra SPLIT_PARTS <<< "$evidence"
+    for sp in "${SPLIT_PARTS[@]}"; do
+      sp=$(echo "$sp" | xargs)
+      [ -n "$sp" ] && CANDIDATES+=("$sp")
+    done
+  fi
+
+  for part in "${CANDIDATES[@]}"; do
+    part=$(echo "$part" | xargs)
+
+    # 策略1: 直接尝试整个part
+    local result=$(try_path "$part" 2>/dev/null)
+    if [ -n "$result" ]; then
+      found=$((found + 1))
+      sources="$sources $result"
+      continue
+    fi
+
+    # 策略2: 提取第一个看起来像路径的词（含扩展名或以/开头）
+    local first_word=$(echo "$part" | grep -oP '^[^\s]+\.[a-z]+' 2>/dev/null || echo "")
+    if [ -n "$first_word" ]; then
+      result=$(try_path "$first_word" 2>/dev/null)
+      if [ -n "$result" ]; then
         found=$((found + 1))
-        sources="$sources $part"
-      else
-        # 递归搜索文件名（处理evidence不含目录前缀的情况）
-        local fname=$(basename "$part" 2>/dev/null)
-        local found_path=$(find "$REPO_ROOT" -name "$fname" -not -path '*/node_modules/*' -not -path '*/.git/*' 2>/dev/null | head -1)
-        if [ -n "$found_path" ] && [ -f "$found_path" ]; then
-          found=$((found + 1))
-          sources="$sources ${found_path#$REPO_ROOT/}"
-        fi
+        sources="$sources $result"
+        continue
+      fi
+    fi
+
+    # 策略3: 提取 / 分隔的路径模式
+    local path_pattern=$(echo "$part" | grep -oP '[^\s]+/[^\s]+\.[a-z]+' 2>/dev/null || echo "")
+    if [ -n "$path_pattern" ]; then
+      result=$(try_path "$path_pattern" 2>/dev/null)
+      if [ -n "$result" ]; then
+        found=$((found + 1))
+        sources="$sources $result"
+        continue
       fi
     fi
   done
 
-  # 对于描述性 evidence（如 "H5编译配置"），检查是否有对应产出
+  # Fallback: 搜索 decisions.md
   if [ $found -eq 0 ]; then
-    # 搜索 decisions.md 中是否有引用
     if grep -qi "$evidence" "$DECISIONS" 2>/dev/null; then
       found=1
-      sources="decisions.md (关键词匹配: $evidence)"
+      sources="decisions.md (关键词匹配)"
     fi
   fi
 

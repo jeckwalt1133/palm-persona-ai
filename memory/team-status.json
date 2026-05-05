@@ -1,22 +1,20 @@
 {
   "version": "1.0",
-  "updated": "2026-05-06T00:30:00Z",
+  "updated": "2026-05-06T01:00:00Z",
   "session": {
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T19:40:31Z"
+    "lastCheckpoint": "2026-05-05T19:55:12Z"
   },
   "currentTask": {
-    "id": "V7-W2-SPRINT",
-    "title": "Week 2 Sprint — 8/8 完成",
-    "status": "completed",
-    "progress": "全部8项P0+P1任务完成。V7-W2-003 capability验证脚本已交付：47项能力扫描，27验证/17待补证据/3退化。Sharp ENG-002已升级为L2。PROTOCOL.md §2.1.1教师示范vs放手规则已合入。decisions.md D013/D014编号修复。",
-    "blocker": null,
-    "nextAction": "Week 3 Sprint规划: 修复17项未验证能力证据 + 3项退化能力刷新 + 公网隧道重建",
+    "id": "V7-W3-SPRINT",
+    "title": "Week 3 Sprint — 团队重新激活",
+    "status": "in_progress",
+    "progress": "4项P0/P1入队。马/王跨学习补齐，周SEC-003同音字扩展，聂证据终局+隧道守护。目标：能力验证47→44(94%→100%可验证)，跨学习违规2→0。",
+    "nextAction": "分发4个Task Prompt给马/王/周",
     "assignedTo": "nie",
-    "startedAt": "2026-05-05T18:16:11Z",
-    "completedAt": "2026-05-06T00:30:00Z"
+    "startedAt": "2026-05-06T01:00:00Z"
   },
   "decisions": [
     {
@@ -151,28 +149,29 @@
     "nie": {
       "status": "active",
       "currentFocus": "Week 2 7/8完成; Sharp真实管线MVP在线",
-      "lastActive": "2026-05-06T00:00:00.000Z"
+      "lastActive": "2026-05-06T00:00:00.000Z",
+      "currentTask": "V7-W3-004 证据终局+隧道守护"
     },
     "ma": {
       "status": "active",
       "tmuxSession": "claude-ma",
-      "currentTask": "V7-003 记忆系统 Phase 2",
+      "currentTask": "V7-W3-001 跨学习审查王富贵A/B框架",
       "lastActive": "2026-05-06T02:45:00Z",
-      "currentFocus": "V7-W2-001完成: 7矛盾+4实现 ✅"
+      "currentFocus": "Week 3 Sprint激活 — 跨学习补齐"
     },
     "wang": {
       "status": "active",
       "lastReview": null,
-      "currentFocus": "V7-W2-005完成: L3级A/B框架 ✅",
-      "currentTask": "V7-W2-005 文案A/B测试框架",
+      "currentFocus": "Week 3 Sprint激活 — 跨学习补齐",
+      "currentTask": "V7-W3-002 跨学习审查马富贵知识图谱",
       "lastActive": "2026-05-06T04:30:00Z",
       "tmuxSession": "claude-wang"
     },
     "zhou": {
       "status": "active",
       "lastReview": "V7-003安全审计 — 评分9.25/10，发现Git历史API Key遗留问题",
-      "currentFocus": "V7-W2-003完成: capability验证脚本交付",
-      "currentTask": "ZHOU-02 安全审查自动化模块 ★已完成",
+      "currentFocus": "Week 3 Sprint — 安全模块03",
+      "currentTask": "V7-W3-003 SEC-003同音字字典扩展",
       "lastActive": "2026-05-06T00:30:00Z",
       "tmuxSession": "claude-zhou"
     }
@@ -180,75 +179,31 @@
   "priorityQueue": [
     {
       "rank": 1,
-      "taskId": "V7-W2-001",
-      "title": "知识图谱补充矛盾关系(≥5 contradicts边)+补充implements边",
-      "status": "completed",
-      "assignedTo": "ma",
-      "dependency": null
+      "taskId": "V7-W3-001",
+      "title": "马富贵跨学习审查王富贵A/B框架",
+      "status": "pending",
+      "assignedTo": "ma"
     },
     {
       "rank": 2,
-      "taskId": "V7-W2-002",
-      "title": "证据URL可达性自动验证(替换文件存在性检查)",
-      "status": "completed",
-      "assignedTo": "nie",
-      "dependency": null
+      "taskId": "V7-W3-002",
+      "title": "王富贵跨学习审查马富贵知识图谱",
+      "status": "pending",
+      "assignedTo": "wang"
     },
     {
       "rank": 3,
-      "taskId": "V7-W2-003",
-      "title": "capability声明验证脚本(自动检查能力是否有decisions佐证)",
-      "status": "completed",
-      "assignedTo": "zhou",
-      "dependency": null
+      "taskId": "V7-W3-003",
+      "title": "SEC-003 同音字字典扩展≥50个",
+      "status": "pending",
+      "assignedTo": "zhou"
     },
     {
       "rank": 4,
-      "taskId": "V7-W2-004",
-      "title": "Pre-commit递归防护(跳过.md代码块中的密钥模式)",
-      "status": "completed",
-      "assignedTo": "nie",
-      "dependency": null
-    },
-    {
-      "rank": 5,
-      "taskId": "V7-W2-005",
-      "title": "文案A/B测试框架(温度理论对照实验验证)",
-      "status": "completed",
-      "assignedTo": "wang",
-      "dependency": null
-    },
-    {
-      "rank": 6,
-      "taskId": "V7-W2-006",
-      "title": "CI GitHub Actions从模板→实际部署",
-      "status": "completed",
-      "assignedTo": "zhou",
-      "dependency": "V7-W2-004"
-    },
-    {
-      "rank": 7,
-      "taskId": "V7-W2-007",
-      "title": "跨学习强制执行(每人主动审查1个非自己领域的产出)",
-      "status": "completed",
-      "assignedTo": "nie",
-      "dependency": null
-    },
-    {
-      "rank": 8,
-      "taskId": "V7-P0-API-KEY",
-      "title": "全局 settings.json API Key 轮换",
+      "taskId": "V7-W3-004",
+      "title": "能力证据终局+隧道守护",
       "status": "pending",
-      "assignedTo": "nie",
-      "dependency": "需用户手动操作"
-    },
-    {
-      "rank": 9,
-      "taskId": "V7-P0-REAL-PIPELINE",
-      "title": "Sharp真实像素提取替代Mock",
-      "status": "pending",
-      "assignedTo": null,
-      "dependency": "V7-003"
+      "assignedTo": "nie"
     }
   ],
   "infrastructure": {

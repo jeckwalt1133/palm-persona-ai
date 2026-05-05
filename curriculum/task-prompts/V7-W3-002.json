@@ -1,0 +1,19 @@
+{
+  "taskId": "V7-W3-002",
+  "title": "跨学习补齐 — 王富贵审查马富贵知识图谱",
+  "assignedTo": "wang",
+  "priority": "P0",
+  "requirement": "审查 memory/knowledge-graph.json 中的7条contradicts边和4条implements边，从产品/文案视角评估每条边的命名和描述是否'用户能看懂'，写入 student-notebook/wang-cross-review-w2.md",
+  "acceptanceCriteria": [
+    "逐条评估所有11条边",
+    "至少找出2个'用户看不懂'的命名",
+    "提出改进命名方案"
+  ],
+  "estimatedHours": 1.5,
+  "domain": "cross-learning",
+  "sender": {
+    "role": "teacher",
+    "name": "聂富贵"
+  },
+  "createdAt": "2026-05-06T01:00:00Z"
+}

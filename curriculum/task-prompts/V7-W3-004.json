@@ -1,0 +1,19 @@
+{
+  "taskId": "V7-W3-004",
+  "title": "能力证据终局处理 — 3项标记+公网隧道持久化",
+  "assignedTo": "nie",
+  "priority": "P1",
+  "requirement": "ENGI-001/OPS-001标记为'描述性证据(已接受)', SEC-003等待V7-W3-003完成后自动验证。tunnel.sh加入team-watchdog守护列表。",
+  "acceptanceCriteria": [
+    "3项能力在capability-inventory中标记evidenceTier:descriptive",
+    "verify-capabilities.sh支持evidenceTier字段",
+    "tunnel.sh被watchdog自动守护"
+  ],
+  "estimatedHours": 2,
+  "domain": "infrastructure",
+  "sender": {
+    "role": "teacher",
+    "name": "聂富贵"
+  },
+  "createdAt": "2026-05-06T01:00:00Z"
+}

@@ -1,0 +1,19 @@
+{
+  "taskId": "V7-W3-001",
+  "title": "跨学习补齐 — 马富贵审查王富贵A/B框架",
+  "assignedTo": "ma",
+  "priority": "P0",
+  "requirement": "审查 student-notebook/wang-ab-test-framework.md，从工程实现角度写审查意见（≥5条，具体到行），写入 student-notebook/ma-cross-review-w2.md",
+  "acceptanceCriteria": [
+    "≥5条审查意见",
+    "至少1条指出方法论问题",
+    "至少1条提出改进方案"
+  ],
+  "estimatedHours": 1.5,
+  "domain": "cross-learning",
+  "sender": {
+    "role": "teacher",
+    "name": "聂富贵"
+  },
+  "createdAt": "2026-05-06T01:00:00Z"
+}
