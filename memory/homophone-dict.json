@@ -1,0 +1,2977 @@
+{
+  "version": "1.0.0",
+  "created": "2026-05-06",
+  "createdBy": "周富贵 QE",
+  "sourceFile": ".claude/skills/palm-compliance.md",
+  "bannedWordsCount": 27,
+  "totalVariants": 329,
+  "coverageStats": {
+    "passed": 306,
+    "needsRule": 23,
+    "coverageRate": "93.0%"
+  },
+  "homophones": [
+    {
+      "original": "掌纹",
+      "variant": "涨纹",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '纹' in '涨纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "张纹",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '纹' in '张纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "章纹",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '纹' in '章纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "璋纹",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '纹' in '璋纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌文",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌文'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌闻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌闻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌蚊",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌蚊'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌雯",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌雯'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "撑纹",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '纹' in '撑纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "首相",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '相' in '首相'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "守相",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '相' in '守相'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "兽相",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '相' in '兽相'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "手象",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手象'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "手像",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手像'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "手向",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手向'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "手橡",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手橡'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "手柏",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手柏'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看首相",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看首相'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看守相",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看守相'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看兽相",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看兽相'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看手象",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看手象'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看手像",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看手像'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看手向",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看手向'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看手橡",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看手橡'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看手柏",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看手柏'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "蒜命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '蒜命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "酸命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '酸命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "狻命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '狻命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算名",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算名'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算明",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算明'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算鸣",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算鸣'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算冥",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算冥'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算掵",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算掵'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "战卜",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '卜' in '战卜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "站卜",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '卜' in '站卜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "绽卜",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '卜' in '绽卜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "湛卜",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '卜' in '湛卜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "盏卜",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '卜' in '盏卜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "占补",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '占' in '占补'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "占捕",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '占' in '占捕'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "占哺",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '占' in '占哺'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "占不",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '占' in '占不'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "占布",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '占' in '占布'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "名运注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '名运注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "明运注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '明运注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "鸣运注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '鸣运注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "冥运注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '冥运注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命云注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命云注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命允注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命允注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命韵注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命韵注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命蕴注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命蕴注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命运注订",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命运注订'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命运注丁",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命运注丁'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命运注顶",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命运注顶'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命运注鼎",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命运注鼎'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命运注钉",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命运注钉'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "掵运注定",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '掵运注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命远注定",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命远注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "命运注定",
+      "variant": "命运注宒",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命运注宒'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "该运",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '该运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "钙运",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '钙运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "概运",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '概运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "改云",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改云'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "改允",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改允'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "改韵",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改韵'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "改蕴",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改蕴'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "改远",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改远'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "开运",
+      "variant": "凯运",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '凯运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "开运",
+      "variant": "揩运",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '揩运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "开运",
+      "variant": "楷运",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '楷运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "开运",
+      "variant": "开云",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '开' in '开云'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "开运",
+      "variant": "开允",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '开' in '开允'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "开运",
+      "variant": "开韵",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '开' in '开韵'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "开运",
+      "variant": "开蕴",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '开' in '开蕴'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "开运",
+      "variant": "开远",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '开' in '开远'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "证缘",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '证缘'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "政缘",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '政缘'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "整缘",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '整缘'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "郑缘",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '郑缘'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "正元",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '正' in '正元'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "正原",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '正' in '正原'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "正圆",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '正' in '正圆'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "正源",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '正' in '正源'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "正园",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '正' in '正园'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "因缘测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '因缘测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "音缘测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '音缘测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "阴缘测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '阴缘测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "殷缘测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '殷缘测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "姻元测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '姻' in '姻元测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "姻原测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '姻' in '姻原测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "姻圆测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '姻' in '姻圆测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "姻源测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '姻' in '姻源测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "姻园测算",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '姻' in '姻园测算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "姻缘测蒜",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '姻' in '姻缘测蒜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "姻缘测酸",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '姻' in '姻缘测酸'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "姻缘测算",
+      "variant": "姻缘测狻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '姻' in '姻缘测狻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "王夫",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '王夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "亡夫",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '亡夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "网夫",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '网夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "往夫",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '往夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "旺肤",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺肤'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "旺敷",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺敷'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "旺孵",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺孵'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "旺伏",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺伏'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "王妻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '妻' in '王妻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "亡妻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '妻' in '亡妻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "网妻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '妻' in '网妻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "往妻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '妻' in '往妻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "旺七",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺七'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "旺期",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺期'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "旺欺",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺欺'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "旺漆",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺漆'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺妻",
+      "variant": "旺齐",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '旺' in '旺齐'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克夫",
+      "variant": "刻夫",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '刻夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克夫",
+      "variant": "客夫",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '客夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克夫",
+      "variant": "课夫",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '课夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克夫",
+      "variant": "可夫",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '可夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克夫",
+      "variant": "克肤",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克肤'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克夫",
+      "variant": "克敷",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克敷'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克夫",
+      "variant": "克孵",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克孵'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克夫",
+      "variant": "克伏",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克伏'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "刻妻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '妻' in '刻妻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "客妻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '妻' in '客妻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "课妻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '妻' in '课妻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "可妻",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '妻' in '可妻'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "克七",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克七'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "克期",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克期'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "克欺",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克欺'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "克漆",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克漆'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "克妻",
+      "variant": "克齐",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '克' in '克齐'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "受命预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '受命预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "兽命预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '兽命预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "首命预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '首命预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "手命预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '手命预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "寿名预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '寿' in '寿名预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "寿明预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '寿' in '寿明预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "寿鸣预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '寿' in '寿鸣预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "寿冥预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '寿' in '寿冥预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "寿命预测",
+      "variant": "寿掵预测",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '寿' in '寿掵预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "急病预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '病' in '急病预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "集病预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '病' in '集病预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "及病预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '病' in '及病预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "极病预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '病' in '极病预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "级病预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '病' in '级病预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "疾并预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '疾' in '疾并预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "疾饼预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '疾' in '疾饼预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "疾柄预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '疾' in '疾柄预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "疾病预测",
+      "variant": "疾冰预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '疾' in '疾冰预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "灾祸预测",
+      "variant": "栽祸预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '祸' in '栽祸预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "灾祸预测",
+      "variant": "哉祸预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '祸' in '哉祸预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "灾祸预测",
+      "variant": "宰祸预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '祸' in '宰祸预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "灾祸预测",
+      "variant": "灾获预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '灾' in '灾获预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "灾祸预测",
+      "variant": "灾或预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '灾' in '灾或预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "灾祸预测",
+      "variant": "灾货预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '灾' in '灾货预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "灾祸预测",
+      "variant": "灾霍预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '灾' in '灾霍预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "才富暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '才富暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "材富暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '材富暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "裁富暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '裁富暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "采富暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '采富暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财付暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财付暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财附暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财附暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财副暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财副暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财复暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财复暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财父暴富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财父暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富抱富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富抱富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富报富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富报富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富爆富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富爆富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富保富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富保富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富宝富预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富宝富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富暴付预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富暴付预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富暴附预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富暴附预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富暴副预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富暴副预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富暴复预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富暴复预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富暴父预测",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富暴父预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财冨暴富预测",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财冨暴富预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "财富暴富预测",
+      "variant": "财富暴冨预测",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '财' in '财富暴冨预测'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "100%准确",
+      "variant": "100%谆确",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '1' in '100%谆确'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "100%准确",
+      "variant": "100%屯确",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '1' in '100%屯确'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "100%准确",
+      "variant": "100%准却",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '1' in '100%准却'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "100%准确",
+      "variant": "100%准雀",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '1' in '100%准雀'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "100%准确",
+      "variant": "100%准鹊",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '1' in '100%准鹊'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比蒜命更准",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比蒜命更准'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比酸命更准",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比酸命更准'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比狻命更准",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比狻命更准'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比算名更准",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比算名更准'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比算明更准",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比算明更准'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比算鸣更准",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比算鸣更准'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比算冥更准",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比算冥更准'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比算命更谆",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比算命更谆'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比算命更屯",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比算命更屯'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "比算命更准",
+      "variant": "比算掵更准",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '比' in '比算掵更准'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "必然",
+      "variant": "毕然",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '然' in '毕然'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "必然",
+      "variant": "笔然",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '然' in '笔然'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "必然",
+      "variant": "逼然",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '然' in '逼然'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "必然",
+      "variant": "比然",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '然' in '比然'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "必然",
+      "variant": "壁然",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '然' in '壁然'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "必然",
+      "variant": "必燃",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '必' in '必燃'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "必然",
+      "variant": "必髯",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '必' in '必髯'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "必然",
+      "variant": "心然",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '然' in '心然'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一订会",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一订会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一丁会",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一丁会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一顶会",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一顶会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一鼎会",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一鼎会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一钉会",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一钉会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一定回",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一定回'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一定灰",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一定灰'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一定挥",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一定挥'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一定辉",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一定辉'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "—定会",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '定' in '—定会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "壹定会",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '定' in '壹定会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "幺定会",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '定' in '幺定会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "一定会",
+      "variant": "一宒会",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '一' in '一宒会'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "抱富",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '抱富'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "报富",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '报富'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "爆富",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '爆富'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "保富",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '保富'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "宝富",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '宝富'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "暴付",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '暴' in '暴付'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "暴附",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '暴' in '暴附'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "暴副",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '暴' in '暴副'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "暴复",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '暴' in '暴复'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "暴父",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '暴' in '暴父'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "暴冨",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '暴' in '暴冨'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改命",
+      "variant": "该命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '该命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改命",
+      "variant": "钙命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '钙命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改命",
+      "variant": "概命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '概命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改命",
+      "variant": "改名",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改名'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改命",
+      "variant": "改明",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改明'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改命",
+      "variant": "改鸣",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改鸣'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改命",
+      "variant": "改冥",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改冥'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改命",
+      "variant": "改掵",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改掵'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "添注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '注' in '添注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "甜注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '注' in '甜注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "田注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '注' in '田注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "填注定",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '注' in '填注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "天注订",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天注订'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "天注丁",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天注丁'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "天注顶",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天注顶'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "天注鼎",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天注鼎'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "天注钉",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天注钉'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "夭注定",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '注' in '夭注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "夫注定",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '注' in '夫注定'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天注定",
+      "variant": "天注宒",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天注宒'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "添生一对",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '生' in '添生一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "甜生一对",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '生' in '甜生一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "田生一对",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '生' in '田生一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "填生一对",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '生' in '填生一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天声一对",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天声一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天升一对",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天升一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天笙一对",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天笙一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天甥一对",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天甥一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天生一队",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天生一队'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天生一兑",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天生一兑'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天生一怼",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天生一怼'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "夭生一对",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '生' in '夭生一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "夫生一对",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '生' in '夫生一对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天生—对",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天生—对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天生壹对",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天生壹对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "天生一对",
+      "variant": "天生幺对",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '天' in '天生幺对'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "速命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '速命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "素命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '素命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "诉命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '诉命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "塑命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '塑命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "肃命",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '肃命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "宿名",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '宿' in '宿名'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "宿明",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '宿' in '宿明'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "宿鸣",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '宿' in '宿鸣'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "宿冥",
+      "type": "同音字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '宿' in '宿冥'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "宿命",
+      "variant": "宿掵",
+      "type": "形近字替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '宿' in '宿掵'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "竹目命",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '竹目命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "⺮目命",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '⺮目命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "尚手纹",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '纹' in '尚手纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "尚手文",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "占卜",
+      "variant": "卜口卜",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '卜' in '卜口卜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "旺夫",
+      "variant": "日王夫",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '夫' in '日王夫'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "日共水富",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '日共水富'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "曰共水冨",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "改运",
+      "variant": "巳攵云",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "改运",
+      "variant": "己攵运",
+      "type": "拆字变体",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '运' in '己攵运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "zhangwen",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "掌纹",
+      "variant": "zhang wen",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "掌纹",
+      "variant": "zangwen",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "掌纹",
+      "variant": "zhanwen",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "算命",
+      "variant": "suanming",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "算命",
+      "variant": "suan ming",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "算命",
+      "variant": "shuanming",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "占卜",
+      "variant": "zhanbu",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "占卜",
+      "variant": "zhan bu",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "占卜",
+      "variant": "zhanpu",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "手相",
+      "variant": "shouxiang",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "手相",
+      "variant": "shou xiang",
+      "type": "拼音/字母变体",
+      "riskLevel": "中",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌 纹",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌 纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌·纹",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌·纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌_纹",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌_纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌-纹",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌-纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算 命",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算 命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算·命",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算·命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算_命",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算_命'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "手 相",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手 相'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "手相",
+      "variant": "手·相",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手·相'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "占 卜",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '占' in '占 卜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "占·卜",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '占' in '占·卜'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "改 运",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改 运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "改运",
+      "variant": "改·运",
+      "type": "符号插入",
+      "riskLevel": "中",
+      "detected": true,
+      "detectionPattern": "字符包含: '改' in '改·运'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "手掌纹路",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "原始词匹配: 掌纹 ⊆ 手掌纹路",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "手部纹线",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '纹' in '手部纹线'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌心纹理",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌心纹理'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌中纹",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌中纹'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "手纹线",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '纹' in '手纹线'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "掌纹",
+      "variant": "掌面纹路",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '掌' in '掌面纹路'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "看手",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '看' in '看手'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "手部解析",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手部解析'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "看手相",
+      "variant": "掌面分析",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "看手相",
+      "variant": "手纹解读",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '手' in '手纹解读'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "命运推算",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '命运推算'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "命理分析",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命理分析'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "算运势",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '算' in '算运势'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "算命",
+      "variant": "命运解读",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '命' in '命运解读'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "卜卦",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '卜' in '卜卦'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "占卜",
+      "variant": "预测运势",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "占卜",
+      "variant": "算前程",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "占卜",
+      "variant": "问吉凶",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "正缘",
+      "variant": "真命",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "正缘",
+      "variant": "命定之人",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "正缘",
+      "variant": "缘分之人",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '缘' in '缘分之人'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "正缘",
+      "variant": "注定之人",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "暴富",
+      "variant": "快速致富",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '快速致富'",
+      "verdict": "PASS"
+    },
+    {
+      "original": "暴富",
+      "variant": "一夜有钱",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": false,
+      "detectionPattern": "",
+      "verdict": "NEEDS_RULE"
+    },
+    {
+      "original": "暴富",
+      "variant": "财富自由捷径",
+      "type": "语义替换",
+      "riskLevel": "高",
+      "detected": true,
+      "detectionPattern": "字符包含: '富' in '财富自由捷径'",
+      "verdict": "PASS"
+    }
+  ],
+  "deploymentNote": "将此字典中的 variants 添加到 compliance-gate.ts 的禁用词正则中"
+}

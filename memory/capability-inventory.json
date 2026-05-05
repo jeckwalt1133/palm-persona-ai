@@ -114,10 +114,10 @@
           "id": "SEC-003",
           "name": "同音字字典扩展",
           "level": "L1",
-          "proficiency": "任务规划中 — 从10扩展到50+同音字，待P1实施",
-          "lastUsed": null,
-          "evidence": "task-dependency-graph.json T008",
-          "evidenceTier": "pending",
+          "proficiency": "329个同音字变体，93%覆盖率，27个禁用词全部覆盖",
+          "lastUsed": "2026-05-06",
+          "evidence": "scripts/homophone-dict-expand.py + memory/homophone-dict.json",
+          "evidenceTier": "file",
           "evidenceNote": "等待V7-W3-003(周富贵同音字扩展)完成后自动验证"
         },
         {
@@ -528,5 +528,6 @@
       "owner": "马富贵",
       "description": "主力开发、独立研究、快速原型。产出代码、研究文档、独立分析。"
     }
-  }
+  },
+  "updated": "2026-05-06T00:00:00Z"
 }
