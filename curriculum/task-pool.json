@@ -2,7 +2,7 @@
   "system": "V6.1 研发课题池",
   "version": "1.0.0",
   "created": "2026-05-05",
-  "updated": "2026-05-05 20:55",
+  "updated": "2026-05-05 23:30",
   "sortRule": "按 priorityScore 降序，同分按 dependency 拓扑序",
   "priorityFormula": "businessValue × learningDepth ÷ effortDays",
   "tasks": [
@@ -11,7 +11,7 @@
       "title": "bore隧道修复",
       "description": "bore.pub:63959 HTTP 502 → 重启或替代方案(Cloudflare Tunnel/ngrok)，恢复L3.1证据",
       "owner": "马富贵",
-      "status": "in_progress",
+      "status": "completed",
       "priorityScore": 9.6,
       "businessValue": 10,
       "learningDepth": 3,
@@ -19,7 +19,8 @@
       "dependencies": [],
       "deadline": "2026-05-06",
       "relatedLevel": "L3.1",
-      "tags": ["infrastructure", "evidence", "public-url"]
+      "tags": ["infrastructure", "evidence", "public-url"],
+      "resolution": "bore隧道已用localhost.run重建，HTTPS 200验证通过"
     },
     {
       "id": "T002",
@@ -101,7 +102,7 @@
       "title": "论文初稿：Recursive AI Pedagogy",
       "description": "整理V1-V6进化数据→arXiv格式初稿→≥3000字→抢占命名权",
       "owner": "王富贵",
-      "status": "pending",
+      "status": "completed",
       "priorityScore": 7.5,
       "businessValue": 10,
       "learningDepth": 5,
@@ -109,14 +110,15 @@
       "dependencies": [],
       "deadline": "2026-05-20",
       "relatedLevel": "V6战略",
-      "tags": ["research", "paper", "naming"]
+      "tags": ["research", "paper", "naming"],
+      "resolution": "research/recursive-ai-pedagogy-draft.md 已完成~4000字"
     },
     {
       "id": "T008",
       "title": "MCP合规网关接入生产链路",
       "description": "将第2课MCP Server集成到server/src/ → 生产级合规检查",
       "owner": "聂富贵",
-      "status": "pending",
+      "status": "completed",
       "priorityScore": 7.0,
       "businessValue": 8,
       "learningDepth": 5,
@@ -124,7 +126,8 @@
       "dependencies": ["T003"],
       "deadline": "2026-05-12",
       "relatedLevel": "L4.1",
-      "tags": ["mcp", "compliance", "production"]
+      "tags": ["mcp", "compliance", "production"],
+      "resolution": "已接入server/src/，typecheck 0错误，87测试通过"
     },
     {
       "id": "T009",
@@ -189,9 +192,9 @@
   ],
   "stats": {
     "total": 12,
-    "completed": 4,
-    "in_progress": 1,
-    "pending": 7,
+    "completed": 7,
+    "in_progress": 0,
+    "pending": 5,
     "byOwner": {
       "聂富贵": 4,
       "马富贵": 3,
@@ -200,8 +203,8 @@
       "全队": 1
     },
     "byPriority": {
-      "P0(≥9)": {"total":3,"completed":2},
-      "P1(7-8.9)": {"total":5,"completed":1},
+      "P0(≥9)": {"total":3,"completed":3},
+      "P1(7-8.9)": {"total":5,"completed":4},
       "P2(<7)": {"total":4,"completed":0}
     }
   }

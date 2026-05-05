@@ -30,7 +30,7 @@ export function loadConfig(): Config {
   );
   const parsed = configSchema.safeParse(env);
   if (!parsed.success) {
-    console.error('Invalid config:', parsed.error.flatten());
+    console.error('[CONFIG] 配置验证失败，使用默认值。请检查环境变量:', parsed.error.flatten());
     return configSchema.parse({}); // fallback to defaults
   }
   return parsed.data;

@@ -44,6 +44,9 @@ export function runComplianceGate(
   if (report.identityBadge) {
     textFields.push({ field: 'identityBadge', value: report.identityBadge });
   }
+  if (report.adTeaser) {
+    textFields.push({ field: 'adTeaser', value: report.adTeaser });
+  }
 
   const allViolations: FieldViolation[] = [];
   let filtered = { ...report };
@@ -73,6 +76,7 @@ function setField(report: PersonaReport, field: string, value: string): void {
   else if (field === 'quote') report.quote = value;
   else if (field === 'suspenseText') report.suspenseText = value;
   else if (field === 'identityBadge') report.identityBadge = value;
+  else if (field === 'adTeaser') report.adTeaser = value;
   else if (field.startsWith('insights[')) {
     const idx = parseInt(field.match(/\d+/)?.[0] ?? '-1');
     if (idx >= 0 && idx < report.insights.length) report.insights[idx] = value;

@@ -21,9 +21,10 @@ export class FallbackProvider implements AiProvider {
           console.log(`[AI] 主 Provider 失败后由 ${provider.name} 接管成功`);
         }
         return result;
-      } catch (err: any) {
-        lastError = err;
-        console.warn(`[AI] ${provider.name} 调用失败 (${i + 1}/${this.providers.length}): ${err.message}`);
+      } catch (err: unknown) {
+        const errMsg = err instanceof Error ? err.message : String(err);
+        lastError = err instanceof Error ? err : new Error(errMsg);
+        console.warn(`[AI] ${provider.name} 调用失败 (${i + 1}/${this.providers.length}): ${errMsg}`);
         if (i < this.providers.length - 1) {
           console.warn(`[AI] 降级到 ${this.providers[i + 1].name}...`);
         }

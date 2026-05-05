@@ -33,7 +33,8 @@ export abstract class BaseProvider implements AiProvider {
 
     if (!response.ok) {
       const errorBody = await response.text().catch(() => 'unknown error');
-      throw new Error(`${this.name} API error (${response.status}): ${errorBody}`);
+      console.error(`${this.name} API error (HTTP ${response.status}):`, errorBody);
+      throw new Error(`${this.name} API error (HTTP ${response.status})`);
     }
 
     const json = (await response.json()) as {

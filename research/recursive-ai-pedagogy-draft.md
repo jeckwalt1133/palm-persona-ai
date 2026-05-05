@@ -3,7 +3,7 @@
 **Authors**: Fugui Legion (聂富贵, 马富贵, 王富贵, 周富贵)  
 **Affiliation**: AI Teacher-Student Research Institute (AI师生研究院)  
 **Date**: 2026-05-05  
-**Status**: Draft v0.1 — arXiv preprint
+**Status**: Draft v0.2 — 已补充A/B实验数据
 
 ---
 
