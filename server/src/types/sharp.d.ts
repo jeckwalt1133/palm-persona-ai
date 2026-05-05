@@ -14,10 +14,12 @@ declare module 'sharp' {
   }
   
   interface Sharp {
-    resize(width?: number, height?: number, options?: { fit?: string; position?: string }): Sharp;
+    resize(width?: number, height?: number, options?: { fit?: string; position?: string; withoutEnlargement?: boolean }): Sharp;
     greyscale(): Sharp;
     threshold(value?: number): Sharp;
     raw(): Sharp;
+    ensureAlpha(): Sharp;
+    metadata(): Promise<{ width: number; height: number; format?: string; channels?: number }>;
     toBuffer(options?: { resolveWithObject?: boolean }): Promise<{ data: Buffer; info: { width: number; height: number; channels: number } }>;
   }
   
