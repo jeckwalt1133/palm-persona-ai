@@ -1,0 +1,135 @@
+{
+  "description": "AI师生研究院 任务依赖图 — 标注每个任务的前置学习条件。依赖为建议性(非强制锁)，跳过时需记录原因。",
+  "version": "1.0.0",
+  "created": "2026-05-06",
+  "dependencyType": "suggested",
+  "nodes": [
+    {
+      "id": "T001",
+      "title": "理解AI Provider降级链",
+      "domain": "AI基础设施",
+      "targetLevel": "L1",
+      "prerequisites": [],
+      "unlocks": ["T006"],
+      "estimatedHours": 2
+    },
+    {
+      "id": "T002",
+      "title": "理解Mock管线架构",
+      "domain": "Engine",
+      "targetLevel": "L1",
+      "prerequisites": [],
+      "unlocks": ["T006", "T012"],
+      "estimatedHours": 3
+    },
+    {
+      "id": "T003",
+      "title": "PROTOCOL.md精读+三角批判参与",
+      "domain": "方法论",
+      "targetLevel": "L1",
+      "prerequisites": [],
+      "unlocks": ["T009", "T010", "T013"],
+      "estimatedHours": 2
+    },
+    {
+      "id": "T004",
+      "title": "合规门禁+对抗测试理解",
+      "domain": "安全",
+      "targetLevel": "L1",
+      "prerequisites": [],
+      "unlocks": ["T008"],
+      "estimatedHours": 3
+    },
+    {
+      "id": "T005",
+      "title": "Git工作流+Typecheck+测试纪律",
+      "domain": "工程规范",
+      "targetLevel": "L1",
+      "prerequisites": [],
+      "unlocks": ["T006", "T007", "T008", "T009", "T010", "T011", "T012", "T013"],
+      "estimatedHours": 1
+    },
+    {
+      "id": "T006",
+      "title": "真实数据管线 — Sharp特征提取替换Mock",
+      "domain": "Engine",
+      "targetLevel": "L2",
+      "prerequisites": ["T001", "T002", "T005"],
+      "unlocks": ["T012"],
+      "estimatedHours": 8,
+      "note": "核心任务。先只做Worker 1(FeatureExtractor)，不要同时替换全部5个Worker"
+    },
+    {
+      "id": "T007",
+      "title": "证据验证体系升级 v2",
+      "domain": "质量",
+      "targetLevel": "L2",
+      "prerequisites": ["T005"],
+      "unlocks": [],
+      "estimatedHours": 4,
+      "note": "基于evidence-schema.json，升级evidence-auto-verify.sh到内容深度检查"
+    },
+    {
+      "id": "T008",
+      "title": "合规同音字字典10→50+",
+      "domain": "安全",
+      "targetLevel": "L2",
+      "prerequisites": ["T004", "T005"],
+      "unlocks": [],
+      "estimatedHours": 3
+    },
+    {
+      "id": "T009",
+      "title": "PROTOCOL可执行化 — 违约检测+任务流转",
+      "domain": "方法论",
+      "targetLevel": "L2",
+      "prerequisites": ["T003", "T005"],
+      "unlocks": ["T013"],
+      "estimatedHours": 6
+    },
+    {
+      "id": "T010",
+      "title": "学生独立会话恢复+自动化任务分发",
+      "domain": "基础设施",
+      "targetLevel": "L2",
+      "prerequisites": ["T003", "T005"],
+      "unlocks": [],
+      "estimatedHours": 3
+    },
+    {
+      "id": "T011",
+      "title": "SQLite FTS记忆索引",
+      "domain": "记忆系统",
+      "targetLevel": "L2",
+      "prerequisites": ["T005"],
+      "unlocks": [],
+      "estimatedHours": 4
+    },
+    {
+      "id": "T012",
+      "title": "5Worker报告管线完整替换",
+      "domain": "Engine",
+      "targetLevel": "L3",
+      "prerequisites": ["T006", "T002", "T005"],
+      "unlocks": [],
+      "estimatedHours": 16,
+      "note": "依赖T006先完成FeatureExtractor。其余Worker在T006验证通过后逐个替换"
+    },
+    {
+      "id": "T013",
+      "title": "带学徒完成L1基础段",
+      "domain": "教学",
+      "targetLevel": "L3",
+      "prerequisites": ["T003", "T009", "T005"],
+      "unlocks": [],
+      "estimatedHours": 20,
+      "note": "L0.1→L0.2的跃迁点。教学方法可复制性的验证"
+    }
+  ],
+  "learningPaths": {
+    "engineer": ["T005", "T001", "T002", "T006", "T012"],
+    "researcher": ["T003", "T009", "T013"],
+    "security": ["T004", "T008"],
+    "quality": ["T005", "T007", "T011"]
+  }
+}

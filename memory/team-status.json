@@ -1,0 +1,121 @@
+{
+  "version": "1.0",
+  "updated": "2026-05-05T17:26:40Z",
+  "session": {
+    "id": "initial",
+    "role": "teacher",
+    "startedAt": "2026-05-06T00:00:00.000Z",
+    "lastCheckpoint": "2026-05-05T17:26:40Z"
+  },
+  "currentTask": {
+    "id": "V7-002",
+    "title": "记忆系统与上下文自动化研究",
+    "status": "in_progress",
+    "progress": "Phase 1 实现中——team-status.json已创建，precompact-snapshot.sh 和 sessionstart-recover.sh 编写中",
+    "blocker": null,
+    "nextAction": "完成 Phase 1 三个交付物并验证",
+    "assignedTo": "ma",
+    "startedAt": "2026-05-06T00:00:00.000Z"
+  },
+  "decisions": [
+    {
+      "id": "D010",
+      "summary": "采用 team-status.json 作为核心快照格式（JSON而非Markdown）",
+      "rationale": "JSON 机器可读、脚本可增量更新、可JSON Schema验证",
+      "alternatives": "Markdown — 人类可读但脚本解析困难",
+      "decidedBy": "马富贵（学生独立设计，待老师审查）",
+      "timestamp": "2026-05-06T00:30:00.000Z"
+    }
+  ],
+  "discoveries": [
+    {
+      "summary": "全局 settings.json 第3行仍硬编码 API Key sk-f9a088e6...——V7 Day 1 只修了 watchdog，漏了全局配置",
+      "category": "risk",
+      "timestamp": "2026-05-06T00:00:00.000Z"
+    },
+    {
+      "summary": "memory-toolkit 插件已安装但 PreCompact/SessionStart hooks 未接线——基础设施存在但未激活",
+      "category": "insight",
+      "timestamp": "2026-05-06T00:00:00.000Z"
+    },
+    {
+      "summary": "项目 memory/（D盘）与 Claude auto-memory/（Linux home）存在部分重复且不同步——双轨记忆风险",
+      "category": "risk",
+      "timestamp": "2026-05-06T00:00:00.000Z"
+    },
+    {
+      "summary": "student-watchdog.sh 已修复（使用 .env 加载密钥），但恢复prompt不含任务上下文——学生不知道当前该做什么",
+      "category": "bug",
+      "timestamp": "2026-05-06T00:00:00.000Z"
+    },
+    {
+      "summary": "evidence-auto-verify.sh 验证的是文件存在性而非内容真实性——存在假阳性风险",
+      "category": "insight",
+      "timestamp": "2026-05-06T00:00:00.000Z"
+    }
+  ],
+  "completedTasks": [],
+  "teamMembers": {
+    "nie": {
+      "status": "active",
+      "currentFocus": "V7 Week 1 执行 — Task Prompt 分发",
+      "lastActive": "2026-05-06T00:00:00.000Z"
+    },
+    "ma": {
+      "status": "active",
+      "tmuxSession": "claude-student",
+      "currentTask": "V7-002 记忆系统自动化",
+      "lastActive": "2026-05-06T00:30:00.000Z"
+    },
+    "wang": {
+      "status": "idle",
+      "lastReview": null
+    },
+    "zhou": {
+      "status": "idle",
+      "lastReview": null
+    }
+  },
+  "priorityQueue": [
+    {
+      "rank": 1,
+      "taskId": "V7-002",
+      "title": "记忆系统与上下文自动化",
+      "status": "in_progress",
+      "assignedTo": "ma",
+      "dependency": null
+    },
+    {
+      "rank": 2,
+      "taskId": "V7-P0-API-KEY",
+      "title": "全局 settings.json API Key 轮换",
+      "status": "pending",
+      "assignedTo": "nie",
+      "dependency": null
+    },
+    {
+      "rank": 3,
+      "taskId": "V7-P0-MOCK-GATE",
+      "title": "生产Mock门禁",
+      "status": "pending",
+      "assignedTo": null,
+      "dependency": "V7-P0-API-KEY"
+    },
+    {
+      "rank": 4,
+      "taskId": "V7-P0-REAL-PIPELINE",
+      "title": "Sharp真实像素提取替代Mock",
+      "status": "pending",
+      "assignedTo": null,
+      "dependency": "V7-P0-MOCK-GATE"
+    },
+    {
+      "rank": 5,
+      "taskId": "V7-P0-ARXIV",
+      "title": "arXiv论文投稿",
+      "status": "pending",
+      "assignedTo": null,
+      "dependency": null
+    }
+  ]
+}
