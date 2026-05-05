@@ -116,7 +116,9 @@
           "level": "L1",
           "proficiency": "任务规划中 — 从10扩展到50+同音字，待P1实施",
           "lastUsed": null,
-          "evidence": "task-dependency-graph.json T008"
+          "evidence": "task-dependency-graph.json T008",
+          "evidenceTier": "pending",
+          "evidenceNote": "等待V7-W3-003(周富贵同音字扩展)完成后自动验证"
         },
         {
           "id": "SEC-004",
@@ -145,7 +147,9 @@
           "level": "L2",
           "proficiency": "能独立管理分支+提交+diff自查",
           "lastUsed": "2026-05-05",
-          "evidence": "git log (c7fdea2..b4e893f, 15+规范提交记录)"
+          "evidence": "git log (c7fdea2..b4e893f, 15+规范提交记录)",
+          "evidenceTier": "descriptive",
+          "evidenceNote": "Git提交记录(c7fdea2..b4e893f, 15+规范提交) — 描述性证据已接受"
         },
         {
           "id": "ENGI-002",
@@ -370,7 +374,9 @@
           "level": "L1",
           "proficiency": "能在WSL2中搭建+维护开发环境",
           "lastUsed": "2026-05-05",
-          "evidence": "WSL2 Linux 6.6.87.2-microsoft-standard (开发环境运行正常)"
+          "evidence": "WSL2 Linux 6.6.87.2-microsoft-standard (开发环境运行正常)",
+          "evidenceTier": "descriptive",
+          "evidenceNote": "WSL2开发环境运行正常 — 描述性证据已接受"
         },
         {
           "id": "OPS-002",

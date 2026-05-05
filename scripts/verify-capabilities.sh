@@ -26,6 +26,7 @@ TODAY=$(date +%Y-%m-%d)
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m'
 
 if [ ! -f "$INVENTORY" ]; then
@@ -180,6 +181,7 @@ TOTAL=0
 VERIFIED=0
 UNVERIFIED=0
 DEGRADED=0
+PENDING=0
 
 # 生成报告头
 cat > "$REPORT" << 'REPORT_HEAD'
@@ -227,7 +229,8 @@ for dom_key, dom_val in domains.items():
         proficiency = cap.get('proficiency', '')
         last_used = cap.get('lastUsed') or 'null'
         evidence = cap.get('evidence', '')
-        print(f'{dom_key}|{dom_name}|{cid}|{cname}|{level}|{proficiency}|{last_used}|{evidence}')
+        evidence_tier = cap.get('evidenceTier', 'file')
+        print(f'{dom_key}|{dom_name}|{cid}|{cname}|{level}|{proficiency}|{last_used}|{evidence}|{evidence_tier}')
 " 2>&1)
 
 if [ -z "$CAP_DATA" ]; then
@@ -237,7 +240,7 @@ fi
 
 # 按领域分组输出
 current_domain=""
-while IFS='|' read -r dom_key dom_name cid cname level proficiency last_used evidence; do
+while IFS='|' read -r dom_key dom_name cid cname level proficiency last_used evidence evidence_tier; do
   TOTAL=$((TOTAL + 1))
 
   # 领域标题
@@ -246,14 +249,22 @@ while IFS='|' read -r dom_key dom_name cid cname level proficiency last_used evi
     echo "" >> "$REPORT"
     echo "## $dom_name ($dom_key)" >> "$REPORT"
     echo "" >> "$REPORT"
-    echo "| ID | 能力 | 级别 | 文件证据 | 决策佐证 | Git历史 | 时效(d) | 状态 |" >> "$REPORT"
-    echo "|---|------|------|---------|---------|--------|--------|------|" >> "$REPORT"
+    echo "| ID | 能力 | 级别 | 证据层 | 文件证据 | 决策佐证 | Git历史 | 时效(d) | 状态 |" >> "$REPORT"
+    echo "|---|------|------|------|---------|---------|--------|--------|------|" >> "$REPORT"
   fi
 
-  # 验证维度 1: 文件证据
-  evidence_result=$(check_evidence_file "$evidence")
-  evidence_found=$(echo "$evidence_result" | cut -d'|' -f1)
-  evidence_sources=$(echo "$evidence_result" | cut -d'|' -f2)
+  # 验证维度 1: 文件证据 (evidenceTier=descriptive时自动通过)
+  if [ "$evidence_tier" = "descriptive" ]; then
+    evidence_found=1
+    evidence_sources="证据层:描述性(已接受)"
+  elif [ "$evidence_tier" = "pending" ]; then
+    evidence_found=0
+    evidence_sources="证据层:等待中"
+  else
+    evidence_result=$(check_evidence_file "$evidence")
+    evidence_found=$(echo "$evidence_result" | cut -d'|' -f1)
+    evidence_sources=$(echo "$evidence_result" | cut -d'|' -f2)
+  fi
 
   # 验证维度 2: 决策佐证
   decision_matches=$(check_decisions_for_capability "$cname" "$cid")
@@ -273,7 +284,7 @@ while IFS='|' read -r dom_key dom_name cid cname level proficiency last_used evi
   fi
 
   # 综合判定
-  verification_score=$(( evidence_found > 0 ? 1 : 0 + decision_matches > 0 ? 1 : 0 + git_matches > 0 ? 1 : 0 ))
+  verification_score=0
   if [ "$evidence_found" -gt 0 ]; then
     verification_score=$((verification_score + 1))
   fi
@@ -284,10 +295,13 @@ while IFS='|' read -r dom_key dom_name cid cname level proficiency last_used evi
     verification_score=$((verification_score + 1))
   fi
 
-  if [ "$degraded" -eq 1 ]; then
+  if [ "$evidence_tier" = "pending" ]; then
+    status="🔷 pending"
+    PENDING=$((PENDING + 1))
+  elif [ "$degraded" -eq 1 ]; then
     status="🔻 degraded"
     DEGRADED=$((DEGRADED + 1))
-  elif [ "$verification_score" -ge 2 ]; then
+  elif [ "$verification_score" -ge 2 ] || [ "$evidence_tier" = "descriptive" ]; then
     status="✅ verified"
     VERIFIED=$((VERIFIED + 1))
   else
@@ -303,13 +317,20 @@ while IFS='|' read -r dom_key dom_name cid cname level proficiency last_used evi
   git_icon="❌"
   [ "$git_matches" -gt 0 ] && git_icon="✅"
 
-  echo "| $cid | $cname | $level | $evidence_icon | $decision_icon | $git_icon | $days_ago | $status |" >> "$REPORT"
+  # 证据层缩写
+  tier_label="file"
+  [ "$evidence_tier" = "descriptive" ] && tier_label="desc"
+  [ "$evidence_tier" = "pending" ] && tier_label="pend"
+
+  echo "| $cid | $cname | $level | $tier_label | $evidence_icon | $decision_icon | $git_icon | $days_ago | $status |" >> "$REPORT"
 
   # 终端输出
   if [ "$status" = "⚠️ unverified" ]; then
     echo -e "  ${YELLOW}⚠${NC} $cid $cname — 佐证不足 (文件:$evidence_found 决策:$decision_matches git:$git_matches)"
   elif [ "$status" = "🔻 degraded" ]; then
     echo -e "  ${RED}🔻${NC} $cid $cname — 已退化 ($days_ago天未使用)"
+  elif [ "$status" = "🔷 pending" ]; then
+    echo -e "  ${BLUE}🔷${NC} $cid $cname — 等待验证 (evidenceTier=pending)"
   fi
 done <<< "$CAP_DATA"
 
@@ -327,6 +348,13 @@ cat >> "$REPORT" << EOF
 | ✅ 已验证 | $VERIFIED | $(awk "BEGIN {printf \"%.1f\", ($VERIFIED/$TOTAL)*100}")% |
 | ⚠️ 未验证 | $UNVERIFIED | $(awk "BEGIN {printf \"%.1f\", ($UNVERIFIED/$TOTAL)*100}")% |
 | 🔻 已退化 | $DEGRADED | $(awk "BEGIN {printf \"%.1f\", ($DEGRADED/$TOTAL)*100}")% |
+| 🔷 等待中 | $PENDING | $(awk "BEGIN {printf \"%.1f\", ($PENDING/$TOTAL)*100}")% |
+
+## 证据层统计
+
+- **描述性证据 (descriptive)**: 证据为运行状态/git历史等非文件形式，已接受
+- **文件证据 (file)**: 证据指向具体文件，需通过文件存在+决策+git三维验证
+- **等待中 (pending)**: 等待其他任务完成后自动验证
 
 ## 建议操作
 
@@ -354,12 +382,23 @@ if [ "$DEGRADED" -gt 0 ]; then
   done
 fi
 
+if [ "$PENDING" -gt 0 ]; then
+  echo "" >> "$REPORT"
+  echo "### 等待验证 ($PENDING 项)" >> "$REPORT"
+  echo "" >> "$REPORT"
+  grep '| 🔷' "$REPORT" | while read -r line; do
+    cap_id=$(echo "$line" | awk -F'|' '{print $2}' | xargs)
+    cap_name=$(echo "$line" | awk -F'|' '{print $3}' | xargs)
+    echo "- **$cap_id** ($cap_name): 等待依赖任务完成，当前标记为 evidenceTier=pending" >> "$REPORT"
+  done
+fi
+
 # ─── 终端汇总 ────────────────────────────────────
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "▎验证完成"
-echo "▎总计: $TOTAL | ✅ $VERIFIED | ⚠️ $UNVERIFIED | 🔻 $DEGRADED"
+echo "▎总计: $TOTAL | ✅ $VERIFIED | ⚠️ $UNVERIFIED | 🔻 $DEGRADED | 🔷 $PENDING"
 echo "▎报告: $REPORT"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 

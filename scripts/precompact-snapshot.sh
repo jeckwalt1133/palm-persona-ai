@@ -31,8 +31,9 @@ LAST_COMMIT=$(git log --oneline -1 2>/dev/null || echo "unknown")
 UNCOMMITTED_COUNT=$(git status --porcelain 2>/dev/null | wc -l)
 UNCOMMITTED_FILES=$(git status --porcelain 2>/dev/null | awk '{print $2}' | head -20 | tr '\n' ',' | sed 's/,$//')
 
-# ---- Step 3: 当前任务状态 (从 team-status.json 读取) ----
+# ---- Step 3: 当前任务状态与核心使命 (从 team-status.json 读取) ----
 CURRENT_TASK="{}"
+MISSION="{}"
 if [ -f "$TEAM_STATUS" ]; then
   CURRENT_TASK=$(python3 -c "
 import json, sys
@@ -42,12 +43,20 @@ try:
     print(json.dumps(ct, ensure_ascii=False))
 except: print('{}')
 " 2>/dev/null || echo "{}")
+  MISSION=$(python3 -c "
+import json, sys
+try:
+    d = json.load(open('$TEAM_STATUS'))
+    m = d.get('mission', {})
+    print(json.dumps(m, ensure_ascii=False))
+except: print('{}')
+" 2>/dev/null || echo "{}")
 fi
 
 # ---- Step 4: 生成快照 ----
 cat > "$SNAPSHOT_FILE" <<SNAPSHOT
 {
-  "snapshotVersion": "1.0",
+  "snapshotVersion": "2.0",
   "sessionId": "$SESSION_ID",
   "role": "$ROLE",
   "timestamp": "$TIMESTAMP",
@@ -57,6 +66,7 @@ cat > "$SNAPSHOT_FILE" <<SNAPSHOT
     "uncommittedCount": $UNCOMMITTED_COUNT,
     "uncommittedFiles": "$UNCOMMITTED_FILES"
   },
+  "mission": $MISSION,
   "currentTask": $CURRENT_TASK
 }
 SNAPSHOT

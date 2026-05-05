@@ -61,6 +61,26 @@ ROLE_EXPERTISE["nie"]="擅长：系统架构、团队管理、方法论设计。
 # 聂富贵由主会话管理，watchdog只管理3个学生会话
 STUDENT_ROLES=("ma" "wang" "zhou")
 
+# ============================================================
+# 公网隧道守护
+# ============================================================
+TUNNEL_SCRIPT="$PROJECT_DIR/scripts/tunnel.sh"
+TUNNEL_URL_FILE="/tmp/palm-tunnel-url.txt"
+
+guard_tunnel() {
+  if [ -f "$TUNNEL_SCRIPT" ]; then
+    local status_output
+    status_output=$(bash "$TUNNEL_SCRIPT" status 2>/dev/null || echo "隧道未运行")
+    if echo "$status_output" | grep -q "隧道未运行"; then
+      log "⚠ 公网隧道已死，自动拉起..."
+      bash "$TUNNEL_SCRIPT" start 3001 > /dev/null 2>&1
+      if [ -f "$TUNNEL_URL_FILE" ]; then
+        log "✅ 隧道已恢复: $(cat $TUNNEL_URL_FILE)"
+      fi
+    fi
+  fi
+}
+
 cleanup() {
   log "团队守护进程退出"
   rm -f "$PIDFILE"
@@ -144,6 +164,9 @@ while true; do
       launch_session "$role"
     fi
   done
+
+  # 公网隧道守护
+  guard_tunnel
 
   sleep "$CHECK_INTERVAL"
 done
