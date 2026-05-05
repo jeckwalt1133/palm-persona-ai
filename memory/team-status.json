@@ -1,17 +1,17 @@
 {
   "version": "1.0",
-  "updated": "2026-05-06T03:15:00Z",
+  "updated": "2026-05-06T03:30:00Z",
   "session": {
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-05T18:44:44Z"
+    "lastCheckpoint": "2026-05-05T19:02:58Z"
   },
   "currentTask": {
     "id": "V7-003",
     "title": "记忆系统 Phase 2 — 知识图谱+记忆检索",
-    "status": "in_progress",
-    "progress": "马富贵独立完成三个交付物：knowledge-graph.json(25节点30边,覆盖概念/方法论/决策/产品四层)+memory-search.sh(多源检索+--domain/--since筛选)+team-status.json更新。待老师审查。",
+    "status": "completed",
+    "progress": "马富贵三交付物全部达标(26N/32E超验收)。审查意见：知识图谱缺少矛盾边(contradicts声明但未使用)和implements边，非阻塞问题——Week 2 P0#1补充。评分L2+。",
     "blocker": null,
     "nextAction": "聂富贵审查V7-003交付物。王富贵WANG-02已完成待审查。周富贵ZHOU-02进行中。",
     "assignedTo": "ma",
@@ -49,16 +49,23 @@
       "timestamp": "2026-05-06T02:45:00Z"
     },
     {
-      "id": "D013",
+      "id": "D014",
       "summary": "增设PM(产品经理)+EM(研发经理)+QE(质量工程)三个职能角色，明确owner",
       "rationale": "团队缺少产品方向和研发节奏的明确把控。PM→王富贵(已有产品感知基础)，EM→聂富贵(已有任务管理基础)，QE→周富贵(已有质量审查基础)。每个角色有7/6/4项核心能力待建设。",
       "decidedBy": "聂富贵",
       "timestamp": "2026-05-05T18:42:39Z"
+    },
+    {
+      "id": "D015",
+      "summary": "V7 Day 2 学习模式三角批判确定Week 2优先级：先修基础设施(证据URL验证+能力验证+矛盾显式)→再扩产出",
+      "rationale": "批判发现3个结构性矛盾：知识流动得分5/10(最低)、能力声明缺验证、pre-commit自噬。Week 2 P0聚焦修复基础设施而非新增功能。",
+      "decidedBy": "聂富贵(三角批判独立审查)",
+      "timestamp": "2026-05-06T03:30:00Z"
     }
   ],
   "discoveries": [
     {
-      "summary": "全局 settings.json 第3行仍硬编码 API Key sk-f9a088e6...——V7 Day 1 只修了 watchdog，漏了全局配置",
+      "summary": "全局 settings.json 第3行仍硬编码 API Key <已轮换-01>...——V7 Day 1 只修了 watchdog，漏了全局配置",
       "category": "risk",
       "timestamp": "2026-05-06T00:00:00.000Z"
     },
@@ -83,7 +90,7 @@
       "timestamp": "2026-05-06T00:00:00.000Z"
     },
     {
-      "summary": "全仓库安全扫描发现Git历史100次提交中有真实API Key(sk-f9a088e.../sk-29abfa.../sk-3edb38...)，需git-filter-repo清除",
+      "summary": "全仓库安全扫描发现Git历史100次提交中有真实API Key(<已轮换-01>/<已轮换-02>/<已轮换-03>)，需git-filter-repo清除",
       "category": "risk",
       "timestamp": "2026-05-06T03:15:00Z"
     }
@@ -106,12 +113,19 @@
       "title": "文案教学模块02 — 情感分层+场景化文案",
       "evidence": "wang-copywriting-02.md 441行: 4层情感模型+6场景矩阵+温度计+3练习+grading rubric+安全红线+术语桥接",
       "completedAt": "2026-05-06T04:05:00Z"
+    },
+    {
+      "id": "V7-003",
+      "title": "记忆系统 Phase 2 — 知识图谱+记忆检索",
+      "evidence": "git commit f817ce6 — knowledge-graph.json(26N/32E)+memory-search.sh+team-status更新",
+      "completedAt": "2026-05-06T03:00:00Z",
+      "review": "聂富贵审查通过 L2+。验收标准全部满足，知识图谱从课件重构为项目知识域是独立判断力的体现。"
     }
   ],
   "teamMembers": {
     "nie": {
       "status": "active",
-      "currentFocus": "【EM+TL】团队协调+建设EM能力(Sprint/资源/交付管理)",
+      "currentFocus": "【EM+TL】V7 Day 2 3h学习模式完成；Week 2: 证据URL验证+Pre-commit递归防护",
       "lastActive": "2026-05-06T00:00:00.000Z"
     },
     "ma": {
@@ -119,12 +133,12 @@
       "tmuxSession": "claude-ma",
       "currentTask": "V7-003 记忆系统 Phase 2",
       "lastActive": "2026-05-06T02:45:00Z",
-      "currentFocus": "Phase 2三交付物完成：knowledge-graph.json(25N/30E)+memory-search.sh+team-status更新，待审查"
+      "currentFocus": "V7-003审查通过L2+；Week 2: 知识图谱补充矛盾关系+P0#1"
     },
     "wang": {
       "status": "active",
       "lastReview": null,
-      "currentFocus": "【PM】WANG-02文案模块02 + 建设PM能力(PRD/用户画像/优先级)",
+      "currentFocus": "【PM】WANG-02已审查(L2+)；Week 2: 文案A/B测试框架",
       "currentTask": "WANG-02 文案共鸣进阶模块",
       "lastActive": "2026-05-06T04:05:00Z",
       "tmuxSession": "claude-wang"
@@ -132,7 +146,7 @@
     "zhou": {
       "status": "active",
       "lastReview": "V7-003安全审计 — 评分9.25/10，发现Git历史API Key遗留问题",
-      "currentFocus": "ZHOU-02已完成；待三角批判+ZHOU-03模块选题",
+      "currentFocus": "【QE】ZHOU-02已审查(L2)；Week 2: capability声明验证+安全CI部署",
       "currentTask": "ZHOU-02 安全审查自动化模块 ★已完成",
       "lastActive": "2026-05-06T03:15:00Z",
       "tmuxSession": "claude-zhou"
@@ -141,39 +155,70 @@
   "priorityQueue": [
     {
       "rank": 1,
-      "taskId": "V7-003",
-      "title": "记忆系统 Phase 2 — 知识图谱+记忆检索",
-      "status": "in_progress",
+      "taskId": "V7-W2-001",
+      "title": "知识图谱补充矛盾关系(≥5 contradicts边)+补充implements边",
+      "status": "pending",
       "assignedTo": "ma",
       "dependency": null
     },
     {
       "rank": 2,
-      "taskId": "WANG-02",
-      "title": "文案教学模块02 — 情感分层+场景化文案",
-      "status": "completed",
-      "assignedTo": "wang",
+      "taskId": "V7-W2-002",
+      "title": "证据URL可达性自动验证(替换文件存在性检查)",
+      "status": "pending",
+      "assignedTo": "nie",
       "dependency": null
     },
     {
       "rank": 3,
-      "taskId": "ZHOU-02",
-      "title": "安全教学模块02 — 自动化安全扫描+CI集成",
-      "status": "completed",
+      "taskId": "V7-W2-003",
+      "title": "capability声明验证脚本(自动检查能力是否有decisions佐证)",
+      "status": "pending",
       "assignedTo": "zhou",
-      "dependency": null,
-      "evidence": "zhou-security-02.md(557行)+pre-commit-template.sh(70行)+security-scan-keys.sh(112行)+hook已安装+审计报告(161行)"
+      "dependency": null
     },
     {
       "rank": 4,
+      "taskId": "V7-W2-004",
+      "title": "Pre-commit递归防护(跳过.md代码块中的密钥模式)",
+      "status": "pending",
+      "assignedTo": "nie",
+      "dependency": null
+    },
+    {
+      "rank": 5,
+      "taskId": "V7-W2-005",
+      "title": "文案A/B测试框架(温度理论对照实验验证)",
+      "status": "pending",
+      "assignedTo": "wang",
+      "dependency": null
+    },
+    {
+      "rank": 6,
+      "taskId": "V7-W2-006",
+      "title": "CI GitHub Actions从模板→实际部署",
+      "status": "pending",
+      "assignedTo": "zhou",
+      "dependency": "V7-W2-004"
+    },
+    {
+      "rank": 7,
+      "taskId": "V7-W2-007",
+      "title": "跨学习强制执行(每人主动审查1个非自己领域的产出)",
+      "status": "pending",
+      "assignedTo": "nie",
+      "dependency": null
+    },
+    {
+      "rank": 8,
       "taskId": "V7-P0-API-KEY",
       "title": "全局 settings.json API Key 轮换",
       "status": "pending",
       "assignedTo": "nie",
-      "dependency": "需用户手动操作/home/fugui/.claude/settings.json"
+      "dependency": "需用户手动操作"
     },
     {
-      "rank": 5,
+      "rank": 9,
       "taskId": "V7-P0-REAL-PIPELINE",
       "title": "Sharp真实像素提取替代Mock",
       "status": "pending",
@@ -258,5 +303,22 @@
       "name": "马富贵",
       "responsibilities": "主力开发/独立研究/快速原型/技术预研"
     }
+  },
+  "currentSprint": {
+    "id": "V7-Week-2",
+    "startDate": "2026-05-06",
+    "endDate": "2026-05-12",
+    "goal": "修复3个结构性矛盾(知识矛盾显式+证据真实验证+能力声明佐证)，提升知识流动评分从5→7",
+    "p0Tasks": [
+      "V7-W2-001",
+      "V7-W2-002",
+      "V7-W2-003",
+      "V7-W2-004"
+    ],
+    "p1Tasks": [
+      "V7-W2-005",
+      "V7-W2-006",
+      "V7-W2-007"
+    ]
   }
 }
