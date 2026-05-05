@@ -14,6 +14,7 @@ import { reportRoutes } from './routes/report.js';
 import { matchRoutes } from './routes/match.js';
 import { analyticsRoutes } from './routes/analytics.js';
 import { growthRoutes } from './routes/growth.js';
+import { complianceRoutes } from './routes/compliance.js';
 import { analysisService } from './services/analysis-service.js';
 import { createAiProvider } from './ai/index.js';
 
@@ -59,6 +60,7 @@ async function main() {
   await app.register(matchRoutes, { prefix: '/api' });
   await app.register(analyticsRoutes, { prefix: '/api' });
   await app.register(growthRoutes, { prefix: '/api' });
+  await app.register(complianceRoutes);
 
   // H5 静态文件托管
   const __filename = fileURLToPath(import.meta.url);

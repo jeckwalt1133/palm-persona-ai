@@ -3,7 +3,7 @@ import { z } from 'zod';
 const configSchema = z.object({
   nodeEnv: z.enum(['development', 'production', 'test']).default('development'),
   port: z.coerce.number().default(3001),
-  aiProvider: z.enum(['mock', 'openai', 'claude', 'dashscope', 'doubao', 'hunyuan', 'deepseek']).default('mock'),
+  aiProvider: z.enum(['mock', 'openai', 'claude', 'dashscope', 'doubao', 'hunyuan', 'deepseek', 'qwen']).default('mock'),
   aiModel: z.string().optional(),
   maxImageSizeMb: z.coerce.number().default(5),
   contentSafetyLevel: z.enum(['strict', 'normal', 'disabled']).default('strict'),

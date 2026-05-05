@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-05-05",
+  "nodes": [
+    {"id": "skill-system", "type": "concept", "label": "Skill系统", "source": "第4课"},
+    {"id": "hook-system", "type": "concept", "label": "Hook生命周期(8种)", "source": "第4课"},
+    {"id": "mcp-protocol", "type": "concept", "label": "MCP协议", "source": "第2课"},
+    {"id": "orch-workers", "type": "pattern", "label": "Orchestrator-Workers", "source": "第3课"},
+    {"id": "eval-optimizer", "type": "pattern", "label": "Evaluator-Optimizer", "source": "第3课"},
+    {"id": "code-as-action", "type": "paper", "label": "Code-as-Action (Microsoft 2025)", "source": "第5课"},
+    {"id": "swebench-verified", "type": "paper", "label": "SWE-bench Verified (OpenAI 2025)", "source": "第5课"},
+    {"id": "lats", "type": "paper", "label": "LATS (UCLA/Microsoft 2025)", "source": "第5课"},
+    {"id": "three-primitive", "type": "innovation", "label": "Skill-Hook-MCP三原语架构", "source": "原创"},
+    {"id": "review-gating", "type": "innovation", "label": "三级审查门禁模型", "source": "原创"},
+    {"id": "cost-aware-agent", "type": "innovation", "label": "成本感知Agent预测", "source": "原创"},
+    {"id": "five-worker-pipeline", "type": "innovation", "label": "5Worker报告流水线", "source": "原创"},
+    {"id": "mcp-compliance-gw", "type": "innovation", "label": "MCP合规网关", "source": "原创"},
+    {"id": "agent-security-matrix", "type": "innovation", "label": "Agent安全风险矩阵", "source": "原创"},
+    {"id": "eval-meta-problem", "type": "innovation", "label": "评估可信度元问题", "source": "原创"}
+  ],
+  "edges": [
+    {"from": "skill-system", "to": "three-primitive", "relation": "contributes_to"},
+    {"from": "hook-system", "to": "three-primitive", "relation": "contributes_to"},
+    {"from": "mcp-protocol", "to": "three-primitive", "relation": "contributes_to"},
+    {"from": "mcp-protocol", "to": "mcp-compliance-gw", "relation": "enables"},
+    {"from": "orch-workers", "to": "five-worker-pipeline", "relation": "applied_in"},
+    {"from": "code-as-action", "to": "mcp-protocol", "relation": "challenges"},
+    {"from": "swebench-verified", "to": "eval-meta-problem", "relation": "inspires"},
+    {"from": "lats", "to": "cost-aware-agent", "relation": "inspires"},
+    {"from": "review-gating", "to": "mcp-compliance-gw", "relation": "implements"},
+    {"from": "agent-security-matrix", "to": "mcp-compliance-gw", "relation": "informs"}
+  ]
+}

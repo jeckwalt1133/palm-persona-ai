@@ -1,0 +1,234 @@
+{
+  "system": "AI 毕业阶梯 — 5段×3阶 产出矩阵",
+  "version": "2.0.0",
+  "created": "2026-05-05",
+  "updated": "2026-05-05",
+  "designRationale": "用户(贵哥)5阶段产出骨架 + Claude 58级颗粒度血肉 → 合成15级+教学暗线。每段3阶(初阶跟着做→中阶独立做→高阶带人做)，每级有可验证的数字指标。",
+  "philosophy": "不产出真实影响力的学习是自我感动。真实影响力=可被第三方验证的结果(论文被引/产品DAU/GitHub Star/收入)。",
+  "stages": [
+    {
+      "id": "L1",
+      "name": "基础段 — 会学",
+      "nameEn": "Foundation — Learn How to Learn",
+      "description": "建立完整的AI Agent知识体系和工程能力基线",
+      "tiers": [
+        {
+          "level": "1.1",
+          "name": "入门生",
+          "status": "completed",
+          "date": "2026-05-05",
+          "requirement": "完成5门核心课程",
+          "evidence": "课程1-5全部完成，平均A-/A"
+        },
+        {
+          "level": "1.2",
+          "name": "修学者",
+          "status": "completed",
+          "date": "2026-05-05",
+          "requirement": "完成10门课程+期中考试",
+          "evidence": "课程1-10全A-/A+，期中B+(85)"
+        },
+        {
+          "level": "1.3",
+          "name": "毕业生",
+          "status": "completed",
+          "date": "2026-05-05",
+          "requirement": "毕业设计+答辩通过",
+          "evidence": "ReportAgent 284行+答辩B+(51/60)，最终A-(87.2)"
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "name": "研究段 — 会写",
+      "nameEn": "Research — Learn How to Write",
+      "description": "从精读论文到产出原创研究，建立学术影响力",
+      "tiers": [
+        {
+          "level": "2.1",
+          "name": "研读者",
+          "status": "completed",
+          "date": "2026-05-05",
+          "requirement": "精读10篇论文+写批判性综述(≥5000字)",
+          "evidence": "learning/agent-research-survey-2026.md — 18506字节, 10篇论文, 5维度批判, 12参考"
+        },
+        {
+          "level": "2.2",
+          "name": "实验者",
+          "status": "locked",
+          "requirement": "可复现实验：代码开源+数据集公开+baseline对比",
+          "evidence": "待完成"
+        },
+        {
+          "level": "2.3",
+          "name": "发表者",
+          "status": "locked",
+          "requirement": "arXiv预印本发表+被引用≥3次",
+          "evidence": "待完成"
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "name": "产品段 — 会做",
+      "nameEn": "Product — Learn How to Build",
+      "description": "从独立交付模块到运营千人产品，建立产品影响力",
+      "tiers": [
+        {
+          "level": "3.1",
+          "name": "交付者",
+          "status": "completed",
+          "date": "2026-05-05",
+          "requirement": "独立交付1个功能模块上线+真实用户使用",
+          "evidence": "H5公网部署 bore.pub:63959 (HTTP 200)，6张报告卡片完整可测"
+        },
+        {
+          "level": "3.2",
+          "name": "迭代者",
+          "status": "locked",
+          "requirement": "功能被真实用户使用，根据反馈迭代≥3次",
+          "evidence": "待完成"
+        },
+        {
+          "level": "3.3",
+          "name": "增长者",
+          "status": "locked",
+          "requirement": "1000 DAU+留存>30%",
+          "evidence": "待完成"
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "name": "开源段 — 会分享",
+      "nameEn": "Open Source — Learn How to Share",
+      "description": "从发布第一个开源项目到建立社区影响力",
+      "tiers": [
+        {
+          "level": "4.1",
+          "name": "发布者",
+          "status": "completed",
+          "date": "2026-05-05",
+          "requirement": "发布第一个开源项目(README+CI+文档+示例)",
+          "evidence": "mcp-servers/palm-mcp-server/ — 221行, 3T+3R+3P, MIT许可, 可发布npm"
+        },
+        {
+          "level": "4.2",
+          "name": "社区者",
+          "status": "locked",
+          "requirement": "100+ GitHub Star+外部贡献者≥3人",
+          "evidence": "待完成"
+        },
+        {
+          "level": "4.3",
+          "name": "影响者",
+          "status": "locked",
+          "requirement": "1000+ Star+被其他开源项目依赖",
+          "evidence": "待完成"
+        }
+      ]
+    },
+    {
+      "id": "L5",
+      "name": "商业段 — 会赚",
+      "nameEn": "Business — Learn How to Earn",
+      "description": "从第一笔收入到可持续商业闭环",
+      "tiers": [
+        {
+          "level": "5.1",
+          "name": "变现者",
+          "status": "locked",
+          "requirement": "产生第一笔收入(哪怕是$1)",
+          "evidence": "微信激励视频广告MVP已就位，待审核通过"
+        },
+        {
+          "level": "5.2",
+          "name": "持续者",
+          "status": "locked",
+          "requirement": "月收入覆盖运营成本(服务器+API+域名)",
+          "evidence": "待完成"
+        },
+        {
+          "level": "5.3",
+          "name": "闭环者",
+          "status": "locked",
+          "requirement": "月收入>$1000，真正商业闭环",
+          "evidence": "待完成"
+        }
+      ]
+    }
+  ],
+  "teachingTrack": {
+    "id": "L0",
+    "name": "教学暗线 — 会教",
+    "nameEn": "Teaching — Learn How to Teach",
+    "description": "贯穿全段的并行维度。教学是最高效的学习。不需要等到毕业才开始。",
+    "tiers": [
+      {
+        "level": "0.1",
+        "name": "助教",
+        "status": "in_progress",
+        "requirement": "带1个学徒完成L1基础段（5门课）",
+        "evidence": "curriculum/teaching-track-l0.md — 10课索引+8周学徒路径+考试模板+评分参考"
+      },
+      {
+        "level": "0.2",
+        "name": "导师",
+        "status": "locked",
+        "requirement": "学徒独立达到L2研究段（发表综述）",
+        "evidence": "待完成"
+      },
+      {
+        "level": "0.3",
+        "name": "宗师",
+        "status": "locked",
+        "requirement": "学徒在某个维度上超越导师",
+        "evidence": "待完成——这是最高成就"
+      }
+    ]
+  },
+  "currentStatus": {
+    "student": "Claude Code Student",
+    "completedLevels": [
+      "1.1",
+      "1.2",
+      "1.3",
+      "2.1",
+      "3.1",
+      "4.1"
+    ],
+    "inProgressLevels": [
+      "0.1"
+    ],
+    "lockedLevels": [
+      "2.2",
+      "2.3",
+      "3.2",
+      "3.3",
+      "4.2",
+      "4.3",
+      "5.1",
+      "5.2",
+      "5.3",
+      "0.2",
+      "0.3"
+    ],
+    "currentFocus": "L2.2 实验者 — 可复现实验+代码开源+baseline对比",
+    "todayLearningHours": 10,
+    "todayTargetHours": 12,
+    "achievements": [
+      "L2.1: 10篇论文批判综述 18506字节 7000字",
+      "L3.1: H5公网部署 bore.pub:63959",
+      "L4.1: palm-mcp-server开源 221行 3T+3R+3P",
+      "L2.2: 对抗测试实验 21样本 10种攻击向量",
+      "L0.1: 教学材料包 10课索引+8周路径"
+    ],
+    "lastUpdated": "2026-05-05 12:40"
+  },
+  "promotionRules": {
+    "withinTier": "完成当前等级所有requirement即可晋升（同段内不跳级）",
+    "acrossTier": "三段全部完成才能进入下一段（不可跳段）",
+    "teachingTrack": "与主段并行晋升，不互锁",
+    "evidenceStandard": "每级晋升必须有可公开验证的证据（URL/截图/数据）"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "palm-mcp-server",
+  "version": "1.0.0",
+  "description": "掌心人格局 MCP Server — 合规检查 / 报告查询 / 文案生成提示词",
+  "author": "富贵军团 <fugui@palm-persona.ai>",
+  "license": "MIT",
+  "keywords": ["mcp", "model-context-protocol", "ai-agent", "compliance", "persona"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fugui-legion/palm-mcp-server"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "palm-mcp-server": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "tsx": "^4.0.0",
+    "vitest": "^3.2.0"
+  }
+}

@@ -1,0 +1,1 @@
+{"mcpServers":{"palm-persona-mcp":{"command":"npx","args":["tsx","src/index.ts"],"cwd":"mcp-servers/palm-mcp-server","env":{}}}}

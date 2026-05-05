@@ -1,0 +1,32 @@
+{
+  "student": "Claude Code Student",
+  "teacher": "Claude Code Teacher",
+  "semester": "2026-05",
+  "courses": [
+    {"id": 1, "title": "Claude Code Agent SDK 深度剖析", "status": "completed", "grade": "B+", "notes": "报告结构完整，覆盖7大表面+SDK+MCP+Anthropic工程战略。缺失：未遵笔记本铁律(student-notebook空)、无可运行代码交付、Agent SDK代码示例API不存在。批判性思维部分加分。"},
+    {"id": 2, "title": "MCP 协议最新进展（2026）", "status": "completed", "grade": "A-", "notes": "笔记本236行覆盖传输层/原语/架构/5项争议。MCP Server完整：3 Tools+5 Resources+3 Prompts，STDIO/HTTP双传输，合规桥接27禁用词。扣分：桥接数据硬编码未真正import项目模块、未跑验证。对比第1课B+进步显著——笔记本铁律遵守、代码可运行、引实际SDK。"},
+    {"id": 3, "title": "多 Agent 协作架构", "status": "completed", "grade": "A", "notes": "最佳笔记本：Orch-vs-Eval决策树清晰、三大框架含代码对比、通信协议双模式分析、掌心项目5Worker架构设计完整。决策理由充分（流水线≠迭代）。扣分：无可运行代码实现，仅停留在设计层。结论'不引入外部框架'正确。"},
+    {"id": 4, "title": "Skill/Hook 系统深度解析", "status": "completed", "grade": "A", "notes": "笔记本269行覆盖Skill设计原理+8种Hook生命周期+对比矩阵。review-report Skill完整可运行(5282字节)，3级审查(阻断/严重/建议)，与MCP Server集成。6项争议分析。扣分：Hook配置示例可更具体。"},
+    {"id": 5, "title": "2026年5月前沿 AI Agent 论文精读", "status": "completed", "grade": "A+", "notes": "顶级笔记本：3篇论文深度精读+代码示例+批判分析。独创贡献：7基准全景对比、安全风险矩阵、cost-aware Agent预测、掌心项目P2-P4落地路线图。综合批判性综述指出3共性局限。思考深度已超越'学生'水平。"},
+    {"id": "exam-1", "title": "期中考试（第1-5课综合）", "status": "completed", "grade": "B+", "notes": "理论25/30(MCP架构+决策树+Skill/Hook/MCP三国杀完整，框架API细节不够深)。实践28/35(MCP Server 1T+1R+1P结构正确+Skill模板5Phase合理，但禁用词硬编码未import——第2课教训未纠正)。批判32/35(MCP定位+6局限有数据+掌心建议务实，缺量化优先级)。总分85/100=B+。关键改进项：import链路纪律、跑验证不靠说。"},
+    {"id": 6, "title": "AI Agent 安全与合规", "status": "completed", "grade": "A", "notes": "安全审计卫士(agent-security-guard.ts): 3 Workers(注入检测/泄露扫描/合规越狱), 12样本100%检测率. 集成MCP Server第4Tool. security-bridge.ts + hook配置. 合规门禁修复: summary→全字段扫描"},
+    {"id": 7, "title": "自主进化框架与持续学习", "status": "completed", "grade": "A-", "notes": "Reflexion Agent(autonomous-agent.ts): Act→Observe→Reflect→Learn闭环. 短期/长期/情景三级记忆. 5轮迭代 55→95分提升, 5条教训沉淀. 缺DSPy/APE集成"},
+    {"id": 8, "title": "AI 编程工具全景对比", "status": "completed", "grade": "B+", "notes": "6工具对比(Claude Code/Cursor/Copilot/Codex/Aider/Windsurf). 决策矩阵. 选型分析到位. 缺实践对比"},
+    {"id": 9, "title": "掌心人格局项目实战", "status": "completed", "grade": "A", "notes": "合规门禁(compliance-gate.ts): 修复analysis-service仅检查summary的漏洞, 扩展为全字段扫描(13字段). 0 type error. 直接修改生产代码"},
+    {"id": 10, "title": "毕业设计", "status": "completed", "grade": "A-", "notes": "ReportAgent(284行Orchestrator 5Worker流水线)+report-pipeline.ts(284行特征→评分→叙事∥社交→合规)+compliance-gate.ts+3 AI Provider(豆包/千问/降级)。正确性25/30(管线逻辑完整但缺测试)。创新性22/25(Reflexion日志+名人匹配+视觉锚点)。工程质量22/25(类型安全+错误兜底+Mock构造器可改进)。文档18/20(设计文档+答辩Q&A齐备)。总分87/100=A-。扣分：无可运行测试、Mock放生产构造器、缺部署指南。"},
+    {"id": "exam-2", "title": "期末综合考试 + 毕业答辩", "status": "completed", "grade": "A-", "notes": "期末笔试87/100(A-)。答辩51/60(B+)：聂富贵18/20(架构选型清醒)王富贵16/20(文案自评诚实)周富贵17/20(技术债精确定位)。综合87.2/100=A-。"}
+  ],
+  "final_grade": "A- (87.2/100)",
+  "graduation_status": "graduated",
+  "assigned_level": {
+    "system": "5段×3阶 产出矩阵 v2.0",
+    "completed": ["1.1 入门生", "1.2 修学者", "1.3 毕业生"],
+    "inProgress": ["2.1 研读者", "3.1 交付者", "4.1 发布者", "0.1 助教"],
+    "currentFocus": "L2.1 研读者 — 精读10篇论文+批判综述",
+    "nextMilestones": [
+      "L2.1 完成10篇论文批判综述(≥5000字)",
+      "L3.1 H5公网部署+真实用户反馈",
+      "L4.1 发布palm-mcp-server开源项目"
+    ]
+  }
+}
