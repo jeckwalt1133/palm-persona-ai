@@ -1,5 +1,5 @@
 {
-  "scanTime": "2026-05-06T20:15:40.385922+00:00",
+  "scanTime": "2026-05-06T20:29:55.760006+00:00",
   "scanner": "pre-commit-security.py",
   "version": "3.0.0",
   "architecture": "三层防线 (L1阻断/L2警告/L3记录)",
@@ -12,8 +12,8 @@
     "L3_total": 0
   },
   "summary": {
-    "filesScanned": 1,
-    "filesSkipped": 0,
+    "filesScanned": 5,
+    "filesSkipped": 2,
     "totalFindings": 0,
     "criticalFindings": 0,
     "highFindings": 0,

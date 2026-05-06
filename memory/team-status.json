@@ -5,7 +5,7 @@
     "id": "initial",
     "role": "teacher",
     "startedAt": "2026-05-06T00:00:00.000Z",
-    "lastCheckpoint": "2026-05-06T20:29:52Z"
+    "lastCheckpoint": "2026-05-06T20:32:04Z"
   },
   "currentTask": {
     "id": "V7-W6-SPRINT",
@@ -387,7 +387,7 @@
       "status": "active",
       "tmuxSession": "claude-ma",
       "currentTask": "V7-W6-001",
-      "lastActive": "2026-05-07T01:06:00Z",
+      "lastActive": "2026-05-07T03:30:00Z",
       "currentFocus": "Share Landing页面完成+学生看门狗部署"
     },
     "wang": {
@@ -395,7 +395,7 @@
       "lastReview": "V7-W5-022: 语调审查完成",
       "currentFocus": "P0-3合规文档三件套撰写",
       "currentTask": "V7-W6-002",
-      "lastActive": "2026-05-07T01:06:00Z",
+      "lastActive": "2026-05-07T03:30:00Z",
       "tmuxSession": "claude-wang"
     },
     "zhou": {
@@ -403,7 +403,7 @@
       "lastReview": "V7-003安全审计 — 评分9.25/10，发现Git历史API Key遗留问题",
       "currentFocus": "GitHub密钥告警修复+L3安全趋势面板",
       "currentTask": "V7-W6-003",
-      "lastActive": "2026-05-07T01:06:00Z",
+      "lastActive": "2026-05-07T03:30:00Z",
       "tmuxSession": "claude-zhou"
     },
     "zhao": {
@@ -411,8 +411,8 @@
       "role": "前端工程师/P6",
       "model": "deepseek-v4",
       "currentTask": "V7-W6-004",
-      "currentFocus": "小程序首屏性能优化+骨架屏",
-      "lastActive": "2026-05-07T01:06:00Z",
+      "currentFocus": "✅完成: 分包+骨架屏+RadarCanvas延迟+图片懒加载+全项目8文件SCSS主题标准化",
+      "lastActive": "2026-05-07T03:30:00Z",
       "tmuxSession": "claude-zhao"
     },
     "qian": {
@@ -421,7 +421,7 @@
       "model": "deepseek-v4",
       "currentTask": "V7-W6-005",
       "currentFocus": "API压测+慢查询优化+记忆索引设计",
-      "lastActive": "2026-05-07T01:06:00Z",
+      "lastActive": "2026-05-07T03:30:00Z",
       "tmuxSession": "claude-qian"
     },
     "sun": {
@@ -430,7 +430,7 @@
       "model": "doubao-seed-2.0-pro",
       "currentTask": "V7-W6-006",
       "currentFocus": "Week3场景化内容+ASO投放+数据回收",
-      "lastActive": "2026-05-07T01:06:00Z",
+      "lastActive": "2026-05-07T03:30:00Z",
       "tmuxSession": "claude-sun"
     }
   },
@@ -457,7 +457,7 @@
       "id": "V7-W6-004",
       "title": "赵富贵 首屏性能优化+骨架屏",
       "assignee": "zhao",
-      "status": "dispatched"
+      "status": "completed"
     },
     {
       "id": "V7-W6-005",
