@@ -1,5 +1,5 @@
 import { View, Canvas } from '@tarojs/components';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import Taro from '@tarojs/taro';
 import { wrapText, truncateText } from '../utils/textWrap';
 import { getMostMisunderstood, getCardTitle, type ScoreItem } from '../utils/reportUtils';
@@ -552,27 +552,43 @@ function drawPoster(
 
   // P1: safeText 预计算 — 一次正则扫描替代 33 次重复调用
   const safeReport = sanitizeReport(report);
+  const tSanitize = performance.now();
+
   const safeShareText = safeText(shareCopy.primaryText);
 
   drawBg(ctx, cssW, cssH);
+  const tBg = performance.now();
+
   drawTopDecoration(ctx, cssW);
+  const tDeco = performance.now();
+
   drawPersonaLabel(ctx, cssW, safeReport.personaLabel);
   drawIdentityBadge(ctx, cssW, safeReport.identityBadge);
   drawCardTitle(ctx, cssW, cardIndex);
   drawCardContent(ctx, cssW, cssH, safeReport, cardIndex);
+  const tContent = performance.now();
+
   drawFooter(ctx, cssW, cssH, safeShareText);
+  const tFooter = performance.now();
 
   if (t0 > 0) {
-    const elapsed = performance.now() - t0;
-    console.log(`[PosterCanvas] card${cardIndex} 绘制耗时: ${elapsed.toFixed(0)}ms`);
-    // 跨平台溢出验证: 重测关键文本是否超出容器宽度
+    const ph = (name: string, ms: number) => `${name}=${ms.toFixed(0)}ms`;
+    console.log(
+      `[PosterCanvas] card${cardIndex} 阶段耗时: ` +
+      `${ph('sanitize', tSanitize - t0)} ` +
+      `${ph('bg', tBg - tSanitize)} ` +
+      `${ph('deco', tDeco - tBg)} ` +
+      `${ph('content', tContent - tDeco)} ` +
+      `${ph('footer', tFooter - tContent)} ` +
+      `${ph('total', tFooter - t0)}`,
+    );
     verifyTextOverflow(ctx, cssW, safeReport, cardIndex, safeShareText);
   }
 }
 
 // ══════ React 组件 ══════
 
-export default function PosterCanvas({
+const PosterCanvas = memo(function PosterCanvas({
   report,
   cardIndex,
   shareCopy,
@@ -581,6 +597,18 @@ export default function PosterCanvas({
   height = 1334,
 }: PosterCanvasProps) {
   const drawnRef = useRef(false);
+  // H5 Canvas 节点缓存 — 避免重复 getElementById + getContext
+  const h5CtxRef = useRef<CanvasRenderingContext2D | null>(null);
+  // 小程序节点缓存 — 避免重复 createSelectorQuery
+  const mpNodeRef = useRef<{ ctx: CanvasRenderingContext2D; w: number; h: number } | null>(null);
+
+  // 卸载时清理缓存
+  useEffect(() => {
+    return () => {
+      h5CtxRef.current = null;
+      mpNodeRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     if (drawnRef.current) return;
@@ -588,51 +616,72 @@ export default function PosterCanvas({
 
     const draw = () => {
       if (process.env.TARO_ENV === 'h5') {
-        // H5: 标准 Canvas API
-        const canvas = document.getElementById(canvasId) as HTMLCanvasElement | null;
-        if (!canvas) { drawnRef.current = false; return; }
-        const dpr = Math.min(window.devicePixelRatio || 2, 2);
-        canvas.width = Math.ceil(width * dpr);
-        canvas.height = Math.ceil(height * dpr);
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) { drawnRef.current = false; return; }
-        ctx.scale(dpr, dpr);
-        const t0 = performance.now();
+        const tSetup0 = performance.now();
+        // H5: 优先使用缓存 context
+        let ctx = h5CtxRef.current;
+        if (!ctx) {
+          const canvas = document.getElementById(canvasId) as HTMLCanvasElement | null;
+          if (!canvas) { drawnRef.current = false; return; }
+          const dpr = Math.min(window.devicePixelRatio || 2, 2);
+          canvas.width = Math.ceil(width * dpr);
+          canvas.height = Math.ceil(height * dpr);
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${height}px`;
+          ctx = canvas.getContext('2d');
+          if (!ctx) { drawnRef.current = false; return; }
+          ctx.scale(dpr, dpr);
+          h5CtxRef.current = ctx;
+        }
+        const tSetup = performance.now();
         drawPoster(ctx, width, height, report, cardIndex, shareCopy);
-        console.log(`[PosterCanvas] H5 总耗时: ${(performance.now() - t0).toFixed(0)}ms DPR=${dpr}`);
+        if (tSetup0 > 0) {
+          console.log(`[PosterCanvas] H5 setup=${(tSetup - tSetup0).toFixed(0)}ms draw=${(performance.now() - tSetup).toFixed(0)}ms`);
+        }
       } else {
-        // 小程序: Taro Canvas 2D API
-        Taro.nextTick(() => {
-          const query = Taro.createSelectorQuery();
-          query
+        // 小程序: 优先使用缓存节点
+        if (mpNodeRef.current) {
+          const { ctx, w, h } = mpNodeRef.current;
+          drawPoster(ctx, w, h, report, cardIndex, shareCopy);
+          return;
+        }
+
+        // 首次: 尝试同步获取 (无 nextTick), 失败则异步重试
+        const tryQuery = (retry = true) => {
+          Taro.createSelectorQuery()
             .select(`#${canvasId}`)
             .fields({ node: true, size: true })
             .exec((res) => {
-              if (!res || !res[0]) { drawnRef.current = false; return; }
-              const { node: canvas, width: cssW, height: cssH } = res[0] as {
-                node: HTMLCanvasElement;
-                width: number;
-                height: number;
-              };
-              if (!canvas) { drawnRef.current = false; return; }
+              if (res?.[0]?.node) {
+                const { node: canvas, width: cssW, height: cssH } = res[0] as {
+                  node: HTMLCanvasElement;
+                  width: number;
+                  height: number;
+                };
+                const ctx = canvas.getContext('2d');
+                if (!ctx) { drawnRef.current = false; return; }
 
-              const ctx = canvas.getContext('2d');
-              if (!ctx) { drawnRef.current = false; return; }
+                let dpr = 2;
+                try {
+                  dpr = Math.min(Taro.getSystemInfoSync().pixelRatio, 2);
+                } catch { /* keep 2 */ }
 
-              let dpr = 2;
-              try {
-                dpr = Math.min(Taro.getSystemInfoSync().pixelRatio, 2);
-              } catch { /* keep 2 */ }
+                canvas.width = Math.ceil(cssW * dpr);
+                canvas.height = Math.ceil(cssH * dpr);
+                ctx.scale(dpr, dpr);
 
-              canvas.width = Math.ceil(cssW * dpr);
-              canvas.height = Math.ceil(cssH * dpr);
-              ctx.scale(dpr, dpr);
+                // 缓存节点引用
+                mpNodeRef.current = { ctx, w: cssW, h: cssH };
 
-              drawPoster(ctx, cssW, cssH, report, cardIndex, shareCopy);
+                drawPoster(ctx, cssW, cssH, report, cardIndex, shareCopy);
+              } else if (retry) {
+                // Canvas 未就绪 → nextTick 后重试
+                Taro.nextTick(() => tryQuery(false));
+              } else {
+                drawnRef.current = false;
+              }
             });
-        });
+        };
+        tryQuery();
       }
     };
 
@@ -650,4 +699,7 @@ export default function PosterCanvas({
       />
     </View>
   );
-}
+});
+
+PosterCanvas.displayName = 'PosterCanvas';
+export default PosterCanvas;
