@@ -1,4 +1,4 @@
-// Canvas 中文自动换行 — 逐字测量宽度
+// Canvas 中文自动换行 — 二分查找换行点，O(n) → O(log n) 次 measureText
 export function wrapText(
   ctx: CanvasRenderingContext2D,
   text: string,
@@ -6,24 +6,32 @@ export function wrapText(
   maxLines = 8,
 ): string[] {
   const lines: string[] = [];
-  let current = '';
+  let remaining = text;
 
-  for (const char of text) {
-    const test = current + char;
-    if (ctx.measureText(test).width > maxWidth && current.length > 0) {
-      lines.push(current);
-      if (lines.length >= maxLines) return lines;
-      current = char;
-    } else {
-      current = test;
+  while (remaining.length > 0 && lines.length < maxLines) {
+    let lo = 1;
+    let hi = remaining.length;
+    let bestLen = 0;
+
+    while (lo <= hi) {
+      const mid = Math.floor((lo + hi) / 2);
+      if (ctx.measureText(remaining.slice(0, mid)).width <= maxWidth) {
+        bestLen = mid;
+        lo = mid + 1;
+      } else {
+        hi = mid - 1;
+      }
     }
+
+    if (bestLen === 0) bestLen = 1;
+    lines.push(remaining.slice(0, bestLen));
+    remaining = remaining.slice(bestLen);
   }
 
-  if (current) lines.push(current);
   return lines;
 }
 
-// 截断文本并加省略号
+// 截断文本并加省略号 — 二分查找
 export function truncateText(
   ctx: CanvasRenderingContext2D,
   text: string,
@@ -31,12 +39,19 @@ export function truncateText(
 ): string {
   if (ctx.measureText(text).width <= maxWidth) return text;
 
-  let result = '';
-  for (const char of text) {
-    if (ctx.measureText(result + char + '...').width > maxWidth) {
-      return result + '...';
+  let lo = 1;
+  let hi = text.length;
+  let bestLen = 0;
+
+  while (lo <= hi) {
+    const mid = Math.floor((lo + hi) / 2);
+    if (ctx.measureText(text.slice(0, mid) + '...').width <= maxWidth) {
+      bestLen = mid;
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
     }
-    result += char;
   }
-  return result + '...';
+
+  return text.slice(0, bestLen) + '...';
 }

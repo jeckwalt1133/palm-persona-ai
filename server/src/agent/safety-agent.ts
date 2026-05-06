@@ -12,6 +12,7 @@
 import { PersonaReport, PersonaScore } from '../engine/types.js';
 import { ContentSafety, defaultSafety } from '../safety/content-safety.js';
 import { runComplianceGate, type ComplianceGateResult } from '../safety/compliance-gate.js';
+import { defaultSafetyLogger } from '../safety/safety-logger.js';
 
 export interface SafetyInput {
   imageBase64: string;
@@ -75,7 +76,7 @@ export class SafetyAgent {
 
   /** 阶段2: 输出合规门禁——需等分析+文案完成后 */
   postCheck(report: PersonaReport): SafetyPostCheckResult {
-    const result: ComplianceGateResult = runComplianceGate(report, this.safety);
+    const result: ComplianceGateResult = runComplianceGate(report, this.safety, defaultSafetyLogger);
     return {
       passed: result.passed,
       violations: result.violations.map(v => `${v.field}: ${v.violations.join(', ')}`),

@@ -1,10 +1,10 @@
 {
-  "version": "2.1",
-  "updated": "2026-05-06T19:00:00Z",
+  "version": "2.2",
+  "updated": "2026-05-06T10:28:00Z",
   "description": "AI师生研究院 V7 知识图谱 — Layer 3 语义记忆。节点=概念/方法论/决策/产品，边=标准4型关系+3型扩展。",
   "stats": {
-    "nodeCount": 26,
-    "edgeCount": 43,
+    "nodeCount": 29,
+    "edgeCount": 48,
     "primaryRelations": [
       "precedes",
       "supports",
@@ -513,6 +513,24 @@
       ],
       "source": "memory/capability-inventory.json",
       "created": "2026-05-06"
+    },
+    {
+      "id": "team-scaling-security-causality",
+      "domain": "architecture",
+      "label": "安全成熟→团队扩展因果链",
+      "description": "每成熟一层安全基础设施，就释放一个安全加人信号：MCP协议→周富贵QE强化，L3安全→钱富贵后端，合规达标→孙富贵运营"
+    },
+    {
+      "id": "build-expand-dont-commit-pattern",
+      "domain": "methodology",
+      "label": "构建→扩展→不提交循环",
+      "description": "反复出现的反模式：同一批文件持续修改不commit，未提交文件从8→20→28膨胀，导致git恢复能力弱于snapshot恢复"
+    },
+    {
+      "id": "one-person-company-organization",
+      "domain": "architecture",
+      "label": "一人公司三层架构",
+      "description": "董事长(用户)→CEO(聂富贵)→N Agent。CEO只做三件事：派活/解阻塞/验收。Agent数量不受组织限制"
     }
   ],
   "edges": [
@@ -773,6 +791,36 @@
       "to": "semantic-knowledge-graph",
       "relation": "implements",
       "label": "memory-search.sh实现了知识图谱的查询接口——关键词检索+领域筛选(--domain)+时间过滤(--since)+≤20行截断，是知识图谱的消费端实现"
+    },
+    {
+      "from": "one-person-company-organization",
+      "to": "team-scaling-security-causality",
+      "relation": "enables",
+      "label": "组织模式使能团队扩展"
+    },
+    {
+      "from": "team-scaling-security-causality",
+      "to": "one-person-company-organization",
+      "relation": "validates",
+      "label": "扩展成功验证组织模式"
+    },
+    {
+      "from": "security-compliance-gate",
+      "to": "team-scaling-security-causality",
+      "relation": "enables",
+      "label": "安全门禁是团队扩展前置条件"
+    },
+    {
+      "from": "team-scaling-security-causality",
+      "to": "agent-card-system",
+      "relation": "depends_on",
+      "label": "新成员依赖AgentCard标准化入职"
+    },
+    {
+      "from": "build-expand-dont-commit-pattern",
+      "to": "three-layer-memory",
+      "relation": "contradicts",
+      "label": "不提交导致git恢复弱于snapshot，违反三层记忆设计"
     }
   ]
 }

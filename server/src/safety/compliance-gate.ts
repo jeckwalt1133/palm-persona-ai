@@ -9,6 +9,7 @@
 
 import { PersonaReport } from '../engine/types.js';
 import { ContentSafety } from './content-safety.js';
+import { SafetyLogger } from './safety-logger.js';
 
 export interface FieldViolation {
   field: string;
@@ -25,6 +26,7 @@ export interface ComplianceGateResult {
 export function runComplianceGate(
   report: PersonaReport,
   safety: ContentSafety,
+  logger?: SafetyLogger,
 ): ComplianceGateResult {
   const textFields: Array<{ field: string; value: string }> = [
     { field: 'summary', value: report.summary },
@@ -59,6 +61,17 @@ export function runComplianceGate(
     }
     // 逐字段更新过滤后的文本
     setField(filtered, field, result.filteredText);
+  }
+
+  if (logger) {
+    logger.log({
+      reportId: report.id,
+      personaType: report.personaType,
+      passed: allViolations.length === 0,
+      totalViolations: allViolations.reduce((sum, fv) => sum + fv.violations.length, 0),
+      violationFields: allViolations.map(fv => fv.field),
+      violationTerms: [...new Set(allViolations.flatMap(fv => fv.violations))],
+    });
   }
 
   return {

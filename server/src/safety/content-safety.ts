@@ -1,4 +1,5 @@
 import { sanitizeInput } from '../utils/sanitize.js';
+import { EscapeRoom, defaultEscapeRoom } from './escape-room.js';
 
 const DISCLAIMER = '本产品为 AI 趣味分析工具，结果仅供娱乐和自我探索，不构成医学、法律、投资、婚恋或人生决策建议。';
 
@@ -187,9 +188,11 @@ export interface SafetyResult {
 
 export class ContentSafety {
   private strictMode: boolean;
+  private escapeRoom: EscapeRoom;
 
-  constructor(strictMode = true) {
+  constructor(strictMode = true, escapeRoom?: EscapeRoom) {
     this.strictMode = strictMode;
+    this.escapeRoom = escapeRoom ?? defaultEscapeRoom;
   }
 
   check(text: string): SafetyResult {
@@ -205,6 +208,7 @@ export class ContentSafety {
 
     for (const term of FORBIDDEN_TERMS) {
       if (term.pattern.test(cleaned)) {
+        if (this.escapeRoom.check(term.label)) continue;
         if (!violations.includes(term.label)) {
           violations.push(term.label);
         }

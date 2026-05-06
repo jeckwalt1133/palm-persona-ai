@@ -28,6 +28,12 @@ import {
   applyToneToTensionPoint,
   getRefreshVariants,
 } from '../../utils/toneVariants';
+import {
+  detectPersonaChange,
+  saveCurrentPersona,
+  getChangeReminderBody,
+  type PersonaChange,
+} from '../../utils/retentionCopy';
 import './index.scss';
 
 interface ScoreItem {
@@ -133,6 +139,8 @@ export default function ReportPage() {
   const [toneMode, setToneMode] = useState<ToneMode>(getStoredTone);
   // "换一句" 轮换索引（每条洞察独立）
   const [insightVariants, setInsightVariants] = useState<Record<number, number>>({});
+  // 人格变化提醒（借鉴 Claude Memory for Agents）
+  const [personaChange, setPersonaChange] = useState<PersonaChange | null>(null);
 
   // ── 页面停留追踪（H5） ──
   const trackerRef = useRef<TrackerHandle | null>(null);
@@ -148,6 +156,16 @@ export default function ReportPage() {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [report]);
+
+  // 人格变化检测 — 再次测试结果不同时展示提醒
+  useEffect(() => {
+    if (!report) return;
+    const change = detectPersonaChange(report.personaLabel);
+    if (change.changed) {
+      setPersonaChange(change);
+    }
+    saveCurrentPersona(report.personaLabel);
   }, [report]);
 
   // ── 数据初始化 ──
@@ -402,6 +420,27 @@ export default function ReportPage() {
           <Text className="report-badge">{report.identityBadge}</Text>
         )}
       </View>
+
+      {/* 人格变化提醒 — 借鉴 Claude Memory for Agents */}
+      {personaChange && personaChange.changed && personaChange.previousLabel && (
+        <View className="persona-change-banner">
+          <View className="persona-change-dot" />
+          <View className="persona-change-body">
+            <Text className="persona-change-title">AI 这次读出了不一样的你</Text>
+            <Text className="persona-change-text">
+              {getChangeReminderBody(personaChange.previousLabel, personaChange.currentLabel)}
+            </Text>
+            {personaChange.daysSince !== null && personaChange.daysSince >= 7 && (
+              <Text className="persona-change-meta">
+                上次是{personaChange.daysSince}天前 · 手掌没变，是你展现了另一面
+              </Text>
+            )}
+          </View>
+          <View className="persona-change-close" onClick={() => setPersonaChange(null)}>
+            <Text>×</Text>
+          </View>
+        </View>
+      )}
 
       {/* 语气偏好切换 — 借鉴Grok Fun Mode + 豆包多角色 */}
       <View className="tone-toggle-bar">

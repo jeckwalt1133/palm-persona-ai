@@ -8,6 +8,7 @@ coverage/
 .vitest/
 .claude/security-report.json
 memory/reflexion/
+memory/safety/
 messages/
 scripts/__pycache__/
 server/memory/

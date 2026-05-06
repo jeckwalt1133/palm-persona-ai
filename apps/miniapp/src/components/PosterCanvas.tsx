@@ -70,6 +70,60 @@ const WHITE = '#ffffff';
 const WHITE_DIM = 'rgba(255,255,255,0.6)';
 const WHITE_FAINT = 'rgba(255,255,255,0.2)';
 
+// ══════ safeText 预计算 — 入口调用一次，消除 33 次重复正则扫描 ══════
+
+function sanitizeReport(report: ReportData): ReportData {
+  const s: ReportData = {
+    ...report,
+    personaLabel: safeText(report.personaLabel),
+    coreTruth: safeText(report.coreTruth),
+    quote: report.quote ? safeText(report.quote) : '',
+    weeklyAdvice: report.weeklyAdvice ? safeText(report.weeklyAdvice) : '',
+    keywords: report.keywords?.map(k => safeText(k)),
+    insights: report.insights?.map(i => safeText(i)),
+    identityBadge: report.identityBadge ? safeText(report.identityBadge) : undefined,
+    scores: report.scores.map(sc => ({ ...sc, dimension: safeText(sc.dimension) })),
+  };
+
+  if (report.visualAnchors) {
+    const va = report.visualAnchors;
+    s.visualAnchors = {
+      ...va,
+      opening: safeText(va.opening),
+      widthLabel: safeText(va.widthLabel),
+      fingerLabel: safeText(va.fingerLabel),
+      clarityLabel: safeText(va.clarityLabel),
+      lineCountLabel: safeText(va.lineCountLabel),
+      widthPercentile: safeText(va.widthPercentile),
+      clarityPercentile: safeText(va.clarityPercentile),
+      lineCountPercentile: safeText(va.lineCountPercentile),
+      fingerPercentile: safeText(va.fingerPercentile),
+    };
+  }
+
+  if (report.relationshipCode) {
+    const rc = report.relationshipCode;
+    s.relationshipCode = {
+      ...rc,
+      frequencyLabel: safeText(rc.frequencyLabel),
+      signalPattern: safeText(rc.signalPattern),
+      bestMatchType: safeText(rc.bestMatchType),
+      tensionPoint: safeText(rc.tensionPoint),
+    };
+  }
+
+  if (report.celebrityMatches) {
+    s.celebrityMatches = report.celebrityMatches.map(c => ({
+      ...c,
+      name: safeText(c.name),
+      title: safeText(c.title),
+      reason: safeText(c.reason),
+    }));
+  }
+
+  return s;
+}
+
 // ══════ 绘制函数 ══════
 
 function drawBg(ctx: CanvasRenderingContext2D, w: number, h: number) {
@@ -108,7 +162,7 @@ function drawPersonaLabel(ctx: CanvasRenderingContext2D, w: number, label: strin
   ctx.textBaseline = 'top';
   ctx.fillStyle = GOLD;
 
-  const text = `你是「${safeText(label)}」`;
+  const text = `你是「${label}」`;
   const display = truncateText(ctx, text, w - 120);
   ctx.fillText(display, w / 2, 100);
 }
@@ -120,7 +174,7 @@ function drawIdentityBadge(ctx: CanvasRenderingContext2D, w: number, badge?: str
   ctx.font = `${fontSize}px sans-serif`;
   ctx.textAlign = 'center';
   ctx.fillStyle = CYAN;
-  ctx.fillText(safeText(badge), w / 2, 160);
+  ctx.fillText(badge, w / 2, 160);
 }
 
 // 卡片标题
@@ -155,7 +209,7 @@ function drawFooter(ctx: CanvasRenderingContext2D, w: number, h: number, shareTe
   const shareFontSize = 24;
   ctx.font = `${shareFontSize}px sans-serif`;
   ctx.fillStyle = WHITE_DIM;
-  const lines = wrapText(ctx, safeText(shareText), w - 120, 4);
+  const lines = wrapText(ctx, shareText, w - 120, 4);
   lines.forEach((line, i) => {
     ctx.fillText(line, w / 2, dividerY + 20 + i * (shareFontSize + 8));
   });
@@ -203,8 +257,7 @@ function drawIdentityCard(
   ctx.font = 'bold 32px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillStyle = WHITE;
-  const truth = safeText(report.coreTruth);
-  const truthLines = wrapText(ctx, truth, w - 120, 3);
+  const truthLines = wrapText(ctx, report.coreTruth, w - 120, 3);
   truthLines.forEach((line, i) => {
     ctx.fillText(line, w / 2, y + i * 46);
   });
@@ -221,7 +274,7 @@ function drawIdentityCard(
       ctx.fillStyle = colors[i];
       ctx.font = '22px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(safeText(kw), tx + tagW / 2, y + 36);
+      ctx.fillText(kw, tx + tagW / 2, y + 36);
     });
     y += 100;
   }
@@ -261,7 +314,7 @@ function drawMisunderstoodCard(
   ctx.font = '26px sans-serif';
   ctx.textAlign = 'left';
   ctx.fillStyle = WHITE;
-  const lines = wrapText(ctx, safeText(text), w - 120, 10);
+  const lines = wrapText(ctx, text, w - 120, 10);
   lines.forEach((line, i) => {
     ctx.fillText(line, 60, startY + i * 44);
   });
@@ -280,7 +333,7 @@ function drawRelationshipCard(
   ctx.font = 'bold 36px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillStyle = GOLD;
-  ctx.fillText(safeText(rc.frequencyLabel), w / 2, y);
+  ctx.fillText(rc.frequencyLabel, w / 2, y);
   y += 60;
 
   const sections: Array<{ label: string; text: string }> = [
@@ -298,7 +351,7 @@ function drawRelationshipCard(
     y += 32;
     ctx.font = '24px sans-serif';
     ctx.fillStyle = WHITE;
-    const lines = wrapText(ctx, safeText(sec.text), w - 120, 3);
+    const lines = wrapText(ctx, sec.text, w - 120, 3);
     lines.forEach((line, i) => {
       ctx.fillText(line, 60, y + i * 36);
     });
@@ -317,8 +370,7 @@ function drawVisualAnchorsCard(
   ctx.font = '24px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillStyle = WHITE_DIM;
-  const opening = safeText(va.opening);
-  const opLines = wrapText(ctx, opening, w - 120, 3);
+  const opLines = wrapText(ctx, va.opening, w - 120, 3);
   opLines.forEach((line, i) => {
     ctx.fillText(line, w / 2, startY + i * 38);
   });
@@ -345,11 +397,11 @@ function drawVisualAnchorsCard(
     ctx.font = 'bold 28px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillStyle = GOLD;
-    ctx.fillText(safeText(item.val), ix + colW / 2, iy + 24);
+    ctx.fillText(item.val, ix + colW / 2, iy + 24);
 
     ctx.font = '20px sans-serif';
     ctx.fillStyle = WHITE_DIM;
-    ctx.fillText(safeText(item.label), ix + colW / 2, iy + 60);
+    ctx.fillText(item.label, ix + colW / 2, iy + 60);
   });
 }
 
@@ -370,16 +422,15 @@ function drawCelebrityCard(
     ctx.font = 'bold 26px sans-serif';
     ctx.textAlign = 'left';
     ctx.fillStyle = GOLD;
-    ctx.fillText(safeText(c.name), 80, y + 32);
+    ctx.fillText(c.name, 80, y + 32);
 
     ctx.font = '20px sans-serif';
     ctx.fillStyle = WHITE_DIM;
-    ctx.fillText(safeText(c.title), 80, y + 58);
+    ctx.fillText(c.title, 80, y + 58);
 
     ctx.font = '20px sans-serif';
     ctx.fillStyle = WHITE;
-    const reason = safeText(c.reason);
-    const reasonTrunc = truncateText(ctx, reason, w - 280);
+    const reasonTrunc = truncateText(ctx, c.reason, w - 280);
     ctx.textAlign = 'right';
     ctx.fillText(reasonTrunc, w - 80, y + 50);
 
@@ -397,8 +448,7 @@ function drawAdviceCard(
   ctx.font = '26px sans-serif';
   ctx.textAlign = 'left';
   ctx.fillStyle = WHITE;
-  const advice = safeText(report.weeklyAdvice || '做自己，就是最好的建议。');
-  const lines = wrapText(ctx, advice, w - 120, 10);
+  const lines = wrapText(ctx, report.weeklyAdvice || '做自己，就是最好的建议。', w - 120, 10);
   lines.forEach((line, i) => {
     ctx.fillText(line, 60, y + i * 44);
   });
@@ -410,8 +460,7 @@ function drawAdviceCard(
     ctx.textAlign = 'center';
     ctx.fillStyle = WHITE_DIM;
 
-    const quote = `"${safeText(report.quote)}"`;
-    const qLines = wrapText(ctx, quote, w - 160, 4);
+    const qLines = wrapText(ctx, `"${report.quote}"`, w - 160, 4);
     qLines.forEach((line, i) => {
       ctx.fillText(line, w / 2, y + i * 38);
     });
@@ -428,13 +477,23 @@ function drawPoster(
   cardIndex: number,
   shareCopy: MatchedShareCopy,
 ) {
+  const t0 = typeof performance !== 'undefined' ? performance.now() : 0;
+
+  // P1: safeText 预计算 — 一次正则扫描替代 33 次重复调用
+  const safeReport = sanitizeReport(report);
+  const safeShareText = safeText(shareCopy.primaryText);
+
   drawBg(ctx, cssW, cssH);
   drawTopDecoration(ctx, cssW);
-  drawPersonaLabel(ctx, cssW, report.personaLabel);
-  drawIdentityBadge(ctx, cssW, report.identityBadge);
+  drawPersonaLabel(ctx, cssW, safeReport.personaLabel);
+  drawIdentityBadge(ctx, cssW, safeReport.identityBadge);
   drawCardTitle(ctx, cssW, cardIndex);
-  drawCardContent(ctx, cssW, cssH, report, cardIndex);
-  drawFooter(ctx, cssW, cssH, shareCopy.primaryText);
+  drawCardContent(ctx, cssW, cssH, safeReport, cardIndex);
+  drawFooter(ctx, cssW, cssH, safeShareText);
+
+  if (t0 > 0) {
+    console.log(`[PosterCanvas] card${cardIndex} 绘制耗时: ${(performance.now() - t0).toFixed(0)}ms`);
+  }
 }
 
 // ══════ React 组件 ══════
@@ -458,7 +517,7 @@ export default function PosterCanvas({
         // H5: 标准 Canvas API
         const canvas = document.getElementById(canvasId) as HTMLCanvasElement | null;
         if (!canvas) { drawnRef.current = false; return; }
-        const dpr = window.devicePixelRatio || 1;
+        const dpr = Math.min(window.devicePixelRatio || 2, 2);
         canvas.width = Math.ceil(width * dpr);
         canvas.height = Math.ceil(height * dpr);
         canvas.style.width = `${width}px`;
@@ -466,7 +525,9 @@ export default function PosterCanvas({
         const ctx = canvas.getContext('2d');
         if (!ctx) { drawnRef.current = false; return; }
         ctx.scale(dpr, dpr);
+        const t0 = performance.now();
         drawPoster(ctx, width, height, report, cardIndex, shareCopy);
+        console.log(`[PosterCanvas] H5 总耗时: ${(performance.now() - t0).toFixed(0)}ms DPR=${dpr}`);
       } else {
         // 小程序: Taro Canvas 2D API
         Taro.nextTick(() => {
@@ -488,7 +549,7 @@ export default function PosterCanvas({
 
               let dpr = 2;
               try {
-                dpr = Taro.getSystemInfoSync().pixelRatio;
+                dpr = Math.min(Taro.getSystemInfoSync().pixelRatio, 2);
               } catch { /* keep 2 */ }
 
               canvas.width = Math.ceil(cssW * dpr);

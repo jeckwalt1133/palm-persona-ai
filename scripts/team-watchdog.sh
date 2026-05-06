@@ -1,5 +1,5 @@
 #!/bin/bash
-# 富贵军团 团队守护进程 — 4人独立会话全部自动恢复
+# 富贵军团 团队守护进程 — 7人独立会话全部自动恢复
 #
 # 启动：nohup bash scripts/team-watchdog.sh &
 # 停止：kill $(cat /tmp/team-watchdog.pid)
@@ -12,6 +12,8 @@ LOGFILE="/tmp/team-watchdog.log"
 PROJECT_DIR="/mnt/d/Claude/Workspace/palm-persona-ai"
 ENV_FILE="$PROJECT_DIR/server/.env"
 CHECK_INTERVAL=60
+CLAUDE_BIN="/home/fugui/.npm/_npx/2fdb3b6849710270/node_modules/@anthropic-ai/claude-agent-sdk-linux-x64/claude"
+# 备选：npm install -g @anthropic-ai/claude-code 后自动更新路径
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOGFILE"; }
 
@@ -56,10 +58,29 @@ ROLE_NAME["nie"]="聂富贵"
 ROLE_MODEL["nie"]="${ANTHROPIC_MODEL_NIE:-deepseek-v4-pro}"
 ROLE_BOOTSTRAP["nie"]="memory/bootstrap.md"
 ROLE_IDENTITY["nie"]="你是聂富贵，富贵军团的老师/Tech Lead。职责：架构决策、任务拆解、团队协调、代码审查。你的产出是Task Prompt和审查意见，不是直接写代码。你也在学习——不要固步自封。"
-ROLE_EXPERTISE["nie"]="擅长：系统架构、团队管理、方法论设计。弱项：过度介入细节、产品感性判断。当前任务：协调4人团队、推动V7方法论进化。"
+ROLE_EXPERTISE["nie"]="擅长：系统架构、团队管理、方法论设计。弱项：过度介入细节、产品感性判断。当前任务：协调7人团队、推动V7方法论进化。"
 
-# 聂富贵由主会话管理，watchdog只管理3个学生会话
-STUDENT_ROLES=("ma" "wang" "zhou")
+ROLE_NAME["zhao"]="赵富贵"
+ROLE_MODEL["zhao"]="deepseek-v4"
+ROLE_BOOTSTRAP["zhao"]="memory/bootstrap-zhao.md"
+ROLE_IDENTITY["zhao"]="你是赵富贵，富贵军团前端工程师/P6。专注Taro多端开发、Canvas 2D渲染、SCSS动画、H5适配。首轮任务V7-W5-006：分享海报Canvas性能优化。"
+ROLE_EXPERTISE["zhao"]="擅长：Taro多端、Canvas 2D、SCSS动画、前端性能优化。弱项：服务端开发、安全合规。当前任务：分析PosterCanvas.tsx渲染瓶颈，目标<500ms。"
+
+ROLE_NAME["qian"]="钱富贵"
+ROLE_MODEL["qian"]="deepseek-v4"
+ROLE_BOOTSTRAP["qian"]="memory/bootstrap-qian.md"
+ROLE_IDENTITY["qian"]="你是钱富贵，富贵军团后端工程师/P6。专注Fastify API、数据库设计、部署运维、性能调优。首轮任务V7-W5-007：全API端点p99延迟基线审计。"
+ROLE_EXPERTISE["qian"]="擅长：API设计、数据库优化、CI/CD、性能基准测试。弱项：前端开发、文案审美。当前任务：curl遍历所有端点记录p99延迟。"
+
+ROLE_NAME["sun"]="孙富贵"
+ROLE_MODEL["sun"]="doubao-seed-2-0-pro-260215"
+ROLE_BASE_URL["sun"]="http://127.0.0.1:8787/v1/messages"
+ROLE_BOOTSTRAP["sun"]="memory/bootstrap-sun.md"
+ROLE_IDENTITY["sun"]="你是孙富贵，富贵军团增长运营/P5。北极星指标是掌心人格局的DAU和留存率。首轮任务：竞品追踪报告。"
+ROLE_EXPERTISE["sun"]="擅长：用户增长、内容营销、数据分析、竞品追踪。弱项：代码开发、安全合规。当前任务：WebSearch扫描7大竞品2026年5月最新更新。"
+
+# 聂富贵由主会话管理，watchdog只管理6个Agent会话
+STUDENT_ROLES=("ma" "wang" "zhou" "zhao" "qian" "sun")
 
 # ============================================================
 # 公网隧道守护
@@ -198,7 +219,7 @@ launch_session() {
   sleep 0.3
 
   # 3. 启动 Claude Code
-  tmux send-keys -t "$session" "claude --permission-mode acceptEdits" Enter
+  tmux send-keys -t "$session" "$CLAUDE_BIN --dangerously-skip-permissions" Enter
   sleep 5
 
   # 4. 注入身份 + bootstrap + 跨学习提示

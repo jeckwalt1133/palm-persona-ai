@@ -71,7 +71,7 @@ PATTERNS = [
     {
         "id": "PAT-005",
         "name": "GitHub Fine-grained PAT",
-        "pattern": r'github_pat_[a-zA-Z0-9_]{36,}',
+        "pattern": r'github_pat_[a-zA-Z0-9_]{30,}',
         "severity": "critical",
         "description": "GitHub细粒度个人访问令牌(v2)",
         "remediation": "在GitHub Settings中作废",

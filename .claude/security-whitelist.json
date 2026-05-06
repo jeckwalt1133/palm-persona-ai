@@ -1,4 +1,13 @@
 {
-  "whitelist": [],
-  "updatedAt": "2026-05-05T21:51:30.357292+00:00"
+  "whitelist": [
+    {
+      "pattern": "L1-08",
+      "file": "curriculum/guest-modules/zhou-security-03.md",
+      "reason": "安全教学模块中的教学示例代码，非真实密码",
+      "expires": "2026-05-07T11:31:09.502700+00:00",
+      "approver": "nie",
+      "createdAt": "2026-05-06T11:31:09.502714+00:00"
+    }
+  ],
+  "updatedAt": "2026-05-06T11:31:09.502856+00:00"
 }

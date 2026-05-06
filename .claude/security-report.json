@@ -1,5 +1,5 @@
 {
-  "scanTime": "2026-05-05T22:11:33.231769+00:00",
+  "scanTime": "2026-05-06T11:31:16.517986+00:00",
   "scanner": "pre-commit-security.py",
   "version": "3.0.0",
   "architecture": "三层防线 (L1阻断/L2警告/L3记录)",
@@ -9,23 +9,156 @@
     "L1_critical": 0,
     "L2_total": 0,
     "L2_warnings": 0,
-    "L3_total": 0
+    "L3_total": 12
   },
   "summary": {
-    "filesScanned": 2,
+    "filesScanned": 1,
     "filesSkipped": 0,
-    "totalFindings": 0,
+    "totalFindings": 12,
     "criticalFindings": 0,
     "highFindings": 0,
-    "infoRecords": 0,
+    "infoRecords": 12,
     "blocked": false
   },
   "findings": {
     "L1": [],
     "L2": [],
-    "L3": []
+    "L3": [
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+493",
+        "match": "console.warn(`[安全告警] ${a.type} (${a.severity})",
+        "context": "console.warn(`[安全告警] ${a.type} (${a.severity}): ${a.detail}`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+597",
+        "match": "localhost:",
+        "context": "curl \"http://localhost:3000/api/xxx?q='%20OR%20'1'='1\"",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+598",
+        "match": "localhost:",
+        "context": "curl \"http://localhost:3000/api/xxx?q=1'%3B%20DROP%20TABLE%20users%3B--\"",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+599",
+        "match": "localhost:",
+        "context": "curl \"http://localhost:3000/api/xxx?q=1%20UNION%20SELECT%20*%20FROM%20users\"",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+606",
+        "match": "localhost:",
+        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+609",
+        "match": "localhost:",
+        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+620",
+        "match": "localhost:",
+        "context": "\"http://localhost:3000/api/login\" \\",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+631",
+        "match": "localhost:",
+        "context": "curl \"http://localhost:3000/api/xxx?a=1&a=2&a=3\"  # 重复参数",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+632",
+        "match": "localhost:",
+        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+635",
+        "match": "localhost:",
+        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+643",
+        "match": "localhost:",
+        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "curriculum/guest-modules/zhou-security-03.md",
+        "line": "+656",
+        "match": "localhost:",
+        "context": "\" | curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "remediation": "使用环境变量或配置文件管理地址"
+      }
+    ]
   },
   "whitelist": {
-    "active": 0
+    "active": 1
   }
 }
