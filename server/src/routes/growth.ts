@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { growthRepository } from '../services/growth/growth-repository.js';
+import { growthRepo as growthRepository } from '../repository/index.js';
 
 export async function growthRoutes(app: FastifyInstance) {
   // 每日签到

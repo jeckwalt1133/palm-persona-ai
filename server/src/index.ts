@@ -19,8 +19,12 @@ import { adminRoutes } from './routes/admin.js';
 import { complianceRoutes } from './routes/compliance.js';
 import { analysisService } from './services/analysis-service.js';
 import { createAiProvider } from './ai/index.js';
+import { migrate } from './db/migrate.js';
 
 async function main() {
+  // SQLite 迁移 — 确保表结构就绪
+  migrate();
+
   const config = loadConfig();
   const aiProvider = createAiProvider(config);
   analysisService.setAiProvider(aiProvider);

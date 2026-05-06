@@ -35,6 +35,10 @@ export class SqliteReportRepository implements ReportRepository {
 
   async save(report: PersonaReport): Promise<void> {
     const now = new Date().toISOString();
+    // 如果 user 不存在则自动创建匿名用户，满足 FK 约束
+    const userId = (report as any).userId || 'anon-default';
+    this.ensureUser(userId);
+
     this.db
       .prepare(
         `INSERT OR REPLACE INTO "report"(
@@ -47,7 +51,7 @@ export class SqliteReportRepository implements ReportRepository {
       )
       .run(
         report.id,
-        '', // user_id 由调用方在保存前设置（或后续关联）
+        userId,
         report.personaType,
         report.personaLabel,
         JSON.stringify(report.scores),
@@ -95,6 +99,19 @@ export class SqliteReportRepository implements ReportRepository {
       .prepare('SELECT * FROM "report" WHERE "user_id"=? ORDER BY "created_at" DESC')
       .all(userId) as unknown as ReportRow[];
     return rows.map(rowToReport);
+  }
+
+  /** 确保用户行存在 — 满足 FK 约束 */
+  private ensureUser(userId: string): void {
+    const exists = this.db.prepare('SELECT "id" FROM "user" WHERE "id"=?').get(userId);
+    if (!exists) {
+      const now = new Date().toISOString();
+      this.db
+        .prepare(
+          'INSERT INTO "user"("id","nickname","avatar_url","palm_image_count","unlocked_lines_json","created_at","updated_at") VALUES(?,?,?,?,?,?,?)',
+        )
+        .run(userId, null, null, 0, '[]', now, now);
+    }
   }
 
   /** 更新报告的合规检查状态 */

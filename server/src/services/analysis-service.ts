@@ -3,15 +3,15 @@ import { MockPalmFeatureExtractor } from '../engine/palm-feature-extractor.js';
 import { ResonanceNarrativeEngine } from '../engine/resonance-narrative-engine.js';
 import { MockResonanceNarrativeEngine } from '../engine/resonance-narrative-engine.js';
 import { ReportRepository } from '../repository/report-repository.js';
-import { InMemoryReportRepository } from '../repository/report-repository.js';
+import { reportRepo } from '../repository/index.js';
 import { ContentSafety, defaultSafety } from '../safety/content-safety.js';
 import { AiProvider, MockAiProvider } from '../ai/index.js';
 import { PersonaReport, AnalysisContext } from '../engine/types.js';
 import { seedDemoReports } from '../seed/reports.js';
 import { ReportAgent } from '../agent/report-agent.js';
 
-// 共享存储，供 ReportAgent 和 AnalysisService 共用
-export const sharedRepo = new InMemoryReportRepository();
+// SQLite 共享存储，供 ReportAgent 和 AnalysisService 共用
+export const sharedRepo = reportRepo;
 
 export interface AnalysisService {
   analyze(imageBase64: string, context?: AnalysisContext): Promise<PersonaReport>;

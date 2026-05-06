@@ -9,14 +9,21 @@ let instance: DatabaseSync | null = null;
 /** 获取数据库单例 — 自动启用WAL模式+外键约束 */
 export function getDb(dbPath?: string): DatabaseSync {
   if (!instance) {
-    const target = dbPath ?? DB_PATH;
-    const dir = path.dirname(target);
-    // DatabaseSync 不会自动创建目录
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+    // 测试环境使用内存数据库，避免并行测试文件锁冲突
+    const isTest = process.env.NODE_ENV === 'test' || process.env.VITEST === 'true';
+    const target = dbPath ?? (isTest ? ':memory:' : DB_PATH);
+
+    if (target !== ':memory:') {
+      const dir = path.dirname(target);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
     }
+
     instance = new DatabaseSync(target);
-    instance.exec('PRAGMA journal_mode=WAL');
+    if (target !== ':memory:') {
+      instance.exec('PRAGMA journal_mode=WAL');
+    }
     instance.exec('PRAGMA foreign_keys=ON');
     instance.exec('PRAGMA busy_timeout=5000');
   }

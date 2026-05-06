@@ -43,6 +43,7 @@ export const LINE_LABELS: Record<string, string> = {
   career: '行动密码',
 };
 
+/** 内存实现 — 保留用于测试 */
 export class InMemoryGrowthRepository implements GrowthRepository {
   private store = new Map<string, CheckInRecord>();
   private unlocks = new Map<string, UnlockState>();
@@ -116,4 +117,6 @@ export class InMemoryGrowthRepository implements GrowthRepository {
   }
 }
 
+/** 生产单例已迁移至 repository/index.ts — 使用 growthRepo */
+/** @deprecated 仅测试保留，生产代码请使用 repository/index.ts 的 growthRepo */
 export const growthRepository = new InMemoryGrowthRepository();

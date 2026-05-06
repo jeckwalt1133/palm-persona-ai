@@ -16,6 +16,7 @@ import { ResonanceNarrativeEngine, MockResonanceNarrativeEngine } from './resona
 import { ContentSafety, defaultSafety } from '../safety/content-safety.js';
 import { runComplianceGate } from '../safety/compliance-gate.js';
 import { AiProvider, MockAiProvider } from '../ai/index.js';
+import { runAllWorkers, assembleReport, buildContext, type AllWorkerResults } from './report-workers.js';
 import {
   PalmFeatures,
   PersonaScore,
@@ -238,37 +239,18 @@ export async function runPipeline(
   // 构建视觉锚点
   const visualAnchors = buildVisualAnchors(features);
 
-  // Worker 3 + Worker 4: 并行执行
+  // Worker 3-7: 5Worker 并行报告内容生成 (T006/V7-W5-021)
   const t3 = Date.now();
-  const [narrativeResult, socialResult] = await Promise.all([
-    writeNarrative(scores, visualAnchors, d.ai, d.narrative),
-    writeSocial(scores, d.ai),
-  ]);
+  const workerCtx = buildContext(scores, visualAnchors, d.ai, d.narrative);
+  const workerResults: AllWorkerResults = await runAllWorkers(workerCtx);
   const narrativeMs = Date.now() - t3;
-  const socialMs = 0; // 并行计时在 narrativeMs 中
+  const socialMs = 0; // 5 Worker 并行计时在 narrativeMs 中
 
-  // Worker 5: 合规安全门禁
+  // 聚合报告
+  let report: PersonaReport = assembleReport(features.hash, scores, visualAnchors, workerResults);
+
+  // Worker 8: 合规安全门禁
   const t5 = Date.now();
-  let report: PersonaReport = {
-    id: features.hash,
-    createdAt: new Date().toISOString(),
-    personaType: narrativeResult.personaType,
-    personaLabel: narrativeResult.personaLabel,
-    scores,
-    summary: narrativeResult.summary,
-    insights: narrativeResult.insights,
-    keywords: scores.map(s => s.label),
-    quote: narrativeResult.quote,
-    suspenseText: narrativeResult.suspenseText,
-    coreTruth: narrativeResult.coreTruth,
-    weeklyAdvice: narrativeResult.weeklyAdvice,
-    visualAnchors,
-    identityBadge: narrativeResult.identityBadge,
-    adTeaser: narrativeResult.adTeaser,
-    relationshipCode: socialResult.relationshipCode,
-    celebrityMatches: socialResult.celebrityMatches,
-  };
-
   const complianceResult = runComplianceGate(report, d.safety);
   report = complianceResult.report;
   const safetyMs = Date.now() - t5;
