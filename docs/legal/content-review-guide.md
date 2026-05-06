@@ -158,4 +158,4 @@ AI 生成分析报告
 
 ---
 
-*本指南与实际代码实现（`server/src/safety/content-filter.ts`、`apps/miniapp/src/utils/shareCopy.ts` 合规校验）保持一致。当两者有冲突时，以代码实现为准。*
+*本指南与实际代码实现（`server/src/safety/content-safety.ts`、`apps/miniapp/src/utils/shareCopy.ts` 合规校验）保持一致。当两者有冲突时，以代码实现为准。*
