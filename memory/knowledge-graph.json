@@ -1,10 +1,10 @@
 {
-  "version": "2.2",
-  "updated": "2026-05-06T12:28:00Z",
+  "version": "2.3",
+  "updated": "2026-05-06T14:30:00Z",
   "description": "AI师生研究院 V7 知识图谱 — Layer 3 语义记忆。节点=概念/方法论/决策/产品，边=标准4型关系+3型扩展。",
   "stats": {
-    "nodeCount": 30,
-    "edgeCount": 50,
+    "nodeCount": 32,
+    "edgeCount": 55,
     "primaryRelations": [
       "precedes",
       "supports",
@@ -541,6 +541,24 @@
         "D009"
       ],
       "evidence": "2026-05-06 11:51 PreCompact时70文件未提交 → 12:10恢复后3笔提交收敛至干净树"
+    },
+    {
+      "id": "agent-router-push-efficiency",
+      "label": "Agent-Router推送模式效率跃迁",
+      "domain": "methodology",
+      "description": "从tmux send-keys手动派发(小时级延迟)到agent-router Card推送(分钟级响应)的效率跃迁。王富贵在收到任务2分钟内产出交付物。D016产品化闭环：协议设计→路由实现→实际验证。",
+      "relatedDecisions": [
+        "D016"
+      ]
+    },
+    {
+      "id": "convergence-rhythm-acceleration",
+      "label": "收敛节奏加速(被动→主动)",
+      "domain": "methodology",
+      "description": "提交频率从每4小时1次提升到每小时2次。CEO从被动等PreCompact压缩转为主动在<10文件时提交。收敛机制从'被迫'变成'节奏'。Round 2→5的5轮提交在6小时内完成。",
+      "relatedDecisions": [
+        "D009"
+      ]
     }
   ],
   "edges": [
@@ -843,6 +861,31 @@
       "to": "build-expand-dont-commit-pattern",
       "type": "governs",
       "label": "主动半程提交打破膨胀循环"
+    },
+    {
+      "from": "agent-router-push-efficiency",
+      "relation": "implements",
+      "to": "protocol-v7"
+    },
+    {
+      "from": "agent-router-push-efficiency",
+      "relation": "supports",
+      "to": "team-dashboard"
+    },
+    {
+      "from": "agent-router-push-efficiency",
+      "relation": "precedes",
+      "to": "one-person-company-organization"
+    },
+    {
+      "from": "convergence-rhythm-acceleration",
+      "relation": "extends",
+      "to": "precompact-forced-convergence"
+    },
+    {
+      "from": "convergence-rhythm-acceleration",
+      "relation": "supports",
+      "to": "build-expand-dont-commit-pattern"
     }
   ]
 }
