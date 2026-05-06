@@ -238,3 +238,107 @@ function safeTruncate(ctx, text, maxWidth) {
 > - ✅ 闭环可验证：`verifyTextOverflow()` 每次渲染后自动检测+报告平台标识
 > - ⚠️ 真机验证待执行：代码审查只能到这一步，需要在真实微信/抖音环境跑完6张卡片
 > - 💡 长期方案：引入 Noto Sans SC web font 统一字体是最彻底的解法
+
+---
+
+## 八、Round 3 验证证据 (V7-W5-020)
+
+> **日期**: 2026-05-06 第二轮 | **测试框架**: vitest + tsx 模拟
+
+### 8.1 textWrap 算法正确性 — 12 项单元测试
+
+```
+✅ wrapText 二分查找换行 (8 tests)
+  ✅ 空字符串返回空数组
+  ✅ 单行文本不换行
+  ✅ 超长文本正确换行 (20字/300px → 2行)
+  ✅ maxLines 限制行数
+  ✅ 单字符超宽不丢字符
+  ✅ 混合中英文正确换行
+  ✅ 英文长单词字符级拆分
+  ✅ 极端窄宽度不陷入死循环
+
+✅ truncateText 二分查找截断 (4 tests)
+  ✅ 短文本不需要截断
+  ✅ 超长文本截断加省略号
+  ✅ 单字符+省略号=刚好不溢出
+  ✅ 极端情况: 单字符也放不下 → 返回"..."
+```
+
+**测试文件**: `apps/miniapp/test/textWrap.test.ts`
+**运行结果**: 12/12 passed (vitest v3.2.4)
+
+### 8.2 跨平台字体模拟 — 9 用例 × 4 平台 = 36 检查点
+
+使用模拟的 `measureText` 对比 iOS (PingFang) / Android (Noto Sans) / Windows (YaHei) / Linux (Noto Sans) 四平台字体宽度：
+
+**正常文本 (6 用例)**:
+
+| 用例 | iOS maxW | Windows maxW | 差值 | 安全系数后 |
+|------|---------|-------------|------|-----------|
+| personaLabel | 400px | 414px | +14px | ✅ |
+| coreTruth | 626px | 614px | -12px | ✅ 562→581px |
+| signalPattern | 616px | 612px | -4px | ✅ |
+| shareText | 607px | 628px | +21px | ✅ 583→578px |
+| reason | 455px | 450px | -5px | ✅ |
+| opening | 616px | 612px | -4px | ✅ |
+
+**边界测试 (3 用例)**:
+
+| 用例 | 关键发现 |
+|------|---------|
+| 超长 coreTruth (35字) | Windows: 无安全系数 629px（距溢出 1px！），有安全系数: 3行 563px ✅ |
+| 超长关系文本 (32字) | Linux: 无安全系数 630px（**精确触及边界**），有安全系数: 581px ✅ |
+| 超宽 reason (28字) | Windows: 无安全系数 469px（距溢出 1px），有安全系数: 427px ✅ |
+
+**汇总**: 36/36 检查点通过，0 溢出风险。安全系数在 3 个边界用例中将 maxLineW 从 ~630px（距溢出 0-1px）降至 ~580px（安全余量 50px）。
+
+**模拟脚本**: `apps/miniapp/test/cross-platform-sim.ts`
+
+### 8.3 DPR 偏差结论
+
+经过代码审查 + 模拟验证，确认：
+
+```
+DPR 不影响 measureText 返回值。
+ctx.scale(dpr, dpr) 之后，measureText 和 fillText 都在 CSS 像素坐标系中运行。
+相同 font 属性（如 'bold 32px sans-serif'）在任何 DPR 下返回相同宽度。
+
+真正的跨平台变量: sans-serif → 不同 OS → 不同系统字体 → 不同 glyph metrics
+```
+
+### 8.4 代码变更清单 (Round 3)
+
+| 文件 | 状态 | 说明 |
+|------|:----:|------|
+| `PosterCanvas.tsx` | ✅ 已修复 | safeWrap/safeTruncate + verifyTextOverflow + getPlatformTag |
+| `textWrap.ts` | ✅ 无需改动 | 二分查找算法 12项测试全部通过 |
+| `test/textWrap.test.ts` | ✅ 新增 | 12 项单元测试覆盖边界用例 |
+| `test/cross-platform-sim.ts` | ✅ 新增 | 4平台 × 9用例 模拟验证脚本 |
+| `zhao-h5-multi-device-report.md` | ✅ 更新 | 追加 Round 3 验证证据（本章） |
+
+### 8.5 遗留待办（需真机）
+
+代码层面已穷尽可做的分析和修复。以下必须在真机上执行：
+
+1. `微信开发者工具` → 打开6张海报 → 目视检查文字溢出 → 截图保存
+2. `抖音开发者工具` → 同上 → 截图保存
+3. `H5 Chrome` → Device Mode (iPhone 14 Pro / Pixel 7) → 截图保存
+4. 三端截图放一起对比（推荐 Figma 叠加层或 pixelmatch diff）
+5. 查看 console 中 `[PosterCanvas] ✅/⚠️` 日志 → 确认无溢出警告
+6. 构造极端数据（超长 coreTruth / signalPattern）→ 验证截断行为
+
+### 8.6 全量测试通过记录
+
+```
+$ vitest run
+ ✓ test/placeholder.test.ts (1 test)
+ ✓ test/textWrap.test.ts (12 tests)    ← Round 3 新增
+ ✓ test/shareCopy.test.ts (5 tests)
+
+ Test Files  3 passed (3)
+      Tests  18 passed (18)
+
+$ npx tsc --noEmit
+ (no errors)                           ← TypeScript 零错误
+```
