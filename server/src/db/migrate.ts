@@ -5,6 +5,7 @@ import {
   DDL_CHECKIN,
   DDL_MATCH,
   DDL_INDEXES,
+  DDL_INDEXES_V3,
   DDL_MIGRATION,
 } from './schema.js';
 
@@ -29,6 +30,11 @@ const MIGRATIONS: Migration[] = [
       'CREATE INDEX IF NOT EXISTS "idx_match_status" ON "match"("status")',
       'CREATE INDEX IF NOT EXISTS "idx_match_expires" ON "match"("expires_at")',
     ],
+  },
+  {
+    version: 3,
+    name: 'add_fk_perf_indexes',
+    sql: DDL_INDEXES_V3,
   },
 ];
 

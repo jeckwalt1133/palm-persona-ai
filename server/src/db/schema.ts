@@ -77,6 +77,13 @@ export const DDL_INDEXES = [
   'CREATE INDEX IF NOT EXISTS "idx_checkin_user_date" ON "checkin"("user_id", "checkin_date")',
 ];
 
+/** v3 新增索引 — 消除剩余的全表扫描和临时排序 */
+export const DDL_INDEXES_V3 = [
+  'CREATE INDEX IF NOT EXISTS "idx_report_user_created" ON "report"("user_id", "created_at")',
+  'CREATE INDEX IF NOT EXISTS "idx_match_inviter" ON "match"("inviter_report_id")',
+  'CREATE INDEX IF NOT EXISTS "idx_match_joiner" ON "match"("joiner_report_id")',
+];
+
 // ─── 迁移版本表 ─────────────────────────────────────────
 
 export const DDL_MIGRATION = `
