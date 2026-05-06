@@ -18,6 +18,7 @@ export interface AnalysisService {
   getReport(id: string): Promise<PersonaReport | null>;
   listReports(): Promise<PersonaReport[]>;
   deleteReport(id: string): Promise<boolean>;
+  setFeedback(id: string, rating: number, comment?: string): Promise<boolean>;
   seedDemoData(): Promise<void>;
 }
 
@@ -58,6 +59,10 @@ export class MockAnalysisService implements AnalysisService {
 
   async deleteReport(id: string): Promise<boolean> {
     return this.repo.deleteById(id);
+  }
+
+  async setFeedback(id: string, rating: number, comment?: string): Promise<boolean> {
+    return this.repo.setFeedback(id, rating, comment);
   }
 
   setAiProvider(provider: AiProvider): void {

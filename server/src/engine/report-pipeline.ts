@@ -135,7 +135,7 @@ ${scores.map(s => `  ${s.dimension}(${s.dimensionKey}): ${s.score}分 — ${s.la
   "adTeaser": "广告解锁引导语(20字以内)",
   "insights": ["洞察1", "洞察2", "洞察3"]
 }` },
-    ], { temperature: 0.8, maxTokens: 1200 });
+    ], { temperature: 0.8, maxTokens: 1200, timeoutMs: 20000 });
 
     const parsed = JSON.parse(aiResult.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
     return {
@@ -205,7 +205,7 @@ ${scores.map(s => `  ${s.dimension}: ${s.score}分 — ${s.label}`).join('\n')}
     {"name": "...", "title": "...", "reason": "..."}
   ]
 }` },
-    ], { temperature: 0.9, maxTokens: 800 });
+    ], { temperature: 0.9, maxTokens: 800, timeoutMs: 15000 });
 
     const parsed = JSON.parse(aiResult.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
     return {

@@ -97,7 +97,7 @@ ${ctx.scores.map(s => `  ${s.dimension}(${s.dimensionKey}): ${s.score}分 — ${
     const raw = await ctx.ai.chat([
       { role: 'system', content: '你是掌心人格局的叙事引擎。要求：①走心不空泛 ②温和刺痛+精确共鸣 ③用"倾向于""更容易""大概率"弱化措辞。输出纯JSON。' },
       { role: 'user', content: prompt },
-    ], { temperature: 0.8, maxTokens: 800 });
+    ], { temperature: 0.8, maxTokens: 800, timeoutMs: 15000 });
 
     const parsed = JSON.parse(raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
     return {
@@ -163,7 +163,7 @@ ${ctx.scores.map(s => `  ${s.dimension}(${s.dimensionKey}): ${s.score}分 — ${
     const raw = await ctx.ai.chat([
       { role: 'system', content: '你是掌心人格局的洞察引擎。洞察要让人"卧槽这说的就是我"。要求：①温和刺痛+精确共鸣 ②正向赋能不恐吓 ③输出纯JSON。' },
       { role: 'user', content: prompt },
-    ], { temperature: 0.9, maxTokens: 600 });
+    ], { temperature: 0.9, maxTokens: 600, timeoutMs: 15000 });
 
     const parsed = JSON.parse(raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
     return {
@@ -251,7 +251,7 @@ ${ctx.scores.map(s => `  ${s.dimension}(${s.dimensionKey}): ${s.score}分 — ${
     const raw = await ctx.ai.chat([
       { role: 'system', content: '你是掌心人格局的人格分类引擎。根据五维分数+视觉锚点判定人格类型。输出纯JSON。' },
       { role: 'user', content: prompt },
-    ], { temperature: 0.6, maxTokens: 300 });
+    ], { temperature: 0.6, maxTokens: 300, timeoutMs: 10000 });
 
     const parsed = JSON.parse(raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
     return {
@@ -312,7 +312,7 @@ ${ctx.scores.map(s => `  ${s.dimension}: ${s.score}分 — ${s.label}`).join('\n
     const raw = await ctx.ai.chat([
       { role: 'system', content: '你是掌心人格局的关系分析引擎。根据五维人格分数分析关系模式+名人匹配。输出纯JSON。' },
       { role: 'user', content: prompt },
-    ], { temperature: 0.9, maxTokens: 800 });
+    ], { temperature: 0.9, maxTokens: 800, timeoutMs: 15000 });
 
     const parsed = JSON.parse(raw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim());
     return {

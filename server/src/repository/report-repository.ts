@@ -5,6 +5,7 @@ export interface ReportRepository {
   findById(id: string): Promise<PersonaReport | null>;
   findAll(): Promise<PersonaReport[]>;
   deleteById(id: string): Promise<boolean>;
+  setFeedback(id: string, rating: number, comment?: string): Promise<boolean>;
 }
 
 export class InMemoryReportRepository implements ReportRepository {
@@ -24,5 +25,9 @@ export class InMemoryReportRepository implements ReportRepository {
 
   async deleteById(id: string): Promise<boolean> {
     return this.reports.delete(id);
+  }
+
+  async setFeedback(_id: string, _rating: number, _comment?: string): Promise<boolean> {
+    return true; // 内存实现不持久化
   }
 }

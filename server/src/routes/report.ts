@@ -59,6 +59,7 @@ export async function reportRoutes(app: FastifyInstance) {
     }
 
     req.log.info({ reportId: id, rating, comment: body?.comment }, 'feedback received');
+    await analysisService.setFeedback(id, rating, body?.comment);
     return { success: true, message: '反馈已收到，感谢你的参与' };
   });
 

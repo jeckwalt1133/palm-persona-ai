@@ -1,5 +1,5 @@
 import { CompatibilityEngine, MockCompatibilityEngine } from '../engine/compatibility-engine.js';
-import { MatchRepository, InMemoryMatchRepository } from '../repository/match-repository.js';
+import { MatchRepository, SqliteMatchRepository } from '../repository/match-repository.js';
 import { ContentSafety, defaultSafety } from '../safety/content-safety.js';
 import { MatchInvite, CompatibilityResult, PersonaReport } from '../engine/types.js';
 import { simpleHash } from '../utils/hash.js';
@@ -29,7 +29,7 @@ export class MockMatchService implements MatchService {
   ) {
     this.engine = engine ?? new MockCompatibilityEngine();
     this.reportLookup = reportLookup;
-    this.matchRepo = matchRepo ?? new InMemoryMatchRepository();
+    this.matchRepo = matchRepo ?? new SqliteMatchRepository();
     this.safety = defaultSafety;
   }
 

@@ -55,6 +55,18 @@ CREATE TABLE IF NOT EXISTS "checkin" (
 ) STRICT;
 `;
 
+export const DDL_MATCH = `
+CREATE TABLE IF NOT EXISTS "match" (
+  "id"                TEXT PRIMARY KEY NOT NULL,
+  "inviter_report_id" TEXT NOT NULL REFERENCES "report"("id") ON DELETE CASCADE,
+  "joiner_report_id"  TEXT REFERENCES "report"("id") ON DELETE SET NULL,
+  "status"            TEXT NOT NULL DEFAULT 'pending',
+  "result_json"       TEXT,
+  "created_at"        TEXT NOT NULL,
+  "expires_at"        TEXT NOT NULL
+) STRICT;
+`;
+
 // ─── 索引 ───────────────────────────────────────────────
 
 export const DDL_INDEXES = [
@@ -120,6 +132,16 @@ export interface CheckinRow {
   total_days: number;
   reward: string | null;
   created_at: string;
+}
+
+export interface MatchRow {
+  id: string;
+  inviter_report_id: string;
+  joiner_report_id: string | null;
+  status: string;
+  result_json: string | null;
+  created_at: string;
+  expires_at: string;
 }
 
 export interface MigrationRow {

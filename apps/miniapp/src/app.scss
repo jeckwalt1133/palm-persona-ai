@@ -51,6 +51,9 @@ page[data-theme="dark"] {
   --shadow-gold: 0 0 24rpx rgba(255, 209, 102, 0.15);
   --shadow-card: 0 0 16rpx rgba(255, 209, 102, 0.2);
 
+  /* 模糊遮罩 */
+  --color-blur-overlay: rgba(15, 15, 25, 0.95);
+
   /* 导航栏 */
   --nav-bar-bg: #1B1035;
   --nav-bar-text: #ffffff;
@@ -99,6 +102,9 @@ page[data-theme="light"] {
   /* 阴影 */
   --shadow-gold: 0 0 24rpx rgba(139, 105, 20, 0.12);
   --shadow-card: 0 0 16rpx rgba(139, 105, 20, 0.15);
+
+  /* 模糊遮罩 */
+  --color-blur-overlay: rgba(245, 240, 255, 0.95);
 
   /* 导航栏 */
   --nav-bar-bg: #F5F0FF;

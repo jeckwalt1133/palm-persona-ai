@@ -880,7 +880,7 @@
   left: 0;
   right: 0;
   height: 80rpx;
-  background: linear-gradient(transparent, rgba(15, 15, 25, 0.95));
+  background: linear-gradient(transparent, var(--color-blur-overlay, rgba(15, 15, 25, 0.95)));
   display: flex;
   align-items: flex-end;
   justify-content: center;

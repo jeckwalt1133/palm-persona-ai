@@ -57,7 +57,11 @@ async function main() {
     reply.header('X-Response-Time', reply.elapsedTime.toFixed(2) + 'ms');
   });
 
-  await app.register(cors, { origin: true });
+  await app.register(cors, {
+    origin: config.nodeEnv === 'production'
+      ? [/\.palm-persona\.cn$/, /localhost:\d+$/]
+      : true,
+  });
   await app.register(fastifyMultipart);
 
   await app.register(healthRoutes, { prefix: '/api' });

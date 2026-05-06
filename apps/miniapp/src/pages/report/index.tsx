@@ -238,20 +238,16 @@ export default function ReportPage() {
   };
 
   const [fetched, setFetched] = useState(false);
-  const [keywordFetched, setKeywordFetched] = useState(false);
-  const [checkinFetched, setCheckinFetched] = useState(false);
-  if (!fetched) {
-    fetchReport();
-    setFetched(true);
-  }
-  if (!keywordFetched) {
-    fetchDailyKeyword();
-    setKeywordFetched(true);
-  }
-  if (!checkinFetched) {
-    fetchCheckInData();
-    setCheckinFetched(true);
-  }
+
+  useEffect(() => {
+    if (!fetched) {
+      setFetched(true);
+      fetchReport();
+      fetchDailyKeyword();
+      fetchCheckInData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ── 签到 ──
   const handleCheckIn = async () => {
@@ -551,9 +547,11 @@ export default function ReportPage() {
             <Text className="suspense-text">{report.adTeaser ?? report.suspenseText}</Text>
           </View>
 
+          {process.env.NODE_ENV !== 'production' && (
           <View className="dev-unlock" onClick={() => setUnlockLevel('adUnlocked')}>
             <Text className="dev-unlock-text">[开发模式] 跳过广告</Text>
           </View>
+          )}
         </View>
       )}
 

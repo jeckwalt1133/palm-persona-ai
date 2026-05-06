@@ -95,10 +95,15 @@ export default function CapturePage() {
     }
   }, []);
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!imagePath) return;
     setAnalyzing(true);
-    doUpload(imagePath);
+    try {
+      await doUpload(imagePath);
+    } catch {
+      setAnalyzing(false);
+      Taro.showToast({ title: '网络信号不太好——换一个姿势试试？', icon: 'none', duration: 3000 });
+    }
   };
 
   const handleProgressComplete = () => {

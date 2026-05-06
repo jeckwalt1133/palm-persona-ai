@@ -3,6 +3,7 @@ import {
   DDL_USER,
   DDL_REPORT,
   DDL_CHECKIN,
+  DDL_MATCH,
   DDL_INDEXES,
   DDL_MIGRATION,
 } from './schema.js';
@@ -19,6 +20,15 @@ const MIGRATIONS: Migration[] = [
     version: 1,
     name: 'init_user_report_checkin',
     sql: [DDL_USER, DDL_REPORT, DDL_CHECKIN, DDL_MIGRATION, ...DDL_INDEXES],
+  },
+  {
+    version: 2,
+    name: 'add_match_table',
+    sql: [
+      DDL_MATCH,
+      'CREATE INDEX IF NOT EXISTS "idx_match_status" ON "match"("status")',
+      'CREATE INDEX IF NOT EXISTS "idx_match_expires" ON "match"("expires_at")',
+    ],
   },
 ];
 

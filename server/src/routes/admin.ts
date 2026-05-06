@@ -14,7 +14,10 @@ import { FastifyInstance } from 'fastify';
 import { defaultSafetyLogger } from '../safety/safety-logger.js';
 import { defaultEscapeRoom } from '../safety/escape-room.js';
 
-const ADMIN_KEY = process.env.ADMIN_KEY || 'palm-admin-dev-key';
+const ADMIN_KEY = process.env.ADMIN_KEY;
+if (!ADMIN_KEY) {
+  console.warn('[admin] ADMIN_KEY 环境变量未设置，管理API已禁用');
+}
 
 const WINDOW_MAP: Record<string, number> = {
   hourly: 3600_000,
@@ -24,6 +27,9 @@ const WINDOW_MAP: Record<string, number> = {
 
 export async function adminRoutes(app: FastifyInstance): Promise<void> {
   app.addHook('onRequest', async (req, reply) => {
+    if (!ADMIN_KEY) {
+      return reply.status(503).send({ error: 'Admin API 未配置 — 请设置 ADMIN_KEY 环境变量' });
+    }
     const key = req.headers['x-admin-key'];
     if (!key || key !== ADMIN_KEY) {
       return reply.status(401).send({ error: 'Admin key required' });
