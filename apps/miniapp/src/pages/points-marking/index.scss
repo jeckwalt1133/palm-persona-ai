@@ -1,6 +1,6 @@
 .points-marking-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #1B1035 0%, #2D1B69 100%);
+  background: linear-gradient(180deg, var(--color-bg-primary) 0%, #2D1B69 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,7 +8,7 @@
 }
 
 .guide-text {
-  color: #FFD166;
+  color: var(--color-accent-gold);
   font-size: 32rpx;
   margin-bottom: 48rpx;
   text-align: center;
@@ -34,7 +34,7 @@
   width: 24rpx;
   height: 24rpx;
   border-radius: 50%;
-  background: #EF476F;
+  background: var(--color-accent-pink);
   transform: translate(-50%, -50%);
 }
 
@@ -44,7 +44,7 @@
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
-  color: #FFD166;
+  color: var(--color-accent-gold);
   font-size: 22rpx;
 }
 
@@ -62,10 +62,10 @@
 
 .btn-reset {
   background: rgba(255, 255, 255, 0.1);
-  color: #FFFFFF;
+  color: var(--color-text-primary);
 }
 
 .btn-confirm {
-  background: linear-gradient(135deg, #FFD166, #EF476F);
-  color: #1B1035;
+  background: var(--gradient-accent);
+  color: var(--color-bg-primary);
 }

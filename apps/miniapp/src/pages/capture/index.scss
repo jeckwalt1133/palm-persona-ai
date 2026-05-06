@@ -136,11 +136,11 @@
 
 .btn-analyze {
   padding: 24rpx 72rpx;
-  background: linear-gradient(135deg, var(--color-accent-pink), #FF6B8A);
+  background: var(--gradient-btn);
   border-radius: 48rpx;
   font-size: 28rpx;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-text-primary);
 }
 
 .capture-disclaimer {

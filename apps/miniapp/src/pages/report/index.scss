@@ -47,14 +47,14 @@
 .tone-btn-active {
   background: rgba(255, 209, 102, 0.15);
   border-color: rgba(255, 209, 102, 0.4);
-  color: #FFD166;
+  color: var(--color-accent-gold);
   font-weight: 600;
 }
 
 .tone-btn-sharp {
   background: rgba(239, 71, 111, 0.15);
   border-color: rgba(239, 71, 111, 0.4);
-  color: #EF476F;
+  color: var(--color-accent-pink);
 }
 
 /* ── 人格变化提醒 ── */
@@ -73,7 +73,7 @@
   width: 12rpx;
   height: 12rpx;
   border-radius: 50%;
-  background: #06D6A0;
+  background: var(--color-accent-cyan);
   margin-top: 8rpx;
   flex-shrink: 0;
   animation: change-pulse 2s ease-in-out infinite;
@@ -94,7 +94,7 @@
 .persona-change-title {
   font-size: 30rpx;
   font-weight: 700;
-  color: #06D6A0;
+  color: var(--color-accent-cyan);
 }
 
 .persona-change-text {
@@ -444,7 +444,7 @@
 .score-name {
   font-size: 28rpx;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-text-primary);
 }
 
 .score-num {
@@ -948,11 +948,11 @@
   top: 0;
   right: 0;
   padding: 6rpx 16rpx;
-  background: linear-gradient(135deg, #FF6B8A, #FF4757);
+  background: linear-gradient(135deg, var(--color-accent-pink-alt), #FF4757);
   border-radius: 0 16rpx 0 16rpx;
   font-size: 20rpx;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-text-primary);
   line-height: 1.4;
 }
 
@@ -1004,7 +1004,7 @@
 .modal-content {
   width: 100%;
   max-width: 580rpx;
-  background: #1a1a2e;
+  background: var(--color-bg-primary);
   border-radius: 32rpx;
   padding: 40rpx 32rpx;
   display: flex;
@@ -1145,11 +1145,11 @@
 
 .btn-home {
   padding: 24rpx 80rpx;
-  background: linear-gradient(135deg, var(--color-accent-pink), #FF6B8A);
+  background: var(--gradient-btn);
   border-radius: 48rpx;
   font-size: 28rpx;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-text-primary);
 }
 
 .btn-share {
