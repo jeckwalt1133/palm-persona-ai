@@ -28,3 +28,6 @@
 {"ts":"2026-05-06T16:52:46Z","author":"富贵军团","branch":"main","commit":"6269294bc696806cfc38b0b30910c0adc6bbfeda","files":9,"lines":0,"scanMs":1303,"L1":0,"L2":0,"L3":0,"blocked":false,"rulesHit":[],"L3rulesHit":[]}
 {"ts":"2026-05-06T16:52:50Z","author":"富贵军团","branch":"main","commit":"10998e87abf40379c1c08b8c8beda17e6bb6cd7d","files":9,"lines":0,"scanMs":159,"L1":0,"L2":0,"L3":0,"blocked":false,"rulesHit":[],"L3rulesHit":[]}
 {"ts":"2026-05-06T16:53:05Z","author":"富贵军团","branch":"main","commit":"10998e87abf40379c1c08b8c8beda17e6bb6cd7d","files":1,"lines":0,"scanMs":485,"L1":0,"L2":0,"L3":0,"blocked":false,"rulesHit":[],"L3rulesHit":[]}
+{"ts":"2026-05-06T17:47:57Z","author":"富贵军团","branch":"main","commit":"72aa94556cd17636969ba9145bac754f77bac43d","files":2,"lines":0,"scanMs":511,"L1":0,"L2":0,"L3":0,"blocked":false,"rulesHit":[],"L3rulesHit":[]}
+{"ts":"2026-05-06T18:04:38Z","author":"富贵军团","branch":"main","commit":"5fb8f2239017aeba2352686458d40bad45614569","files":16,"lines":0,"scanMs":2202,"L1":0,"L2":0,"L3":2,"blocked":false,"rulesHit":[],"L3rulesHit":["L3-006", "L3-001"]}
+{"ts":"2026-05-06T18:52:26Z","author":"富贵军团","branch":"main","commit":"1579e9eb2f0cd1f89dff07627f6d34d402c59d69","files":6,"lines":0,"scanMs":1288,"L1":0,"L2":0,"L3":0,"blocked":false,"rulesHit":[],"L3rulesHit":[]}

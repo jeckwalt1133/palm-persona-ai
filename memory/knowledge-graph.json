@@ -1,10 +1,10 @@
 {
   "version": "2.4",
-  "updated": "2026-05-06T16:30:00Z",
+  "updated": "2026-05-06T18:28:09Z",
   "description": "AI师生研究院 V7 知识图谱 — Layer 3 语义记忆。节点=概念/方法论/决策/产品，边=标准4型关系+3型扩展。",
   "stats": {
-    "nodeCount": 33,
-    "edgeCount": 58,
+    "nodeCount": 35,
+    "edgeCount": 62,
     "primaryRelations": [
       "precedes",
       "supports",
@@ -568,6 +568,22 @@
       "relatedDecisions": [
         "D019"
       ]
+    },
+    {
+      "id": "security-hook-noise",
+      "label": "安全Hook文件噪声污染",
+      "domain": "engineering",
+      "description": ".claude/security-report.json + memory/security/commit-log.jsonl 出现于2026-05-06全部5个快照的uncommitted列表中。安全门禁auto-generated文件应加入.gitignore以减少git噪音，而非每次status都显示为modified。",
+      "source": "dream-log/2026-05-06-182809-dream.md 跨片段分析",
+      "created": "2026-05-06"
+    },
+    {
+      "id": "index-ts-integration-nexus",
+      "label": "server/src/index.ts 集成枢纽热文件",
+      "domain": "architecture",
+      "description": "2026-05-06全天5个快照中3个修改了index.ts。安全模块→SQLite→管理API→CORS每个子系统都需要在此注册路由/中间件。是架构集成的单点瓶颈——但不是坏味道，而是Fastify插件模式的必然结果。",
+      "source": "dream-log/2026-05-06-182809-dream.md 跨片段分析",
+      "created": "2026-05-06"
     }
   ],
   "edges": [
@@ -910,6 +926,30 @@
       "from": "ceo-commit-bandwidth-bottleneck",
       "relation": "contradicts",
       "to": "convergence-rhythm-acceleration"
+    },
+    {
+      "from": "security-hook-noise",
+      "relation": "contradicts",
+      "to": "build-expand-dont-commit-pattern",
+      "label": "Hook自动生成文件加剧uncommitted膨胀——每次status噪音+2文件"
+    },
+    {
+      "from": "security-hook-noise",
+      "relation": "supports",
+      "to": "ceo-commit-bandwidth-bottleneck",
+      "label": "Hook文件的持续modified状态增加CEO审查心智负担"
+    },
+    {
+      "from": "index-ts-integration-nexus",
+      "relation": "depends_on",
+      "to": "five-worker-pipeline",
+      "label": "index.ts注册的/admin /api路由依赖pipeline/analysis服务"
+    },
+    {
+      "from": "index-ts-integration-nexus",
+      "relation": "validates",
+      "to": "one-person-company-organization",
+      "label": "集成枢纽的热修改模式验证了一人公司架构：所有子系统通过单一入口收敛"
     }
   ]
 }
