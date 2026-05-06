@@ -1,0 +1,28 @@
+{
+  "taskId": "V7-W5-027",
+  "title": "分享全链路文案一致性审查 — 受邀横幅+落地页+12人格接住文案",
+  "assignee": "wang",
+  "assigneeName": "王富贵",
+  "priority": "P1",
+  "status": "dispatched",
+  "parentSprint": "V7-W5",
+  "description": "P0-1分享功能涉及3处用户可见文案：①index.tsx的invited-banner受邀横幅 ②share-landing的TEASER_BY_TYPE 12人格接住文案 ③share-landing的CTA+兜底文案。做全链路一致性审查，确保品牌语调统一、情感温度合适、转换引导有效。",
+  "acceptanceCriteria": [
+    "TEASER_BY_TYPE 12条hook+bridge逐一审查，温度标记",
+    "invited-banner文案审查 + 改进建议",
+    "share-landing CTA/兜底/社交证明文案审查",
+    "3处文案语调一致性检查",
+    "输出审查报告到 student-notebook/wang-share-copy-review.md"
+  ],
+  "deliverables": [
+    { "path": "student-notebook/wang-share-copy-review.md", "type": "review_report", "description": "分享全链路文案审查报告" }
+  ],
+  "context": {
+    "shareLandingTsx": "apps/miniapp/src/pages/share-landing/index.tsx L16-L29 (12人格TEASER_BY_TYPE)",
+    "indexTsx": "apps/miniapp/src/pages/index/index.tsx L164-L178 (invited-banner)",
+    "toneReference": "curriculum/guest-modules/copywriting-benchmarks.md",
+    "brandVoice": "温暖走心、温和刺痛、精确共鸣——禁用恐吓/焦虑/夸大"
+  },
+  "effortEstimate": "1-2小时",
+  "deadline": "2026-05-07"
+}

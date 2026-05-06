@@ -2,7 +2,7 @@
   "system": "V6.1 研发课题池",
   "version": "1.0.0",
   "created": "2026-05-05",
-  "updated": "2026-05-06 14:25",
+  "updated": "2026-05-07 00:05",
   "sortRule": "按 priorityScore 降序，同分按 dependency 拓扑序",
   "priorityFormula": "businessValue × learningDepth ÷ effortDays",
   "tasks": [
@@ -109,7 +109,7 @@
       "title": "5Worker报告流水线落地",
       "description": "将第3课架构设计落地到server/src/engine/ → 替代当前Mock单次调用",
       "owner": "马富贵",
-      "status": "pending",
+      "status": "completed",
       "priorityScore": 8.0,
       "businessValue": 10,
       "learningDepth": 8,
@@ -121,7 +121,8 @@
         "engine",
         "agent",
         "pipeline"
-      ]
+      ],
+      "resolution": "已作为V7-W5-021完成: report-workers.ts 5Worker Promise.allSettled并行+14测试全过"
     },
     {
       "id": "T007",
@@ -242,18 +243,58 @@
         "wechat",
         "monetization"
       ]
+    },
+    {
+      "id": "T013",
+      "title": "Share Landing页面落地",
+      "description": "P0-1分享落地页: SCSS样式+app.config注册+Fastify API端点",
+      "owner": "马富贵",
+      "status": "in_progress",
+      "priorityScore": 8.5,
+      "businessValue": 9,
+      "learningDepth": 5,
+      "effortDays": 1,
+      "dependencies": [],
+      "deadline": "2026-05-07",
+      "relatedLevel": "L3.2",
+      "tags": [
+        "share",
+        "frontend",
+        "api",
+        "p0"
+      ]
+    },
+    {
+      "id": "T014",
+      "title": "分享全链路文案审查",
+      "description": "P0-1分享3处文案一致性审查: TEASER_BY_TYPE+invited-banner+CTA",
+      "owner": "王富贵",
+      "status": "in_progress",
+      "priorityScore": 7.0,
+      "businessValue": 7,
+      "learningDepth": 4,
+      "effortDays": 0.5,
+      "dependencies": [],
+      "deadline": "2026-05-07",
+      "relatedLevel": "L2.2",
+      "tags": [
+        "copy",
+        "review",
+        "share",
+        "p0"
+      ]
     }
   ],
   "stats": {
-    "total": 12,
-    "completed": 8,
-    "in_progress": 0,
-    "pending": 4,
+    "total": 14,
+    "completed": 9,
+    "in_progress": 2,
+    "pending": 3,
     "byOwner": {
       "聂富贵": 4,
-      "马富贵": 3,
+      "马富贵": 4,
       "周富贵": 2,
-      "王富贵": 1,
+      "王富贵": 2,
       "全队": 1
     },
     "byPriority": {

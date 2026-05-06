@@ -1,0 +1,14 @@
+{
+  "snapshotVersion": "2.0",
+  "sessionId": "unknown",
+  "role": "teacher",
+  "timestamp": "2026-05-06T14:52:34Z",
+  "git": {
+    "branch": "main",
+    "lastCommit": "741be74 feat: V7-W5-022语调审查代码落地 — 6张卡片P0/P1全6项修复",
+    "uncommittedCount": 12,
+    "uncommittedFiles": ".claude/security-report.json,memory/security/commit-log.jsonl,memory/team-status.json,messages/.state.json,pnpm-lock.yaml,scripts/pre-commit-security.py,server/src/engine/report-pipeline.ts,student-notebook/zhou-ci-implementation.md,memory/snapshots/2026-05-06-142212.json,server/src/engine/report-workers.ts,server/test/report-workers.test.ts,student-notebook/sun-content-week1-articles.md.tmp.406814.1778079155787,student-notebook/zhou-security-compliance.md"
+  },
+  "mission": {"directive": "终极目标：世界顶级AI智能体团队→商业产品落地。向外看→学前沿→超越。", "learningMethod": "2026年4月后最新前沿——全球AI巨头+大佬+创业突破", "principle": "向外看，不内循环。学过来→用起来→超过去。", "maRole": "学生 — 外部前沿技术深度研究（Agent协议/多智能体框架）", "wangRole": "客座讲师(文案) — 全球顶级AI产品UX研究→借鉴创新", "zhouRole": "客座讲师(安全) — 全球AI安全前沿研究→对比强化", "nieRole": "教师 — 战略对齐+前沿雷达+审查，确保每轮向外看", "corePrinciple": "知己知彼。不了解全球最好的AI产品长什么样，做不出超越它们的产品。", "frontierRadar": ["Multi-Agent协议: Google A2A vs Anthropic MCP", "推理模型: OpenAI o3/o4-mini, DeepSeek V4, Claude Opus 4.7", "Agent产品化: Project Deal, Project Vend", "安全对齐: Automated Alignment Researchers, Constitutional Classifiers", "中国生态: 豆包Seed 2.0, 千问Qwen3, Kling 2"], "phase": "外部前沿研究→消化吸收→产品应用→超越创新"},
+  "currentTask": {"id": "V7-W5-SPRINT", "title": "R5: 马(流水线)+王(文案审查)+周(安全文档)+赵(性能)+钱(文档)+孙(内容)", "subTasks": [{"id": "V7-W5-001", "assignee": "ma", "title": "Agent协议产品化 — team-broadcast+inbox+watchdog"}, {"id": "V7-W5-002", "assignee": "wang", "title": "UX调研落地 — 语气切换+换一句+分享落地页"}, {"id": "V7-W5-003", "assignee": "zhou", "title": "安全L1+L3实现 — 10条规则+逃生门+趋势面板"}, {"id": "V7-W5-004", "assignee": "ma", "title": "Multi-Agent产品管线 — 串行→并行, 4Agent模块, Promise.all编排"}, {"id": "V7-W5-005", "assignee": "wang", "title": "竞品动态追踪 + 产品Roadmap v2 + 留存文案设计"}]}
+}

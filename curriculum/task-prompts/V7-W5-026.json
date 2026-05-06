@@ -1,0 +1,30 @@
+{
+  "taskId": "V7-W5-026",
+  "title": "Share Landing页面落地 — SCSS样式+API对接+页面注册",
+  "assignee": "ma",
+  "assigneeName": "马富贵",
+  "priority": "P0",
+  "status": "dispatched",
+  "parentSprint": "V7-W5",
+  "description": "P0-1分享全链路中share-landing页面已有TSX骨架但缺SCSS样式、未注册到app.config、API端点未实现。补齐这三块，让分享链接能完整展示。",
+  "acceptanceCriteria": [
+    "pages/share-landing/index.scss 完整样式（暗色主题优先，使用CSS变量）",
+    "share-landing页面注册到 app.config.ts",
+    "server端 GET /api/report/shared/:rid 端点返回SharedReport JSON",
+    "Taro weapp + tt 双端构建通过",
+    "TypeScript编译零错误"
+  ],
+  "deliverables": [
+    { "path": "apps/miniapp/src/pages/share-landing/index.scss", "type": "scss", "description": "完整页面样式" },
+    { "path": "apps/miniapp/src/app.config.ts", "type": "config", "description": "页面注册" },
+    { "path": "server/src/routes/report-shared.ts", "type": "api", "description": "分享报告只读API" }
+  ],
+  "context": {
+    "shareLandingTsx": "apps/miniapp/src/pages/share-landing/index.tsx (170行，12人格TEASER_BY_TYPE文案已就位)",
+    "apiPattern": "server/src/routes/ 下Fastify路由模式",
+    "sharedReportType": "{ personaLabel, personaType, quote, coreTruth, keywordLabels }",
+    "darkModeVars": "app.scss中CSS变量体系，优先使用var(--color-*)"
+  },
+  "effortEstimate": "2-3小时",
+  "deadline": "2026-05-07"
+}
