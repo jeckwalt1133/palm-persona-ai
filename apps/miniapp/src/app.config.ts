@@ -1,5 +1,5 @@
 export default defineAppConfig({
-  pages: ['pages/index/index', 'pages/capture/index', 'pages/points-marking/index', 'pages/report/index'],
+  pages: ['pages/index/index', 'pages/capture/index', 'pages/points-marking/index', 'pages/report/index', 'pages/share-landing/index'],
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#1B1035',

@@ -1,9 +1,12 @@
 import { View, Text } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, { useLoad } from '@tarojs/taro';
 import { useState, useEffect } from 'react';
+import { getResolvedTheme, toggleTheme } from '../../theme/dark-mode';
+import { track, EventType } from '../../utils/analytics';
 import './index.scss';
 
 const ONBOARDING_SHOWN_KEY = 'palm_onboarding_shown';
+const SHARE_REF_KEY = 'palm_share_ref';
 
 interface OnboardingStep {
   step: number;
@@ -49,6 +52,23 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
 export default function IndexPage() {
   const [onboardingStep, setOnboardingStep] = useState(0); // 0=不显示, 1/2/3=步骤
   const [onboardingVisible, setOnboardingVisible] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>(getResolvedTheme());
+  const [invitedBy, setInvitedBy] = useState<string | null>(null); // P0-1: 分享归因
+
+  // P0-1: 检测分享入口参数
+  useLoad((options) => {
+    const from = options?.from ?? '';
+    const ref = options?.ref ?? '';
+    const rid = options?.rid ?? '';
+
+    if (from === 'share' || from === 'timeline') {
+      track(EventType.SHARE_ENTRY, { from, ref, rid, channel: 'miniapp' });
+      if (ref) {
+        setInvitedBy(ref);
+        try { localStorage?.setItem(SHARE_REF_KEY, ref); } catch { /* noop */ }
+      }
+    }
+  });
 
   useEffect(() => {
     try {
@@ -79,6 +99,11 @@ export default function IndexPage() {
 
   const goToCapture = () => {
     Taro.navigateTo({ url: '/pages/capture/index' });
+  };
+
+  const handleToggleTheme = () => {
+    const next = toggleTheme();
+    setTheme(next as 'dark' | 'light');
   };
 
   const currentStep = ONBOARDING_STEPS[onboardingStep - 1];
@@ -125,12 +150,32 @@ export default function IndexPage() {
 
       {/* Hero */}
       <View className="home-hero">
+        <View className="theme-toggle" onClick={handleToggleTheme}>
+          <Text className="theme-toggle-icon">{theme === 'dark' ? '☀' : '☾'}</Text>
+          <Text className="theme-toggle-label">{theme === 'dark' ? '亮色' : '暗色'}</Text>
+        </View>
         <Text className="home-title">掌心人格局</Text>
         <Text className="home-slogan">了解自己，是一种很酷的事</Text>
         <Text className="home-subtitle">
           拍一张手掌，AI 会告诉你掌心线条里藏着怎样的你
         </Text>
       </View>
+
+      {/* P0-1: 好友邀请提示 */}
+      {invitedBy && (
+        <View className="invited-banner">
+          <View className="invited-icon-wrap">
+            <Text className="invited-icon">@</Text>
+          </View>
+          <View className="invited-body">
+            <Text className="invited-title">你的朋友已经在这里发现了自己</Text>
+            <Text className="invited-desc">ta觉得你可能会感兴趣——拍一张手掌，看看你们的频率是不是同一个频道</Text>
+          </View>
+          <View className="invited-close" onClick={() => setInvitedBy(null)}>
+            <Text>×</Text>
+          </View>
+        </View>
+      )}
 
       {/* 社交证明 */}
       <View className="home-social-proof">

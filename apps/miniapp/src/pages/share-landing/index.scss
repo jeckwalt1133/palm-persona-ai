@@ -1,0 +1,284 @@
+.share-landing-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0C081C 0%, #1B1035 40%, #0C081C 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 32rpx 48rpx;
+  box-sizing: border-box;
+}
+
+/* ── 加载态 ── */
+.sl-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 32rpx;
+}
+
+.sl-pulse-ring {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  border: 3rpx solid rgba(255, 209, 102, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slPulse 2s ease-in-out infinite;
+}
+
+.sl-pulse-inner {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  background: rgba(255, 209, 102, 0.6);
+}
+
+@keyframes slPulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.5); opacity: 1; }
+}
+
+.sl-loading-text {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── 品牌顶栏 ── */
+.sl-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48rpx 0 24rpx;
+  gap: 8rpx;
+}
+
+.sl-brand-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFD166;
+  letter-spacing: 6rpx;
+}
+
+.sl-brand-sub {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 4rpx;
+  text-transform: uppercase;
+}
+
+/* ── 主体 ── */
+.sl-body {
+  width: 100%;
+  max-width: 560rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+/* ── 分享者卡片 ── */
+.sl-teaser-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  padding: 32rpx 24rpx;
+  background: rgba(255, 209, 102, 0.06);
+  border: 1px solid rgba(255, 209, 102, 0.12);
+  border-radius: 20rpx;
+  text-align: center;
+}
+
+.sl-teaser-pre {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 2rpx;
+}
+
+.sl-teaser-divider {
+  width: 40rpx;
+  height: 2rpx;
+  background: rgba(255, 209, 102, 0.2);
+}
+
+.sl-teaser-hook {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #FFD166;
+  line-height: 1.5;
+}
+
+.sl-teaser-bridge {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── 报告预览 ── */
+.sl-report-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
+  padding: 32rpx 24rpx;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20rpx;
+}
+
+.sl-badge {
+  padding: 8rpx 28rpx;
+  background: rgba(255, 209, 102, 0.1);
+  border-radius: 24rpx;
+  border: 1px solid rgba(255, 209, 102, 0.2);
+}
+
+.sl-badge-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FFD166;
+  letter-spacing: 2rpx;
+}
+
+.sl-truth-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 8rpx;
+  padding: 24rpx;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sl-truth-icon {
+  font-size: 36rpx;
+  color: rgba(255, 209, 102, 0.4);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.sl-truth-text {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
+}
+
+.sl-quote {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.55);
+  font-style: italic;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.sl-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  justify-content: center;
+}
+
+.sl-kw-tag {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 6rpx 20rpx;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16rpx;
+}
+
+/* ── 兜底文案 ── */
+.sl-fallback-text {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  text-align: center;
+}
+
+.sl-fallback-sub {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.7;
+  text-align: center;
+  margin-top: 8rpx;
+}
+
+/* ── CTA ── */
+.sl-cta-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  padding: 36rpx 24rpx;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.1), rgba(245, 166, 35, 0.08));
+  border: 1px solid rgba(255, 209, 102, 0.2);
+  border-radius: 24rpx;
+  text-align: center;
+}
+
+.sl-cta-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #FFD166;
+  line-height: 1.4;
+}
+
+.sl-cta-desc {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  max-width: 440rpx;
+}
+
+.sl-cta-btn {
+  width: 100%;
+  max-width: 440rpx;
+  padding: 26rpx 0;
+  background: linear-gradient(135deg, #FFD166, #F5A623);
+  border-radius: 44rpx;
+  text-align: center;
+}
+
+.sl-cta-btn-text {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1B1035;
+  letter-spacing: 2rpx;
+}
+
+.sl-cta-btn:active {
+  opacity: 0.85;
+}
+
+/* ── 社交证明 ── */
+.sl-social-proof {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  padding: 20rpx;
+}
+
+.sl-proof-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: rgba(255, 209, 102, 0.8);
+  letter-spacing: 2rpx;
+}
+
+.sl-proof-label {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ── 底部 ── */
+.sl-footer {
+  margin-top: auto;
+  padding: 32rpx 0 16rpx;
+}
+
+.sl-footer-text {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.25);
+}

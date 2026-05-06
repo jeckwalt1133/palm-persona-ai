@@ -345,26 +345,34 @@ export default function ReportPage() {
     }
   };
 
-  // ── 分享配置 ──
+  // ── 分享配置（P0-1: 归因参数+动态文案）──
   const [shareImageUrl] = useState<string | undefined>();
   useShareAppMessage(() => {
-    const title = report
-      ? `AI说我是「${report.personaLabel}」——你也来拍一张，看看AI怎么说你`
-      : '拍一张手掌，看看AI读出了怎样的你';
+    if (!report) {
+      return {
+        title: '拍一张手掌，看看AI读出了怎样的你',
+        path: '/pages/index/index?from=share',
+      };
+    }
+    // 从分享文案库匹配最佳钩子
+    const shareCopy = resolveShareCopy(report.personaType, report.scores, 2);
+    const hook = shareCopy?.primaryText ?? `AI说我是「${report.personaLabel}」`;
     return {
-      title,
-      path: '/pages/index/index',
+      title: `${hook} ——你也来拍一张，看看AI怎么说你`,
+      path: `/pages/index/index?from=share&rid=${report.id}&ref=${report.personaType}`,
       imageUrl: shareImageUrl,
     };
   });
 
   useShareTimeline(() => {
-    const title = report
-      ? `AI说我是「${report.personaLabel}」——你也来测测`
-      : '掌心人格局 — AI人格分析';
+    if (!report) {
+      return { title: '掌心人格局 — AI人格分析', path: '/pages/index/index?from=timeline' };
+    }
+    const shareCopy = resolveShareCopy(report.personaType, report.scores, 5);
+    const hook = shareCopy?.primaryText ?? `AI说我是「${report.personaLabel}」`;
     return {
-      title,
-      path: '/pages/index/index',
+      title: `${hook} ——你也来测测`,
+      path: `/pages/index/index?from=timeline&rid=${report.id}&ref=${report.personaType}`,
     };
   });
 
@@ -812,24 +820,26 @@ export default function ReportPage() {
           <View
             className="btn-share"
             onClick={() => {
-              const shareTitle = report
-                ? `AI说我是「${report.personaLabel}」——你也来测测`
-                : '掌心人格局 — AI人格分析';
-              const shareUrl = window.location.href;
+              if (!report) return;
+              const shareCopy = resolveShareCopy(report.personaType, report.scores, 2);
+              const shareTitle = shareCopy?.primaryText ?? `AI说我是「${report.personaLabel}」`;
+              const shareUrl = `${window.location.origin}/share-landing?rid=${report.id}&ref=${report.personaType}`;
+              const fullText = `${shareTitle} ——你也来拍一张，看看AI怎么说你 ${shareUrl}`;
               if (navigator.share) {
-                navigator.share({ title: shareTitle, url: shareUrl }).catch(() => {});
+                navigator.share({ title: shareTitle, url: shareUrl, text: shareTitle }).catch(() => {});
               } else {
-                navigator.clipboard?.writeText(`${shareTitle} ${shareUrl}`).then(() => {
-                  Taro.showToast({ title: '链接已复制，粘贴给朋友吧', icon: 'none' });
+                navigator.clipboard?.writeText(fullText).then(() => {
+                  Taro.showToast({ title: '链接已复制，发给朋友吧', icon: 'none', duration: 2000 });
                 }).catch(() => {});
               }
+              track(EventType.SHARE_CLICK, { channel: 'h5', reportId: report.id });
             }}
           >
-            你的手掌故事已经生成好了——发给朋友，开启你们的下一个话题
+            {report ? '选一句最像你的，发给那个会懂的人' : '你的手掌故事已经生成好了——发给朋友，开启你们的下一个话题'}
           </View>
         ) : (
           <Button className="btn-share" open-type="share">
-            你的手掌故事已经生成好了——发给朋友，开启你们的下一个话题
+            {report ? '选一句最像你的，发给那个会懂的人' : '你的手掌故事已经生成好了——发给朋友，开启你们的下一个话题'}
           </Button>
         )}
         <View className="bottom-invite">
