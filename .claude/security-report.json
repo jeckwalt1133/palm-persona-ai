@@ -1,5 +1,5 @@
 {
-  "scanTime": "2026-05-06T11:31:16.517986+00:00",
+  "scanTime": "2026-05-06T11:58:24.720955+00:00",
   "scanner": "pre-commit-security.py",
   "version": "3.0.0",
   "architecture": "三层防线 (L1阻断/L2警告/L3记录)",
@@ -9,15 +9,15 @@
     "L1_critical": 0,
     "L2_total": 0,
     "L2_warnings": 0,
-    "L3_total": 12
+    "L3_total": 28
   },
   "summary": {
-    "filesScanned": 1,
-    "filesSkipped": 0,
-    "totalFindings": 12,
+    "filesScanned": 28,
+    "filesSkipped": 1,
+    "totalFindings": 28,
     "criticalFindings": 0,
     "highFindings": 0,
-    "infoRecords": 12,
+    "infoRecords": 28,
     "blocked": false
   },
   "findings": {
@@ -29,10 +29,21 @@
         "patternName": "console.log打印完整对象",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+493",
+        "file": ".claude/security-report.json",
+        "line": "+43",
         "match": "console.warn(`[安全告警] ${a.type} (${a.severity})",
-        "context": "console.warn(`[安全告警] ${a.type} (${a.severity}): ${a.detail}`);",
+        "context": "\"match\": \"console.warn(`[安全告警] ${a.type} (${a.severity})\",",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+44",
+        "match": "console.warn(`[安全告警] ${a.type} (${a.severity})",
+        "context": "\"context\": \"console.warn(`[安全告警] ${a.type} (${a.severity}): ${a.detail}`);\",",
         "remediation": "生产环境使用专用logger并配置redact规则"
       },
       {
@@ -40,10 +51,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+597",
+        "file": ".claude/security-report.json",
+        "line": "+54",
         "match": "localhost:",
-        "context": "curl \"http://localhost:3000/api/xxx?q='%20OR%20'1'='1\"",
+        "context": "\"match\": \"localhost:\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -51,10 +62,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+598",
+        "file": ".claude/security-report.json",
+        "line": "+55",
         "match": "localhost:",
-        "context": "curl \"http://localhost:3000/api/xxx?q=1'%3B%20DROP%20TABLE%20users%3B--\"",
+        "context": "\"context\": \"curl \\\"http://localhost:3000/api/xxx?q='%20OR%20'1'='1\\\"\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -62,10 +73,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+599",
+        "file": ".claude/security-report.json",
+        "line": "+65",
         "match": "localhost:",
-        "context": "curl \"http://localhost:3000/api/xxx?q=1%20UNION%20SELECT%20*%20FROM%20users\"",
+        "context": "\"match\": \"localhost:\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -73,10 +84,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+606",
+        "file": ".claude/security-report.json",
+        "line": "+66",
         "match": "localhost:",
-        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "context": "\"context\": \"curl \\\"http://localhost:3000/api/xxx?q=1'%3B%20DROP%20TABLE%20users%3B--\\\"\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -84,10 +95,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+609",
+        "file": ".claude/security-report.json",
+        "line": "+76",
         "match": "localhost:",
-        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "context": "\"match\": \"localhost:\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -95,10 +106,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+620",
+        "file": ".claude/security-report.json",
+        "line": "+77",
         "match": "localhost:",
-        "context": "\"http://localhost:3000/api/login\" \\",
+        "context": "\"context\": \"curl \\\"http://localhost:3000/api/xxx?q=1%20UNION%20SELECT%20*%20FROM%20users\\\"\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -106,10 +117,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+631",
+        "file": ".claude/security-report.json",
+        "line": "+87",
         "match": "localhost:",
-        "context": "curl \"http://localhost:3000/api/xxx?a=1&a=2&a=3\"  # 重复参数",
+        "context": "\"match\": \"localhost:\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -117,10 +128,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+632",
+        "file": ".claude/security-report.json",
+        "line": "+88",
         "match": "localhost:",
-        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "context": "\"context\": \"curl -X POST \\\"http://localhost:3000/api/xxx\\\" \\\\\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -128,10 +139,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+635",
+        "file": ".claude/security-report.json",
+        "line": "+98",
         "match": "localhost:",
-        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "context": "\"match\": \"localhost:\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -139,10 +150,10 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+643",
+        "file": ".claude/security-report.json",
+        "line": "+99",
         "match": "localhost:",
-        "context": "curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "context": "\"context\": \"curl -X POST \\\"http://localhost:3000/api/xxx\\\" \\\\\",",
         "remediation": "使用环境变量或配置文件管理地址"
       },
       {
@@ -150,15 +161,180 @@
         "patternName": "硬编码内网地址",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "curriculum/guest-modules/zhou-security-03.md",
-        "line": "+656",
+        "file": ".claude/security-report.json",
+        "line": "+109",
         "match": "localhost:",
-        "context": "\" | curl -X POST \"http://localhost:3000/api/xxx\" \\",
+        "context": "\"match\": \"localhost:\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+110",
+        "match": "localhost:",
+        "context": "\"context\": \"\\\"http://localhost:3000/api/login\\\" \\\\\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+120",
+        "match": "localhost:",
+        "context": "\"match\": \"localhost:\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+121",
+        "match": "localhost:",
+        "context": "\"context\": \"curl \\\"http://localhost:3000/api/xxx?a=1&a=2&a=3\\\"  # 重复参数\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+131",
+        "match": "localhost:",
+        "context": "\"match\": \"localhost:\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+132",
+        "match": "localhost:",
+        "context": "\"context\": \"curl -X POST \\\"http://localhost:3000/api/xxx\\\" \\\\\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+142",
+        "match": "localhost:",
+        "context": "\"match\": \"localhost:\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+143",
+        "match": "localhost:",
+        "context": "\"context\": \"curl -X POST \\\"http://localhost:3000/api/xxx\\\" \\\\\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+153",
+        "match": "localhost:",
+        "context": "\"match\": \"localhost:\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+154",
+        "match": "localhost:",
+        "context": "\"context\": \"curl -X POST \\\"http://localhost:3000/api/xxx\\\" \\\\\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+164",
+        "match": "localhost:",
+        "context": "\"match\": \"localhost:\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+165",
+        "match": "localhost:",
+        "context": "\"context\": \"\\\" | curl -X POST \\\"http://localhost:3000/api/xxx\\\" \\\\\",",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/components/PosterCanvas.tsx",
+        "line": "+226",
+        "match": "console.log(`[PosterCanvas] card${cardIndex} 绘制耗时: ${(performance.now()",
+        "context": "console.log(`[PosterCanvas] card${cardIndex} 绘制耗时: ${(performance.now() - t0).toFixed(0)}ms`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/components/PosterCanvas.tsx",
+        "line": "+246",
+        "match": "console.log(`[PosterCanvas] H5 总耗时: ${(performance.now()",
+        "context": "console.log(`[PosterCanvas] H5 总耗时: ${(performance.now() - t0).toFixed(0)}ms DPR=${dpr}`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "memory/bootstrap.md",
+        "line": "+75",
+        "match": "localhost:",
+        "context": "- 管理API: http://localhost:3001/api/admin/",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "scripts/team-watchdog.sh",
+        "line": "+45",
+        "match": "127.0.0.1:",
+        "context": "ROLE_BASE_URL[\"sun\"]=\"http://127.0.0.1:8787/v1/messages\"",
         "remediation": "使用环境变量或配置文件管理地址"
       }
     ]
   },
   "whitelist": {
-    "active": 1
+    "active": 6
   }
 }

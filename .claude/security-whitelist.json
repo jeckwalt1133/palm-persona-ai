@@ -7,7 +7,47 @@
       "expires": "2026-05-07T11:31:09.502700+00:00",
       "approver": "nie",
       "createdAt": "2026-05-06T11:31:09.502714+00:00"
+    },
+    {
+      "pattern": "PAT-008",
+      "file": "student-notebook/zhou-security-l1-implementation.md",
+      "reason": "安全教学报告中的PEM私钥检测示例代码，非真实密钥",
+      "expires": "2026-05-07T11:58:10.856568+00:00",
+      "approver": "nie",
+      "createdAt": "2026-05-06T11:58:10.856581+00:00"
+    },
+    {
+      "pattern": "L1-07",
+      "file": "student-notebook/zhou-security-l1-implementation.md",
+      "reason": "安全教学报告中的JWT Secret检测示例代码，非真实密钥",
+      "expires": "2026-05-07T11:58:10.916033+00:00",
+      "approver": "nie",
+      "createdAt": "2026-05-06T11:58:10.916048+00:00"
+    },
+    {
+      "pattern": "L1-08",
+      "file": "student-notebook/zhou-security-l1-implementation.md",
+      "reason": "安全教学报告中的数据库密码检测示例代码，非真实密码",
+      "expires": "2026-05-07T11:58:10.976800+00:00",
+      "approver": "nie",
+      "createdAt": "2026-05-06T11:58:10.976816+00:00"
+    },
+    {
+      "pattern": "L1-09",
+      "file": "student-notebook/zhou-security-l1-implementation.md",
+      "reason": "安全教学报告中的内网地址检测示例代码，非真实地址",
+      "expires": "2026-05-07T11:58:11.036492+00:00",
+      "approver": "nie",
+      "createdAt": "2026-05-06T11:58:11.036514+00:00"
+    },
+    {
+      "pattern": "L1-10",
+      "file": "student-notebook/zhou-security-l1-implementation.md",
+      "reason": "安全教学报告中的CI Token检测示例代码，非真实Token",
+      "expires": "2026-05-07T11:58:11.098773+00:00",
+      "approver": "nie",
+      "createdAt": "2026-05-06T11:58:11.098788+00:00"
     }
   ],
-  "updatedAt": "2026-05-06T11:31:09.502856+00:00"
+  "updatedAt": "2026-05-06T11:58:11.098953+00:00"
 }
