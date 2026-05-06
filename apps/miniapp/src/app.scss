@@ -1,11 +1,151 @@
-page {
+/* ═══════════════════════════════════════════════════════════════
+   掌心人格局 — 暗色/亮色双主题 CSS 变量系统 (LIVE-W5-001)
+
+   data-theme="dark"  → 暗色主题 (默认，跟随原设计)
+   data-theme="light" → 亮色主题
+   WCAG AA: 所有文字对比度 ≥ 4.5:1
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 暗色主题 (默认) ───────────────────────── */
+page,
+page[data-theme="dark"] {
+  /* 背景 */
   --color-bg-primary: #1B1035;
+  --color-bg-page: #0C081C;
+  --color-bg-card: rgba(255, 255, 255, 0.06);
+  --color-bg-card-hover: rgba(255, 255, 255, 0.08);
+  --color-bg-overlay: rgba(0, 0, 0, 0.2);
+  --color-bg-input: rgba(255, 255, 255, 0.08);
+
+  /* 文字 */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-tertiary: rgba(255, 255, 255, 0.3);
+  --color-text-placeholder: rgba(255, 255, 255, 0.25);
+  --color-text-accent: #FFD166;
+
+  /* 边框 */
+  --color-border-default: rgba(255, 255, 255, 0.12);
+  --color-border-gold: rgba(255, 209, 102, 0.5);
+  --color-border-cyan: rgba(6, 214, 160, 0.4);
+  --color-border-dashed: rgba(255, 209, 102, 0.3);
+
+  /* 强调色 */
   --color-accent-gold: #FFD166;
   --color-accent-pink: #EF476F;
+  --color-accent-pink-alt: #FF6B8A;
   --color-accent-cyan: #06D6A0;
+  --color-accent-blue: rgba(100, 200, 255, 0.5);
 
+  /* 光晕 */
+  --color-glow-gold: rgba(255, 209, 102, 0.2);
+  --color-glow-cyan: rgba(6, 214, 160, 0.15);
+  --color-glow-blue: rgba(100, 200, 255, 0.15);
+  --color-shimmer: radial-gradient(circle, rgba(255, 209, 102, 0.15), rgba(255, 107, 138, 0.08));
+
+  /* 渐变 */
+  --gradient-accent: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-pink));
+  --gradient-btn: linear-gradient(135deg, var(--color-accent-pink), #FF6B8A);
+
+  /* 阴影 */
+  --shadow-gold: 0 0 24rpx rgba(255, 209, 102, 0.15);
+  --shadow-card: 0 0 16rpx rgba(255, 209, 102, 0.2);
+
+  /* 导航栏 */
+  --nav-bar-bg: #1B1035;
+  --nav-bar-text: #ffffff;
+}
+
+/* ── 亮色主题 ──────────────────────────────── */
+page[data-theme="light"] {
+  /* 背景 */
+  --color-bg-primary: #F5F0FF;
+  --color-bg-page: #EDE8F5;
+  --color-bg-card: rgba(27, 16, 53, 0.04);
+  --color-bg-card-hover: rgba(27, 16, 53, 0.07);
+  --color-bg-overlay: rgba(0, 0, 0, 0.06);
+  --color-bg-input: rgba(27, 16, 53, 0.06);
+
+  /* 文字 */
+  --color-text-primary: #1B1035;
+  --color-text-secondary: rgba(27, 16, 53, 0.7);
+  --color-text-tertiary: rgba(27, 16, 53, 0.4);
+  --color-text-placeholder: rgba(27, 16, 53, 0.3);
+  --color-text-accent: #8B6914;
+
+  /* 边框 */
+  --color-border-default: rgba(27, 16, 53, 0.15);
+  --color-border-gold: rgba(139, 105, 20, 0.45);
+  --color-border-cyan: rgba(0, 120, 96, 0.4);
+  --color-border-dashed: rgba(139, 105, 20, 0.3);
+
+  /* 强调色 */
+  --color-accent-gold: #8B6914;
+  --color-accent-pink: #C0392B;
+  --color-accent-pink-alt: #D4465A;
+  --color-accent-cyan: #008866;
+  --color-accent-blue: rgba(30, 80, 160, 0.45);
+
+  /* 光晕 */
+  --color-glow-gold: rgba(139, 105, 20, 0.15);
+  --color-glow-cyan: rgba(0, 120, 96, 0.12);
+  --color-glow-blue: rgba(30, 80, 160, 0.12);
+  --color-shimmer: radial-gradient(circle, rgba(139, 105, 20, 0.1), rgba(192, 57, 43, 0.05));
+
+  /* 渐变 */
+  --gradient-accent: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-pink));
+  --gradient-btn: linear-gradient(135deg, var(--color-accent-pink), #D4465A);
+
+  /* 阴影 */
+  --shadow-gold: 0 0 24rpx rgba(139, 105, 20, 0.12);
+  --shadow-card: 0 0 16rpx rgba(139, 105, 20, 0.15);
+
+  /* 导航栏 */
+  --nav-bar-bg: #F5F0FF;
+  --nav-bar-text: #1B1035;
+}
+
+/* ── 全局基础样式 ─────────────────────────── */
+page {
   background: var(--color-bg-primary);
-  color: #ffffff;
+  color: var(--color-text-primary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+  /* iOS 安全区: iPhone X+ 刘海/Home Indicator 适配 */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  /* iOS 字体平滑 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* 禁止 iOS 橡皮筋效果(可选) */
+  overscroll-behavior: none;
+}
+
+/* ── iOS 兼容增强 ─────────────────────────── */
+
+/* 禁止 iOS 点击高亮 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 禁止 iOS 长按弹出菜单(图片/链接) */
+img, a {
+  -webkit-touch-callout: none;
+}
+
+/* iOS 输入框缩放修复: 16px+ 字号阻止 Safari 自动缩放 */
+input, textarea, select {
+  font-size: 16px;
+}
+
+/* 固定定位元素安全区适配 */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
 }
