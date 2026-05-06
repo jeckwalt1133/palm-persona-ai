@@ -368,7 +368,10 @@ def should_scan(file_path):
         return False
     # 跳过二进制和依赖
     skip_exts = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".woff", ".woff2", ".ttf", ".lock", ".sum"}
-    skip_dirs = {"node_modules", "dist", ".next", ".git"}
+    skip_dirs = {"node_modules", "dist", ".next", ".git", ".claude", "memory/security"}
+    # 跳过扫描器自身的报告输出 (防止自引用)
+    if "security-report.json" in file_path or "security-results.sarif" in file_path:
+        return False
     ext = Path(file_path).suffix.lower()
     if ext in skip_exts:
         return False

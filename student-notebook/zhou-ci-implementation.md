@@ -104,16 +104,27 @@ timeout-minutes: 5
 
 ## 验证证据
 
-### 本地CI模拟 (全部9步)
+### 本地CI模拟 (全部9步, 自引用已修复)
 
 ```
-[Step 3] 安全扫描 --ci-mode    → 退出码0, 54文件扫描 ✅
-[Step 4] Artifact生成           → security-report.json (18307 bytes) ✅
+[Step 3] 安全扫描 --ci-mode    → 退出码0, 76文件扫描 ✅
+[Step 4] Artifact生成           → security-report.json ✅
 [Step 5] L1阻断层              → L1=0, blocked=false ✅
 [Step 6] L2警告层              → L2=0 ✅
-[Step 7] L3记录层              → L3=36项, 规则分布正常 ✅
-[Step 8] SARIF生成             → security-results.sarif (30037 bytes, 36 results) ✅
+[Step 7] L3记录层              → L3=51项(全为真实源码) ✅
+[Step 8] SARIF生成             → security-results.sarif ✅
 [Step 9] 最终摘要              → 通过 (可合并) ✅
+```
+
+### 自引用修复 (V3.1)
+
+**问题**: CI模式扫描了 `.claude/security-report.json`（扫描器自身输出），导致L3记录层出现大量自引用发现（112条→其中61条来自自身报告文件）。
+
+**修复**: `should_scan()` 增加对 `.claude/`、`memory/security/` 目录和报告文件名的过滤。
+
+```
+修复前: L3=112项 (61项自引用)
+修复后: L3=51项 (0项自引用)
 ```
 
 ### Workflow结构验证

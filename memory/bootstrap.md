@@ -19,7 +19,7 @@
 | 马富贵 | V7-W5-021 | 5Worker报告流水线落地 | dispatched |
 | 王富贵 | V7-W5-022 | 6张报告卡片语调温度审查 | dispatched |
 | 周富贵 | V7-W5-023 | 安全合规文档(检查清单+白皮书) | dispatched |
-| 赵富贵 | V7-W5-014-cont | PosterCanvas性能<500ms+iOS兼容 | dispatched |
+| 赵富贵 | V7-W5-014-cont | PosterCanvas性能<500ms+iOS兼容 | ✅ 完成 (P0/P1/P2优化+iOS兼容) |
 | 钱富贵 | V7-W5-024 | DB设计文档+API性能基准 | dispatched (设计文档已产出) |
 | 孙富贵 | V7-W5-025 | 内容日历Week1执行(3篇文章) | dispatched |
 
