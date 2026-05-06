@@ -56,6 +56,7 @@ export default function PalmFeatureMarker({
           className="palm-image"
           src={imageSrc}
           mode="aspectFit"
+          lazyLoad
         />
         {visibleFeatures.map((feature) => (
           <View

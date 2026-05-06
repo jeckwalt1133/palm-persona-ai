@@ -1,0 +1,69 @@
+/* ═══════════════════════════════════════════════════════════
+   骨架屏 SkeletonScreen — 暗色/亮色双主题 + shimmer 动画
+   赵富贵 P6 前端 (V7-W6-004)
+   ═══════════════════════════════════════════════════════════ */
+
+.skeleton-block {
+  background: var(--color-bg-card);
+  position: relative;
+  overflow: hidden;
+}
+
+/* shimmer 扫光动画 */
+.skeleton-animated {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-card) 25%,
+    var(--color-bg-card-hover) 50%,
+    var(--color-bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes skeletonShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── 报告页骨架屏 ── */
+.skeleton-report-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  padding: 32rpx 24rpx;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: 20rpx;
+}
+
+.skeleton-report-header {
+  display: flex;
+  justify-content: center;
+}
+
+/* ── 首页骨架屏 ── */
+.skeleton-index-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.skeleton-index-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  padding: 24rpx;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
+  border-radius: 16rpx;
+}
+
+/* ── 分享落地页骨架屏 ── */
+.skeleton-share-landing {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+  width: 100%;
+  max-width: 560rpx;
+}

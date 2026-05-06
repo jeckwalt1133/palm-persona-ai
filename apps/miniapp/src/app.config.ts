@@ -1,5 +1,16 @@
 export default defineAppConfig({
-  pages: ['pages/index/index', 'pages/capture/index', 'pages/points-marking/index', 'pages/report/index', 'pages/share-landing/index'],
+  pages: ['pages/index/index', 'pages/capture/index'],
+  subpackages: [
+    { root: 'pages/report', pages: ['index'] },
+    { root: 'pages/share-landing', pages: ['index'] },
+    { root: 'pages/points-marking', pages: ['index'] },
+  ],
+  preloadRule: {
+    'pages/capture/index': {
+      network: 'all',
+      packages: ['pages/report'],
+    },
+  },
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#1B1035',

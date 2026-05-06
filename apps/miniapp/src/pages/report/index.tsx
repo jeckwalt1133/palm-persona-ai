@@ -15,6 +15,7 @@ import {
 } from '../../utils/checkin';
 import { getMostMisunderstood } from '../../utils/reportUtils';
 import PosterCanvas from '../../components/PosterCanvas';
+import { ReportCardSkeleton } from '../../components/SkeletonScreen';
 import { captureAndSave } from '../../utils/poster';
 import { resolveShareCopy } from '../../utils/shareCopyMatcher';
 import { startPageTracking, stopPageTracking, TrackerHandle } from '../../utils/heartbeat';
@@ -141,6 +142,8 @@ export default function ReportPage() {
   const [insightVariants, setInsightVariants] = useState<Record<number, number>>({});
   // 人格变化提醒（借鉴 Claude Memory for Agents）
   const [personaChange, setPersonaChange] = useState<PersonaChange | null>(null);
+  // 首屏延迟渲染：非首屏组件在首帧后挂载
+  const [deferredReady, setDeferredReady] = useState(false);
 
   // ── 页面停留追踪（H5） ──
   const trackerRef = useRef<TrackerHandle | null>(null);
@@ -157,6 +160,14 @@ export default function ReportPage() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [report]);
+
+  // 首屏延迟渲染 — 非首屏组件在首帧后挂载，减少初始渲染开销
+  useEffect(() => {
+    if (!loading) {
+      const id = requestAnimationFrame(() => setDeferredReady(true));
+      return () => cancelAnimationFrame(id);
+    }
+  }, [loading]);
 
   // 人格变化检测 — 再次测试结果不同时展示提醒
   useEffect(() => {
@@ -377,11 +388,8 @@ export default function ReportPage() {
   if (loading) {
     return (
       <View className="report-page">
-        <View className="state-box">
-          <View className="ap-pulse-ring">
-            <View className="ap-pulse-inner" />
-          </View>
-          <Text className="state-text">正在生成你的报告...</Text>
+        <View className="report-skeleton-container">
+          <ReportCardSkeleton />
         </View>
       </View>
     );
@@ -566,10 +574,16 @@ export default function ReportPage() {
             </View>
           </View>
 
-          {/* 完整五维雷达图 */}
+          {/* 完整五维雷达图 — 延迟到首屏渲染后挂载 */}
           <View className="section">
             <Text className="section-title">五维人格图谱</Text>
-            <RadarCanvas scores={radarScores} size={580} />
+            {deferredReady ? (
+              <RadarCanvas scores={radarScores} size={580} />
+            ) : (
+              <View style={{ height: '580rpx', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <View className="skeleton-block skeleton-animated" style={{ width: '400rpx', height: '400rpx', borderRadius: '50%' }} />
+              </View>
+            )}
           </View>
 
           {/* 5 维维度解析 */}

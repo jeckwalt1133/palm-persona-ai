@@ -11,7 +11,6 @@
   --sl-gold-border-strong: rgba(255, 209, 102, 0.2);
   --sl-bg-subtle: rgba(255, 255, 255, 0.03);
   --sl-bg-card-alt: rgba(255, 255, 255, 0.04);
-  --sl-gold-dim: rgba(255, 209, 102, 0.3);
   --sl-cta-gradient: linear-gradient(135deg, #FFD166, #F5A623);
 
   min-height: 100vh;
@@ -36,48 +35,7 @@ html[data-theme="light"] .share-landing-page {
   --sl-gold-border-strong: rgba(139, 105, 20, 0.18);
   --sl-bg-subtle: rgba(27, 16, 53, 0.03);
   --sl-bg-card-alt: rgba(27, 16, 53, 0.04);
-  --sl-gold-dim: rgba(139, 105, 20, 0.25);
   --sl-cta-gradient: linear-gradient(135deg, #8B6914, #A07818);
-}
-
-/* ── 加载态 ── */
-.sl-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  gap: 32rpx;
-}
-
-.sl-pulse-ring {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-  border: 3rpx solid var(--sl-gold-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: slPulse 2s ease-in-out infinite;
-}
-
-.sl-pulse-inner {
-  width: 32rpx;
-  height: 32rpx;
-  border-radius: 50%;
-  background: var(--color-accent-gold);
-  opacity: 0.6;
-}
-
-@keyframes slPulse {
-  0%, 100% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.5); opacity: 1; }
-}
-
-.sl-loading-text {
-  font-size: 26rpx;
-  color: var(--color-text-secondary);
-  opacity: 0.7;
 }
 
 /* ── 品牌顶栏 ── */

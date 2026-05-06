@@ -3,6 +3,7 @@ import Taro, { useLoad } from '@tarojs/taro';
 import { useState } from 'react';
 import { apiUrl } from '../../utils/api';
 import { track, EventType } from '../../utils/analytics';
+import { ShareLandingSkeleton } from '../../components/SkeletonScreen';
 import './index.scss';
 
 interface SharedReport {
@@ -74,12 +75,7 @@ export default function ShareLandingPage() {
   if (loading) {
     return (
       <View className="share-landing-page">
-        <View className="sl-loading">
-          <View className="sl-pulse-ring">
-            <View className="sl-pulse-inner" />
-          </View>
-          <Text className="sl-loading-text">有人在手掌里藏了一句话给你...</Text>
-        </View>
+        <ShareLandingSkeleton />
       </View>
     );
   }

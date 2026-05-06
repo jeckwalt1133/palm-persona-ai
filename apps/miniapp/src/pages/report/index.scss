@@ -258,6 +258,15 @@
   gap: 32rpx;
 }
 
+/* 骨架屏加载容器 */
+.report-skeleton-container {
+  width: 100%;
+  max-width: 560rpx;
+  margin: 0 auto;
+  padding: 40rpx 32rpx;
+  box-sizing: border-box;
+}
+
 .state-text {
   font-size: 28rpx;
   color: rgba(255, 255, 255, 0.6);
