@@ -1,10 +1,10 @@
 {
-  "version": "2.3",
-  "updated": "2026-05-06T14:30:00Z",
+  "version": "2.4",
+  "updated": "2026-05-06T16:30:00Z",
   "description": "AI师生研究院 V7 知识图谱 — Layer 3 语义记忆。节点=概念/方法论/决策/产品，边=标准4型关系+3型扩展。",
   "stats": {
-    "nodeCount": 32,
-    "edgeCount": 55,
+    "nodeCount": 33,
+    "edgeCount": 58,
     "primaryRelations": [
       "precedes",
       "supports",
@@ -559,6 +559,15 @@
       "relatedDecisions": [
         "D009"
       ]
+    },
+    {
+      "id": "ceo-commit-bandwidth-bottleneck",
+      "label": "CEO提交审查带宽瓶颈",
+      "domain": "methodology",
+      "description": "Agent从4人扩展到7人后，产出速度超过CEO批量提交审查带宽。提交干旱从2小时拉长到3小时。Agent自驱任务进一步加速产出堆积。需自动化提交门禁以解耦审查与提交。",
+      "relatedDecisions": [
+        "D019"
+      ]
     }
   ],
   "edges": [
@@ -886,6 +895,21 @@
       "from": "convergence-rhythm-acceleration",
       "relation": "supports",
       "to": "build-expand-dont-commit-pattern"
+    },
+    {
+      "from": "ceo-commit-bandwidth-bottleneck",
+      "relation": "derives_from",
+      "to": "one-person-company-organization"
+    },
+    {
+      "from": "ceo-commit-bandwidth-bottleneck",
+      "relation": "extends",
+      "to": "build-expand-dont-commit-pattern"
+    },
+    {
+      "from": "ceo-commit-bandwidth-bottleneck",
+      "relation": "contradicts",
+      "to": "convergence-rhythm-acceleration"
     }
   ]
 }
