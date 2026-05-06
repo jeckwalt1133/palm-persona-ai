@@ -40,7 +40,7 @@ OUTBOX_DIR = MESSAGES_DIR / "outbox"
 STATE_FILE = MESSAGES_DIR / ".state.json"
 AGENT_CARDS_DIR = PROJECT_ROOT / "memory" / "agent-cards"
 
-VALID_AGENT_IDS = {"nie", "ma", "wang", "zhou"}
+VALID_AGENT_IDS = {"nie", "ma", "wang", "zhou", "zhao", "qian", "sun"}
 
 # TTL 默认值 (秒)
 DEFAULT_TASK_TTL = 86400 * 7      # 任务: 7天
