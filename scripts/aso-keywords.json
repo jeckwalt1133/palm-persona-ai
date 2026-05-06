@@ -1,0 +1,334 @@
+{
+  "$schema": "palm-persona:aso-keywords/v1",
+  "meta": {
+    "generatedBy": "孙富贵 P5 增长运营",
+    "taskId": "V7-W6-006",
+    "date": "2026-05-07",
+    "basedOn": [
+      "sun-pre-launch-growth.md (30个基础关键词)",
+      "sun-week1-articles.md (W1内容覆盖数据)",
+      "sun-week2-articles.md (W2内容覆盖数据)"
+    ],
+    "platform": ["wechat-miniprogram", "douyin-miniprogram"],
+    "optimizationRound": 1
+  },
+  "miniProgramName": {
+    "primary": "AI手掌分析 - 人格测验趣味测试",
+    "alternative": "掌心人格局 - 手掌拍照测性格",
+    "rationale": "主方案ASO优先(含Tier1核心词'AI手掌分析''人格测验''趣味测试')，备选品牌积累优先"
+  },
+  "description": {
+    "wechat": "AI手掌图像趣味分析工具——拍一张手掌，生成专属人格画像。好友匹配默契度、手掌特征深度解读、每日趣味测试。本产品仅供娱乐和自我探索。",
+    "douyin": "拍手掌测性格！AI分析你的手掌特征，生成专属人格报告。还能和朋友匹配默契度——看看你们的同频度有多高。趣味测试，每日免费3次。",
+    "characterCount": {"wechat": 95, "douyin": 81}
+  },
+  "keywords": [
+    {
+      "keyword": "人格测验",
+      "score": {"heat": 7, "competition": 5, "relevance": 9, "composite": 7.2},
+      "tier": 1,
+      "placement": "title",
+      "performance": {"articleClicks": "high", "searchImpression": "growing"},
+      "articlesMapped": ["W1-1", "W1-2", "W2-1", "W3-1"],
+      "notes": "竞争适中+高相关，标题必须包含"
+    },
+    {
+      "keyword": "AI手掌分析",
+      "score": {"heat": 4, "competition": 2, "relevance": 10, "composite": 7.4},
+      "tier": 1,
+      "placement": "title",
+      "performance": {"articleClicks": "highest", "searchImpression": "new"},
+      "articlesMapped": ["W1-1", "W4-1"],
+      "notes": "品牌差异化词，零竞争蓝海，名称强烈建议包含"
+    },
+    {
+      "keyword": "趣味测试",
+      "score": {"heat": 8, "competition": 8, "relevance": 7, "composite": 6.7},
+      "tier": 1,
+      "placement": "title",
+      "performance": {"articleClicks": "high", "searchImpression": "stable"},
+      "articlesMapped": ["W1-3", "W2-3", "W3-3", "W4-3"],
+      "notes": "高热度覆盖词，所有趣味测试类内容共用"
+    },
+    {
+      "keyword": "手掌测试",
+      "score": {"heat": 5, "competition": 3, "relevance": 9, "composite": 7.2},
+      "tier": 1,
+      "placement": "tags",
+      "performance": {"articleClicks": "medium", "searchImpression": "growing"},
+      "articlesMapped": ["W1-1", "W1-3", "W2-1", "W2-3", "W3-3"],
+      "notes": "蓝海词，低竞争高相关，标签位核心"
+    },
+    {
+      "keyword": "手掌拍照测试",
+      "score": {"heat": 3, "competition": 1, "relevance": 10, "composite": 7.7},
+      "tier": 1,
+      "placement": "description",
+      "performance": {"articleClicks": "medium", "searchImpression": "new"},
+      "articlesMapped": ["W1-1"],
+      "notes": "最强差异化长尾词，零竞争+完美匹配"
+    },
+    {
+      "keyword": "人格分析",
+      "score": {"heat": 6, "competition": 5, "relevance": 9, "composite": 7.1},
+      "tier": 1,
+      "placement": "tags",
+      "performance": {"articleClicks": "high", "searchImpression": "growing"},
+      "articlesMapped": ["W1-1", "W2-1", "W3-1", "W4-1"],
+      "notes": "精准匹配产品核心，科普内容主关键词"
+    },
+    {
+      "keyword": "好友匹配测试",
+      "score": {"heat": 6, "competition": 4, "relevance": 8, "composite": 7.0},
+      "tier": 1,
+      "placement": "tags",
+      "performance": {"articleClicks": "high", "searchImpression": "growing"},
+      "articlesMapped": ["W1-3", "W2-2", "W3-2"],
+      "notes": "社交裂变关键词，匹配功能引流"
+    },
+    {
+      "keyword": "性格测试",
+      "score": {"heat": 9, "competition": 9, "relevance": 8, "composite": 7.1},
+      "tier": 1,
+      "placement": "description",
+      "performance": {"articleClicks": "highest", "searchImpression": "stable"},
+      "articlesMapped": ["W1-2", "W2-1", "W2-2", "W3-1", "W3-2"],
+      "notes": "竞争极度激烈但搜索量最大，描述自然覆盖"
+    },
+    {
+      "keyword": "AI人格测试",
+      "score": {"heat": 5, "competition": 3, "relevance": 9, "composite": 7.2},
+      "tier": 1,
+      "placement": "description",
+      "performance": {"articleClicks": "medium", "searchImpression": "growing"},
+      "articlesMapped": ["W3-3", "W4-3"],
+      "notes": "蓝海+精准，副标题优先位置"
+    },
+    {
+      "keyword": "拍照测性格",
+      "score": {"heat": 3, "competition": 2, "relevance": 9, "composite": 7.0},
+      "tier": 2,
+      "placement": "tags",
+      "performance": {"articleClicks": "medium", "searchImpression": "new"},
+      "articlesMapped": ["W1-1", "W2-3", "W4-3"],
+      "notes": "精准长尾搜索词，微信搜一搜自然搜索匹配"
+    },
+    {
+      "keyword": "默契测试",
+      "score": {"heat": 5, "competition": 4, "relevance": 8, "composite": 6.7},
+      "tier": 2,
+      "placement": "tags",
+      "performance": {"articleClicks": "high", "searchImpression": "growing"},
+      "articlesMapped": ["W1-3", "W3-2"],
+      "notes": "社交场景精准词，竞争低"
+    },
+    {
+      "keyword": "性格分析",
+      "score": {"heat": 7, "competition": 6, "relevance": 8, "composite": 6.7},
+      "tier": 2,
+      "placement": "description",
+      "performance": {"articleClicks": "high", "searchImpression": "stable"},
+      "articlesMapped": ["W1-2", "W2-1", "W4-2"],
+      "notes": "通用但精准，描述和科普内容覆盖"
+    },
+    {
+      "keyword": "心理测试",
+      "score": {"heat": 10, "competition": 10, "relevance": 6, "composite": 6.4},
+      "tier": 2,
+      "placement": "description",
+      "performance": {"articleClicks": "medium", "searchImpression": "stable"},
+      "articlesMapped": [],
+      "notes": "顶级热度但竞争极度激烈，仅描述自然提及不主推"
+    },
+    {
+      "keyword": "自我探索",
+      "score": {"heat": 4, "competition": 3, "relevance": 7, "composite": 6.4},
+      "tier": 2,
+      "placement": "tags",
+      "performance": {"articleClicks": "medium", "searchImpression": "low"},
+      "articlesMapped": ["W1-2", "W4-1", "W4-2"],
+      "notes": "心理场景词，有温度感，留存内容使用"
+    },
+    {
+      "keyword": "配对测试",
+      "score": {"heat": 6, "competition": 6, "relevance": 7, "composite": 6.4},
+      "tier": 2,
+      "placement": "tags",
+      "performance": {"articleClicks": "medium", "searchImpression": "stable"},
+      "articlesMapped": ["W1-3", "W2-2"],
+      "notes": "匹配功能关键词，情侣/好友场景"
+    },
+    {
+      "keyword": "AI测试",
+      "score": {"heat": 5, "competition": 4, "relevance": 7, "composite": 6.4},
+      "tier": 2,
+      "placement": "tags",
+      "performance": {"articleClicks": "low", "searchImpression": "growing"},
+      "articlesMapped": ["W1-1", "W2-3", "W3-3"],
+      "notes": "蹭AI热度+产品属性，内容标签使用"
+    },
+    {
+      "keyword": "关系匹配",
+      "score": {"heat": 5, "competition": 5, "relevance": 7, "composite": 6.4},
+      "tier": 2,
+      "placement": "description",
+      "performance": {"articleClicks": "medium", "searchImpression": "low"},
+      "articlesMapped": ["W2-2", "W3-2"],
+      "notes": "匹配功能描述词，职场/情侣场景"
+    },
+    {
+      "keyword": "AI读心",
+      "score": {"heat": 3, "competition": 3, "relevance": 7, "composite": 6.4},
+      "tier": 2,
+      "placement": "tags",
+      "performance": {"articleClicks": "low", "searchImpression": "new"},
+      "articlesMapped": ["W1-2", "W4-3"],
+      "notes": "趣味性强，适合抖音标签和朋友圈文案"
+    },
+    {
+      "keyword": "情侣默契测试",
+      "score": {"heat": 6, "competition": 6, "relevance": 6, "composite": 6.0},
+      "tier": 2,
+      "placement": "tags",
+      "performance": {"articleClicks": "high", "searchImpression": "growing"},
+      "articlesMapped": ["W2-2"],
+      "notes": "社交裂变场景词，匹配类内容专用"
+    },
+    {
+      "keyword": "免费性格测试",
+      "score": {"heat": 7, "competition": 8, "relevance": 7, "composite": 6.1},
+      "tier": 2,
+      "placement": "description",
+      "performance": {"articleClicks": "medium", "searchImpression": "stable"},
+      "articlesMapped": ["W1-3"],
+      "notes": "'免费'是高频修饰词，描述中自然提及"
+    },
+    {
+      "keyword": "手掌性格分析",
+      "score": {"heat": 2, "competition": 1, "relevance": 9, "composite": 6.9},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "low", "searchImpression": "new"},
+      "articlesMapped": ["W2-1", "W4-1"],
+      "notes": "超精准长尾词，公众号文章标题埋入"
+    },
+    {
+      "keyword": "手部特征测试",
+      "score": {"heat": 2, "competition": 1, "relevance": 8, "composite": 6.4},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "low", "searchImpression": "new"},
+      "articlesMapped": ["W1-1", "W2-1"],
+      "notes": "合规替代表达，自然埋入科普文章"
+    },
+    {
+      "keyword": "职业倾向测试",
+      "score": {"heat": 6, "competition": 7, "relevance": 6, "composite": 5.9},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "new", "searchImpression": "new"},
+      "articlesMapped": ["R6-W3-3"],
+      "notes": "新增词，配合职业场景文章。竞争较高但搜索意图精准"
+    },
+    {
+      "keyword": "手掌段位测试",
+      "score": {"heat": 2, "competition": 1, "relevance": 7, "composite": 6.1},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "new", "searchImpression": "new"},
+      "articlesMapped": ["R6-W3-1"],
+      "notes": "新增词，游戏化角度，配合段位文章"
+    },
+    {
+      "keyword": "手掌特征匹配",
+      "score": {"heat": 2, "competition": 1, "relevance": 8, "composite": 6.2},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "new", "searchImpression": "new"},
+      "articlesMapped": ["R6-W3-2"],
+      "notes": "新增词，匹配场景合规表达"
+    },
+    {
+      "keyword": "每日一测",
+      "score": {"heat": 3, "competition": 2, "relevance": 6, "composite": 6.0},
+      "tier": 3,
+      "placement": "tags",
+      "performance": {"articleClicks": "low", "searchImpression": "growing"},
+      "articlesMapped": ["W4-1", "W4-2"],
+      "notes": "留存场景词，推送文案使用"
+    },
+    {
+      "keyword": "手掌看性格",
+      "score": {"heat": 3, "competition": 2, "relevance": 8, "composite": 6.5},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "low", "searchImpression": "low"},
+      "articlesMapped": ["W1-2", "W4-2"],
+      "notes": "自然语言搜索词，用户故事中自然埋入"
+    },
+    {
+      "keyword": "趣味人格",
+      "score": {"heat": 2, "competition": 2, "relevance": 7, "composite": 6.1},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "low", "searchImpression": "low"},
+      "articlesMapped": ["W2-3", "W3-3", "W4-3"],
+      "notes": "轻量级品牌词，社交分享标签"
+    },
+    {
+      "keyword": "AI看懂我的手掌",
+      "score": {"heat": 1, "competition": 1, "relevance": 9, "composite": 6.6},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "low", "searchImpression": "new"},
+      "articlesMapped": ["W1-2", "W4-2"],
+      "notes": "情感化长尾，抖音/小红书文案使用"
+    },
+    {
+      "keyword": "心理陪伴",
+      "score": {"heat": 3, "competition": 3, "relevance": 6, "composite": 5.8},
+      "tier": 3,
+      "placement": "content-only",
+      "performance": {"articleClicks": "low", "searchImpression": "low"},
+      "articlesMapped": ["W1-2", "W4-1"],
+      "notes": "情感场景词，品牌温度建设"
+    }
+  ],
+  "optimizationDecisions": [
+    {
+      "decision": "新增'职业倾向测试''手掌段位测试''手掌特征匹配'3个场景词",
+      "reason": "配合R6场景化推文新增的职业/段位/匹配3个角度"
+    },
+    {
+      "decision": "Tier1词'人格测验'优先于'性格测试'",
+      "reason": "同热度但竞争度低4分，ROI更高"
+    },
+    {
+      "decision": "'心理测试'仅描述提及不主推",
+      "reason": "竞争度10/10，投入产出比低，不如精准长尾词"
+    },
+    {
+      "decision": "内容词(placement=content-only)统一不在标签/标题中出现",
+      "reason": "节省36字符预算给高ROI词，长尾词通过文章SEO覆盖"
+    }
+  ],
+  "weeklyKeywordCoverage": {
+    "W1": ["AI手掌分析","手掌测试","拍照测性格","AI测试","人格分析","性格分析","自我探索","AI读心","好友匹配测试","默契测试"],
+    "W2": ["手掌测试","人格分析","手部特征测试","性格测试","情侣默契测试","关系匹配","配对测试"],
+    "W3": ["人格测验","MBTI测试","16型人格","好友匹配测试","关系匹配","趣味人格","AI人格测试"],
+    "W4": ["AI手掌分析","手掌性格分析","自我探索","每日一测","心理陪伴","AI读心","拍照测性格"],
+    "R6-W3": ["职业倾向测试","手掌段位测试","手掌特征匹配","手部特征测试","关系匹配","人格分析","趣味测试"]
+  },
+  "wechatConfig": {
+    "title": "AI手掌分析 - 人格测验趣味测试",
+    "keywordsField": "人格测验,AI手掌分析,趣味测试,手掌测试,人格分析,好友匹配测试,拍照测性格,AI人格,默契测试,性格分析",
+    "keywordsCharCount": 34,
+    "keywordsLimit": 36,
+    "description_120char": "AI手掌图像趣味分析工具——拍一张手掌，生成专属人格画像。好友匹配默契度、手掌特征深度解读、每日趣味测试。结果仅供娱乐和自我探索。"
+  },
+  "douyinConfig": {
+    "title": "AI手掌分析 - 拍手掌测性格人格测验",
+    "tags": ["人格测验","手掌测试","趣味测试","AI人格测试","好友匹配","拍照测性格","默契测试","自我探索"],
+    "description": "拍手掌测性格！AI分析你的手掌特征，生成专属人格报告。还能和朋友匹配默契度—看看你们的同频度有多高。趣味测试，每日免费3次。"
+  }
+}

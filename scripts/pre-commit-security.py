@@ -693,7 +693,7 @@ def run_tests():
     # 测试4: Slack Bot Token
     add_test(
         "Slack Bot Token硬编码",
-        'const slackToken = "xox" + "b-123456789012-1234567890123-abcdefghijklmnopqrstuvwx";',
+        'const slackToken = "xoxb-N0T-A-R3AL-T0K3N-F0R-T3ST1NG";',
         "PAT-006",
         True,
     )
