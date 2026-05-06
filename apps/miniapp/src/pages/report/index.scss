@@ -4,32 +4,73 @@
    ═══════════════════════════════════════════════════════════ */
 
 .report-page {
-  /* 本地主题令牌 */
-  --rp-gold-06: rgba(255, 209, 102, 0.06);
-  --rp-gold-08: rgba(255, 209, 102, 0.08);
-  --rp-gold-10: rgba(255, 209, 102, 0.1);
-  --rp-gold-12: rgba(255, 209, 102, 0.12);
-  --rp-gold-15: rgba(255, 209, 102, 0.15);
-  --rp-gold-20: rgba(255, 209, 102, 0.2);
-  --rp-gold-25: rgba(255, 209, 102, 0.25);
-  --rp-gold-30: rgba(255, 209, 102, 0.3);
-  --rp-cyan-04: rgba(100, 200, 255, 0.04);
-  --rp-cyan-06: rgba(100, 200, 255, 0.06);
-  --rp-cyan-08: rgba(100, 200, 255, 0.08);
-  --rp-cyan-12: rgba(100, 200, 255, 0.12);
-  --rp-cyan-15: rgba(100, 200, 255, 0.15);
-  --rp-cyan-border: rgba(100, 200, 255, 0.1);
-  --rp-pink-04: rgba(255, 107, 138, 0.04);
-  --rp-pink-12: rgba(255, 107, 138, 0.12);
+  /* ── 本地主题令牌 (暗色默认值) ── */
+  --rp-bg-card: rgba(255, 255, 255, 0.04);
+  --rp-bg-input: rgba(255, 255, 255, 0.08);
+  --rp-gold-bg-light: rgba(255, 209, 102, 0.06);
+  --rp-gold-bg-subtle: rgba(255, 209, 102, 0.1);
+  --rp-gold-bg: rgba(255, 209, 102, 0.12);
+  --rp-gold-bg-medium: rgba(255, 209, 102, 0.15);
+  --rp-gold-bg-strong: rgba(255, 209, 102, 0.2);
+  --rp-gold-text-faint: rgba(255, 209, 102, 0.35);
+  --rp-gold-text-dim: rgba(255, 209, 102, 0.65);
+  --rp-gold-text: rgba(255, 209, 102, 0.7);
+  --rp-gold-border-light: rgba(255, 209, 102, 0.25);
+  --rp-gold-border: rgba(255, 209, 102, 0.4);
+  --rp-pink-bg-subtle: rgba(255, 107, 138, 0.04);
+  --rp-pink-bg: rgba(255, 107, 138, 0.06);
+  --rp-pink-bg-medium: rgba(255, 107, 138, 0.08);
+  --rp-pink-bg-strong: rgba(255, 107, 138, 0.12);
+  --rp-pink-border-light: rgba(255, 107, 138, 0.15);
   --rp-pink-border: rgba(255, 107, 138, 0.25);
-  --rp-green-08: rgba(6, 214, 160, 0.08);
-  --rp-green-20: rgba(6, 214, 160, 0.2);
-  --rp-shimmer: radial-gradient(circle, rgba(255, 209, 102, 0.15), rgba(255, 107, 138, 0.08));
+  --rp-red-bg: rgba(239, 71, 111, 0.15);
+  --rp-red-border: rgba(239, 71, 111, 0.4);
+  --rp-cyan-bg: rgba(6, 214, 160, 0.08);
+  --rp-cyan-border: rgba(6, 214, 160, 0.2);
+  --rp-blue-bg-subtle: rgba(100, 200, 255, 0.04);
+  --rp-blue-bg: rgba(100, 200, 255, 0.06);
+  --rp-blue-bg-medium: rgba(100, 200, 255, 0.08);
+  --rp-blue-bg-strong: rgba(100, 200, 255, 0.12);
+  --rp-blue-border-subtle: rgba(100, 200, 255, 0.1);
+  --rp-blue-border-light: rgba(100, 200, 255, 0.15);
+  --rp-blue-border: rgba(100, 200, 255, 0.2);
+  --rp-blue-border-strong: rgba(100, 200, 255, 0.25);
   --rp-modal-overlay: rgba(0, 0, 0, 0.6);
-  --rp-gradient-gold: linear-gradient(135deg, var(--rp-gold-10), var(--rp-pink-12));
-  --rp-gradient-gold-soft: linear-gradient(135deg, var(--rp-gold-06), var(--rp-pink-04));
-  --rp-gradient-cyan: linear-gradient(135deg, var(--rp-cyan-06), var(--rp-gold-06));
-  --rp-gradient-cyan-soft: linear-gradient(135deg, var(--rp-cyan-04), var(--rp-gold-06));
+  --rp-grad-gold-pink: linear-gradient(135deg, var(--rp-gold-bg), var(--rp-pink-bg-strong));
+  --rp-grad-gold-pink-subtle: linear-gradient(135deg, var(--rp-gold-bg-light), var(--rp-pink-bg-subtle));
+  --rp-grad-gold-pink-med: linear-gradient(135deg, var(--rp-gold-bg-light), var(--rp-pink-bg));
+  --rp-grad-gold-pink-strong: linear-gradient(135deg, var(--rp-gold-bg-subtle), var(--rp-pink-bg-medium));
+  --rp-grad-blue-gold: linear-gradient(135deg, var(--rp-blue-bg), var(--rp-gold-bg-light));
+  --rp-grad-blue-gold-strong: linear-gradient(135deg, var(--rp-blue-bg-medium), var(--rp-gold-bg-light));
+  --rp-grad-blue-gold-subtle: linear-gradient(135deg, var(--rp-blue-bg-subtle), var(--rp-gold-bg-light));
+  --rp-grad-blue-pink: linear-gradient(135deg, var(--rp-blue-bg), var(--rp-pink-bg-subtle));
+
+  /* 兼容别名 — 旧令牌 → 新语义令牌 */
+  --rp-gold-06: var(--rp-gold-bg-light);
+  --rp-gold-08: var(--rp-gold-bg-light);
+  --rp-gold-10: var(--rp-gold-bg-subtle);
+  --rp-gold-12: var(--rp-gold-bg);
+  --rp-gold-15: var(--rp-gold-bg-medium);
+  --rp-gold-20: var(--rp-gold-bg-strong);
+  --rp-gold-25: var(--rp-gold-border-light);
+  --rp-gold-30: var(--color-border-dashed);
+  --rp-cyan-04: var(--rp-cyan-bg);
+  --rp-cyan-06: var(--rp-cyan-bg);
+  --rp-cyan-08: var(--rp-cyan-bg);
+  --rp-cyan-12: var(--rp-cyan-bg);
+  --rp-cyan-15: var(--rp-cyan-border);
+  --rp-cyan-border: var(--rp-cyan-border);
+  --rp-pink-04: var(--rp-pink-bg-subtle);
+  --rp-pink-12: var(--rp-pink-bg-strong);
+  --rp-pink-border: var(--rp-pink-border);
+  --rp-green-08: var(--rp-cyan-bg);
+  --rp-green-20: var(--rp-cyan-border);
+  --rp-shimmer: var(--color-shimmer);
+  --rp-modal-overlay: var(--rp-modal-overlay, rgba(0, 0, 0, 0.6));
+  --rp-gradient-gold: var(--rp-grad-gold-pink-strong);
+  --rp-gradient-gold-soft: var(--rp-grad-gold-pink-subtle);
+  --rp-gradient-cyan: var(--rp-grad-blue-gold);
+  --rp-gradient-cyan-soft: var(--rp-grad-blue-gold-subtle);
 
   height: 100vh;
   padding: 32rpx;
@@ -39,34 +80,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-page[data-theme="light"] .report-page,
-html[data-theme="light"] .report-page {
-  --rp-gold-06: rgba(139, 105, 20, 0.05);
-  --rp-gold-08: rgba(139, 105, 20, 0.07);
-  --rp-gold-10: rgba(139, 105, 20, 0.08);
-  --rp-gold-12: rgba(139, 105, 20, 0.1);
-  --rp-gold-15: rgba(139, 105, 20, 0.12);
-  --rp-gold-20: rgba(139, 105, 20, 0.16);
-  --rp-gold-25: rgba(139, 105, 20, 0.2);
-  --rp-gold-30: rgba(139, 105, 20, 0.25);
-  --rp-cyan-04: rgba(30, 80, 160, 0.03);
-  --rp-cyan-06: rgba(30, 80, 160, 0.05);
-  --rp-cyan-08: rgba(30, 80, 160, 0.07);
-  --rp-cyan-12: rgba(30, 80, 160, 0.1);
-  --rp-cyan-15: rgba(30, 80, 160, 0.12);
-  --rp-cyan-border: rgba(30, 80, 160, 0.08);
-  --rp-pink-04: rgba(192, 57, 43, 0.03);
-  --rp-pink-12: rgba(192, 57, 43, 0.1);
-  --rp-pink-border: rgba(192, 57, 43, 0.2);
-  --rp-green-08: rgba(0, 120, 96, 0.06);
-  --rp-green-20: rgba(0, 120, 96, 0.16);
-  --rp-shimmer: radial-gradient(circle, rgba(139, 105, 20, 0.12), rgba(192, 57, 43, 0.06));
-  --rp-modal-overlay: rgba(0, 0, 0, 0.4);
-  --rp-gradient-gold: linear-gradient(135deg, var(--rp-gold-10), var(--rp-pink-12));
-  --rp-gradient-gold-soft: linear-gradient(135deg, var(--rp-gold-06), var(--rp-pink-04));
-  --rp-gradient-cyan: linear-gradient(135deg, var(--rp-cyan-06), var(--rp-gold-06));
-  --rp-gradient-cyan-soft: linear-gradient(135deg, var(--rp-cyan-04), var(--rp-gold-06));
-}
+
 
 /* Top Toolbar */
 .top-toolbar {
@@ -116,8 +130,8 @@ html[data-theme="light"] .report-page {
 }
 
 .tone-btn-sharp {
-  background: rgba(239, 71, 111, 0.15);
-  border-color: rgba(239, 71, 111, 0.4);
+  background: var(--rp-red-bg);
+  border-color: var(--rp-red-border);
   color: var(--color-accent-pink);
 }
 
@@ -495,3 +509,40 @@ html[data-theme="light"] .report-page {
 .poster-save-sub { font-size: 20rpx; color: var(--color-accent-gold); opacity: 0.4; }
 .poster-saving-hint { display: flex; justify-content: center; padding: 16rpx 0; }
 .poster-saving-text { font-size: 24rpx; color: var(--color-accent-gold); opacity: 0.6; }
+
+/* ── 亮色主题令牌覆写 ──
+   同时匹配 page(小程序)和 html(H5兜底)确保跨端生效 */
+page[data-theme="light"] .report-page,
+html[data-theme="light"] .report-page {
+  --rp-bg-card: rgba(27, 16, 53, 0.03);
+  --rp-bg-input: rgba(27, 16, 53, 0.06);
+  --rp-gold-bg-light: rgba(139, 105, 20, 0.05);
+  --rp-gold-bg-subtle: rgba(139, 105, 20, 0.08);
+  --rp-gold-bg: rgba(139, 105, 20, 0.1);
+  --rp-gold-bg-medium: rgba(139, 105, 20, 0.12);
+  --rp-gold-bg-strong: rgba(139, 105, 20, 0.18);
+  --rp-gold-text-faint: rgba(139, 105, 20, 0.3);
+  --rp-gold-text-dim: rgba(139, 105, 20, 0.55);
+  --rp-gold-text: rgba(139, 105, 20, 0.6);
+  --rp-gold-border-light: rgba(139, 105, 20, 0.2);
+  --rp-gold-border: rgba(139, 105, 20, 0.35);
+  --rp-pink-bg-subtle: rgba(192, 57, 43, 0.03);
+  --rp-pink-bg: rgba(192, 57, 43, 0.05);
+  --rp-pink-bg-medium: rgba(192, 57, 43, 0.07);
+  --rp-pink-bg-strong: rgba(192, 57, 43, 0.1);
+  --rp-pink-border-light: rgba(192, 57, 43, 0.12);
+  --rp-pink-border: rgba(192, 57, 43, 0.2);
+  --rp-red-bg: rgba(192, 57, 43, 0.12);
+  --rp-red-border: rgba(192, 57, 43, 0.35);
+  --rp-cyan-bg: rgba(0, 136, 102, 0.06);
+  --rp-cyan-border: rgba(0, 136, 102, 0.18);
+  --rp-blue-bg-subtle: rgba(30, 80, 160, 0.03);
+  --rp-blue-bg: rgba(30, 80, 160, 0.05);
+  --rp-blue-bg-medium: rgba(30, 80, 160, 0.07);
+  --rp-blue-bg-strong: rgba(30, 80, 160, 0.1);
+  --rp-blue-border-subtle: rgba(30, 80, 160, 0.08);
+  --rp-blue-border-light: rgba(30, 80, 160, 0.12);
+  --rp-blue-border: rgba(30, 80, 160, 0.18);
+  --rp-blue-border-strong: rgba(30, 80, 160, 0.22);
+  --rp-modal-overlay: rgba(0, 0, 0, 0.5);
+}
