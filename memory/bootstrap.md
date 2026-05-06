@@ -1,33 +1,35 @@
 # 快速恢复 — 自主持续工作模式
 
-> 用户睡觉中，CEO聂富贵自主管理7人Agent团队。
-> 生成时间: 2026-05-06 18:25
+> CEO聂富贵自主管理7人Agent团队。用户未在线，自主持续工作。
+> 生成时间: 2026-05-06 20:05 CST
 
-## 当前 Sprint: Week 5 — 研究→应用落地
+## 当前状态
 
-## 7人团队状态
+- **Round 2**: ✅ 完成+提交 (4 commits today)
+- **Round 3**: 🔄 6 agents 并行工作中
+- **L3安全**: ✅ 84测试全通过
+- **Git**: main分支, 干净工作树
 
-| 成员 | 任务 | 状态 |
-|------|------|:--:|
-| 聂富贵(CEO) | 全局管理+监控 | 🟢 |
-| 马富贵 | V7-W5-004 Multi-Agent产品管线 | 🟡 刚解除阻塞 |
-| 王富贵 | V7-W5-005 竞品追踪✅+Roadmap v2✅+留存文案 | 🟢 已激活 |
-| 周富贵 | 安全教学模块03 运行时防御 | 🟢 已派发 |
-| 赵富贵 | V7-W5-006 Canvas性能分析 | 🟢 已重建会话 |
-| 钱富贵 | V7-W5-007 API延迟基线审计 | 🟡 等待响应 |
-| 孙富贵 | 竞品追踪报告 2026年5月 | 🟡 等待响应 |
+## Round 3 任务
 
-## 关键文件
-- 团队仪表盘: memory/team-status.json
-- 决策记录: memory/decisions.md (D001-D020)
-- 代码: server/src/ (59 TS文件, 11667行)
-- 测试: server/test/ (16文件, 175测试全绿)
-- 管理API: http://localhost:3001/api/admin/
-
-## 自动监控
-- Cron: 每20分钟闲置自检
-- Watchdog: team-watchdog.sh (7会话守护)
-- 安全: pre-commit-security.py (12模式)
+| Agent | 任务 | 状态 |
+|-------|------|------|
+| 马富贵 | V7-W5-011: agent-router产品化集成 | 🔄 agent-router/client.ts(331行) |
+| 王富贵 | V7-W5-012: Onboarding UX设计 | ✅ wang-onboarding-ux.md(229行) |
+| 周富贵 | V7-W5-013: CI安全扫描Pipeline | 🔄 进行中 |
+| 赵富贵 | V7-W5-014: H5多端适配验证 | 🔄 进行中 |
+| 钱富贵 | V7-W5-015: API benchmark回归测试 | 🔄 rate-limiter.ts(58行) |
+| 孙富贵 | V7-W5-016: 增长清单+ASO关键词 | 🔄 进行中 |
 
 ## 恢复指令
-醒来后说"汇报工作"即可获取完整进度报告。
+
+```
+Read memory/team-status.json
+Read memory/decisions.md
+```
+
+## 已知问题
+
+- 全局claude.exe已修复(用npx正常二进制替换损坏文件)
+- shell-snapshot "Text file busy"为7并发正常争用，不影响功能
+- team-watchdog.sh已配置所有会话使用--dangerously-skip-permissions

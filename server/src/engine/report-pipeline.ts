@@ -286,3 +286,322 @@ export async function runPipeline(
     },
   };
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// PipelineOrchestrator — Agent Router 集成层
+// ═══════════════════════════════════════════════════════════════════
+
+import {
+  dispatchTask,
+  waitForDeliverable,
+  AgentIdentity,
+} from '../agent-router/client.js';
+
+/** Agent Router 模式配置 */
+export interface RouterModeConfig {
+  enabled: boolean;
+  /** 等待 Deliverable 的超时 (ms)。超时后降级到本地 AI 调用。 */
+  deliverableTimeoutMs?: number;
+  /** Worker 3 (Narrative) 派发的目标 Agent。默认 ma。 */
+  narrativeAgent?: AgentIdentity;
+  /** Worker 4 (Social) 派发的目标 Agent。默认 wang。 */
+  socialAgent?: AgentIdentity;
+}
+
+const DEFAULT_NARRATIVE_AGENT: AgentIdentity = {
+  agentId: 'ma', name: '马富贵', role: 'student',
+};
+const DEFAULT_SOCIAL_AGENT: AgentIdentity = {
+  agentId: 'wang', name: '王富贵', role: 'pm',
+};
+const PIPELINE_AGENT: AgentIdentity = {
+  agentId: 'nie', name: '聂富贵', role: 'teacher',
+};
+
+/**
+ * PipelineOrchestrator
+ *
+ * 在 Agent Router 模式下，Worker 3/4 不再硬编码调用 AI Provider，
+ * 而是通过 agent-router.py 派发 TaskCard 给对应的 Agent，
+ * 等待 Agent 返回 DeliverableCard 组装结果。
+ *
+ * 降级策略: Agent Router 超时或失败 → 回退到本地 AI 调用（原逻辑）
+ */
+export class PipelineOrchestrator {
+  private config: RouterModeConfig;
+
+  constructor(config: RouterModeConfig = { enabled: false }) {
+    this.config = {
+      deliverableTimeoutMs: 30000,
+      ...config,
+    };
+  }
+
+  /**
+   * 通过 Agent Router 派发 Narrative 子任务。
+   * 成功 → 返回 DeliverableResult 中的叙事字段
+   * 失败/超时 → 返回 null（调用方降级到本地 AI）
+   */
+  async dispatchNarrativeTask(
+    scores: PersonaScore[],
+    visualAnchors: VisualAnchors,
+  ): Promise<Pick<PersonaReport, 'personaType' | 'personaLabel' | 'summary' | 'coreTruth' | 'weeklyAdvice' | 'insights' | 'quote' | 'suspenseText' | 'identityBadge' | 'adTeaser'> | null> {
+    if (!this.config.enabled) return null;
+
+    const taskId = `narrative-${Date.now()}`;
+    const topScore = [...scores].sort((a, b) => b.score - a.score)[0];
+    const lowScore = [...scores].sort((a, b) => a.score - b.score)[scores.length - 1];
+
+    const result = await dispatchTask({
+      sender: PIPELINE_AGENT,
+      receiver: this.config.narrativeAgent || DEFAULT_NARRATIVE_AGENT,
+      task: {
+        id: taskId,
+        title: 'NarrativeWriter — 人格叙事+核心真相',
+        domain: 'product',
+        priority: 'P0',
+        requirement: `根据五维人格分数生成走心文案。要求：①每句话让人想截图发给朋友 ②温和刺痛+精确共鸣 ③不空泛不恐吓 ④用"倾向于""更容易""大概率""趣味语境下"等弱化措辞`,
+        acceptanceCriteria: [
+          '生成 personaType + personaLabel',
+          '生成 coreTruth（一句戳中的话）',
+          '生成 summary（200字以内）',
+          '生成 weeklyAdvice（50字以内）',
+          '生成 3 条 insights',
+          '生成 quote + suspenseText + identityBadge + adTeaser',
+          '所有文案通过合规审查（不包含禁用词）',
+        ],
+        outputPath: `memory/deliverables/${taskId}.json`,
+        payload: {
+          scores: scores.map(s => ({
+            dimension: s.dimension,
+            dimensionKey: s.dimensionKey,
+            score: s.score,
+            label: s.label,
+            description: s.description,
+          })),
+          topScore: { dimension: topScore.dimension, score: topScore.score, description: topScore.description },
+          lowScore: { dimension: lowScore.dimension, score: lowScore.score, description: lowScore.description },
+          visualAnchors: {
+            opening: visualAnchors.opening,
+            widthLabel: visualAnchors.widthLabel,
+            fingerLabel: visualAnchors.fingerLabel,
+            clarityLabel: visualAnchors.clarityLabel,
+            lineCountLabel: visualAnchors.lineCountLabel,
+            prominentMount: visualAnchors.prominentMount,
+          },
+        },
+      },
+      direction: 'vertical',
+      ttlSeconds: 300, // 5min TTL，任务级时效
+    });
+
+    if (!result.success) {
+      console.warn(`[PipelineOrchestrator] Narrative TaskCard 派发失败: ${result.message}`);
+      return null;
+    }
+
+    const deliverable = await waitForDeliverable(
+      taskId,
+      this.config.deliverableTimeoutMs || 30000,
+    );
+
+    if (!deliverable) {
+      console.warn(`[PipelineOrchestrator] Narrative Deliverable 超时 (taskId=${taskId})`);
+      return null;
+    }
+
+    if (deliverable.status === 'self_review_failed') {
+      console.warn(`[PipelineOrchestrator] Narrative 自审未通过: ${deliverable.selfReview.acceptanceCriteriaUnmet.join(', ')}`);
+      return null;
+    }
+
+    // 从 deliverables 中提取叙事数据
+    const narrativePayload = deliverable.deliverables.find(
+      d => d.type === 'narrative_result',
+    )?.content as Record<string, unknown> | undefined;
+
+    if (!narrativePayload) {
+      console.warn('[PipelineOrchestrator] Narrative Deliverable 不含 narrative_result');
+      return null;
+    }
+
+    return {
+      personaType: (narrativePayload.personaType as string) || 'flame_explorer',
+      personaLabel: (narrativePayload.personaLabel as string) || '火焰探索者',
+      identityBadge: (narrativePayload.identityBadge as string) || '',
+      coreTruth: (narrativePayload.coreTruth as string) || '',
+      summary: (narrativePayload.summary as string) || '',
+      weeklyAdvice: (narrativePayload.weeklyAdvice as string) || '',
+      quote: (narrativePayload.quote as string) || '',
+      suspenseText: (narrativePayload.suspenseText as string) || '',
+      adTeaser: (narrativePayload.adTeaser as string) || '',
+      insights: Array.isArray(narrativePayload.insights) ? narrativePayload.insights as string[] : [],
+    };
+  }
+
+  /**
+   * 通过 Agent Router 派发 Social 子任务。
+   */
+  async dispatchSocialTask(
+    scores: PersonaScore[],
+  ): Promise<{ relationshipCode: RelationshipCode; celebrityMatches: CelebrityMatch[] } | null> {
+    if (!this.config.enabled) return null;
+
+    const taskId = `social-${Date.now()}`;
+
+    const result = await dispatchTask({
+      sender: PIPELINE_AGENT,
+      receiver: this.config.socialAgent || DEFAULT_SOCIAL_AGENT,
+      task: {
+        id: taskId,
+        title: 'SocialAnalyzer — 关系密码+名人彩蛋',
+        domain: 'product',
+        priority: 'P1',
+        requirement: '根据五维人格分数分析关系模式，生成 relationshipCode 和 2-3 个 celebrityMatches',
+        acceptanceCriteria: [
+          '生成 relationshipCode (frequencyLabel + signalPattern + bestMatchType + tensionPoint)',
+          '生成 2-3 个 celebrityMatches (name + title + reason)',
+        ],
+        outputPath: `memory/deliverables/${taskId}.json`,
+        payload: {
+          scores: scores.map(s => ({
+            dimension: s.dimension,
+            score: s.score,
+            label: s.label,
+          })),
+        },
+      },
+      direction: 'vertical',
+      ttlSeconds: 300,
+    });
+
+    if (!result.success) {
+      console.warn(`[PipelineOrchestrator] Social TaskCard 派发失败: ${result.message}`);
+      return null;
+    }
+
+    const deliverable = await waitForDeliverable(
+      taskId,
+      this.config.deliverableTimeoutMs || 30000,
+    );
+
+    if (!deliverable) {
+      console.warn(`[PipelineOrchestrator] Social Deliverable 超时 (taskId=${taskId})`);
+      return null;
+    }
+
+    if (deliverable.status === 'self_review_failed') {
+      console.warn(`[PipelineOrchestrator] Social 自审未通过`);
+      return null;
+    }
+
+    const socialPayload = deliverable.deliverables.find(
+      d => d.type === 'social_result',
+    )?.content as Record<string, unknown> | undefined;
+
+    if (!socialPayload) {
+      console.warn('[PipelineOrchestrator] Social Deliverable 不含 social_result');
+      return null;
+    }
+
+    const rc = socialPayload.relationshipCode as Record<string, unknown> | undefined;
+    return {
+      relationshipCode: {
+        frequencyLabel: (rc?.frequencyLabel as string) || '同频共振型',
+        signalPattern: (rc?.signalPattern as string) || '',
+        bestMatchType: (rc?.bestMatchType as string) || '',
+        tensionPoint: (rc?.tensionPoint as string) || '',
+      },
+      celebrityMatches: (Array.isArray(socialPayload.celebrityMatches)
+        ? socialPayload.celebrityMatches as CelebrityMatch[]
+        : []),
+    };
+  }
+}
+
+/**
+ * 通过 Agent Router 模式运行流水线。
+ *
+ * Worker 1/2/5 保持本地执行。Worker 3/4 通过 agent-router.py 派发。
+ * 任一派发失败 → 自动降级到本地 AI 调用（原 runPipeline 逻辑）。
+ */
+export async function runPipelineWithRouter(
+  imageBase64: string,
+  deps: Partial<PipelineDeps> = {},
+  routerConfig: RouterModeConfig = { enabled: false },
+): Promise<PipelineResult> {
+  const d: PipelineDeps = { ...defaultDeps, ...deps };
+  const t0 = Date.now();
+  const orch = new PipelineOrchestrator(routerConfig);
+
+  // Worker 1: 特征提取（本地）
+  const t1 = Date.now();
+  const features = await d.extractor.extract(Buffer.from(imageBase64, 'base64'));
+  const extractMs = Date.now() - t1;
+
+  // Worker 2: 五维评分（本地）
+  const t2 = Date.now();
+  const scores = d.scoring.score(features);
+  const scoreMs = Date.now() - t2;
+
+  // 构建视觉锚点
+  const visualAnchors = buildVisualAnchors(features);
+
+  // Worker 3 + Worker 4: 通过 Agent Router 并行派发
+  const t3 = Date.now();
+  const [narrativeRouted, socialRouted] = await Promise.all([
+    orch.dispatchNarrativeTask(scores, visualAnchors),
+    orch.dispatchSocialTask(scores),
+  ]);
+
+  // 降级策略: Router 未返回 → 回退到本地 AI 调用
+  const [narrativeResult, socialResult] = await Promise.all([
+    narrativeRouted !== null
+      ? Promise.resolve(narrativeRouted)
+      : writeNarrative(scores, visualAnchors, d.ai, d.narrative),
+    socialRouted !== null
+      ? Promise.resolve(socialRouted)
+      : writeSocial(scores, d.ai),
+  ]);
+  const narrativeMs = Date.now() - t3;
+  const socialMs = 0;
+
+  // Worker 5: 合规安全门禁（本地）
+  const t5 = Date.now();
+  let report: PersonaReport = {
+    id: features.hash,
+    createdAt: new Date().toISOString(),
+    personaType: narrativeResult.personaType,
+    personaLabel: narrativeResult.personaLabel,
+    scores,
+    summary: narrativeResult.summary,
+    insights: narrativeResult.insights,
+    keywords: scores.map(s => s.label),
+    quote: narrativeResult.quote,
+    suspenseText: narrativeResult.suspenseText,
+    coreTruth: narrativeResult.coreTruth,
+    weeklyAdvice: narrativeResult.weeklyAdvice,
+    visualAnchors,
+    identityBadge: narrativeResult.identityBadge,
+    adTeaser: narrativeResult.adTeaser,
+    relationshipCode: socialResult.relationshipCode,
+    celebrityMatches: socialResult.celebrityMatches,
+  };
+
+  const complianceResult = runComplianceGate(report, d.safety);
+  report = complianceResult.report;
+  const safetyMs = Date.now() - t5;
+
+  return {
+    report,
+    complianceViolations: complianceResult.totalViolations,
+    timing: {
+      extractMs,
+      scoreMs,
+      narrativeMs,
+      socialMs,
+      safetyMs,
+      totalMs: Date.now() - t0,
+    },
+  };
+}

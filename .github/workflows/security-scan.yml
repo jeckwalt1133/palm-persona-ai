@@ -1,35 +1,102 @@
-name: 安全扫描
+name: 安全扫描 (三层防线)
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'memory/**'
+      - 'student-notebook/**'
+      - '.claude/**'
+
+concurrency:
+  group: security-scan-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  security:
+  security-scan:
+    name: 安全扫描 L1+L2+L3
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+
     steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 100 }
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - uses: actions/setup-node@v4
-        with: { node-version: '22' }
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - uses: pnpm/action-setup@v4
-        with: { version: '10' }
+      - name: 运行安全扫描 (CI模式)
+        id: scan
+        run: |
+          python3 scripts/pre-commit-security.py \
+            --ci-mode \
+            --base-ref "origin/${{ github.base_ref || github.event.repository.default_branch }}" \
+            --output-file security-report.json \
+            --json
+        continue-on-error: true
 
-      - name: Install dependencies
-        run: cd server && pnpm install --frozen-lockfile
+      - name: 上传安全报告 (Artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: security-report.json
+          retention-days: 30
 
-      - name: TypeScript typecheck
-        run: cd server && npx tsc --noEmit
+      - name: 生成SARIF报告
+        if: always()
+        run: |
+          python3 scripts/pre-commit-security.py \
+            --ci-mode \
+            --base-ref "origin/${{ github.base_ref || github.event.repository.default_branch }}" \
+            --sarif > security-results.sarif
 
-      - name: Run tests
-        run: cd server && npx vitest run
+      - name: 上传SARIF到GitHub Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: security-results.sarif
+          category: palm-security
 
-      - name: Full-repo secret scan
-        run: bash scripts/security-scan-keys.sh
+      - name: 检查L1阻断
+        if: always()
+        run: |
+          BLOCKED=$(python3 -c "import json; r=json.load(open('security-report.json')); print('true' if r['summary']['blocked'] else 'false')")
+          L1_CRITICAL=$(python3 -c "import json; r=json.load(open('security-report.json')); print(r['defense']['L1_critical'])")
+          echo "L1 blocked: $BLOCKED"
+          echo "L1 critical: $L1_CRITICAL"
+          if [ "$BLOCKED" = "true" ]; then
+            echo ""
+            echo "============================================"
+            echo "  CI门禁: L1阻断层发现 $L1_CRITICAL 处严重威胁"
+            echo "  请修复后重新提交"
+            echo "============================================"
+            exit 1
+          fi
+          echo "L1阻断层: 通过"
 
-      - name: npm audit (high+critical)
-        run: cd server && pnpm audit --audit-level=high || echo "⚠ audit found issues"
+      - name: 安全扫描摘要
+        if: always()
+        run: |
+          python3 -c "
+          import json
+          r = json.load(open('security-report.json'))
+          s = r['summary']
+          d = r['defense']
+          print(f'扫描完成: {s[\"filesScanned\"]} 文件')
+          print(f'L1阻断: {d[\"L1_critical\"]} | L2警告: {d[\"L2_warnings\"]} | L3记录: {d[\"L3_total\"]}')
+          print(f'结论: {\"❌ 阻断\" if s[\"blocked\"] else \"✅ 通过\"}')
+          if r['findings']['L1']:
+              print()
+              print('--- L1阻断发现 ---')
+              for f in r['findings']['L1']:
+                  print(f'  [{f[\"patternId\"]}] {f[\"file\"]}: {f[\"match\"][:60]}')
+          "

@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""pre-commit 安全扫描引擎 V3 — 三层防线(L1阻断/L2警告/L3记录) + JSON报告
+"""pre-commit 安全扫描引擎 V3.1 — 三层防线(L1阻断/L2警告/L3记录) + JSON报告 + CI模式
 
-用法: python3 scripts/pre-commit-security.py [--json] [--test] [--layer L1|L2|L3|all]
-      --json   输出JSON到stdout
-      --test   运行自检测试用例
-      --layer  仅扫描指定层级 (默认all)
+用法:
+  pre-commit模式: python3 scripts/pre-commit-security.py [--json]
+  CI模式:         python3 scripts/pre-commit-security.py --ci-mode [--base-ref main]
+  测试:           python3 scripts/pre-commit-security.py --test
+  白名单:         python3 scripts/pre-commit-security.py --whitelist-add ...
+
+CI模式说明:
+  --ci-mode      扫描PR变更(非staged)，输出SARIF兼容JSON+退出码语义
+  --base-ref     对比基线分支/commit (默认: origin/main)
+  --output-file  将报告写入指定文件(CI artifact用)
+  --sarif        输出SARIF格式(兼容GitHub Code Scanning)
 
 架构: student-notebook/zhou-three-layer-defense.md
 """
@@ -446,6 +453,200 @@ def run_scan():
     return report
 
 
+# ─── CI模式: PR全量扫描 ────────────────────────────
+
+def get_pr_changed_files(base_ref="origin/main"):
+    """获取PR变更的文件列表 (相对于base分支)"""
+    result = subprocess.run(
+        ["git", "-C", str(PROJECT_DIR), "diff", "--name-only", "--diff-filter=ACMR",
+         f"{base_ref}...HEAD"],
+        capture_output=True, text=True, timeout=15
+    )
+    if result.returncode != 0:
+        # 尝试merge-base方式
+        result2 = subprocess.run(
+            ["git", "-C", str(PROJECT_DIR), "merge-base", base_ref, "HEAD"],
+            capture_output=True, text=True, timeout=10
+        )
+        if result2.returncode == 0 and result2.stdout.strip():
+            merge_base = result2.stdout.strip()
+            result = subprocess.run(
+                ["git", "-C", str(PROJECT_DIR), "diff", "--name-only", "--diff-filter=ACMR",
+                 f"{merge_base}..HEAD"],
+                capture_output=True, text=True, timeout=10
+            )
+        else:
+            return [], f"无法确定base ref: {base_ref}"
+    files = [f for f in result.stdout.strip().split("\n") if f]
+    return files, None
+
+
+def get_file_pr_diff(base_ref, file_path):
+    """获取PR中单个文件的diff (相对于base)"""
+    result = subprocess.run(
+        ["git", "-C", str(PROJECT_DIR), "diff", f"{base_ref}...HEAD", "--", file_path],
+        capture_output=True, text=True, timeout=15
+    )
+    if result.returncode != 0:
+        result2 = subprocess.run(
+            ["git", "-C", str(PROJECT_DIR), "merge-base", base_ref, "HEAD"],
+            capture_output=True, text=True, timeout=10
+        )
+        if result2.returncode == 0 and result2.stdout.strip():
+            merge_base = result2.stdout.strip()
+            result = subprocess.run(
+                ["git", "-C", str(PROJECT_DIR), "diff", f"{merge_base}..HEAD", "--", file_path],
+                capture_output=True, text=True, timeout=10
+            )
+    return result.stdout
+
+
+def run_ci_scan(base_ref="origin/main"):
+    """CI模式扫描 — 扫描PR全部变更, 输出结构化报告"""
+    files, error = get_pr_changed_files(base_ref)
+    if error:
+        return {
+            "scanTime": datetime.now(timezone.utc).isoformat(),
+            "scanner": "pre-commit-security.py",
+            "version": "3.1.0",
+            "mode": "ci",
+            "baseRef": base_ref,
+            "error": error,
+            "summary": {"filesScanned": 0, "totalFindings": 0, "blocked": False},
+            "findings": {"L1": [], "L2": [], "L3": []},
+        }
+
+    whitelist = load_whitelist()
+    all_findings = []
+    scanned = 0
+    skipped = 0
+
+    for f in files:
+        if not should_scan(f):
+            skipped += 1
+            continue
+        scanned += 1
+        diff = get_file_pr_diff(base_ref, f)
+        if diff:
+            findings = scan_diff(f, diff, whitelist)
+            all_findings.extend(findings)
+
+    # 排序+分层
+    layer_order = {"L1": 0, "L2": 1, "L3": 2}
+    severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4}
+    all_findings.sort(key=lambda x: (
+        layer_order.get(x.get("defenseLayer", "L2"), 5),
+        severity_order.get(x.get("severity", "info"), 5),
+    ))
+
+    L1_findings = [f for f in all_findings if f.get("defenseLayer") == "L1"]
+    L2_findings = [f for f in all_findings if f.get("defenseLayer") == "L2"]
+    L3_findings = [f for f in all_findings if f.get("defenseLayer") == "L3"]
+    l1_critical = sum(1 for f in L1_findings if f["severity"] == "critical")
+    l2_high = sum(1 for f in L2_findings if f["severity"] in ("high", "critical"))
+
+    report = {
+        "scanTime": datetime.now(timezone.utc).isoformat(),
+        "scanner": "pre-commit-security.py",
+        "version": "3.1.0",
+        "mode": "ci",
+        "baseRef": base_ref,
+        "architecture": "三层防线 (L1阻断/L2警告/L3记录)",
+        "defense": {
+            "L1_blocked": l1_critical > 0,
+            "L1_total": len(L1_findings),
+            "L1_critical": l1_critical,
+            "L2_total": len(L2_findings),
+            "L2_warnings": l2_high,
+            "L3_total": len(L3_findings),
+        },
+        "summary": {
+            "filesScanned": scanned,
+            "filesSkipped": skipped,
+            "filesChanged": len(files),
+            "totalFindings": len(all_findings),
+            "criticalFindings": l1_critical,
+            "highFindings": l2_high,
+            "infoRecords": len(L3_findings),
+            "blocked": l1_critical > 0,
+        },
+        "findings": {"L1": L1_findings, "L2": L2_findings, "L3": L3_findings},
+        "whitelist": {"active": len(whitelist)},
+        "ciMetadata": {
+            "branch": subprocess.run(["git", "-C", str(PROJECT_DIR), "branch", "--show-current"],
+                                     capture_output=True, text=True).stdout.strip(),
+            "commit": subprocess.run(["git", "-C", str(PROJECT_DIR), "rev-parse", "HEAD"],
+                                     capture_output=True, text=True).stdout.strip()[:8],
+            "baseRef": base_ref,
+        },
+    }
+    return report
+
+
+def generate_sarif(report):
+    """将扫描报告转换为SARIF格式 (兼容GitHub Code Scanning)"""
+    rules = []
+    results = []
+    rule_index = {}
+
+    for finding_list in report.get("findings", {}).values():
+        for f in finding_list:
+            rid = f["patternId"]
+            if rid not in rule_index:
+                rule_index[rid] = len(rules)
+                rules.append({
+                    "id": rid,
+                    "name": f["patternName"],
+                    "shortDescription": {"text": f["patternName"]},
+                    "fullDescription": {"text": f.get("remediation", "")},
+                    "defaultConfiguration": {"level": "error" if f.get("defenseLayer") == "L1" else "warning"},
+                    "properties": {
+                        "defenseLayer": f.get("defenseLayer", ""),
+                        "severity": f.get("severity", ""),
+                    },
+                })
+
+            # SARIF要求region信息
+            line_num = 1
+            match_line = f.get("line", "+1")
+            try:
+                line_num = int(match_line.lstrip("+"))
+            except ValueError:
+                pass
+
+            results.append({
+                "ruleId": rid,
+                "ruleIndex": rule_index[rid],
+                "level": "error" if f.get("defenseLayer") == "L1" else "warning",
+                "message": {
+                    "text": f"[{rid}] {f['patternName']}: {f.get('match', '')[:80]}\n修复: {f.get('remediation', '')}"
+                },
+                "locations": [{
+                    "physicalLocation": {
+                        "artifactLocation": {"uri": f["file"]},
+                        "region": {"startLine": line_num, "snippet": {"text": f.get("context", "")[:200]}},
+                    }
+                }],
+            })
+
+    sarif = {
+        "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+        "version": "2.1.0",
+        "runs": [{
+            "tool": {
+                "driver": {
+                    "name": "掌心人格局 安全扫描引擎",
+                    "organization": "AI师生研究院 V7",
+                    "version": "3.1.0",
+                    "rules": rules,
+                }
+            },
+            "results": results,
+        }],
+    }
+    return sarif
+
+
 def run_tests():
     """自检测试用例——≥5种不同的密钥泄漏场景"""
     tests = []
@@ -630,9 +831,13 @@ def run_tests():
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="pre-commit 安全扫描引擎 V3")
+    parser = argparse.ArgumentParser(description="pre-commit 安全扫描引擎 V3.1")
     parser.add_argument("--json", action="store_true", help="输出JSON格式报告")
     parser.add_argument("--test", action="store_true", help="运行自检测试用例")
+    parser.add_argument("--ci-mode", action="store_true", help="CI模式: 扫描PR变更(非staged)")
+    parser.add_argument("--base-ref", default="origin/main", help="CI模式对比基线 (默认: origin/main)")
+    parser.add_argument("--output-file", help="将扫描报告写入指定文件")
+    parser.add_argument("--sarif", action="store_true", help="输出SARIF格式 (兼容GitHub Code Scanning)")
     parser.add_argument("--whitelist-add", nargs=4, metavar=("PATTERN", "FILE", "REASON", "HOURS"),
                         help="添加临时白名单: PATTERN FILE REASON HOURS")
     parser.add_argument("--whitelist-list", action="store_true", help="列出当前有效白名单")
@@ -652,9 +857,9 @@ def main():
                 print("错误: 白名单最长24小时")
                 sys.exit(1)
             expires = add_whitelist_entry(pattern_id, file_path, reason, hours=hrs)
-            print(f"✅ 白名单已添加: {pattern_id} @ {file_path}")
-            print(f"   过期时间: {expires}")
-            print(f"   审批人: nie (仓库管理员)")
+            print(f"白名单已添加: {pattern_id} @ {file_path}")
+            print(f"过期时间: {expires}")
+            print(f"审批人: nie (仓库管理员)")
         except ValueError:
             print("错误: HOURS必须是数字")
             sys.exit(1)
@@ -665,7 +870,7 @@ def main():
         if entries:
             print(f"当前有效白名单 ({len(entries)}条):")
             for e in entries:
-                print(f"  [{e['pattern']}] {e['file']} — {e['reason']} (过期: {e['expires'][:19]})")
+                print(f"  [{e['pattern']}] {e['file']} -- {e['reason']} (过期: {e['expires'][:19]})")
         else:
             print("无有效白名单条目")
         sys.exit(0)
@@ -675,6 +880,46 @@ def main():
         print(f"白名单已刷新: {len(entries)} 条仍然有效")
         sys.exit(0)
 
+    # ─── CI模式 ───
+    if args.ci_mode:
+        report = run_ci_scan(args.base_ref)
+        report["whitelist"] = {"active": len(load_whitelist())}
+
+        # 写入输出文件
+        if args.output_file:
+            out_path = Path(args.output_file)
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(json.dumps(report, ensure_ascii=False, indent=2))
+
+        # JSON输出 (CI消费)
+        if args.json:
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            sys.exit(1 if report["summary"]["blocked"] else 0)
+
+        # SARIF输出 (GitHub Code Scanning)
+        if args.sarif:
+            sarif = generate_sarif(report)
+            print(json.dumps(sarif, ensure_ascii=False, indent=2))
+            sys.exit(1 if report["summary"]["blocked"] else 0)
+
+        # 非交互CI文本输出
+        blocked = report["summary"]["blocked"]
+        s = report["summary"]
+        d = report["defense"]
+        print(f"[SECURITY-SCAN] files={s['filesScanned']} changed={s.get('filesChanged', s['filesScanned'])} "
+              f"L1={d['L1_total']} L2={d['L2_total']} L3={d['L3_total']} blocked={blocked}")
+        if d["L1_critical"] > 0:
+            print(f"[SECURITY-SCAN] FAIL: {d['L1_critical']} critical findings in L1 layer")
+            for f in report["findings"]["L1"]:
+                print(f"  [{f['patternId']}] {f['file']}:{f['line']}: {f['match'][:80]}")
+        elif d["L2_warnings"] > 0:
+            print(f"[SECURITY-SCAN] WARN: {d['L2_warnings']} warnings in L2 layer (non-blocking)")
+        else:
+            print("[SECURITY-SCAN] PASS: No security issues found")
+
+        sys.exit(1 if blocked else 0)
+
+    # ─── pre-commit模式 (默认) ───
     report = run_scan()
     report["whitelist"] = {"active": len(load_whitelist())}
 

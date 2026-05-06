@@ -1,8 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { rateLimiter } from '../src/middleware/rate-limiter.js';
 
+// 保存原始 NODE_ENV，rate-limiter 在 test 模式下自动绕过
+const origNodeEnv = process.env.NODE_ENV;
+
 function mockReq(ip: string) {
-  return { ip } as unknown as Parameters<ReturnType<typeof rateLimiter>>[0];
+  return { ip, headers: {} } as unknown as Parameters<ReturnType<typeof rateLimiter>>[0];
 }
 
 function mockReply() {
@@ -19,6 +22,10 @@ function mockReply() {
 }
 
 describe('rateLimiter', () => {
+  // 限流器在 NODE_ENV=test 下自动绕过，测试限流行为需临时切为 production
+  beforeAll(() => { process.env.NODE_ENV = 'production'; });
+  afterAll(() => { process.env.NODE_ENV = origNodeEnv; });
+
   it('allows requests within limit', async () => {
     const limiter = rateLimiter({ max: 3, windowMs: 60_000 });
 

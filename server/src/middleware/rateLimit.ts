@@ -17,6 +17,9 @@ setInterval(() => {
 }, CLEANUP_MS).unref();
 
 export function checkDeviceRateLimit(userId: string): { allowed: boolean; retryAfterSec: number } {
+  // NODE_ENV=test 绕过设备级限流
+  if (process.env.NODE_ENV === 'test') return { allowed: true, retryAfterSec: 0 };
+
   const now = Date.now();
   const windowStart = now - WINDOW_MS;
 

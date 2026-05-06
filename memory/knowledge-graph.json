@@ -1,10 +1,10 @@
 {
   "version": "2.2",
-  "updated": "2026-05-06T10:28:00Z",
+  "updated": "2026-05-06T12:28:00Z",
   "description": "AI师生研究院 V7 知识图谱 — Layer 3 语义记忆。节点=概念/方法论/决策/产品，边=标准4型关系+3型扩展。",
   "stats": {
-    "nodeCount": 29,
-    "edgeCount": 48,
+    "nodeCount": 30,
+    "edgeCount": 50,
     "primaryRelations": [
       "precedes",
       "supports",
@@ -531,6 +531,16 @@
       "domain": "architecture",
       "label": "一人公司三层架构",
       "description": "董事长(用户)→CEO(聂富贵)→N Agent。CEO只做三件事：派活/解阻塞/验收。Agent数量不受组织限制"
+    },
+    {
+      "id": "precompact-forced-convergence",
+      "label": "PreCompact强制收敛机制",
+      "domain": "methodology",
+      "description": "上下文压缩压力是批量提交的天然触发器。未提交文件>30时应主动触发半程提交，而非被动等压缩。",
+      "relatedDecisions": [
+        "D009"
+      ],
+      "evidence": "2026-05-06 11:51 PreCompact时70文件未提交 → 12:10恢复后3笔提交收敛至干净树"
     }
   ],
   "edges": [
@@ -821,6 +831,18 @@
       "to": "three-layer-memory",
       "relation": "contradicts",
       "label": "不提交导致git恢复弱于snapshot，违反三层记忆设计"
+    },
+    {
+      "from": "precompact-forced-convergence",
+      "to": "memory-checkpoint",
+      "type": "extends",
+      "label": "PreCompact是检查点的强制触发场景"
+    },
+    {
+      "from": "precompact-forced-convergence",
+      "to": "build-expand-dont-commit-pattern",
+      "type": "governs",
+      "label": "主动半程提交打破膨胀循环"
     }
   ]
 }

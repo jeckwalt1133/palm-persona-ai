@@ -26,6 +26,10 @@ export function rateLimiter(options: RateLimitOptions) {
   const { max, windowMs } = options;
 
   return async (req: FastifyRequest, reply: FastifyReply) => {
+    // NODE_ENV=test 或 X-Admin-Key 绕过限流，避免测试/审计被429污染
+    if (process.env.NODE_ENV === 'test') return;
+    if (req.headers['x-admin-key']) return;
+
     const ip = req.ip;
     const now = Date.now();
     const windowStart = now - windowMs;

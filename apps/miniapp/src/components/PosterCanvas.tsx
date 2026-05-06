@@ -7,6 +7,30 @@ import { safeText } from '../utils/shareCopy';
 import type { MatchedShareCopy } from '../utils/shareCopy';
 import './PosterCanvas.scss';
 
+// ══════ 跨平台字体安全系数 ══════
+// sans-serif 在不同OS映射到不同字体(iOS→PingFang SC, Android→Noto Sans CJK)
+// 同一段中文 measureText 宽度偏差 3-5%, 此系数预留 6% 余量防止溢出
+const FONT_SAFETY_FACTOR = 0.94;
+
+function safeWrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, maxLines?: number): string[] {
+  return wrapText(ctx, text, maxWidth * FONT_SAFETY_FACTOR, maxLines);
+}
+
+function safeTruncate(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
+  return truncateText(ctx, text, maxWidth * FONT_SAFETY_FACTOR);
+}
+
+function getPlatformTag(): string {
+  if (typeof Taro !== 'undefined' && Taro.getSystemInfoSync) {
+    try {
+      const info = Taro.getSystemInfoSync();
+      return info.platform || 'unknown';
+    } catch { /* ignore */ }
+  }
+  if (typeof navigator !== 'undefined') return navigator.platform || 'browser';
+  return 'unknown';
+}
+
 // ══════ 类型 ══════
 
 interface VisualAnchorsData {
@@ -163,7 +187,7 @@ function drawPersonaLabel(ctx: CanvasRenderingContext2D, w: number, label: strin
   ctx.fillStyle = GOLD;
 
   const text = `你是「${label}」`;
-  const display = truncateText(ctx, text, w - 120);
+  const display = safeTruncate(ctx, text, w - 120);
   ctx.fillText(display, w / 2, 100);
 }
 
@@ -209,7 +233,7 @@ function drawFooter(ctx: CanvasRenderingContext2D, w: number, h: number, shareTe
   const shareFontSize = 24;
   ctx.font = `${shareFontSize}px sans-serif`;
   ctx.fillStyle = WHITE_DIM;
-  const lines = wrapText(ctx, shareText, w - 120, 4);
+  const lines = safeWrap(ctx, shareText, w - 120, 4);
   lines.forEach((line, i) => {
     ctx.fillText(line, w / 2, dividerY + 20 + i * (shareFontSize + 8));
   });
@@ -257,7 +281,7 @@ function drawIdentityCard(
   ctx.font = 'bold 32px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillStyle = WHITE;
-  const truthLines = wrapText(ctx, report.coreTruth, w - 120, 3);
+  const truthLines = safeWrap(ctx, report.coreTruth, w - 120, 3);
   truthLines.forEach((line, i) => {
     ctx.fillText(line, w / 2, y + i * 46);
   });
@@ -314,7 +338,7 @@ function drawMisunderstoodCard(
   ctx.font = '26px sans-serif';
   ctx.textAlign = 'left';
   ctx.fillStyle = WHITE;
-  const lines = wrapText(ctx, text, w - 120, 10);
+  const lines = safeWrap(ctx, text, w - 120, 10);
   lines.forEach((line, i) => {
     ctx.fillText(line, 60, startY + i * 44);
   });
@@ -351,7 +375,7 @@ function drawRelationshipCard(
     y += 32;
     ctx.font = '24px sans-serif';
     ctx.fillStyle = WHITE;
-    const lines = wrapText(ctx, sec.text, w - 120, 3);
+    const lines = safeWrap(ctx, sec.text, w - 120, 3);
     lines.forEach((line, i) => {
       ctx.fillText(line, 60, y + i * 36);
     });
@@ -370,7 +394,7 @@ function drawVisualAnchorsCard(
   ctx.font = '24px sans-serif';
   ctx.textAlign = 'center';
   ctx.fillStyle = WHITE_DIM;
-  const opLines = wrapText(ctx, va.opening, w - 120, 3);
+  const opLines = safeWrap(ctx, va.opening, w - 120, 3);
   opLines.forEach((line, i) => {
     ctx.fillText(line, w / 2, startY + i * 38);
   });
@@ -430,7 +454,7 @@ function drawCelebrityCard(
 
     ctx.font = '20px sans-serif';
     ctx.fillStyle = WHITE;
-    const reasonTrunc = truncateText(ctx, c.reason, w - 280);
+    const reasonTrunc = safeTruncate(ctx, c.reason, w - 280);
     ctx.textAlign = 'right';
     ctx.fillText(reasonTrunc, w - 80, y + 50);
 
@@ -448,7 +472,7 @@ function drawAdviceCard(
   ctx.font = '26px sans-serif';
   ctx.textAlign = 'left';
   ctx.fillStyle = WHITE;
-  const lines = wrapText(ctx, report.weeklyAdvice || '做自己，就是最好的建议。', w - 120, 10);
+  const lines = safeWrap(ctx, report.weeklyAdvice || '做自己，就是最好的建议。', w - 120, 10);
   lines.forEach((line, i) => {
     ctx.fillText(line, 60, y + i * 44);
   });
@@ -460,10 +484,57 @@ function drawAdviceCard(
     ctx.textAlign = 'center';
     ctx.fillStyle = WHITE_DIM;
 
-    const qLines = wrapText(ctx, `"${report.quote}"`, w - 160, 4);
+    const qLines = safeWrap(ctx, `"${report.quote}"`, w - 160, 4);
     qLines.forEach((line, i) => {
       ctx.fillText(line, w / 2, y + i * 38);
     });
+  }
+}
+
+// ══════ 跨平台溢出验证 ══════
+
+function verifyTextOverflow(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  report: ReportData,
+  cardIndex: number,
+  shareText: string,
+) {
+  const warnings: string[] = [];
+  const maxW = w - 120;
+
+  // 检测人格标签
+  const labelText = `你是「${report.personaLabel}」`;
+  ctx.font = 'bold 44px sans-serif';
+  const labelW = ctx.measureText(labelText).width;
+  if (labelW > maxW) warnings.push(`personaLabel: ${labelW.toFixed(0)} > ${maxW}`);
+
+  // 检测核心真相 (card 1)
+  if (cardIndex === 1 && report.coreTruth) {
+    ctx.font = 'bold 32px sans-serif';
+    const truthW = ctx.measureText(report.coreTruth).width;
+    if (truthW > maxW * 3) warnings.push(`coreTruth total: ${truthW.toFixed(0)} > ${(maxW * 3).toFixed(0)} (3行)`);
+  }
+
+  // 检测分享文案 (底部)
+  ctx.font = '24px sans-serif';
+  const shareW = ctx.measureText(shareText).width;
+  if (shareW > maxW * 4) warnings.push(`shareText total: ${shareW.toFixed(0)} > ${(maxW * 4).toFixed(0)} (4行)`);
+
+  // 检测关系密码文本 (card 3)
+  if (cardIndex === 3 && report.relationshipCode) {
+    ctx.font = '24px sans-serif';
+    const rc = report.relationshipCode;
+    for (const text of [rc.signalPattern, rc.bestMatchType, rc.tensionPoint]) {
+      const textW = ctx.measureText(text).width;
+      if (textW > maxW * 3) warnings.push(`relCode text: ${textW.toFixed(0)} > ${(maxW * 3).toFixed(0)}`);
+    }
+  }
+
+  if (warnings.length > 0) {
+    console.warn(`[PosterCanvas] ⚠️ 溢出风险 card${cardIndex} (${getPlatformTag()}):`, warnings);
+  } else {
+    console.log(`[PosterCanvas] ✅ 溢出验证通过 card${cardIndex} (${getPlatformTag()})`);
   }
 }
 
@@ -492,7 +563,10 @@ function drawPoster(
   drawFooter(ctx, cssW, cssH, safeShareText);
 
   if (t0 > 0) {
-    console.log(`[PosterCanvas] card${cardIndex} 绘制耗时: ${(performance.now() - t0).toFixed(0)}ms`);
+    const elapsed = performance.now() - t0;
+    console.log(`[PosterCanvas] card${cardIndex} 绘制耗时: ${elapsed.toFixed(0)}ms`);
+    // 跨平台溢出验证: 重测关键文本是否超出容器宽度
+    verifyTextOverflow(ctx, cssW, safeReport, cardIndex, safeShareText);
   }
 }
 
