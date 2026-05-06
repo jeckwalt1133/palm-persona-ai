@@ -1,5 +1,5 @@
 {
-  "scanTime": "2026-05-06T12:01:40.960392+00:00",
+  "scanTime": "2026-05-06T12:31:19.859809+00:00",
   "scanner": "pre-commit-security.py",
   "version": "3.0.0",
   "architecture": "三层防线 (L1阻断/L2警告/L3记录)",
@@ -9,15 +9,15 @@
     "L1_critical": 0,
     "L2_total": 0,
     "L2_warnings": 0,
-    "L3_total": 3
+    "L3_total": 17
   },
   "summary": {
-    "filesScanned": 8,
-    "filesSkipped": 0,
-    "totalFindings": 3,
+    "filesScanned": 18,
+    "filesSkipped": 1,
+    "totalFindings": 17,
     "criticalFindings": 0,
     "highFindings": 0,
-    "infoRecords": 3,
+    "infoRecords": 17,
     "blocked": false
   },
   "findings": {
@@ -29,10 +29,10 @@
         "patternName": "console.log打印完整对象",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "server/src/safety/escape-room.ts",
-        "line": "+80",
+        "file": ".claude/security-report.json",
+        "line": "+43",
         "match": "console.warn('[EscapeRoom] 写入失败:', (err as Error)",
-        "context": "console.warn('[EscapeRoom] 写入失败:', (err as Error).message);",
+        "context": "\"match\": \"console.warn('[EscapeRoom] 写入失败:', (err as Error)\",",
         "remediation": "生产环境使用专用logger并配置redact规则"
       },
       {
@@ -40,10 +40,21 @@
         "patternName": "console.log打印完整对象",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "server/src/safety/safety-logger.ts",
-        "line": "+114",
+        "file": ".claude/security-report.json",
+        "line": "+44",
+        "match": "console.warn('[EscapeRoom] 写入失败:', (err as Error)",
+        "context": "\"context\": \"console.warn('[EscapeRoom] 写入失败:', (err as Error).message);\",",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+58",
         "match": "console.warn('[SafetyLogger] 文件写入失败:', (err as Error)",
-        "context": "console.warn('[SafetyLogger] 文件写入失败:', (err as Error).message);",
+        "context": "\"match\": \"console.warn('[SafetyLogger] 文件写入失败:', (err as Error)\",",
         "remediation": "生产环境使用专用logger并配置redact规则"
       },
       {
@@ -51,10 +62,153 @@
         "patternName": "console.log打印完整对象",
         "defenseLayer": "L3",
         "severity": "info",
-        "file": "server/src/safety/safety-logger.ts",
-        "line": "+127",
+        "file": ".claude/security-report.json",
+        "line": "+59",
+        "match": "console.warn('[SafetyLogger] 文件写入失败:', (err as Error)",
+        "context": "\"context\": \"console.warn('[SafetyLogger] 文件写入失败:', (err as Error).message);\",",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+315",
         "match": "console.warn('[SafetyLogger] 文件加载失败，使用空日志:', (err as Error)",
-        "context": "console.warn('[SafetyLogger] 文件加载失败，使用空日志:', (err as Error).message);",
+        "context": "\"match\": \"console.warn('[SafetyLogger] 文件加载失败，使用空日志:', (err as Error)\",",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": ".claude/security-report.json",
+        "line": "+316",
+        "match": "console.warn('[SafetyLogger] 文件加载失败，使用空日志:', (err as Error)",
+        "context": "\"context\": \"console.warn('[SafetyLogger] 文件加载失败，使用空日志:', (err as Error).message);\",",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/components/PosterCanvas.tsx",
+        "line": "+161",
+        "match": "console.warn(`[PosterCanvas] ⚠️ 溢出风险 card${cardIndex} (${getPlatformTag()",
+        "context": "console.warn(`[PosterCanvas] ⚠️ 溢出风险 card${cardIndex} (${getPlatformTag()}):`, warnings);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/components/PosterCanvas.tsx",
+        "line": "+163",
+        "match": "console.log(`[PosterCanvas] ✅ 溢出验证通过 card${cardIndex} (${getPlatformTag()",
+        "context": "console.log(`[PosterCanvas] ✅ 溢出验证通过 card${cardIndex} (${getPlatformTag()})`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/components/PosterCanvas.tsx",
+        "line": "+176",
+        "match": "console.log(`[PosterCanvas] card${cardIndex} 绘制耗时: ${elapsed.toFixed(0)",
+        "context": "console.log(`[PosterCanvas] card${cardIndex} 绘制耗时: ${elapsed.toFixed(0)}ms`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/report-pipeline.ts",
+        "line": "+119",
+        "match": "console.warn(`[PipelineOrchestrator] Narrative TaskCard 派发失败: ${result.message}`)",
+        "context": "console.warn(`[PipelineOrchestrator] Narrative TaskCard 派发失败: ${result.message}`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/report-pipeline.ts",
+        "line": "+129",
+        "match": "console.warn(`[PipelineOrchestrator] Narrative Deliverable 超时 (taskId=${taskId})",
+        "context": "console.warn(`[PipelineOrchestrator] Narrative Deliverable 超时 (taskId=${taskId})`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/report-pipeline.ts",
+        "line": "+134",
+        "match": "console.warn(`[PipelineOrchestrator] Narrative 自审未通过: ${deliverable.selfReview.acceptanceCriteriaUnmet.join(', ')",
+        "context": "console.warn(`[PipelineOrchestrator] Narrative 自审未通过: ${deliverable.selfReview.acceptanceCriteriaUnmet.join(', ')}`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/report-pipeline.ts",
+        "line": "+144",
+        "match": "console.warn('[PipelineOrchestrator] Narrative Deliverable 不含 narrative_result')",
+        "context": "console.warn('[PipelineOrchestrator] Narrative Deliverable 不含 narrative_result');",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/report-pipeline.ts",
+        "line": "+199",
+        "match": "console.warn(`[PipelineOrchestrator] Social TaskCard 派发失败: ${result.message}`)",
+        "context": "console.warn(`[PipelineOrchestrator] Social TaskCard 派发失败: ${result.message}`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/report-pipeline.ts",
+        "line": "+209",
+        "match": "console.warn(`[PipelineOrchestrator] Social Deliverable 超时 (taskId=${taskId})",
+        "context": "console.warn(`[PipelineOrchestrator] Social Deliverable 超时 (taskId=${taskId})`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/report-pipeline.ts",
+        "line": "+214",
+        "match": "console.warn(`[PipelineOrchestrator] Social 自审未通过`)",
+        "context": "console.warn(`[PipelineOrchestrator] Social 自审未通过`);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/report-pipeline.ts",
+        "line": "+223",
+        "match": "console.warn('[PipelineOrchestrator] Social Deliverable 不含 social_result')",
+        "context": "console.warn('[PipelineOrchestrator] Social Deliverable 不含 social_result');",
         "remediation": "生产环境使用专用logger并配置redact规则"
       }
     ]

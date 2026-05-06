@@ -1,4 +1,4 @@
-name: 安全扫描 (三层防线)
+name: 安全扫描 (三层防线 L1阻断/L2警告/L3记录)
 
 on:
   pull_request:
@@ -16,87 +16,253 @@ concurrency:
   group: security-scan-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  REPORT_FILE: security-report.json
+  SARIF_FILE: security-results.sarif
+
 jobs:
   security-scan:
-    name: 安全扫描 L1+L2+L3
+    name: 安全扫描
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
     steps:
-      - name: 检出代码
+      # ────────── 准备 ──────────
+      - name: 检出代码 (完整历史)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 设置 Python
+      - name: 设置 Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 运行安全扫描 (CI模式)
+      - name: 缓存 pip 依赖
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: pip-${{ runner.os }}-
+
+      # ────────── 扫描: 三层合一引擎 ──────────
+      - name: 执行安全扫描 (三层防线引擎)
         id: scan
         run: |
+          BASE="origin/${{ github.base_ref || github.event.repository.default_branch }}"
+          echo "扫描基线: $BASE"
           python3 scripts/pre-commit-security.py \
             --ci-mode \
-            --base-ref "origin/${{ github.base_ref || github.event.repository.default_branch }}" \
-            --output-file security-report.json \
+            --base-ref "$BASE" \
+            --output-file "$REPORT_FILE" \
             --json
         continue-on-error: true
 
-      - name: 上传安全报告 (Artifact)
+      - name: 上传安全报告 (CI Artifact)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: security-report
-          path: security-report.json
+          path: ${{ env.REPORT_FILE }}
           retention-days: 30
 
+      # ────────── L1: 阻断层 ──────────
+      - name: 'L1阻断层: 检查严重威胁 (阻断级)'
+        if: always()
+        id: l1
+        run: |
+          if [ ! -f "$REPORT_FILE" ]; then
+            echo "::error::安全报告未生成，扫描器可能崩溃"
+            exit 1
+          fi
+          L1_TOTAL=$(python3 -c "import json; print(json.load(open('$REPORT_FILE'))['defense']['L1_total'])")
+          L1_CRITICAL=$(python3 -c "import json; print(json.load(open('$REPORT_FILE'))['defense']['L1_critical'])")
+          BLOCKED=$(python3 -c "import json; print('true' if json.load(open('$REPORT_FILE'))['summary']['blocked'] else 'false')")
+
+          echo "L1发现总数: $L1_TOTAL | 严重: $L1_CRITICAL | 阻断: $BLOCKED"
+
+          if [ "$L1_TOTAL" -gt 0 ]; then
+            python3 -c "
+          import json
+          r = json.load(open('$REPORT_FILE'))
+          for f in r['findings']['L1']:
+              print(f'::error file={f[\"file\"]},line={f[\"line\"].lstrip(\"+\")}::[{f[\"patternId\"]}] {f[\"patternName\"]}: {f[\"match\"][:60]}')
+          "
+          fi
+
+          if [ "$BLOCKED" = "true" ]; then
+            echo ""
+            echo "============================================"
+            echo "  ❌ L1阻断: 发现 $L1_CRITICAL 处严重威胁"
+            echo "  修复后重新提交，或走逃生门审批"
+            echo "============================================"
+            exit 1
+          fi
+          echo "✅ L1阻断层: 通过 (0处严重威胁)"
+
+      # ────────── L2: 警告层 ──────────
+      - name: 'L2警告层: 检查疑似威胁 (警告级, 不阻断)'
+        if: always()
+        id: l2
+        run: |
+          if [ ! -f "$REPORT_FILE" ]; then
+            echo "L2报告文件缺失，跳过"
+            exit 0
+          fi
+          L2_TOTAL=$(python3 -c "import json; print(json.load(open('$REPORT_FILE'))['defense']['L2_total'])")
+          L2_WARNINGS=$(python3 -c "import json; print(json.load(open('$REPORT_FILE'))['defense']['L2_warnings'])")
+
+          echo "L2发现总数: $L2_TOTAL | 需关注: $L2_WARNINGS"
+
+          if [ "$L2_TOTAL" -gt 0 ]; then
+            python3 -c "
+          import json
+          r = json.load(open('$REPORT_FILE'))
+          for f in r['findings']['L2']:
+              print(f'::warning file={f[\"file\"]},line={f[\"line\"].lstrip(\"+\")}::[{f[\"patternId\"]}] {f[\"patternName\"]}: {f[\"match\"][:60]}')
+          "
+            echo "⚠️  L2警告层: $L2_TOTAL 处疑似 (已放行，请复查)"
+          else
+            echo "✅ L2警告层: 通过 (0处疑似)"
+          fi
+
+      # ────────── L3: 记录层 ──────────
+      - name: 'L3记录层: 信息安全气味 (仅记录, 不阻断)'
+        if: always()
+        id: l3
+        run: |
+          if [ ! -f "$REPORT_FILE" ]; then
+            echo "L3报告文件缺失，跳过"
+            exit 0
+          fi
+          L3_TOTAL=$(python3 -c "import json; print(json.load(open('$REPORT_FILE'))['defense']['L3_total'])")
+
+          echo "L3记录: $L3_TOTAL 项"
+          if [ "$L3_TOTAL" -gt 0 ]; then
+            python3 -c "
+          import json
+          from collections import Counter
+          r = json.load(open('$REPORT_FILE'))
+          l3_rules = Counter(f['patternId'] for f in r['findings']['L3'])
+          print('L3规则分布:')
+          for rule, count in l3_rules.most_common():
+              print(f'  {rule}: {count}')
+          "
+            echo "📊 L3记录层: $L3_TOTAL 项已记录 (不影响合并)"
+          else
+            echo "✅ L3记录层: 无记录"
+          fi
+
+      # ────────── SARIF: GitHub Code Scanning ──────────
       - name: 生成SARIF报告
         if: always()
         run: |
           python3 scripts/pre-commit-security.py \
             --ci-mode \
             --base-ref "origin/${{ github.base_ref || github.event.repository.default_branch }}" \
-            --sarif > security-results.sarif
+            --sarif > "$SARIF_FILE"
 
       - name: 上传SARIF到GitHub Code Scanning
         if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: security-results.sarif
+          sarif_file: ${{ env.SARIF_FILE }}
           category: palm-security
 
-      - name: 检查L1阻断
+      # ────────── PR评论 ──────────
+      - name: PR安全扫描评论
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let report;
+            try {
+              report = JSON.parse(fs.readFileSync('${{ env.REPORT_FILE }}', 'utf8'));
+            } catch(e) {
+              return; // 报告不存在, 跳过评论
+            }
+            const s = report.summary;
+            const d = report.defense;
+            const blocked = s.blocked ? '❌' : '✅';
+            const l1Icon = d.L1_critical > 0 ? '🔴' : '🟢';
+            const l2Icon = d.L2_warnings > 0 ? '🟡' : '🟢';
+            const l3Icon = d.L3_total > 0 ? '📊' : '🟢';
+
+            let body = `## ${blocked} 安全扫描结果
+
+          | 防线 | 状态 | 发现数 | 动作 |
+          |------|------|--------|------|
+          | ${l1Icon} L1阻断 | ${d.L1_critical > 0 ? '❌ 阻断' : '✅ 通过'} | ${d.L1_critical}严重/${d.L1_total}总计 | ${d.L1_critical > 0 ? '**必须修复才能合并**' : '—'} |
+          | ${l2Icon} L2警告 | ${d.L2_warnings > 0 ? '⚠️ 注意' : '✅ 通过'} | ${d.L2_warnings}需关注/${d.L2_total}总计 | ${d.L2_warnings > 0 ? '请复查后自行判断' : '—'} |
+          | ${l3Icon} L3记录 | — | ${d.L3_total} 项 | 仅记录, 不影响合并 |
+
+          📊 扫描文件: ${s.filesScanned} | 变更文件: ${s.filesChanged || s.filesScanned} | 耗时: ${report.scanTime}
+          `;
+
+            if (report.findings && report.findings.L1 && report.findings.L1.length > 0) {
+              body += '\n### 🔴 L1阻断发现\n';
+              for (const f of report.findings.L1) {
+                body += `- **\`${f.file}\`** L${f.line}: [${f.patternId}] ${f.patternName}\n`;
+                body += `  - 匹配: \`${f.match.substring(0, 60)}\`\n`;
+                body += `  - 修复: ${f.remediation}\n`;
+              }
+            }
+
+            if (report.findings && report.findings.L2 && report.findings.L2.length > 0) {
+              body += '\n### 🟡 L2警告发现\n';
+              for (const f of report.findings.L2.slice(0, 5)) {
+                body += `- **\`${f.file}\`**: [${f.patternId}] ${f.patternName}\n`;
+              }
+              if (report.findings.L2.length > 5) {
+                body += `- ... 共 ${report.findings.L2.length} 处 (查看完整报告)\n`;
+              }
+            }
+
+            body += `\n---\n*安全扫描引擎 V3.1 | 周富贵 QE | AI师生研究院 V7*`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(c => c.body.includes('安全扫描结果') && c.user.type === 'Bot');
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body,
+              });
+            }
+
+      # ────────── 最终摘要 ──────────
+      - name: 安全扫描最终摘要
         if: always()
         run: |
-          BLOCKED=$(python3 -c "import json; r=json.load(open('security-report.json')); print('true' if r['summary']['blocked'] else 'false')")
-          L1_CRITICAL=$(python3 -c "import json; r=json.load(open('security-report.json')); print(r['defense']['L1_critical'])")
-          echo "L1 blocked: $BLOCKED"
-          echo "L1 critical: $L1_CRITICAL"
-          if [ "$BLOCKED" = "true" ]; then
-            echo ""
-            echo "============================================"
-            echo "  CI门禁: L1阻断层发现 $L1_CRITICAL 处严重威胁"
-            echo "  请修复后重新提交"
-            echo "============================================"
+          if [ ! -f "$REPORT_FILE" ]; then
+            echo "❌ 扫描失败: 报告文件缺失"
             exit 1
           fi
-          echo "L1阻断层: 通过"
-
-      - name: 安全扫描摘要
-        if: always()
-        run: |
           python3 -c "
           import json
-          r = json.load(open('security-report.json'))
+          r = json.load(open('$REPORT_FILE'))
           s = r['summary']
           d = r['defense']
-          print(f'扫描完成: {s[\"filesScanned\"]} 文件')
-          print(f'L1阻断: {d[\"L1_critical\"]} | L2警告: {d[\"L2_warnings\"]} | L3记录: {d[\"L3_total\"]}')
-          print(f'结论: {\"❌ 阻断\" if s[\"blocked\"] else \"✅ 通过\"}')
-          if r['findings']['L1']:
-              print()
-              print('--- L1阻断发现 ---')
-              for f in r['findings']['L1']:
-                  print(f'  [{f[\"patternId\"]}] {f[\"file\"]}: {f[\"match\"][:60]}')
+          print()
+          print('=' * 50)
+          print('  安全扫描 (三层防线) — 完成')
+          print('=' * 50)
+          print(f'  扫描: {s[\"filesScanned\"]} 文件')
+          print(f'  L1阻断: {d[\"L1_critical\"]} 严重 | L2警告: {d[\"L2_warnings\"]} | L3记录: {d[\"L3_total\"]}')
+          print(f'  结论: {\"❌ 阻断 (需修复后重新提交)\" if s[\"blocked\"] else \"✅ 通过 (可合并)\"}')
+          print('=' * 50)
           "
