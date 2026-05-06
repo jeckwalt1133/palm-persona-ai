@@ -134,9 +134,9 @@ function buildIdentityBadge(
   const top = [...scores].sort((a, b) => b.score - a.score)[0];
   const trait = naturalTrait(top.dimensionKey, top.score);
   const badges = [
-    `「${template.label}」—— 一个${trait}的人`,
-    `${template.label} · ${trait}型`,
-    `手掌形塑的 · ${template.label}`,
+    `「${template.label}」—— ${trait}，只是你的一面`,
+    `${template.label} · ${trait}`,
+    `手掌形塑的 · ${trait}灵魂`,
   ];
   const hash = simpleHash(anchors.opening + 'badge');
   return badges[hash % badges.length];
