@@ -1,24 +1,35 @@
 {
-  "e2e-narrative-001": {
-    "id": "e2e-narrative-001",
+  "test-broadcast-001-ma": {
+    "id": "test-broadcast-001-ma",
     "type": "TaskCard",
     "sender": "nie",
     "receiver": "ma",
     "status": "acknowledged",
-    "sentAt": "2026-05-06T12:10:01Z",
-    "ttlSeconds": 60,
-    "expiresAt": "2026-05-06T12:11:01Z",
-    "ackedAt": "2026-05-06T12:10:01Z"
+    "sentAt": "2026-05-06T16:11:01Z",
+    "ttlSeconds": 604800,
+    "expiresAt": "2026-05-13T16:11:01Z",
+    "ackedAt": "2026-05-06T16:11:22Z"
   },
-  "e2e-deliver-001": {
-    "id": "e2e-deliver-001",
-    "type": "DeliverableCard",
-    "sender": "ma",
-    "receiver": "nie",
+  "test-broadcast-001-wang": {
+    "id": "test-broadcast-001-wang",
+    "type": "TaskCard",
+    "sender": "nie",
+    "receiver": "wang",
     "status": "acknowledged",
-    "sentAt": "2026-05-06T12:10:01Z",
-    "ttlSeconds": 2592000,
-    "expiresAt": "2026-06-05T12:10:01Z",
-    "ackedAt": "2026-05-06T12:10:01Z"
+    "sentAt": "2026-05-06T16:11:01Z",
+    "ttlSeconds": 604800,
+    "expiresAt": "2026-05-13T16:11:01Z",
+    "ackedAt": "2026-05-06T16:11:22Z"
+  },
+  "test-broadcast-001-zhou": {
+    "id": "test-broadcast-001-zhou",
+    "type": "TaskCard",
+    "sender": "nie",
+    "receiver": "zhou",
+    "status": "acknowledged",
+    "sentAt": "2026-05-06T16:11:01Z",
+    "ttlSeconds": 604800,
+    "expiresAt": "2026-05-13T16:11:01Z",
+    "ackedAt": "2026-05-06T16:11:22Z"
   }
 }

@@ -12,3 +12,4 @@ memory/safety/
 messages/
 scripts/__pycache__/
 server/memory/
+server/data/

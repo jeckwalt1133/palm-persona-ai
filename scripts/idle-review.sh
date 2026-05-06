@@ -36,8 +36,10 @@ for role, info in d.get('teamMembers', {}).items():
 print()
 pq = d.get('priorityQueue', [])
 print('### 优先级队列')
-for item in pq[:5]:
-    print(f\"- [{item.get('rank','?')}] {item.get('taskId','?')} {item.get('title','?')} ({item.get('status','?')})\")
+for item in pq[:8]:
+    status = item.get('status','?')
+    icon = '✅' if status == 'completed' else ('🔄' if status == 'in_progress' else ('📋' if status == 'dispatched' else '⏳'))
+    print(f\"{icon} {item.get('id','?')} — {item.get('title','?')} [{item.get('assignee','?')}] ({status})\")
 " >> "$OUTPUT" 2>/dev/null || echo "  (team-status.json 解析失败)" >> "$OUTPUT"
 fi
 
@@ -103,9 +105,9 @@ import json
 with open('$MEMORY_DIR/team-status.json') as f:
     d = json.load(f)
 pq = d.get('priorityQueue', [])
-p0_pending = [i for i in pq if i.get('status') in ('pending','assigned')]
+p0_pending = [i for i in pq if i.get('status') in ('pending','assigned','dispatched')]
 if p0_pending:
-    print(f'还有 {len(p0_pending)} 个P0任务未完成。优先执行: {p0_pending[0][\"taskId\"]} {p0_pending[0][\"title\"]}')
+    print(f'还有 {len(p0_pending)} 个未完成任务。优先执行: {p0_pending[0][\"id\"]} {p0_pending[0][\"title\"]}')
 else:
     ct = d.get('currentTask', {})
     if ct.get('status') == 'in_progress':

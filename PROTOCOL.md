@@ -216,17 +216,64 @@ interface AiProvider {
 - [ ] 配置 tmux/守护进程保障会话不中断
 - [ ] 开始第一个 Sprint
 
-## 10. 已知实例
+## 10. 收敛节奏协议 (Convergence Rhythm Protocol)
+
+> 从"被迫收敛"到"主动节奏"——Agent产出速度 > CEO提交带宽时的纪律约束
+
+### 触发条件
+- 未提交文件数 > 15 → 必须批量提交
+- 距上次提交 > 2 小时 → 必须提交
+- CEO 审查（合规/TypeScript/一致性）→ 通过后才能提交
+
+### 提交纪律
+1. **CEO 统一提交**：Agent 不自提交。CEO 审查后批量 commit
+2. **小步快跑**：文件数 < 10 时优先提交，不等积压
+3. **子仓库独立提交**：各子仓库（server/miniapp）可独立 commit，不互相阻塞
+4. **提交干旱检测**：> 3h 无提交触发闲置自检
+
+### 反模式
+- Agent 产出后 CEO 未及时审查 → 积压 > 15 文件
+- PreCompact 被动触发收敛 → 应主动收敛，不等压缩
+
+## 11. Agent-Router 任务派发协议
+
+> 基于文件系统总线的 JSON Card 推送，替代 tmux send-keys
+
+### 工具
+- `scripts/agent-router.py send <card.json> --notify` — 派发任务
+- `scripts/agent-router.py status` — 查看各 Agent 状态
+
+### Card 格式
+```json
+{
+  "to": "agent-id",
+  "type": "task",
+  "payload": { "task_id": "...", "task": "...", "acceptance_criteria": "..." },
+  "ttl_hours": 168
+}
+```
+
+### 性能基准
+- tmux send-keys 手工派发: 小时级延迟
+- Agent-Router Card 推送: 分钟级延迟（已验证王富贵 2 分钟内响应）
+
+## 12. 已知实例
 
 富贵军团 @ 掌心人格局项目 (2026-05)
-- 教师: 聂富贵 (DeepSeek V4 Pro, claude-nie/主会话)
-- 学生: 马富贵 (DeepSeek V4 Flash, claude-ma)
-- 客座讲师: 王富贵 (豆包 Seed-2.0-Pro, claude-wang) + 周富贵 (千问 Qwen3-Max, claude-zhou)
-- 4人全部拥有独立 tmux 会话，team-watchdog.sh 自动守护
-- 跨学习协议: 4人互为师生，交叉审查，竞争力追踪
+- CEO/教师: 聂富贵 (DeepSeek V4 Pro, claude-nie/主会话)
+- Senior Eng/学生: 马富贵 (DeepSeek V4 Flash, claude-ma)
+- PM/UX: 王富贵 (豆包 Seed-2.0-Pro, claude-wang)
+- QE/Security: 周富贵 (千问 Qwen3-Max, claude-zhou)
+- 前端 P6: 赵富贵 (Taro+Canvas, claude-zhao)
+- 后端 P6: 钱富贵 (Fastify+DB, claude-qian)
+- 运营 P5: 孙富贵 (增长+竞品, claude-sun)
+- 7人全部拥有独立 tmux 会话，team-watchdog.sh 自动守护
+- 跨学习协议: 7人互为师生，交叉审查，竞争力追踪
 - 记忆系统: PreCompact快照 + SessionStart恢复 + 闲置自检 + 记忆做梦 + 防遗忘
-- 产出: 47项能力清单 + 31个Skill路由 + 4人独立会话 + 防遗忘系统 + 记忆做梦引擎
+- 收敛节奏: 提交间隔 ≤ 2h，文件积压 ≤ 15
+- 任务派发: Agent-Router Card JSON 推送（替代 tmux send-keys）
+- 产出: 47项能力清单 + 31个Skill路由 + 7人独立会话 + 防遗忘系统 + 记忆做梦引擎
 
 ---
 
-版本: v0.1 | 许可: CC BY 4.0 | 维护: 富贵军团
+版本: v0.2 | 许可: CC BY 4.0 | 维护: 富贵军团
