@@ -152,7 +152,7 @@ export async function complianceRoutes(app: FastifyInstance): Promise<void> {
   app.post('/api/compliance/check', async (req, reply) => {
     const { text } = req.body as { text?: string };
     if (!text || typeof text !== 'string') {
-      return reply.status(400).send({ error: '缺少必填字段 text' });
+      return reply.status(400).send({ success: false, error: { code: 'BAD_REQUEST', message: '缺少必填字段 text' } });
     }
     const result = defaultSafety.check(text);
     return reply.send(result);
@@ -162,7 +162,7 @@ export async function complianceRoutes(app: FastifyInstance): Promise<void> {
   app.post('/api/compliance/audit', async (req, reply) => {
     const { text } = req.body as { text?: string };
     if (!text || typeof text !== 'string') {
-      return reply.status(400).send({ error: '缺少必填字段 text' });
+      return reply.status(400).send({ success: false, error: { code: 'BAD_REQUEST', message: '缺少必填字段 text' } });
     }
     const result = securityAudit(text);
     return reply.send(result);

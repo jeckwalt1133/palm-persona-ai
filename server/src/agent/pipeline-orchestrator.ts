@@ -14,14 +14,13 @@ import { ResonanceNarrativeEngine, MockResonanceNarrativeEngine } from '../engin
 import { ContentSafety, defaultSafety } from '../safety/content-safety.js';
 import { AiProvider, MockAiProvider } from '../ai/index.js';
 import {
-  PalmFeatures,
   PersonaReport,
-  VisualAnchors,
 } from '../engine/types.js';
 
 import { AnalystAgent, AnalystOutput } from './analyst-agent.js';
 import { CopywriterAgent, CopywriterOutput } from './copywriter-agent.js';
 import { SafetyAgent, SafetyInput, SafetyPreCheckResult, SafetyPostCheckResult } from './safety-agent.js';
+import { buildVisualAnchors } from '../engine/report-pipeline.js';
 
 // ─── 类型 ────────────────────────────────────────
 
@@ -51,35 +50,6 @@ export interface OrchestratorDeps {
   narrative: ResonanceNarrativeEngine;
   ai: AiProvider;
   safety: ContentSafety;
-}
-
-// ─── 视觉锚点构建 (复用现有逻辑) ────────────────
-
-function buildVisualAnchors(features: PalmFeatures): VisualAnchors {
-  const w = features.palmWidth;
-  const c = features.lineClarity;
-  const lc = features.lineCount;
-  const fl = features.fingerLengthRatio;
-  const mountNames = ['金星丘', '木星丘', '土星丘', '水星丘', '火星丘'];
-  const maxIdx = features.mountProminence.indexOf(Math.max(...features.mountProminence));
-  const maxMount = mountNames[maxIdx];
-
-  return {
-    opening: `你的手掌${w > 75 ? '偏宽厚' : w > 60 ? '适中' : '偏窄'}，${fl > 0.85 ? '手指修长' : '比例和谐'}，掌心纹路${c > 60 ? '清晰可见' : c > 35 ? '柔和可见' : '若隐若现'}，线条${lc > 5 ? '非常丰富' : lc > 3 ? '丰富' : '简洁'}。手掌最饱满的地方在${maxMount}——每个手掌的轮廓都不一样，这就是你的独特之处。`,
-    widthLabel: `${w > 75 ? '偏宽厚' : w > 60 ? '适中' : '偏窄'} · ${w > 75 ? '人群中少见' : w > 60 ? '中等水平' : '精致手型'}`,
-    fingerLabel: `${fl > 0.85 ? '修长指型' : fl > 0.75 ? '比例和谐' : '短指型'} · ${fl > 0.85 ? '多于大多数人' : fl > 0.75 ? '中等水平' : '少数人群'}`,
-    clarityLabel: `${c > 60 ? '清晰可见' : c > 35 ? '柔和可见' : '若隐若现'} · ${c > 60 ? '多于大多数人' : c > 35 ? '中等水平' : '少数人群'}`,
-    lineCountLabel: `${lc > 5 ? '脉络非常丰富' : lc > 3 ? '脉络丰富' : '脉络简洁'} · ${lc > 5 ? '多于大多数人' : lc > 3 ? '中等水平' : '少数人群'}`,
-    prominentMount: `${maxMount}突出${features.mountProminence[maxIdx] > 70 ? ' — 这通常与情感能量和自我表达有关' : ''}`,
-    palmWidth: w,
-    lineClarity: c,
-    lineCount: lc,
-    fingerLengthRatio: fl,
-    widthPercentile: `${Math.min(99, Math.round(w))}%`,
-    clarityPercentile: `${Math.min(99, Math.round(c))}%`,
-    lineCountPercentile: `${Math.min(99, Math.round(lc * 15))}%`,
-    fingerPercentile: `${Math.min(99, Math.round(fl * 100))}%`,
-  };
 }
 
 // ─── 降级常量 ────────────────────────────────────

@@ -60,7 +60,7 @@ const defaultDeps: PipelineDeps = {
   safety: defaultSafety,
 };
 
-function buildVisualAnchors(features: PalmFeatures): VisualAnchors {
+export function buildVisualAnchors(features: PalmFeatures): VisualAnchors {
   const w = features.palmWidth;
   const c = features.lineClarity;
   const lc = features.lineCount;

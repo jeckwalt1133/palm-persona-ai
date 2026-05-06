@@ -28,8 +28,11 @@ export async function analyzeRoutes(app: FastifyInstance) {
       if (!allowed) {
         reply.header('Retry-After', retryAfterSec);
         return reply.status(429).send({
-          code: 'DEVICE_RATE_LIMITED',
-          message: `分析请求过于频繁，请在 ${retryAfterSec} 秒后重试`,
+          success: false,
+          error: {
+            code: 'DEVICE_RATE_LIMITED',
+            message: `分析请求过于频繁，请在 ${retryAfterSec} 秒后重试`,
+          },
         });
       }
     }

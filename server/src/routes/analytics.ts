@@ -6,7 +6,7 @@ export async function analyticsRoutes(app: FastifyInstance) {
     const { events } = req.body as { events?: unknown[] } ?? {};
 
     if (!events || !Array.isArray(events)) {
-      return reply.status(400).send({ code: 'BAD_REQUEST', message: '缺少 events 数组' });
+      return reply.status(400).send({ success: false, error: { code: 'BAD_REQUEST', message: '缺少 events 数组' } });
     }
 
     // MVP: 日志记录 + 内存计数，后续接 Supabase/ClickHouse
