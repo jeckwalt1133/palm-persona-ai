@@ -1,14 +1,128 @@
 import { View, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import { useState, useEffect } from 'react';
 import './index.scss';
 
+const ONBOARDING_SHOWN_KEY = 'palm_onboarding_shown';
+
+interface OnboardingStep {
+  step: number;
+  title: string;
+  lines: string[];
+  cta: string;
+}
+
+// 3步Onboarding文案 — 来自 V7-W5-012 设计
+const ONBOARDING_STEPS: OnboardingStep[] = [
+  {
+    step: 1,
+    title: '伸出手掌，对着镜头',
+    lines: [
+      '就像在看自己的手纹一样自然。',
+      '不需要摆姿势，不需要调角度，手掌张开就行。',
+      'AI 会从你的掌心线条里读到一些你从没说过的事。',
+    ],
+    cta: '知道了，下一步',
+  },
+  {
+    step: 2,
+    title: '这些线条每个人都不一样',
+    lines: [
+      '正在读取你的掌心——AI 看到了几条关键纹路。',
+      '别急，AI 正在把它们拼成你的故事。',
+      '快了——你第一次看到的结果，往往是最准的那一次。',
+    ],
+    cta: '然后呢？',
+  },
+  {
+    step: 3,
+    title: '比聊天更接近真实的你',
+    lines: [
+      'AI 读到的这几行字，可能比你跟朋友说了一晚上的话还准。',
+      '这只是你人格的一个切面——下次再测，可能会看到不一样的自己。',
+      '如果你想到了某个人——发给ta。有些话AI替你说出来了。',
+    ],
+    cta: '开始拍手掌',
+  },
+];
+
 export default function IndexPage() {
+  const [onboardingStep, setOnboardingStep] = useState(0); // 0=不显示, 1/2/3=步骤
+  const [onboardingVisible, setOnboardingVisible] = useState(false);
+
+  useEffect(() => {
+    try {
+      const shown = localStorage?.getItem(ONBOARDING_SHOWN_KEY);
+      if (!shown) {
+        setOnboardingVisible(true);
+        setOnboardingStep(1);
+      }
+    } catch { /* H5 only */ }
+  }, []);
+
+  const handleNext = () => {
+    if (onboardingStep < 3) {
+      setOnboardingStep((s) => s + 1);
+    } else {
+      // 最后一步：关闭弹窗，记录已展示
+      try { localStorage?.setItem(ONBOARDING_SHOWN_KEY, '1'); } catch { /* noop */ }
+      setOnboardingVisible(false);
+      setOnboardingStep(0);
+    }
+  };
+
+  const handleSkip = () => {
+    try { localStorage?.setItem(ONBOARDING_SHOWN_KEY, '1'); } catch { /* noop */ }
+    setOnboardingVisible(false);
+    setOnboardingStep(0);
+  };
+
   const goToCapture = () => {
     Taro.navigateTo({ url: '/pages/capture/index' });
   };
 
+  const currentStep = ONBOARDING_STEPS[onboardingStep - 1];
+
   return (
     <View className="home-page">
+      {/* ══════ 首次用户Onboarding弹窗 ══════ */}
+      {onboardingVisible && currentStep && (
+        <View className="onboarding-overlay">
+          <View className="onboarding-modal">
+            {/* 步骤指示器 */}
+            <View className="onboarding-steps">
+              {[1, 2, 3].map((s) => (
+                <View
+                  key={s}
+                  className={`onboarding-step-dot ${s === onboardingStep ? 'step-active' : ''} ${s < onboardingStep ? 'step-done' : ''}`}
+                >
+                  <Text>{s < onboardingStep ? '✓' : String(s)}</Text>
+                </View>
+              ))}
+            </View>
+
+            {/* 内容 */}
+            <View className="onboarding-body">
+              <Text className="onboarding-step-label">第{currentStep.step}步</Text>
+              <Text className="onboarding-title">{currentStep.title}</Text>
+              {currentStep.lines.map((line, i) => (
+                <Text key={i} className="onboarding-line">{line}</Text>
+              ))}
+            </View>
+
+            {/* 按钮 */}
+            <View className="onboarding-actions">
+              <View className="onboarding-btn-primary" onClick={handleNext}>
+                <Text>{currentStep.cta}</Text>
+              </View>
+              <View className="onboarding-btn-skip" onClick={handleSkip}>
+                <Text>跳过引导，直接开始</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      )}
+
       {/* Hero */}
       <View className="home-hero">
         <Text className="home-title">掌心人格局</Text>
