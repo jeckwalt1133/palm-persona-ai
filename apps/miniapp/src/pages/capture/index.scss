@@ -1,10 +1,28 @@
+/* ═══════════════════════════════════════════════════════════
+   拍摄页 — 暗色/亮色双主题 + iOS 兼容
+   赵富贵 P6 前端 (V7-W6延伸)
+   ═══════════════════════════════════════════════════════════ */
+
 .capture-page {
+  /* 本地主题令牌 */
+  --cap-tip-bg: rgba(100, 200, 255, 0.04);
+  --cap-tip-border: rgba(100, 200, 255, 0.1);
+
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
   padding: 48rpx 32rpx;
   box-sizing: border-box;
+  /* iOS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+page[data-theme="light"] .capture-page,
+html[data-theme="light"] .capture-page {
+  --cap-tip-bg: rgba(30, 80, 160, 0.06);
+  --cap-tip-border: rgba(30, 80, 160, 0.12);
 }
 
 .capture-header {
@@ -24,7 +42,7 @@
 .capture-desc {
   display: block;
   font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--color-text-secondary);
   line-height: 1.7;
   max-width: 520rpx;
 }
@@ -35,8 +53,8 @@
   flex-direction: column;
   gap: 12rpx;
   padding: 24rpx 28rpx;
-  background: rgba(100, 200, 255, 0.04);
-  border: 1px solid rgba(100, 200, 255, 0.1);
+  background: var(--cap-tip-bg);
+  border: 1px solid var(--cap-tip-border);
   border-radius: 16rpx;
   margin-bottom: 36rpx;
   width: 100%;
@@ -54,13 +72,13 @@
   width: 8rpx;
   height: 8rpx;
   border-radius: 50%;
-  background: rgba(100, 200, 255, 0.5);
+  background: var(--color-accent-blue);
   flex-shrink: 0;
 }
 
 .tip-text {
   font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
@@ -68,18 +86,18 @@
 .upload-area {
   width: 480rpx;
   height: 480rpx;
-  border: 2rpx dashed rgba(255, 209, 102, 0.3);
+  border: 2rpx dashed var(--color-border-dashed);
   border-radius: 24rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 48rpx;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--color-bg-card);
   transition: border-color 0.2s;
 }
 
 .upload-area:active {
-  border-color: rgba(255, 209, 102, 0.6);
+  border-color: var(--color-border-gold);
 }
 
 .upload-placeholder {
@@ -91,19 +109,20 @@
 
 .upload-icon {
   font-size: 64rpx;
-  color: rgba(255, 209, 102, 0.35);
+  color: var(--color-accent-gold);
+  opacity: 0.35;
   line-height: 1;
   margin-bottom: 4rpx;
 }
 
 .upload-text {
   font-size: 28rpx;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--color-text-secondary);
 }
 
 .upload-hint {
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--color-text-placeholder);
 }
 
 .preview-area {
@@ -112,7 +131,7 @@
   border-radius: 24rpx;
   overflow: hidden;
   margin-bottom: 48rpx;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--color-bg-overlay);
 }
 
 .preview-image {
@@ -128,10 +147,10 @@
 
 .btn-reset {
   padding: 24rpx 48rpx;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-input);
   border-radius: 48rpx;
   font-size: 28rpx;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-secondary);
 }
 
 .btn-analyze {
@@ -150,7 +169,7 @@
 
 .disclaimer-text {
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-tertiary);
   text-align: center;
   line-height: 1.6;
 }

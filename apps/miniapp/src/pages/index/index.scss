@@ -1,10 +1,40 @@
+/* ═══════════════════════════════════════════════════════════
+   首页 — 暗色/亮色双主题 + iOS 兼容
+   赵富贵 P6 前端 (V7-W6延伸)
+   ═══════════════════════════════════════════════════════════ */
+
 .home-page {
+  /* 本地主题令牌 */
+  --idx-overlay-bg: rgba(12, 8, 28, 0.92);
+  --idx-gold-soft: rgba(255, 209, 102, 0.06);
+  --idx-gold-dot: rgba(255, 209, 102, 0.15);
+  --idx-cyan-soft: rgba(6, 214, 160, 0.08);
+  --idx-cyan-border: rgba(6, 214, 160, 0.15);
+  --idx-cyan-bg: rgba(6, 214, 160, 0.15);
+  --idx-step-inactive: rgba(255, 255, 255, 0.06);
+  --idx-step-border: rgba(255, 255, 255, 0.12);
+
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
   padding: 80rpx 32rpx 48rpx;
   box-sizing: border-box;
+  /* iOS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+page[data-theme="light"] .home-page,
+html[data-theme="light"] .home-page {
+  --idx-overlay-bg: rgba(237, 232, 245, 0.92);
+  --idx-gold-soft: rgba(139, 105, 20, 0.05);
+  --idx-gold-dot: rgba(139, 105, 20, 0.12);
+  --idx-cyan-soft: rgba(0, 120, 96, 0.06);
+  --idx-cyan-border: rgba(0, 120, 96, 0.12);
+  --idx-cyan-bg: rgba(0, 120, 96, 0.12);
+  --idx-step-inactive: rgba(27, 16, 53, 0.04);
+  --idx-step-border: rgba(27, 16, 53, 0.1);
 }
 
 /* ══════ 首次用户Onboarding弹窗 ══════ */
@@ -15,7 +45,7 @@
   right: 0;
   bottom: 0;
   z-index: 1000;
-  background: rgba(12, 8, 28, 0.92);
+  background: var(--idx-overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,14 +72,14 @@
   width: 56rpx;
   height: 56rpx;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 2rpx solid rgba(255, 255, 255, 0.12);
+  background: var(--idx-step-inactive);
+  border: 2rpx solid var(--idx-step-border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24rpx;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-tertiary);
   position: relative;
   transition: all 0.3s ease;
 
@@ -60,7 +90,7 @@
     left: calc(100% + 4rpx);
     width: 20rpx;
     height: 2rpx;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--color-border-default);
   }
 
   &:last-child::after {
@@ -69,15 +99,15 @@
 }
 
 .onboarding-step-dot.step-active {
-  background: rgba(255, 209, 102, 0.2);
-  border-color: rgba(255, 209, 102, 0.5);
+  background: var(--color-glow-gold);
+  border-color: var(--color-border-gold);
   color: var(--color-accent-gold);
-  box-shadow: 0 0 24rpx rgba(255, 209, 102, 0.15);
+  box-shadow: var(--shadow-gold);
 }
 
 .onboarding-step-dot.step-done {
-  background: rgba(6, 214, 160, 0.15);
-  border-color: rgba(6, 214, 160, 0.4);
+  background: rgba(6, 214, 160, 0.15); /* cyan: no exact variable match — kept */
+  border-color: var(--color-border-cyan);
   color: var(--color-accent-cyan);
 }
 
@@ -92,7 +122,7 @@
 
 .onboarding-step-label {
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-tertiary);
   letter-spacing: 4rpx;
   text-transform: uppercase;
 }
@@ -107,7 +137,7 @@
 
 .onboarding-line {
   font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-secondary);
   line-height: 1.7;
   max-width: 440rpx;
 }
@@ -125,7 +155,7 @@
   width: 100%;
   max-width: 440rpx;
   padding: 24rpx 0;
-  background: linear-gradient(135deg, var(--color-accent-gold), #F5A623);
+  background: linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-pink-alt));
   border-radius: 40rpx;
   text-align: center;
   font-size: 30rpx;
@@ -142,11 +172,11 @@
 .onboarding-btn-skip {
   padding: 12rpx 0;
   font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-tertiary);
   transition: color 0.2s;
 
   &:active {
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-text-secondary);
   }
 }
 
@@ -156,15 +186,15 @@
   align-items: center;
   gap: 8rpx;
   padding: 12rpx 24rpx;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   border-radius: 32rpx;
   margin-bottom: 32rpx;
   transition: all 0.2s;
 }
 
 .theme-toggle:active {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--color-bg-card-hover);
 }
 
 .theme-toggle-icon {
@@ -174,7 +204,7 @@
 
 .theme-toggle-label {
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--color-text-secondary);
 }
 
 /* ── Hero ── */
@@ -196,14 +226,15 @@
   display: block;
   font-size: 30rpx;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--color-text-secondary);
   margin-bottom: 12rpx;
 }
 
 .home-subtitle {
   display: block;
   font-size: 28rpx;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--color-text-secondary);
+  opacity: 0.8;
   line-height: 1.7;
   max-width: 520rpx;
 }
@@ -214,8 +245,8 @@
   align-items: flex-start;
   gap: 16rpx;
   padding: 20rpx 24rpx;
-  background: linear-gradient(135deg, rgba(6, 214, 160, 0.08), rgba(6, 214, 160, 0.04));
-  border: 1px solid rgba(6, 214, 160, 0.15);
+  background: linear-gradient(135deg, var(--idx-cyan-soft), rgba(6, 214, 160, 0.04));
+  border: 1px solid var(--idx-cyan-border);
   border-radius: 16rpx;
   margin-bottom: 24rpx;
   width: 100%;
@@ -227,7 +258,7 @@
   width: 48rpx;
   height: 48rpx;
   border-radius: 50%;
-  background: rgba(6, 214, 160, 0.15);
+  background: var(--idx-cyan-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -237,7 +268,7 @@
 .invited-icon {
   font-size: 24rpx;
   font-weight: 700;
-  color: #06D6A0;
+  color: var(--color-accent-cyan);
 }
 
 .invited-body {
@@ -250,12 +281,13 @@
 .invited-title {
   font-size: 26rpx;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-text-primary);
+  opacity: 0.85;
 }
 
 .invited-desc {
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--color-text-tertiary);
   line-height: 1.6;
 }
 
@@ -267,7 +299,7 @@
   justify-content: center;
   flex-shrink: 0;
   font-size: 28rpx;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-tertiary);
 }
 
 /* ── 社交证明 ── */
@@ -278,7 +310,7 @@
   gap: 4rpx;
   margin-bottom: 48rpx;
   padding: 20rpx 40rpx;
-  background: rgba(255, 209, 102, 0.06);
+  background: var(--idx-gold-soft);
   border-radius: 16rpx;
 }
 
@@ -291,7 +323,7 @@
 
 .social-proof-label {
   font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-tertiary);
 }
 
 /* ── 预览卡片区 ── */
@@ -307,7 +339,7 @@
 .preview-section-title {
   display: block;
   font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-tertiary);
   text-align: center;
   margin-bottom: 8rpx;
 }
@@ -317,8 +349,8 @@
   align-items: flex-start;
   gap: 20rpx;
   padding: 24rpx;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-default);
   border-radius: 16rpx;
 }
 
@@ -326,7 +358,7 @@
   width: 48rpx;
   height: 48rpx;
   border-radius: 50%;
-  background: rgba(255, 209, 102, 0.15);
+  background: var(--idx-gold-dot);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -350,12 +382,13 @@
 .preview-card-title {
   font-size: 28rpx;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-text-primary);
+  opacity: 0.85;
 }
 
 .preview-card-desc {
   font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--color-text-tertiary);
   line-height: 1.6;
 }
 
@@ -387,14 +420,14 @@
   width: 100%;
   max-width: 560rpx;
   padding: 20rpx 24rpx;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--color-bg-card);
   border-radius: 12rpx;
   margin-top: auto;
 }
 
 .disclaimer-text {
   font-size: 20rpx;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-placeholder);
   line-height: 1.6;
   text-align: center;
 }
