@@ -3,15 +3,15 @@ import Taro from '@tarojs/taro';
 // 电脑热点 IP（Windows 移动热点默认段）
 const HOTSPOT_IP = '192.168.137.1';
 
-// 服务器端口：3001 被旧进程占用，使用 3002
-const SERVER_PORT = 3002;
+// 服务器端口：与 server/.env 中的 PORT 保持一致
+const SERVER_PORT = 3001;
 
 function resolveBase(): string {
   try {
     const info = Taro.getSystemInfoSync();
-    // 开发者工具模拟器 → localhost 直连 WSL2
+    // 开发者工具模拟器 → Windows代理端口（WSL2直连不通，走Windows原生转发）
     if (info.platform === 'devtools') {
-      return `http://localhost:${SERVER_PORT}`;
+      return `http://127.0.0.1:3009`;
     }
   } catch { /* 忽略 */ }
 

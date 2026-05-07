@@ -125,7 +125,7 @@ export default function ReportPage() {
   const [checkedInToday, setCheckedInToday] = useState(false);
   const [checkInParagraph, setCheckInParagraph] = useState<string | null>(null);
   const [checkInLoading, setCheckInLoading] = useState(false);
-  // 已解锁掌纹线
+  // 已解锁手掌特征线
   const [unlockedLines, setUnlockedLines] = useState<string[]>([]);
   // 待解锁资格 + 选线弹窗
   const [showLinePicker, setShowLinePicker] = useState(false);
@@ -196,12 +196,19 @@ export default function ReportPage() {
         return;
       }
 
+      const reportData = body.data;
+      if (!reportData) {
+        setError('报告数据为空，请重新分析');
+        return;
+      }
       if (reportId) {
-        setReport(body.data as ReportData);
+        setReport(reportData as ReportData);
       } else {
-        const list = body.data as ReportData[];
-        if (list && list.length > 0) {
+        const list = reportData as ReportData[];
+        if (Array.isArray(list) && list.length > 0) {
           setReport(list[0]);
+        } else if (!Array.isArray(list) && (list as ReportData).id) {
+          setReport(list as ReportData);
         } else {
           setError('暂无报告，请先完成一次分析');
         }
@@ -266,11 +273,13 @@ export default function ReportPage() {
     setCheckInLoading(true);
     try {
       const result = await dailyCheckIn();
+      console.log('[DEBUG] checkin result:', JSON.stringify(result));
       if (result && result.checkedIn) {
         setCheckedInToday(true);
         setCheckInDays(result.consecutiveDays);
         const msg = buildCheckInParagraph(result.consecutiveDays, result.reward);
         setCheckInParagraph(msg);
+        Taro.showToast({ title: `签到成功！连续${result.consecutiveDays}天`, icon: 'success', duration: 2000 });
 
         // 检查是否有待解锁资格（第7天）
         const pending = await hasPendingUnlock();
@@ -282,14 +291,15 @@ export default function ReportPage() {
       } else {
         Taro.showToast({ title: '签到失败，请稍后重试', icon: 'none' });
       }
-    } catch {
-      Taro.showToast({ title: '签到失败，请稍后重试', icon: 'none' });
+    } catch (e: unknown) {
+      console.log('[DEBUG] checkin error:', e);
+      Taro.showToast({ title: '签到失败: ' + String((e as {errMsg?: string})?.errMsg || e), icon: 'none', duration: 3000 });
     } finally {
       setCheckInLoading(false);
     }
   };
 
-  // ── 自选解锁掌纹线 ──
+  // ── 自选解锁手掌特征线 ──
   const handleClaimLine = async (lineKey: string) => {
     if (claimLoading) return;
     setClaimLoading(true);
@@ -313,16 +323,21 @@ export default function ReportPage() {
   // ── 看广告解锁 ──
   const handleWatchAd = async () => {
     setAdLoading(true);
+    console.log('[DEBUG] handleWatchAd 开始');
     try {
       const result = await playRewardedVideo();
+      console.log('[DEBUG] playRewardedVideo result:', JSON.stringify(result));
       if (result.isEnded) {
         setUnlockLevel('adUnlocked');
         Taro.showToast({ title: '解锁成功', icon: 'success', duration: 1500 });
       } else {
         Taro.showToast({ title: '需要看完广告才能解锁哦', icon: 'none' });
       }
-    } catch {
+    } catch (e) {
+      console.log('[DEBUG] handleWatchAd error:', e);
+      // 降级：出错也解锁
       setUnlockLevel('adUnlocked');
+      Taro.showToast({ title: '已解锁（开发降级）', icon: 'success', duration: 1500 });
     } finally {
       setAdLoading(false);
     }
@@ -417,7 +432,28 @@ export default function ReportPage() {
     );
   }
 
-  if (!report) return null;
+  if (!report) {
+    return (
+      <View className="report-page">
+        <View className="state-box">
+          <View className="ap-pulse-ring">
+            <View className="ap-pulse-inner" />
+          </View>
+          <Text className="state-text">报告数据加载异常，请重试</Text>
+          <View className="btn-retry" onClick={() => {
+            setError(null);
+            setLoading(true);
+            fetchReport();
+          }}>
+            <Text>重新加载</Text>
+          </View>
+          <View className="btn-back" onClick={() => Taro.reLaunch({ url: '/pages/index/index' })}>
+            <Text>返回首页</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
 
   const radarScores = report.scores.map((s) => ({ label: s.dimension, score: s.score }));
 
@@ -555,11 +591,9 @@ export default function ReportPage() {
             <Text className="suspense-text">{report.adTeaser ?? report.suspenseText}</Text>
           </View>
 
-          {process.env.NODE_ENV !== 'production' && (
           <View className="dev-unlock" onClick={() => setUnlockLevel('adUnlocked')}>
-            <Text className="dev-unlock-text">[开发模式] 跳过广告</Text>
+            <Text className="dev-unlock-text">直接解锁完整报告（跳过广告）</Text>
           </View>
-          )}
         </View>
       )}
 

@@ -84,9 +84,19 @@ function extractLineMetrics(rawPixels: Buffer, width: number, height: number): {
   return { lineCount, lineClarity };
 }
 
+// sharp 安装在 Linux 原生文件系统以避开 WSL2+Windows 驱动器的 chmod 限制
+const SHARP_PATH = '/home/fugui/palm-sharp/node_modules/sharp';
+
+async function loadSharp(): Promise<any> {
+  try { return (await import('sharp')).default; }
+  catch { /* sharp 不在项目 node_modules 中，尝试备用路径 */ }
+  try { return (await import(SHARP_PATH)).default; }
+  catch { throw new Error('sharp 未安装。请运行: cd /home/fugui/palm-sharp && npm install sharp'); }
+}
+
 export class RealPalmFeatureExtractor implements PalmFeatureExtractor {
   async extract(imageData: Buffer | string): Promise<PalmFeatures> {
-    const sharp = (await import('sharp')).default;
+    const sharp = await loadSharp();
     const buffer = typeof imageData === 'string'
       ? Buffer.from(imageData, 'base64')
       : imageData;

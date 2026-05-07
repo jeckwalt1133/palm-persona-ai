@@ -1,10 +1,10 @@
 {
   "version": "2.4",
-  "updated": "2026-05-06T18:28:09Z",
+  "updated": "2026-05-07T10:28:00Z",
   "description": "AI师生研究院 V7 知识图谱 — Layer 3 语义记忆。节点=概念/方法论/决策/产品，边=标准4型关系+3型扩展。",
   "stats": {
-    "nodeCount": 35,
-    "edgeCount": 62,
+    "nodeCount": 41,
+    "edgeCount": 71,
     "primaryRelations": [
       "precedes",
       "supports",
@@ -584,6 +584,61 @@
       "description": "2026-05-06全天5个快照中3个修改了index.ts。安全模块→SQLite→管理API→CORS每个子系统都需要在此注册路由/中间件。是架构集成的单点瓶颈——但不是坏味道，而是Fastify插件模式的必然结果。",
       "source": "dream-log/2026-05-06-182809-dream.md 跨片段分析",
       "created": "2026-05-06"
+    },
+    {
+      "id": "wxss-compile-divergence",
+      "label": "SCSS→WXSS编译分叉 (静态检查≠平台编译)",
+      "domain": "engineering",
+      "description": "SCSS通过sass-loader→postcss-loader→css-loader编译为WXSS，但WXSS解析器不支持CSS通用选择器(*)。静态检查(SCSS语法正确)≠平台编译正确(WXSS unexpected token *)。iOS兼容代码的*选择器在SCSS层合法，在WXSS层导致白屏。潜伏期跨3个快照(145452→000702)，直到真机构建才暴露。教训：多端构建需增加平台级WXSS lint规则。",
+      "source": "dream-log/2026-05-07-042809-dream.md 跨片段分析 #3",
+      "created": "2026-05-07"
+    },
+    {
+      "id": "snapshot-recursive-self-reference",
+      "label": "快照递归自引用污染",
+      "domain": "memory",
+      "description": "快照生成脚本在记录uncommitted文件时，将上一轮生成的snapshots/文件也列入未提交列表。形成递归链：快照N的未提交列表包含快照N-1的路径→快照N-1包含快照N-2的路径→...。这些被引用的快照文件入库后信息价值为零(git log已包含相同信息)。应增加过滤规则：不将memory/snapshots/路径列入未提交文件。",
+      "source": "dream-log/2026-05-07-042809-dream.md 跨片段分析 #4",
+      "created": "2026-05-07"
+    },
+    {
+      "id": "capability-tracking-precedes-expansion",
+      "label": "能力建模先于组织扩展",
+      "domain": "methodology",
+      "description": "D020(7人团队扩展, 09:00)决策前2小时，capability-nie/wang/zhou.json三份独立能力建模文件已写好但未提交(Fragment 1, 11:51)。基础设施(能力追踪)先于组织变革(团队扩展)完成——这是一个可复用的模式：在加人之前先建立评估个体的框架。",
+      "source": "dream-log/2026-05-07-062808-dream.md 跨片段分析 #3",
+      "created": "2026-05-07"
+    },
+    {
+      "id": "uncommitted-heartbeat-rhythm",
+      "label": "未提交文件心跳节律",
+      "domain": "engineering",
+      "description": "提交后即时清洁(2-5文件)→并行开发膨胀(12-20文件)→下一轮提交收缩(3文件)，周期约4-6小时。这是D021收敛节奏协议的可观测验证——团队从被动收敛变为主动节奏。清洁态持续时间远短于膨胀态(比例约1:4)，说明Agent的产出速度持续超过CEO的提交速度。",
+      "source": "dream-log/2026-05-07-062808-dream.md 跨片段分析 #2",
+      "created": "2026-05-07"
+    },
+    {
+      "id": "N040",
+      "type": "finding",
+      "domain": "compliance",
+      "label": "FORBIDDEN_TERMS三防线分散问题",
+      "summary": "前端shareCopy.ts IIFE + retentionCopy.ts IIFE + 服务端content-safety.ts各自维护独立违规词列表，修复一个词需改3处。应统一为单一配置源(JSON)前后端共享。",
+      "severity": "medium",
+      "discovered": "2026-05-07T10:28:00Z",
+      "source": "dream-consolidation 5-fragment analysis"
+    },
+    {
+      "id": "compliance-auto-scan",
+      "type": "methodology",
+      "domain": "security",
+      "title": "合规检测→自动修复链路缺失",
+      "description": "ComplianceGate测试通过（05-06 00:30）到前端合规文案修复（05-07 10:08）间隔34小时。安全基础设施建好后，缺少检测→自动通知→立即修复的最后一环。建议在ComplianceGate通过后增加post-hook自动扫描src/违规词→写入board/阻塞.md。",
+      "confidence": 0.85,
+      "date": "2026-05-07",
+      "connections": [
+        "compliance-gate",
+        "frontend-compliance"
+      ]
     }
   ],
   "edges": [
@@ -950,6 +1005,60 @@
       "relation": "validates",
       "to": "one-person-company-organization",
       "label": "集成枢纽的热修改模式验证了一人公司架构：所有子系统通过单一入口收敛"
+    },
+    {
+      "from": "wxss-compile-divergence",
+      "relation": "contradicts",
+      "to": "build-expand-dont-commit-pattern",
+      "label": "WXSS编译问题在SCSS层不可见→真机前无人察觉→延长了未提交窗口。不提交+不真机测试=双重风险"
+    },
+    {
+      "from": "wxss-compile-divergence",
+      "relation": "depends_on",
+      "to": "palm-persona-ai",
+      "label": "多端编译兼容性是产品三端(微信/抖音/H5)上线的隐性前置条件"
+    },
+    {
+      "from": "snapshot-recursive-self-reference",
+      "relation": "contradicts",
+      "to": "three-layer-memory",
+      "label": "快照自引用污染Layer1数据质量——未提交文件列表被过时快照路径稀释"
+    },
+    {
+      "from": "snapshot-recursive-self-reference",
+      "relation": "supports",
+      "to": "security-hook-noise",
+      "label": "快照递归自引用与Hook文件幽灵同属元数据污染——记忆系统自身成为git噪音源"
+    },
+    {
+      "from": "capability-tracking-precedes-expansion",
+      "relation": "precedes",
+      "to": "one-person-company-organization",
+      "label": "为每个成员独立建模能力是组织扩展的前置基建——先有评估框架，再加人"
+    },
+    {
+      "from": "capability-tracking-precedes-expansion",
+      "relation": "supports",
+      "to": "capability-inventory",
+      "label": "个体能力JSON(capability-nie/wang/zhou)是全局能力清单的前身"
+    },
+    {
+      "from": "uncommitted-heartbeat-rhythm",
+      "relation": "validates",
+      "to": "convergence-rhythm-acceleration",
+      "label": "心跳节律(清洁→膨胀→收缩,4-6h周期)是可观测的收敛节奏验证"
+    },
+    {
+      "from": "uncommitted-heartbeat-rhythm",
+      "relation": "extends",
+      "to": "ceo-commit-bandwidth-bottleneck",
+      "label": "膨胀态持续时间远超清洁态(1:4比例)证实CEO提交带宽仍是瓶颈"
+    },
+    {
+      "from": "N040",
+      "to": "N016",
+      "type": "depends_on",
+      "label": "统一合规配置 → V6.1 P0-3 合规文档三件套"
     }
   ]
 }

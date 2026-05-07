@@ -70,15 +70,16 @@ export default function IndexPage() {
     }
   });
 
-  useEffect(() => {
-    try {
-      const shown = localStorage?.getItem(ONBOARDING_SHOWN_KEY);
-      if (!shown) {
-        setOnboardingVisible(true);
-        setOnboardingStep(1);
-      }
-    } catch { /* H5 only */ }
-  }, []);
+  // [H5测试] 暂时跳过Onboarding，直接展示首页
+  // useEffect(() => {
+  //   try {
+  //     const shown = localStorage?.getItem(ONBOARDING_SHOWN_KEY);
+  //     if (!shown) {
+  //       setOnboardingVisible(true);
+  //       setOnboardingStep(1);
+  //     }
+  //   } catch { /* H5 only */ }
+  // }, []);
 
   const handleNext = () => {
     if (onboardingStep < 3) {
@@ -206,7 +207,7 @@ export default function IndexPage() {
           <View className="preview-card-body">
             <Text className="preview-card-title">一句戳中你的核心真相</Text>
             <Text className="preview-card-desc">
-              AI 从你的掌纹中找出那句你最想发给某个人的话
+              AI 从你的手掌特征中找出那句你最想发给某个人的话
             </Text>
           </View>
         </View>

@@ -19,11 +19,13 @@
 
 import { PersonaReport, AnalysisContext } from '../engine/types.js';
 import { ResonanceNarrativeEngine, MockResonanceNarrativeEngine } from '../engine/resonance-narrative-engine.js';
-import { PalmFeatureExtractor, MockPalmFeatureExtractor } from '../engine/palm-feature-extractor.js';
+import { PalmFeatureExtractor, MockPalmFeatureExtractor, RealPalmFeatureExtractor } from '../engine/palm-feature-extractor.js';
 import { PersonaScoringEngine, MockPersonaScoringEngine } from '../engine/persona-scoring-engine.js';
 import { ContentSafety, defaultSafety } from '../safety/content-safety.js';
 import { type ComplianceGateResult } from '../safety/compliance-gate.js';
 import { AiProvider } from '../ai/index.js';
+import { DoubaoVisionProvider } from '../ai/doubao-vision-provider.js';
+import { VisionPalmFeatureExtractor } from '../engine/vision-feature-extractor.js';
 import { ReportRepository } from '../repository/report-repository.js';
 import { PipelineOrchestrator, type OrchestratorResult } from './pipeline-orchestrator.js';
 import fs from 'fs';
@@ -35,6 +37,18 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, '../../..');
+
+function createBestExtractor(): PalmFeatureExtractor {
+  const doubaoKey = process.env.DOUBAO_API_KEY;
+  if (doubaoKey) {
+    try { return new VisionPalmFeatureExtractor(new DoubaoVisionProvider(doubaoKey)); }
+    catch { /* 降级 */ }
+  }
+  try { return new RealPalmFeatureExtractor(); }
+  catch { /* 降级 */ }
+  console.warn('[ReportAgent] 所有真实提取器不可用，降级为 Mock');
+  return new MockPalmFeatureExtractor();
+}
 
 // ─── 类型 ────────────────────────────────────────
 
@@ -241,7 +255,7 @@ export class ReportAgent {
     aiProvider?: AiProvider,
     repo?: ReportRepository,
   ) {
-    this.extractor = extractor ?? new MockPalmFeatureExtractor();
+    this.extractor = extractor ?? createBestExtractor();
     this.scoring = new MockPersonaScoringEngine();
     this.engine = engine ?? new MockResonanceNarrativeEngine();
     this.safety = safety ?? defaultSafety;

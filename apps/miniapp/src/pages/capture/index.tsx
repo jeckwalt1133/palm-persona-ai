@@ -29,23 +29,24 @@ export default function CapturePage() {
 
   const doUpload = useCallback(async (imgPath: string) => {
     let finalPath = imgPath;
+    console.log('[DEBUG] Step 1: compressImage 开始', finalPath);
     try {
       finalPath = await compressImage(imgPath);
-    } catch {
-      // 压缩失败直接用原图
+      console.log('[DEBUG] Step 1: compressImage 完成', finalPath);
+    } catch (e) {
+      console.log('[DEBUG] Step 1: compressImage 失败', e);
     }
 
     let platform = 'devtools';
     try {
       platform = Taro.getSystemInfoSync().platform || 'devtools';
     } catch { /* 使用默认 */ }
+    console.log('[DEBUG] Step 2: platform =', platform);
 
     const isMobile = platform === 'ios' || platform === 'android';
 
-    // 读取文件为 base64（H5 不支持 readFileSync，用异步 API）
     const readFileAsBase64 = async (fp: string): Promise<string> => {
       if (process.env.TARO_ENV === 'h5') {
-        // H5 浏览器环境：通过 fetch 获取 blob 再转 base64
         const response = await fetch(fp);
         const blob = await response.blob();
         return new Promise((resolve, reject) => {
@@ -55,20 +56,26 @@ export default function CapturePage() {
           reader.readAsDataURL(blob);
         });
       }
-      // 模拟器/小程序：使用 readFileSync
-      return Taro.getFileSystemManager().readFileSync(fp, 'base64') as string;
+      console.log('[DEBUG] Step 3: readFileSync 开始', fp);
+      const result = Taro.getFileSystemManager().readFileSync(fp, 'base64') as string;
+      console.log('[DEBUG] Step 3: readFileSync 完成, length=', result.length);
+      return result;
     };
 
     try {
       if (!isMobile) {
+        console.log('[DEBUG] Step 3: 读取文件...');
         const base64 = await readFileAsBase64(finalPath);
+        const reqUrl = apiUrl('/api/analyze');
+        console.log('[DEBUG] Step 4: Taro.request POST', reqUrl, 'base64Len=', base64.length);
         const res = await Taro.request({
-          url: apiUrl('/api/analyze'),
+          url: reqUrl,
           method: 'POST',
           data: { imageBase64: base64 },
           header: { 'content-type': 'application/json' },
           timeout: 120000,
         });
+        console.log('[DEBUG] Step 4: response received', JSON.stringify(res.data).substring(0, 200));
         const body = res.data as { success: boolean; data?: { id: string }; error?: { message: string } };
         if (body.success && body.data) {
           reportIdRef.current = body.data.id;
@@ -76,8 +83,10 @@ export default function CapturePage() {
           errorRef.current = body.error?.message || '好像出了点小问题——再试一次？';
         }
       } else {
+        const reqUrl = apiUrl('/api/analyze/upload');
+        console.log('[DEBUG] Step 4: Taro.uploadFile', reqUrl);
         const res = await Taro.uploadFile({
-          url: apiUrl('/api/analyze/upload'),
+          url: reqUrl,
           filePath: finalPath,
           name: 'image',
           timeout: 120000,
@@ -91,6 +100,7 @@ export default function CapturePage() {
       }
     } catch (err: unknown) {
       const taroErr = err as { errMsg?: string };
+      console.log('[DEBUG] Step X: 请求失败', taroErr?.errMsg || String(err));
       errorRef.current = taroErr?.errMsg || String(err) || '网络信号不太好——换一个姿势试试？';
     }
   }, []);
@@ -98,24 +108,61 @@ export default function CapturePage() {
   const handleAnalyze = async () => {
     if (!imagePath) return;
     setAnalyzing(true);
+
+    // [诊断] 快速GET连通性测试 — 确认网络层能通
+    try {
+      const pingUrl = apiUrl('/api/admin/safety/stats');
+      console.log('[DEBUG] Step 0: GET 连通性测试', pingUrl);
+      const pingRes = await Taro.request({
+        url: pingUrl,
+        method: 'GET',
+        header: { 'X-Admin-Key': 'palm-admin-dev-key' },
+        timeout: 5000,
+      });
+      console.log('[DEBUG] Step 0: GET 成功', JSON.stringify(pingRes.data).substring(0, 100));
+    } catch (pingErr: unknown) {
+      const pe = pingErr as { errMsg?: string };
+      console.log('[DEBUG] Step 0: GET 失败 — 网络不通!', pe?.errMsg || String(pingErr));
+      setAnalyzing(false);
+      Taro.showToast({ title: '网络不通: ' + (pe?.errMsg || 'timeout'), icon: 'none', duration: 3000 });
+      return;
+    }
+
     try {
       await doUpload(imagePath);
+      // API返回后直接跳转，不依赖进度条计时
+      if (reportIdRef.current) {
+        navigateToReport(reportIdRef.current);
+      } else if (errorRef.current) {
+        setAnalyzing(false);
+        Taro.showToast({ title: errorRef.current, icon: 'none', duration: 3000 });
+      }
     } catch {
       setAnalyzing(false);
       Taro.showToast({ title: '网络信号不太好——换一个姿势试试？', icon: 'none', duration: 3000 });
     }
   };
 
+  const navigateToReport = (id: string) => {
+    Taro.redirectTo({ url: `/pages/report/index?id=${id}` }).catch(() => {
+      // redirectTo 失败（可能子包未加载），降级为 navigateTo
+      Taro.navigateTo({ url: `/pages/report/index?id=${id}` }).catch(() => {
+        setAnalyzing(false);
+        Taro.showToast({ title: '页面跳转失败，请重试', icon: 'none', duration: 3000 });
+      });
+    });
+  };
+
   const handleProgressComplete = () => {
     if (reportIdRef.current) {
-      Taro.redirectTo({ url: `/pages/report/index?id=${reportIdRef.current}` });
+      navigateToReport(reportIdRef.current);
     } else if (errorRef.current) {
       setAnalyzing(false);
       Taro.showToast({ title: errorRef.current, icon: 'none', duration: 3000 });
     } else {
       setTimeout(() => {
         if (reportIdRef.current) {
-          Taro.redirectTo({ url: `/pages/report/index?id=${reportIdRef.current}` });
+          navigateToReport(reportIdRef.current);
         } else {
           setAnalyzing(false);
           Taro.showToast({ title: '网络有点慢，AI 还在等数据——稍后再试', icon: 'none', duration: 3000 });
@@ -141,7 +188,7 @@ export default function CapturePage() {
       <View className="capture-header">
         <Text className="capture-title">伸出手，让 AI 看看你</Text>
         <Text className="capture-desc">
-          每一条掌纹都有自己的故事。AI 会从你的手掌线条中，读出属于你的那一种人格——不是算命，是了解自己的一种新方式
+          每一条手掌线条都有自己的故事。AI 会从你的手掌特征中，读出属于你的那一种人格——了解自己的一种新方式
         </Text>
       </View>
 

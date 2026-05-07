@@ -212,6 +212,14 @@
 - **理由**: 今日14:52→16:28期间的3小时间隔(dream-log分析揭示)形成了"提交干旱"——Agent从4人→7人后产出加速，但CEO审查带宽成为新瓶颈。CEO批量提交的质量审查(合规/TypeScript/一致性)是Agent自提交无法替代的。收敛节奏协议将"被迫收敛"(PreCompact触发)变为"主动节奏"(定时批量提交)。
 - **决策人**: 聂富贵(CEO)
 
+### D023: 快照脚本过滤自引用路径 — 不将 memory/snapshots/ 列入未提交文件
+- **时间**: 2026-05-07 04:28
+- **决策**: 快照生成脚本增加过滤规则：扫描 uncommitted 文件时排除 `memory/snapshots/` 和 `memory/dream-log/` 路径
+- **理由**: 3轮梦境分析(D020/D022/D023)均发现快照递归自引用：快照N的未提交列表包含快照N-1的路径，形成无信息价值的递归链。这些快照文件入库后git log已包含相同信息，列入uncommitted列表只增加噪音。同时dream-log文件同理——梦境日志由脚本自动生成，不应出现在git status噪音中。
+- **替代方案**: 每次快照生成后立即提交 — 但会增加大量无意义commit
+- **执行**: 修改 `scripts/precompact-snapshot.sh` 的 `git diff --name-only` 管道增加 `grep -v` 过滤
+- **决策人**: 聂富贵(CEO)，基于梦境交叉分析洞察
+
 ### D022: 任务派发从tmux send-keys迁移到Agent-Router Card推送
 - **时间**: 2026-05-06 16:30:00
 - **决策**: 所有Agent任务派发统一使用 agent-router.py 的 Card JSON 推送模式，废弃手工 tmux send-keys 派发。

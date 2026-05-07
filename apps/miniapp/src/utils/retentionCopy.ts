@@ -29,7 +29,7 @@ const RETENTION_MESSAGES: Record<RetentionChannel, RetentionMessage> = {
   push_day7: {
     channel: 'push_day7',
     title: '掌心还有话没说完',
-    body: '你上次拍的手掌，掌心还有话没说完。\n\n7天前AI从你的掌纹里读到了一些东西——可能你自己都没注意到。',
+    body: '你上次拍的手掌，掌心还有话没说完。\n\n7天前AI从你的手掌里读到了一些东西——可能你自己都没注意到。',
     cta: '回来看一眼，1分钟。',
     temperature: '温4° / 像朋友随口一提',
   },

@@ -1,4 +1,4 @@
-import { AiProvider, ChatMessage, ChatOptions } from './types.js';
+import { AiProvider, ChatMessage, ChatContentPart, ChatOptions } from './types.js';
 import { simpleHash } from '../utils/hash.js';
 
 const MOCK_RESPONSES = [
@@ -9,12 +9,17 @@ const MOCK_RESPONSES = [
   '手掌特征显示你是一个内心柔软但外表坚定的人。你重视承诺，对自己在乎的人会全力以赴。',
 ];
 
+function contentToString(content: string | ChatContentPart[]): string {
+  if (typeof content === 'string') return content;
+  return content.filter((c): c is { type: 'text'; text: string } => c.type === 'text').map(c => c.text).join(' ');
+}
+
 export class MockAiProvider implements AiProvider {
   readonly name = 'mock';
 
   async chat(messages: ChatMessage[], _options?: ChatOptions): Promise<string> {
     const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user');
-    const input = lastUserMsg?.content ?? JSON.stringify(messages);
+    const input = lastUserMsg?.content ? contentToString(lastUserMsg.content) : JSON.stringify(messages);
     const hash = simpleHash(input);
     return MOCK_RESPONSES[hash % MOCK_RESPONSES.length];
   }

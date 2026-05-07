@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import './AnalyzeProgress.scss';
 
 const STEPS = [
-  { key: 'upload', label: '看到你的掌纹了' },
+  { key: 'upload', label: '看到你的手掌了' },
   { key: 'extract', label: '这几条线有点意思' },
   { key: 'analyze', label: '拼图快完成了' },
   { key: 'match', label: '找到和你最像的那一类人' },

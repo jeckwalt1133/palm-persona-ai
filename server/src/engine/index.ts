@@ -6,6 +6,7 @@ export type { CompatibilityEngine, CompatibilityResult, MatchDimension } from '.
 export type { PipelineResult, PipelineDeps } from './report-pipeline.js';
 
 export { MockPalmFeatureExtractor, RealPalmFeatureExtractor } from './palm-feature-extractor.js';
+export { VisionPalmFeatureExtractor } from './vision-feature-extractor.js';
 export { MockPersonaScoringEngine } from './persona-scoring-engine.js';
 export { MockResonanceNarrativeEngine } from './resonance-narrative-engine.js';
 export { MockCompatibilityEngine } from './compatibility-engine.js';

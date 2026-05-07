@@ -1,5 +1,5 @@
 {
-  "scanTime": "2026-05-07T03:30:40.828620+00:00",
+  "scanTime": "2026-05-07T14:39:06.001365+00:00",
   "scanner": "pre-commit-security.py",
   "version": "3.0.0",
   "architecture": "三层防线 (L1阻断/L2警告/L3记录)",
@@ -9,23 +9,244 @@
     "L1_critical": 0,
     "L2_total": 0,
     "L2_warnings": 0,
-    "L3_total": 0
+    "L3_total": 20
   },
   "summary": {
-    "filesScanned": 1,
+    "filesScanned": 35,
     "filesSkipped": 0,
-    "totalFindings": 0,
+    "totalFindings": 20,
     "criticalFindings": 0,
     "highFindings": 0,
-    "infoRecords": 0,
+    "infoRecords": 20,
     "blocked": false
   },
   "findings": {
     "L1": [],
     "L2": [],
-    "L3": []
+    "L3": [
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+9",
+        "match": "console.log('[DEBUG] Step 1: compressImage 开始', finalPath)",
+        "context": "console.log('[DEBUG] Step 1: compressImage 开始', finalPath);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+14",
+        "match": "console.log('[DEBUG] Step 1: compressImage 完成', finalPath)",
+        "context": "console.log('[DEBUG] Step 1: compressImage 完成', finalPath);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+16",
+        "match": "console.log('[DEBUG] Step 1: compressImage 失败', e)",
+        "context": "console.log('[DEBUG] Step 1: compressImage 失败', e);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+23",
+        "match": "console.log('[DEBUG] Step 2: platform =', platform)",
+        "context": "console.log('[DEBUG] Step 2: platform =', platform);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+40",
+        "match": "console.log('[DEBUG] Step 3: readFileSync 开始', fp)",
+        "context": "console.log('[DEBUG] Step 3: readFileSync 开始', fp);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+69",
+        "match": "console.log('[DEBUG] Step 4: Taro.uploadFile', reqUrl)",
+        "context": "console.log('[DEBUG] Step 4: Taro.uploadFile', reqUrl);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+80",
+        "match": "console.log('[DEBUG] Step X: 请求失败', taroErr?.errMsg || String(err)",
+        "context": "console.log('[DEBUG] Step X: 请求失败', taroErr?.errMsg || String(err));",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+92",
+        "match": "console.log('[DEBUG] Step 0: GET 连通性测试', pingUrl)",
+        "context": "console.log('[DEBUG] Step 0: GET 连通性测试', pingUrl);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/capture/index.tsx",
+        "line": "+102",
+        "match": "console.log('[DEBUG] Step 0: GET 失败 — 网络不通!', pe?.errMsg || String(pingErr)",
+        "context": "console.log('[DEBUG] Step 0: GET 失败 — 网络不通!', pe?.errMsg || String(pingErr));",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/report/index.tsx",
+        "line": "+41",
+        "match": "console.log('[DEBUG] checkin result:', JSON.stringify(result)",
+        "context": "console.log('[DEBUG] checkin result:', JSON.stringify(result));",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/report/index.tsx",
+        "line": "+77",
+        "match": "console.log('[DEBUG] playRewardedVideo result:', JSON.stringify(result)",
+        "context": "console.log('[DEBUG] playRewardedVideo result:', JSON.stringify(result));",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/pages/report/index.tsx",
+        "line": "+86",
+        "match": "console.log('[DEBUG] handleWatchAd error:', e)",
+        "context": "console.log('[DEBUG] handleWatchAd error:', e);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "apps/miniapp/src/utils/api.ts",
+        "line": "+21",
+        "match": "127.0.0.1:",
+        "context": "return `http://127.0.0.1:3009`;",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "scripts/wsl-proxy.js",
+        "line": "+9",
+        "match": "127.0.0.1:",
+        "context": "// 监听 127.0.0.1:3009，转发到 WSL2 的 127.0.0.1:3001",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-001",
+        "patternName": "硬编码内网地址",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "scripts/wsl-proxy.js",
+        "line": "+9",
+        "match": "127.0.0.1:",
+        "context": "// 监听 127.0.0.1:3009，转发到 WSL2 的 127.0.0.1:3001",
+        "remediation": "使用环境变量或配置文件管理地址"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "scripts/wsl-proxy.js",
+        "line": "+49",
+        "match": "console.log('[proxy] Windows:3009 → WSL2:3001 就绪')",
+        "context": "console.log('[proxy] Windows:3009 → WSL2:3001 就绪');",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/agent/report-agent.ts",
+        "line": "+32",
+        "match": "console.warn('[ReportAgent] 所有真实提取器不可用，降级为 Mock')",
+        "context": "console.warn('[ReportAgent] 所有真实提取器不可用，降级为 Mock');",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/vision-feature-extractor.ts",
+        "line": "+91",
+        "match": "console.warn('[VisionPalmFeatureExtractor] 豆包VL调用失败，降级为Sobel CV:', (err as Error)",
+        "context": "console.warn('[VisionPalmFeatureExtractor] 豆包VL调用失败，降级为Sobel CV:', (err as Error).message);",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/engine/vision-feature-extractor.ts",
+        "line": "+95",
+        "match": "console.warn('[VisionPalmFeatureExtractor] Sobel CV也失败，降级为Mock')",
+        "context": "console.warn('[VisionPalmFeatureExtractor] Sobel CV也失败，降级为Mock');",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      },
+      {
+        "patternId": "L3-006",
+        "patternName": "console.log打印完整对象",
+        "defenseLayer": "L3",
+        "severity": "info",
+        "file": "server/src/services/analysis-service.ts",
+        "line": "+37",
+        "match": "console.warn('[AnalysisService] 所有真实提取器不可用，降级为 Mock')",
+        "context": "console.warn('[AnalysisService] 所有真实提取器不可用，降级为 Mock');",
+        "remediation": "生产环境使用专用logger并配置redact规则"
+      }
+    ]
   },
   "whitelist": {
-    "active": 6
+    "active": 0
   }
 }
