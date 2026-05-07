@@ -2,23 +2,28 @@
  * 暗色/亮色双主题引擎测试 — LIVE-W5-001
  *
  * 验证: 主题解析/存储/应用/DOM操作/系统监听/切换逻辑
+ * 修复: 使用 Taro 存储 mock 替代 localStorage mock (B1)
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
-// 模拟浏览器 API
-const localStorageMock = (() => {
-  let store: Record<string, string> = {};
-  return {
-    getItem: vi.fn((key: string) => store[key] ?? null),
-    setItem: vi.fn((key: string, val: string) => { store[key] = val; }),
-    removeItem: vi.fn((key: string) => { delete store[key]; }),
-    clear: vi.fn(() => { store = {}; }),
-  };
-})();
+// ─── Mock Taro 跨平台存储 ──────────────────────
 
-Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock, writable: true });
+const taroStore: Record<string, string> = {};
 
-// 模拟 document
+vi.mock('@tarojs/taro', () => ({
+  default: {
+    getStorageSync: vi.fn((key: string) => {
+      return taroStore[key];
+    }),
+    setStorageSync: vi.fn((key: string, value: string) => {
+      taroStore[key] = value;
+    }),
+    setNavigationBarColor: vi.fn(),
+  },
+}));
+
+// ─── Mock DOM 环境 ─────────────────────────────
+
 const docElAttrs: Record<string, string> = {};
 const pageAttrs: Record<string, string>[] = [{}, {}];
 
@@ -39,8 +44,8 @@ const docMock = {
 
 Object.defineProperty(globalThis, 'document', { value: docMock, writable: true });
 
-// 模拟 matchMedia
-let systemIsDark = false;
+// ─── Mock matchMedia ────────────────────────────
+
 const listeners = new Set<(e: { matches: boolean }) => void>();
 
 const mqlMock = {
@@ -56,7 +61,8 @@ Object.defineProperty(globalThis, 'window', {
   writable: true,
 });
 
-// 每次测试前重置状态
+// ─── 导入被测模块 ──────────────────────────────
+
 import {
   getStoredTheme,
   storeTheme,
@@ -69,15 +75,14 @@ import {
   getCurrentTheme,
   getResolvedTheme,
   type Theme,
-} from '../src/theme/dark-mode';
+} from './dark-mode';
 
 beforeEach(() => {
-  localStorageMock.clear();
+  Object.keys(taroStore).forEach(k => delete taroStore[k]);
   docElAttrs['data-theme'] = '';
   pageAttrs.forEach(a => a['data-theme'] = '');
   listeners.clear();
   mqlMock.matches = false;
-  // 重置模块内状态: 将主题设为 auto
   setTheme('auto');
 });
 
@@ -99,7 +104,7 @@ describe('getStoredTheme / storeTheme', () => {
   });
 
   it('非法值返回 auto', () => {
-    localStorageMock.setItem('palm-theme-preference', 'invalid');
+    taroStore['palm-theme-preference'] = 'invalid';
     expect(getStoredTheme()).toBe('auto');
   });
 });
@@ -217,7 +222,6 @@ describe('initTheme / cleanup', () => {
     mqlMock.matches = false;
     initTheme();
 
-    // 模拟系统切换到暗色
     mqlMock.matches = true;
     listeners.forEach(fn => fn({ matches: true }));
     expect(docElAttrs['data-theme']).toBe('dark');
@@ -229,10 +233,8 @@ describe('initTheme / cleanup', () => {
     initTheme();
     expect(docElAttrs['data-theme']).toBe('dark');
 
-    // 模拟系统切换
     mqlMock.matches = true;
     listeners.forEach(fn => fn({ matches: true }));
-    // 手动模式不受系统影响
     expect(docElAttrs['data-theme']).toBe('dark');
   });
 });
