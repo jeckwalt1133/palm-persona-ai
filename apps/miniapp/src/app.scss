@@ -132,8 +132,8 @@ page {
 
 /* ── iOS 兼容增强 ─────────────────────────── */
 
-/* 禁止 iOS 点击高亮 */
-* {
+/* 禁止 iOS 点击高亮 (WXSS不支持*通用选择器，展开为具体元素) */
+view, text, image, button, navigator, scroll-view, swiper, swiper-item, input, textarea {
   -webkit-tap-highlight-color: transparent;
 }
 

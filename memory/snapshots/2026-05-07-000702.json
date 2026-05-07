@@ -1,0 +1,14 @@
+{
+  "snapshotVersion": "2.0",
+  "sessionId": "unknown",
+  "role": "teacher",
+  "timestamp": "2026-05-07T00:07:02Z",
+  "git": {
+    "branch": "main",
+    "lastCommit": "27bb3cc chore: standby期间hooks自动维护同步",
+    "uncommittedCount": 6,
+    "uncommittedFiles": ".claude/security-report.json,apps/miniapp/src/app.scss,memory/security/commit-log.jsonl,memory/team-status.json,memory/snapshots/2026-05-06-235112.json,memory/snapshots/2026-05-06-235351.json"
+  },
+  "mission": {"directive": "终极目标：世界顶级AI智能体团队→商业产品落地。向外看→学前沿→超越。", "learningMethod": "2026年4月后最新前沿——全球AI巨头+大佬+创业突破", "principle": "向外看，不内循环。学过来→用起来→超过去。", "maRole": "学生 — 外部前沿技术深度研究（Agent协议/多智能体框架）", "wangRole": "客座讲师(文案) — 全球顶级AI产品UX研究→借鉴创新", "zhouRole": "客座讲师(安全) — 全球AI安全前沿研究→对比强化", "nieRole": "教师 — 战略对齐+前沿雷达+审查，确保每轮向外看", "corePrinciple": "知己知彼。不了解全球最好的AI产品长什么样，做不出超越它们的产品。", "frontierRadar": ["Multi-Agent协议: Google A2A vs Anthropic MCP", "推理模型: OpenAI o3/o4-mini, DeepSeek V4, Claude Opus 4.7", "Agent产品化: Project Deal, Project Vend", "安全对齐: Automated Alignment Researchers, Constitutional Classifiers", "中国生态: 豆包Seed 2.0, 千问Qwen3, Kling 2"], "phase": "外部前沿研究→消化吸收→产品应用→超越创新"},
+  "currentTask": {"id": "R6-CLOSED", "title": "R6 Sprint全线闭环 — 6/6交付完成，等待CEO验收"}
+}
